@@ -9,7 +9,7 @@
 Ime i prezime | E-mail adresa (FOI) | JMBAG | Github korisničko ime
 ------------  | ------------------- | ----- | ---------------------
 Anamarija Dominiković | adominiko22@foi.hr | 0016160419 | adominiko22
-Ime i prezime | ... | ... | ...
+Nika Laštro | nlastro22@foi.hr | 0016158081  | nlastro22
 
 ## Opis domene
 Domena razvoja softvera za praćenje rada kozmetičkog salona obuhvaća sve ključne aspekte organizacije i upravljanja jednim kozmetičkim salonom koji se u današnje vrijeme još uvijek mogu izvoditi na papiru. Ovom je softveru cilj olakšati praćenje izvođenja kozmetičkih tretmana, izradu rasporeda zaposlenika, upravljanje tretmanima, zaposlenicima i klijentima, omogućiti rezervaciju tretmana, izdavati račune, izvještaje i potvrde o rezervacijama termina klijentima. Administratorski aspekt uključuje praćenje i evidentiranje podataka o zaposlenicima, upis te praćenje i evidentiranje kozmetičkih tretmana i podataka o klijentima. Evidencija i praćenje izvođenja tretmana omogućuje generiranje izvještaja i statističkih podataka u određenom vremenskom rasponu. Sigurnim pristupom podacima i definiranjem pristupa različitim korisničkim ulogama, osigurava se povjerljivost i integritet informacija. Integracijom s online bazom podataka putem ADO.NET-a i .NET Framework-a omogućava se pouzdana pohrana i upravljanje podacima, čime se olakšava svakodnevno upravljanje i očuvanje podataka kozmetičkog salona. Sve navedene komponente zajedno čine važnu domenu za razvoj softverskog rješenja koje će uvelike unaprijediti kvalitetu pružanja usluga i zadovoljstvo svih dionika, uključujući zaposlenike, klijente i vlasnike kozmetičkih salona.
@@ -19,15 +19,15 @@ Domena razvoja softvera za praćenje rada kozmetičkog salona obuhvaća sve klju
 
 Oznaka | Naziv | Kratki opis | Odgovorni član tima
 ------ | ----- | ----------- | -------------------
-F01 | Login | Za pristup dnevniku potrebnba je autentikacija korisnika pomoću login funkcionalnosti. Korisnik se logira s podacima koji su mu dodijeljeni prilikom ... | Zlatko Stapić
+F01 | Registracija i prijava zaposlenika | Sustav će omogućiti registraciju zaposlenika koji nemaju korisnički profil, čime će im se omogućiti prijava nakon dovršene registracije | Nika Laštro
 F02 | Administracija i upravljanje zaposlenicima | Sustav će omogućiti kreiranje, uređivanje, brisanje i prikaz podataka o zaposlenicima kozmetičkog salona. | Anamarija Dominiković
 F03 |
 F04 |
 F05 | Rezervacija termina tretmana | Sustav će omogućiti kreiranje i izmjenu rezervacija kozmetičkih tretmana koje klijenti zatraže. | Anamarija Dominiković
 F06 |
-F07 |
+F07 | Kreiranje i pregled rasporeda za zaposlenike (CRUD) | Sustav će omogućiti kreiranje rasporeda zaposlenika od strane administratora,  pregled termina i obaveza, ažuriranje rasporeda svih zaposlenika prema potrebama salona te brisanje termina. | Nika Laštro
 F08 |
-F09 |
+F09 |Statistički prikaz potražnje za kozmetičkim tretmanima | Sustav će omogućiti statistički pregled usluga koje su se najčešće izvodile, s ciljem isticanja najpopularnijih usluga. | Nika Laštro
 F10 |
 F11 | Izvještaj o uspješnosti tretmana | Sustav će omogućiti kreiranje izvještaja o uspješnosti odrađenih tretmana, uz mogućnost pisanja napomena ili detalja vrijednih pamćenja. | Anamarija Dominiković
 F12 |
