@@ -1,37 +1,62 @@
 [![Open in Codespaces](https://classroom.github.com/assets/launch-codespace-2972f46106e565e64193e422d61a12cf1da4916b45550586e14ef0a7c637dd04.svg)](https://classroom.github.com/open-in-codespaces?assignment_repo_id=16557477)
-# Inicijalne upute za prijavu projekta iz Razvoja programskih proizvoda
 
-Poštovane kolegice i kolege, 
+#Softversko rješenje GlamOffice
 
-čestitamo vam jer ste uspješno prijavili svoj projektni tim na kolegiju Razvoj programskih proizvoda, te je za vas automatski kreiran repozitorij koji ćete koristiti za verzioniranje vašega koda, ali i za pisanje dokumentacije.
-
-Ovaj dokument (README.md) predstavlja **osobnu iskaznicu vašeg projekta**. Vaš prvi zadatak je **prijaviti vlastiti projektni prijedlog** na način da ćete prijavu vašeg projekta, sukladno uputama danim u ovom tekstu, napisati upravo u ovaj dokument, umjesto ovoga teksta.
-
-Za upute o sintaksi koju možete koristiti u ovom dokumentu i kod pisanje vaše projektne dokumentacije pogledajte [ovaj link](https://guides.github.com/features/mastering-markdown/).
-Sav programski kod potrebno je verzionirati u glavnoj **master** grani i **obvezno** smjestiti u mapu Software. Sve artefakte (npr. slike) koje ćete koristiti u vašoj dokumentaciju obvezno verzionirati u posebnoj grani koja je već kreirana i koja se naziva **master-docs** i smjestiti u mapu Documentation.
-
-Nakon vaše prijave bit će vam dodijeljen mentor s kojim ćete tijekom semestra raditi na ovom projektu. Mentor će vam slati povratne informacije kroz sekciju Discussions također dostupnu na GitHubu vašeg projekta. A sada, vrijeme je da prijavite vaš projekt. Za prijavu vašeg projektnog prijedloga molimo vas koristite **predložak** koji je naveden u nastavku, a započnite tako da kliknete na *olovku* u desnom gornjem kutu ovoga dokumenta :) 
-
-# Naziv projekta
-(u redak iznad navedite kratki proizvoljni naziv projekta prikladan akademskoj zajednici, a ovaj tekst obrišite)
 
 ## Projektni tim
 
 Ime i prezime | E-mail adresa (FOI) | JMBAG | Github korisničko ime
 ------------  | ------------------- | ----- | ---------------------
-Ime i prezime | mojaadresa@foi.hr | 000000000 | githubuser
+Anamarija Dominiković | adominiko22@foi.hr | 0016160419 | adominiko22
 Ime i prezime | ... | ... | ...
 
 ## Opis domene
-Umjesto ovih uputa opišite domenu ili problem koji pokrivate vašim  projektom. Domena može biti proizvoljna, ali obratite pozornost da sukladno ishodima učenja, domena omogući primjenu zahtijevanih koncepata kako je to navedeno u sljedećem poglavlju. Priložite odgovarajuće skice gdje je to prikladno.
+Domena razvoja softvera za praćenje rada kozmetičkog salona obuhvaća sve ključne aspekte organizacije i upravljanja jednim kozmetičkim salonom koji se u današnje vrijeme još uvijek mogu izvoditi na papiru. Ovom je softveru cilj olakšati praćenje izvođenja kozmetičkih tretmana, izradu rasporeda zaposlenika, upravljanje tretmanima, zaposlenicima i klijentima, omogućiti rezervaciju tretmana, izdavati račune, izvještaje i potvrde o rezervacijama termina klijentima. Administratorski aspekt uključuje praćenje i evidentiranje podataka o zaposlenicima, upis te praćenje i evidentiranje kozmetičkih tretmana i podataka o klijentima. Evidencija i praćenje izvođenja tretmana omogućuje generiranje izvještaja i statističkih podataka u određenom vremenskom rasponu. Sigurnim pristupom podacima i definiranjem pristupa različitim korisničkim ulogama, osigurava se povjerljivost i integritet informacija. Integracijom s online bazom podataka putem ADO.NET-a i .NET Framework-a omogućava se pouzdana pohrana i upravljanje podacima, čime se olakšava svakodnevno upravljanje i očuvanje podataka kozmetičkog salona. Sve navedene komponente zajedno čine važnu domenu za razvoj softverskog rješenja koje će uvelike unaprijediti kvalitetu pružanja usluga i zadovoljstvo svih dionika, uključujući zaposlenike, klijente i vlasnike kozmetičkih salona.
 
 ## Specifikacija projekta
-Umjesto ovih uputa opišite zahtjeve za funkcionalnošću programskog proizvoda. Pobrojite osnovne funkcionalnosti i za svaku naznačite ime odgovornog člana tima. Opišite buduću arhitekturu programskog proizvoda. Obratite pozornost da bi arhitektura trebala biti višeslojna s odvojenom (dislociranom) bazom podatka koju ćemo za vas mi pripremiti i dati vam pristup naknadno. Također uzmite u obzir da bi svaki član tima treba biti odgovorana za otprilike 3 funkcionalnosti, te da bi opterećenje članova tima trebalo biti ujednačeno. Priložite odgovarajuće dijagrame i skice gdje je to prikladno. Funkcionalnosti sustava bobrojite u tablici ispod koristeći predložak koji slijedi:
+
 
 Oznaka | Naziv | Kratki opis | Odgovorni član tima
 ------ | ----- | ----------- | -------------------
 F01 | Login | Za pristup dnevniku potrebnba je autentikacija korisnika pomoću login funkcionalnosti. Korisnik se logira s podacima koji su mu dodijeljeni prilikom ... | Zlatko Stapić
-F02 | Pregled dnevnika | .... | ...
+F02 | Administracija i upravljanje zaposlenicima | Sustav će omogućiti kreiranje, uređivanje, brisanje i prikaz podataka o zaposlenicima kozmetičkog salona. | Anamarija Dominiković
+F03 |
+F04 |
+F05 | Rezervacija termina tretmana | Sustav će omogućiti kreiranje i izmjenu rezervacija kozmetičkih tretmana koje klijenti zatraže. | Anamarija Dominiković
+F06 |
+F07 |
+F08 |
+F09 |
+F10 |
+F11 | Izvještaj o uspješnosti tretmana | Sustav će omogućiti kreiranje izvještaja o uspješnosti odrađenih tretmana, uz mogućnost pisanja napomena ili detalja vrijednih pamćenja. | Anamarija Dominiković
+F12 |
+F13 |
 
 ## Tehnologije i oprema
-Umjesto ovih uputa jasno popišite sve tehnologije, alate i opremu koju ćete koristiti pri implementaciji vašeg rješenja. Projekti se razvijaju koristeći .Net Framework ili .Net Core razvojne okvire, a vrsta projekta može biti WinForms, WPF i UWP. Ne zaboravite planirati korištenje tehnologija u aktivnostima kao što su projektni menadžment ili priprema dokumentacije. Tehnologije koje ćete koristiti bi trebale biti javno dostupne, a ako ih ne budemo obrađivali na vježbama u vašoj dokumentaciji ćete morati navesti način preuzimanja, instaliranja i korištenja onih tehnologija koje su neopbodne kako bi se vaš programski proizvod preveo i pokrenuo. Pazite da svi alati koje ćete koristiti moraju imati odgovarajuću licencu. Što se tiče zahtjeva nastavnika, obvezno je koristiti git i GitHub za verzioniranje programskog koda, GitHub Wiki za pisanje tehničke i projektne dokumentacije, a projektne zadatke je potrebno planirati i pratiti u alatu GitHub projects. 
+Pri implementaciji softverskog rješenja za praćenje rada kozmetičkog salona koristit će se niz tehnologija, alata i opreme kako bi se osigurala kvaliteta, funkcionalnost i sigurnost rješenja. Ovdje je popis tih elemenata:
+
+* [*Programski jezik C#*](https://learn.microsoft.com/en-us/visualstudio/get-started/csharp/?view=vs-2022): Korišten za razvoj glavnog softverskog rješenja.
+
+* [*Windows Forms .NET*](https://learn.microsoft.com/en-us/dotnet/desktop/winforms/overview/?view=netdesktop-7.0): Korišten za razvoj grafičkog korisničkog sučelja, pružajući bogat, stabilan i interaktivan dizajn.
+
+* [*Visual Studio*](https://visualstudio.microsoft.com/): Kao integrirano razvojno okruženje za programiranje u C# i Windows Presentation Foundation (WPF) .NET.
+
+* [*SQLite, MySQL*](https://sqlitebrowser.org/): Za pohranu podataka o djeci, osoblju, rasporedu, aktivnostima i administrativnim informacijama.
+
+* [*ADO.NET*](https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/ado-net-overview): Za integraciju i upravljanje online bazom podataka, omogućujući siguran pristup i manipulaciju podacima.
+
+* [*Entity Framework*](https://learn.microsoft.com/en-us/ef/): Za olakšavanje upita i pristupa podacima u aplikaciji.
+
+* [*SMTP server*](https://support.google.com/a/answer/176600?hl=en): Za slanje e-mail obavijesti roditeljima.
+
+* [*Operativni sustav Windows*](https://www.microsoft.com/en-us/windows?r=1): Kako bi aplikacija bila kompatibilna s okruženjem većine korisnika.
+
+* [*Projektni alati (Gantt Chart)*](https://www.onlinegantt.com/#/gantt): Za upravljanje projektom, planiranje aktivnosti, i praćenje napretka.
+
+* [*Version Control Platform (GitHub)*](https://github.com/): Za upravljanje izvorima koda, verzioniranje i timsku suradnju.
+
+* [*Visual Paradigm*](https://www.visual-paradigm.com/whats-new/): Za dizajniranje i kreiranje dijagrama
+
+* [*Dokumentacijski alati (Microsoft Office Education)*](https://www.microsoft.com/en-us/education/products/microsoft-365): Za izradu tehničke dokumentacije, uputa za korištenje i dokumentacije korisnika.
+
+Svi korišteni alati i tehnologije su javno dostupni i imaju odgovarajuće licence kako bi se osigurala legalnost i usklađenost s pravilima i propisima. Za tehnologije koje nisu standardno dostupne (npr. Entity Framework) u dokumentaciji će biti navedeni načini instalacije i korištenja.
