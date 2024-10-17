@@ -23,7 +23,7 @@ Domena razvoja softvera za praćenje rada kozmetičkog salona obuhvaća sve klju
 </p>
 
 <p align="center">
-  <strong>Slika 1:</strong> ERR model (prva ruka)
+  <strong>Slika 1:</strong> ERR model
 </p>
 
 ## Specifikacija projekta
