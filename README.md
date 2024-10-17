@@ -43,7 +43,7 @@ F09 | Statistički prikaz potražnje za kozmetičkim tretmanima | Sustav će omo
 F10 | Prikaz povijesti tretmana klijenata | Sustav će omogućiti pregled povijesti tretmana svakog klijenta, uključujući datum, vrstu usluge i odgovornog zaposlenika. | Matej Banović
 F11 | Izvještaj o uspješnosti tretmana | Sustav će omogućiti kreiranje izvještaja o uspješnosti odrađenih tretmana, uz mogućnost pisanja napomena ili detalja vrijednih pamćenja. | Anamarija Dominiković
 F12 | Slanje promotivnih ponuda klijentima putem e-maila | Sustav će omogućiti automatsko slanje promotivnih ponuda vjernim klijentima, koji su odradili određeni broj tretmana, putem e-maila. | Katarina Uremović
-F13 | 
+F13 | Kreiranje i pregled rasporeda rezervacija | Sustav će omogućiti kreiranje i pregled rasporeda rezervacija za određeni period, kako bi se osiguralno efikasno planiranje izvođenja tretmana. |
 
 ## Tehnologije i oprema
 Pri implementaciji softverskog rješenja za praćenje rada kozmetičkog salona koristit će se niz tehnologija, alata i opreme kako bi se osigurala kvaliteta, funkcionalnost i sigurnost rješenja. Ovdje je popis tih elemenata:
