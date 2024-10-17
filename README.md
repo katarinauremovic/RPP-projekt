@@ -22,16 +22,16 @@ Oznaka | Naziv | Kratki opis | Odgovorni član tima
 F01 | Registracija i prijava zaposlenika | Sustav će omogućiti registraciju zaposlenika koji nemaju korisnički profil, čime će im se omogućiti prijava nakon dovršene registracije | Nika Laštro
 F02 | Administracija i upravljanje zaposlenicima | Sustav će omogućiti kreiranje, uređivanje, brisanje i prikaz podataka o zaposlenicima kozmetičkog salona. | Anamarija Dominiković
 F03 |
-F04 |
+F04 | Administracija klijentima salona (CRUD) | Sustav će omogućiti kreiranje, uređivanje, brisanje i prikaz podataka o klijentima kozmetičkog salona. | Matej Banović
 F05 | Rezervacija termina tretmana | Sustav će omogućiti kreiranje i izmjenu rezervacija kozmetičkih tretmana koje klijenti zatraže. | Anamarija Dominiković
 F06 |
 F07 | Kreiranje i pregled rasporeda za zaposlenike (CRUD) | Sustav će omogućiti kreiranje rasporeda zaposlenika od strane administratora,  pregled termina i obaveza, ažuriranje rasporeda svih zaposlenika prema potrebama salona te brisanje termina. | Nika Laštro
-F08 |
-F09 |Statistički prikaz potražnje za kozmetičkim tretmanima | Sustav će omogućiti statistički pregled usluga koje su se najčešće izvodile, s ciljem isticanja najpopularnijih usluga. | Nika Laštro
-F10 |
+F08 | Izdavanje računa u PDF formatu | Sustav će omogućiti generiranje i izdavanje računa u PDF formatu na temelju obavljenih rezervacija i usluga. | Matej Banović
+F09 | Statistički prikaz potražnje za kozmetičkim tretmanima | Sustav će omogućiti statistički pregled usluga koje su se najčešće izvodile, s ciljem isticanja najpopularnijih usluga. | Nika Laštro
+F10 | Prikaz povijesti tretmana klijenata | Sustav će omogućiti pregled povijesti tretmana svakog klijenta, uključujući datum, vrstu usluge i odgovornog zaposlenika. | Matej Banović
 F11 | Izvještaj o uspješnosti tretmana | Sustav će omogućiti kreiranje izvještaja o uspješnosti odrađenih tretmana, uz mogućnost pisanja napomena ili detalja vrijednih pamćenja. | Anamarija Dominiković
 F12 |
-F13 |
+F13 | 
 
 ## Tehnologije i oprema
 Pri implementaciji softverskog rješenja za praćenje rada kozmetičkog salona koristit će se niz tehnologija, alata i opreme kako bi se osigurala kvaliteta, funkcionalnost i sigurnost rješenja. Ovdje je popis tih elemenata:
