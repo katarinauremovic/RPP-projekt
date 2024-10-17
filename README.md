@@ -10,7 +10,7 @@ Ime i prezime | E-mail adresa (FOI) | JMBAG | Github korisničko ime
 ------------  | ------------------- | ----- | ---------------------
 Anamarija Dominiković | adominiko22@foi.hr | 0016160419 | adominiko22
 Nika Laštro | nlastro22@foi.hr | 0016158081 | nlastro22
-q | w | e | r
+Katarina Uremović | kuremovic22@student.foi.hr | 0016160312 | kuremovic22
 Matej Banović | mbanovic21@student.foi.hr | 0016154542 | mbanovic21
 
 ## Opis domene
@@ -33,16 +33,16 @@ Oznaka | Naziv | Kratki opis | Odgovorni član tima
 ------ | ----- | ----------- | -------------------
 F01 | Registracija i prijava zaposlenika | Sustav će omogućiti registraciju zaposlenika koji nemaju korisnički profil, čime će im se omogućiti prijava nakon dovršene registracije | Nika Laštro
 F02 | Administracija i upravljanje zaposlenicima | Sustav će omogućiti kreiranje, uređivanje, brisanje i prikaz podataka o zaposlenicima kozmetičkog salona. | Anamarija Dominiković
-F03 |
+F03 | Administracija uslugama (CRUD) | Sustav će omogućiti kreiranje, uređivanje, brisanje i prikaz podataka o uslugama koje nudi kozmetički salon | Katarina Uremović
 F04 | Administracija klijentima salona (CRUD) | Sustav će omogućiti kreiranje, uređivanje, brisanje i prikaz podataka o klijentima kozmetičkog salona. | Matej Banović
 F05 | Rezervacija termina tretmana | Sustav će omogućiti kreiranje i izmjenu rezervacija kozmetičkih tretmana koje klijenti zatraže. | Anamarija Dominiković
-F06 |
+F06 | Filtriranje i prikaz tretmana po različitim parametrima | Sustav će omogućiti filtriranje i prikaz tretmana po različitim parametrima kao što su cijena, trajanje, kategorija. | Katarina Uremović
 F07 | Kreiranje i pregled rasporeda za zaposlenike (CRUD) | Sustav će omogućiti kreiranje rasporeda zaposlenika od strane administratora,  pregled termina i obaveza, ažuriranje rasporeda svih zaposlenika prema potrebama salona te brisanje termina. | Nika Laštro
 F08 | Izdavanje računa u PDF formatu | Sustav će omogućiti generiranje i izdavanje računa u PDF formatu na temelju obavljenih rezervacija i usluga. | Matej Banović
 F09 | Statistički prikaz potražnje za kozmetičkim tretmanima | Sustav će omogućiti statistički pregled usluga koje su se najčešće izvodile, s ciljem isticanja najpopularnijih usluga. | Nika Laštro
 F10 | Prikaz povijesti tretmana klijenata | Sustav će omogućiti pregled povijesti tretmana svakog klijenta, uključujući datum, vrstu usluge i odgovornog zaposlenika. | Matej Banović
 F11 | Izvještaj o uspješnosti tretmana | Sustav će omogućiti kreiranje izvještaja o uspješnosti odrađenih tretmana, uz mogućnost pisanja napomena ili detalja vrijednih pamćenja. | Anamarija Dominiković
-F12 |
+F12 | Slanje promotivnih ponuda klijentima putem e-maila | Sustav će omogućiti automatsko slanje promotivnih ponuda vjernim klijentima, koji su odradili određeni broj tretmana, putem e-maila. | Katarina Uremović
 F13 | 
 
 ## Tehnologije i oprema
