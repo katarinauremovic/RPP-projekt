@@ -16,6 +16,12 @@ Matej Banović | mbanovic21@student.foi.hr | 0016154542 | mbanovic21
 ## Opis domene
 Domena razvoja softvera za praćenje rada kozmetičkog salona obuhvaća sve ključne aspekte organizacije i upravljanja jednim kozmetičkim salonom koji se u današnje vrijeme još uvijek mogu izvoditi na papiru. Ovom je softveru cilj olakšati praćenje izvođenja kozmetičkih tretmana, izradu rasporeda zaposlenika, upravljanje tretmanima, zaposlenicima i klijentima, omogućiti rezervaciju tretmana, izdavati račune, izvještaje i potvrde o rezervacijama termina klijentima. Administratorski aspekt uključuje praćenje i evidentiranje podataka o zaposlenicima, upis te praćenje i evidentiranje kozmetičkih tretmana i podataka o klijentima. Evidencija i praćenje izvođenja tretmana omogućuje generiranje izvještaja i statističkih podataka u određenom vremenskom rasponu. Sigurnim pristupom podacima i definiranjem pristupa različitim korisničkim ulogama, osigurava se povjerljivost i integritet informacija. Integracijom s online bazom podataka putem ADO.NET-a i .NET Framework-a omogućava se pouzdana pohrana i upravljanje podacima, čime se olakšava svakodnevno upravljanje i očuvanje podataka kozmetičkog salona. Sve navedene komponente zajedno čine važnu domenu za razvoj softverskog rješenja koje će uvelike unaprijediti kvalitetu pružanja usluga i zadovoljstvo svih dionika, uključujući zaposlenike, klijente i vlasnike kozmetičkih salona.
 
+<p align="center">
+  <a href="https://github.com/foivz/rpp24-adominiko-kuremovic-nlastro-mbanovic/blob/master-docs/Documentation/ERRv1.4.jpg.png">
+    <img src="https://github.com/foivz/rpp24-adominiko-kuremovic-nlastro-mbanovic/blob/master-docs/Documentation/ERRv1.4.jpg.png" alt="ERR">
+  </a>
+</p>
+
 ## Specifikacija projekta
 
 
