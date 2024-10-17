@@ -32,7 +32,7 @@ Domena razvoja softvera za praćenje rada kozmetičkog salona obuhvaća sve klju
 Oznaka | Naziv | Kratki opis | Odgovorni član tima
 ------ | ----- | ----------- | -------------------
 F01 | Registracija i prijava zaposlenika | Sustav će omogućiti registraciju zaposlenika koji nemaju korisnički profil, čime će im se omogućiti prijava nakon dovršene registracije | Nika Laštro
-F02 | Administracija i upravljanje zaposlenicima | Sustav će omogućiti kreiranje, uređivanje, brisanje i prikaz podataka o zaposlenicima kozmetičkog salona. | Anamarija Dominiković
+F02 | Administracija i upravljanje zaposlenicima | Svi podatci o zaposlenicima kozmetičkog salona moći će se prikazati, uređivati, brisati i kreirati za nove zaposlenike. | Anamarija Dominiković
 F03 | Administracija uslugama (CRUD) | Sustav će omogućiti kreiranje, uređivanje, brisanje i prikaz podataka o uslugama koje nudi kozmetički salon | Katarina Uremović
 F04 | Administracija klijentima salona (CRUD) | Sustav će omogućiti kreiranje, uređivanje, brisanje i prikaz podataka o klijentima kozmetičkog salona. | Matej Banović
 F05 | Rezervacija termina tretmana | Sustav će omogućiti kreiranje i izmjenu rezervacija kozmetičkih tretmana koje klijenti zatraže. | Anamarija Dominiković
@@ -41,7 +41,7 @@ F07 | Kreiranje i pregled rasporeda za zaposlenike (CRUD) | Sustav će omogućit
 F08 | Izdavanje računa u PDF formatu | Sustav će omogućiti generiranje i izdavanje računa u PDF formatu na temelju obavljenih rezervacija i usluga. | Matej Banović
 F09 | Statistički prikaz potražnje za kozmetičkim tretmanima | Sustav će omogućiti statistički pregled usluga koje su se najčešće izvodile, s ciljem isticanja najpopularnijih usluga. | Nika Laštro
 F10 | Prikaz povijesti tretmana klijenata | Sustav će omogućiti pregled povijesti tretmana svakog klijenta, uključujući datum, vrstu usluge i odgovornog zaposlenika. | Matej Banović
-F11 | Izvještaj o uspješnosti tretmana | Sustav će omogućiti kreiranje izvještaja o uspješnosti odrađenih tretmana, uz mogućnost pisanja napomena ili detalja vrijednih pamćenja. | Anamarija Dominiković
+F11 | Izvještaj o uspješnosti tretmana | Nakon odrađenih tretmana postojat će mogućnost upisa dodatnih napomena ili detalja vrijednih pamćenja. | Anamarija Dominiković
 F12 | Slanje promotivnih ponuda klijentima putem e-maila | Sustav će omogućiti automatsko slanje promotivnih ponuda vjernim klijentima, koji su odradili određeni broj tretmana, putem e-maila. | Katarina Uremović
 F13 | Kreiranje i pregled rasporeda rezervacija | Sustav će omogućiti kreiranje i pregled rasporeda rezervacija za određeni period, kako bi se osiguralno efikasno planiranje izvođenja tretmana. |
 
