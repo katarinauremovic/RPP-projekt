@@ -41,7 +41,7 @@ F07 | Kreiranje i pregled rasporeda za zaposlenike (CRUD) | Sustav će omogućit
 F08 | Izdavanje računa | Sustav će omogućiti generiranje i izdavanje računa na temelju obavljenih rezervacija i usluga. Računi će se moći izdavati i u PDF formatu, olakšavajući klijentima pregled i pohranu svojih financijskih transakcija. | Matej Banović
 F09 | Statistički prikaz potražnje za kozmetičkim tretmanima | Sustav će omogućiti statistički pregled usluga koje su se najčešće izvodile, s ciljem isticanja najpopularnijih usluga. | Nika Laštro
 F10 | Višerazinski sustav nagrađivanja klijenata | Sustav prati ukupnu potrošnju svakog klijenta i automatski mu dodjeljuje nagrade nakon što pređe određene pragove potrošnje. Klijenti dobivaju pogodnosti kao što su popusti, besplatni tretmani, ili VIP status. | Matej Banović
-F11 | Izvještaj o uspješnosti tretmana | Nakon odrađenih tretmana postojat će mogućnost upisa dodatnih napomena ili detalja vrijednih pamćenja. | Anamarija Dominiković
+F11 | Ostavljanje recenzija | Nakon odrađenog tretmana, klijenti će moći pristupiti univerzalnoj formi u kojoj će moći ostaviti ocjenu i komentar zaposleniku, što će omogućiti praćenje kvalitete rada svih zaposlenika. | Anamarija Dominiković
 F12 | Slanje promotivnih ponuda klijentima putem e-maila | Sustav će omogućiti automatsko slanje promotivnih ponuda vjernim klijentima, koji su odradili određeni broj tretmana, putem e-maila. | Katarina Uremović
 F13 | Kreiranje i pregled rasporeda rezervacija | Sustav će omogućiti kreiranje i pregled rasporeda rezervacija za određeni period, kako bi se osiguralno efikasno planiranje izvođenja tretmana. |
 
