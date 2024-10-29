@@ -38,9 +38,9 @@ F04 | Administracija klijentima salona (CRUD) | Sustav će omogućiti kreiranje,
 F05 | Rezervacija termina tretmana | Sustav će omogućiti kreiranje i izmjenu rezervacija kozmetičkih tretmana koje klijenti zatraže. | Anamarija Dominiković
 F06 | Filtriranje i prikaz tretmana po različitim parametrima | Sustav će omogućiti filtriranje i prikaz tretmana po različitim parametrima kao što su cijena, trajanje, kategorija. | Katarina Uremović
 F07 | Kreiranje i pregled rasporeda za zaposlenike (CRUD) | Sustav će omogućiti kreiranje rasporeda zaposlenika od strane administratora,  pregled termina i obaveza, ažuriranje rasporeda svih zaposlenika prema potrebama salona te brisanje termina. | Nika Laštro
-F08 | Izdavanje računa u PDF formatu | Sustav će omogućiti generiranje i izdavanje računa u PDF formatu na temelju obavljenih rezervacija i usluga. | Matej Banović
+F08 | Izdavanje računa | Sustav će omogućiti generiranje i izdavanje računa na temelju obavljenih rezervacija i usluga. Računi će se moći izdavati i u PDF formatu, olakšavajući klijentima pregled i pohranu svojih financijskih transakcija. | Matej Banović
 F09 | Statistički prikaz potražnje za kozmetičkim tretmanima | Sustav će omogućiti statistički pregled usluga koje su se najčešće izvodile, s ciljem isticanja najpopularnijih usluga. | Nika Laštro
-F10 | Prikaz povijesti tretmana klijenata | Sustav će omogućiti pregled povijesti tretmana svakog klijenta, uključujući datum, vrstu usluge i odgovornog zaposlenika. | Matej Banović
+F10 | Višerazinski sustav nagrađivanja klijenata | Sustav prati ukupnu potrošnju svakog klijenta i automatski mu dodjeljuje nagrade nakon što pređe određene pragove potrošnje. Klijenti dobivaju pogodnosti kao što su popusti, besplatni tretmani, ili VIP status. | Matej Banović
 F11 | Izvještaj o uspješnosti tretmana | Nakon odrađenih tretmana postojat će mogućnost upisa dodatnih napomena ili detalja vrijednih pamćenja. | Anamarija Dominiković
 F12 | Slanje promotivnih ponuda klijentima putem e-maila | Sustav će omogućiti automatsko slanje promotivnih ponuda vjernim klijentima, koji su odradili određeni broj tretmana, putem e-maila. | Katarina Uremović
 F13 | Kreiranje i pregled rasporeda rezervacija | Sustav će omogućiti kreiranje i pregled rasporeda rezervacija za određeni period, kako bi se osiguralno efikasno planiranje izvođenja tretmana. |
@@ -54,13 +54,13 @@ Pri implementaciji softverskog rješenja za praćenje rada kozmetičkog salona k
 
 * [*Visual Studio*](https://visualstudio.microsoft.com/): Kao integrirano razvojno okruženje za programiranje u C# i Windows Presentation Foundation (WPF) .NET.
 
-* [*SQLite, MySQL*](https://sqlitebrowser.org/): Za pohranu podataka o djeci, osoblju, rasporedu, aktivnostima i administrativnim informacijama.
+* [*SQLite, MySQL*](https://sqlitebrowser.org/): Za pohranu podataka o klijentima, osoblju, rasporedu, tretmanima, uslugana i administrativnim informacijama.
 
 * [*ADO.NET*](https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/ado-net-overview): Za integraciju i upravljanje online bazom podataka, omogućujući siguran pristup i manipulaciju podacima.
 
 * [*Entity Framework*](https://learn.microsoft.com/en-us/ef/): Za olakšavanje upita i pristupa podacima u aplikaciji.
 
-* [*SMTP server*](https://support.google.com/a/answer/176600?hl=en): Za slanje e-mail obavijesti roditeljima.
+* [*SMTP server*](https://support.google.com/a/answer/176600?hl=en): Za slanje e-mail obavijesti klijentima.
 
 * [*Operativni sustav Windows*](https://www.microsoft.com/en-us/windows?r=1): Kako bi aplikacija bila kompatibilna s okruženjem većine korisnika.
 
