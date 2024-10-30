@@ -31,7 +31,7 @@ Domena razvoja softvera za praćenje rada kozmetičkog salona obuhvaća sve klju
 
 Oznaka | Naziv | Kratki opis | Odgovorni član tima
 ------ | ----- | ----------- | -------------------
-F01 | Registracija i prijava zaposlenika | Sustav će omogućiti registraciju zaposlenika koji nemaju korisnički profil, čime će im se omogućiti prijava nakon dovršene registracije | Nika Laštro
+F01 | Prijava korisnika | Prijavljivanje korisnika, administratora i zaposlenika, se odvija skeniranjem QR koda, čime im se omogućuje pristup funkcionalnostima sustava prema njihovoj ulozi.| Nika Laštro
 F02 | Administracija i upravljanje zaposlenicima | Svi podatci o zaposlenicima kozmetičkog salona moći će se prikazati, uređivati, brisati i kreirati za nove zaposlenike, uz generiranje ID kartice prilikom registracije s QR kodom za prijavu u sustav. | Anamarija Dominiković
 F03 | Administracija uslugama (CRUD) | Sustav će omogućiti kreiranje, uređivanje, brisanje i prikaz podataka o uslugama koje nudi kozmetički salon | Katarina Uremović
 F04 | Administracija klijentima salona (CRUD) | Sustav će omogućiti kreiranje, uređivanje, brisanje i prikaz podataka o klijentima kozmetičkog salona. | Matej Banović
@@ -39,7 +39,7 @@ F05 | Rezervacija termina tretmana | Sustav će omogućiti kreiranje i izmjenu r
 F06 | Ostavljanje recenzija | Nakon odrađenog tretmana, klijenti će moći pristupiti univerzalnoj formi u kojoj će moći ostaviti ocjenu i komentar zaposleniku, što će omogućiti praćenje kvalitete rada svih zaposlenika. | Katarina Uremović
 F07 | Kreiranje i pregled rasporeda za zaposlenike (CRUD) | Sustav će omogućiti kreiranje rasporeda zaposlenika od strane administratora,  pregled termina i obaveza, ažuriranje rasporeda svih zaposlenika prema potrebama salona te brisanje termina. | Nika Laštro
 F08 | Izdavanje računa | Sustav će omogućiti generiranje i izdavanje računa na temelju obavljenih rezervacija i usluga. Računi će se moći izdavati i u PDF formatu, olakšavajući klijentima pregled i pohranu svojih financijskih transakcija. | Matej Banović
-F09 | Statistički prikaz potražnje za kozmetičkim tretmanima | Sustav će omogućiti statistički pregled usluga koje su se najčešće izvodile, s ciljem isticanja najpopularnijih usluga. | Nika Laštro
+F09 | Statistički prikaz potražnje za kozmetičkim tretmanima | Sustav će omogućiti statistički pregled usluga koje su se najčešće izvodile, s ciljem isticanja najpopularnijih usluga. Statistika će bit prikazana u obliku tabličnih prikaza i grafova. | Nika Laštro
 F10 | Višerazinski sustav nagrađivanja klijenata | Sustav prati ukupnu potrošnju svakog klijenta i automatski mu dodjeljuje nagrade nakon što pređe određene pragove potrošnje. Klijenti dobivaju pogodnosti kao što su popusti, besplatni tretmani, ili VIP status. | Matej Banović
 F11 | Sustav darovnih kartica | Sustav će omogućiti kreiranje darovnih kartica/bonova za klijente salona za određeni tretman ili u određenom novčanom iznosu, uz evidenciju svih darovnih kartica te prikaz darovne kartice u PDF formatu. | Anamarija Dominiković
 F12 | Slanje promotivnih ponuda klijentima putem e-maila | Sustav će omogućiti automatsko slanje promotivnih ponuda vjernim klijentima, koji su odradili određeni broj tretmana, putem e-maila. | Katarina Uremović
