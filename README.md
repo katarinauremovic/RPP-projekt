@@ -4,7 +4,7 @@
 
 ## Softversko rješenje GlamOffice
 
-## Projektni tim
+## Projektni tim: adominiko-kuremovic-nlastro-mbanovic
 
 Ime i prezime | E-mail adresa (FOI) | JMBAG | Github korisničko ime
 ------------  | ------------------- | ----- | ---------------------
