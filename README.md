@@ -20,7 +20,7 @@ Domena razvoja softvera za praćenje rada kozmetičkog salona obuhvaća sve klju
 
 Oznaka | Naziv | Kratki opis | Odgovorni član tima
 ------ | ----- | ----------- | -------------------
-F01 | Prijava korisnika | Prijavljivanje korisnika, administratora i zaposlenika, se odvija skeniranjem QR koda, čime im se omogućuje pristup funkcionalnostima sustava prema njihovoj ulozi.| Nika Laštro
+F01 | Prijava korisnika | Prijavljivanje korisnika, administratora i zaposlenika, se odvija skeniranjem QR koda ili unosom korisničkog imena i lozinke, čime im se omogućuje pristup funkcionalnostima sustava prema njihovoj ulozi.| Nika Laštro
 F02 | Administracija i upravljanje zaposlenicima | Svi podatci o zaposlenicima kozmetičkog salona moći će se prikazati, uređivati, brisati i kreirati za nove zaposlenike, uz generiranje ID kartice prilikom registracije s QR kodom za prijavu u sustav. | Anamarija Dominiković
 F03 | Administracija uslugama (CRUD) | Sustav će omogućiti kreiranje, uređivanje, brisanje i prikaz podataka o uslugama koje nudi kozmetički salon | Katarina Uremović
 F04 | Administracija klijentima salona (CRUD) | Sustav će omogućiti kreiranje, uređivanje, brisanje i prikaz podataka o klijentima kozmetičkog salona. | Matej Banović
