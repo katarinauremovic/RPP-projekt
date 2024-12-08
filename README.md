@@ -31,7 +31,7 @@ F08 | Izdavanje računa | Sustav će omogućiti generiranje i izdavanje računa 
 F09 | Statistički prikaz potražnje za kozmetičkim tretmanima | Sustav će omogućiti statistički pregled usluga koje su se najčešće izvodile, s ciljem isticanja najpopularnijih usluga. Statistika će bit prikazana u obliku tabličnih prikaza i grafova. | Nika Laštro
 F10 | Višerazinski sustav nagrađivanja klijenata | Sustav prati ukupnu potrošnju svakog klijenta i automatski mu dodjeljuje nagrade nakon što pređe određene pragove potrošnje. Klijenti dobivaju pogodnosti kao što su popusti, besplatni tretmani, ili VIP status. | Matej Banović
 F11 | Sustav darovnih kartica | Sustav će omogućiti kreiranje darovnih kartica/bonova za klijente salona za određeni tretman ili u određenom novčanom iznosu, uz evidenciju svih darovnih kartica te prikaz darovne kartice u PDF formatu. | Anamarija Dominiković
-F12 | Slanje promotivnih ponuda klijentima putem e-maila | Sustav će omogućiti automatsko slanje promotivnih ponuda vjernim klijentima, koji su odradili određeni broj tretmana, putem e-maila. | Katarina Uremović
+F12 | Slanje promotivnih ponuda klijentima putem e-maila | Sustav će omogućiti automatsko slanje promotivnih ponuda svim klijentima za neke specijalne prigode ili sezonske popuste. | Katarina Uremović
 
 ## Tehnologije i oprema
 Pri implementaciji softverskog rješenja za praćenje rada kozmetičkog salona koristit će se niz tehnologija, alata i opreme kako bi se osigurala kvaliteta, funkcionalnost i sigurnost rješenja. Ovdje je popis tih elemenata:
