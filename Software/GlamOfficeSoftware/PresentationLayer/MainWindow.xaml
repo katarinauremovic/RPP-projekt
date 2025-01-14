@@ -5,81 +5,42 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PresentationLayer"
         mc:Ignorable="d"
-        Title="Glam Office Software" Height="450" Width="800">
+        Title="Glam Office Software" Height="600" Width="1200">
+    <Window.Resources>
+        <Storyboard x:Key="SlideInAnimationProfile">
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)">
+                <EasingThicknessKeyFrame KeyTime="0" Value="400,0,0,0"/>
+                <EasingThicknessKeyFrame KeyTime="0:0:0.5" Value="0"/>
+            </ThicknessAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="SlideOutAnimationProfile">
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)">
+                <EasingThicknessKeyFrame KeyTime="0" Value="0"/>
+                <EasingThicknessKeyFrame KeyTime="0:0:0.5" Value="400,0,0,0"/>
+            </ThicknessAnimationUsingKeyFrames>
+        </Storyboard>
+    </Window.Resources>
+    
     <Grid>
         <DockPanel>
-            <!-- Navigation Bar -->
-            <Border Width="240" DockPanel.Dock="Left" Margin="0,40,0,0">
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color="#3AA9AD" Offset="0"/>
-                        <GradientStop Color="#3AADA1" Offset="0"/>
-                    </LinearGradientBrush>
-                </Border.Background>
-
-                <Grid>
-                    <StackPanel>
-                        <Button x:Name="btnDashboard" Style="{StaticResource SidebarButtonStyle}" Click="btnDashboard_Click">
-                            <Button.ContentTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Media/Images/dashboard.png" Width="16" Height="16" Margin="5"/>
-                                        <TextBlock Text="Dashboard" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </Button.ContentTemplate>
-                        </Button>
-                        
-                        <Button x:Name="btnClientAdministration" Style="{StaticResource SidebarButtonStyle}">
-                            <Button.ContentTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Media/Images/employee-administration.png" Width="16" Height="16" Margin="5"/>
-                                        <TextBlock Text="Client administration" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </Button.ContentTemplate>
-                        </Button>
-
-                        
-                        <Button x:Name="btnLogout" Style="{StaticResource SidebarButtonStyle}">
-                            <Button.ContentTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Media/Images/log-out.png" Width="16" Height="16" Margin="5"/>
-                                        <TextBlock Text="Logout" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </Button.ContentTemplate>
-                        </Button>
-                    </StackPanel>
-                </Grid>
-
-            </Border>
-
             <!-- Header -->
-            <Border x:Name="borHeader" Background="#4EB1B6" Height="40" DockPanel.Dock="Top" Margin="-240,0,0,0">
+            <Border x:Name="borHeader" Background="#745c7c" Height="40" DockPanel.Dock="Top">
                 <DockPanel VerticalAlignment="Center">
                     <!-- Naslov -->
-                    <StackPanel Margin="0,0,0,0" Orientation="Horizontal"  DockPanel.Dock="Left" VerticalAlignment="Center" >
-                        <Image  Width="40" Height="40"/>
-                        <TextBlock Text="Glam Office Software" FontWeight="SemiBold" DockPanel.Dock="Left" FontSize="20" VerticalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal"  DockPanel.Dock="Left" VerticalAlignment="Center" >
+                        <Image Source="/Images/GlamOfficeIcon.ico" Width="40" Height="40"/>
+                        <TextBlock Text="GlamOffice" FontWeight="SemiBold" Foreground="#f5f5f5" DockPanel.Dock="Left" FontSize="20" VerticalAlignment="Center"/>
                     </StackPanel>
 
-
-                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" VerticalAlignment="Top" HorizontalAlignment="Right">
-                        <Button x:Name="btnMinimize" Style="{StaticResource btnMRC}">
-                            <Image Width="50" Height="30"/>
-                        </Button>
-                        <Button x:Name="btnRestore" Style="{StaticResource btnMRC}">
-                            <Image Width="50" Height="30" />
-                        </Button>
-                        <Button x:Name="btnClose" Style="{StaticResource btnMRC}">
-                            <Image Width="50" Height="30" />
-                        </Button>
-                    </StackPanel>
+                    <Button x:Name="btnMenu" DockPanel.Dock="Right" VerticalAlignment="Top" HorizontalAlignment="Right" Style="{StaticResource btnMRC}">
+                        <Image Source="/Images/hamburger-menu.png" Width="50" Height="30" />
+                    </Button>
                 </DockPanel>
             </Border>
+
+
+            <!-- Navigation Bar -->
+            <ContentControl x:Name="ccSidebar" Width="240" DockPanel.Dock="Right" Margin="0,-40,0,0" />
 
             <!-- Prostor za sadržaj -->
             <ContentControl x:Name="contentControl" />
