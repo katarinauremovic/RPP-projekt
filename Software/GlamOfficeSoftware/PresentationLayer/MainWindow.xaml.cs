@@ -24,5 +24,10 @@ namespace PresentationLayer
         {
             InitializeComponent();
         }
+
+        private void btnDashboard_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
