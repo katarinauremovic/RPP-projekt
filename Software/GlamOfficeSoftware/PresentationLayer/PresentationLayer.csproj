@@ -65,7 +65,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ucSidebarMenu.xaml.cs">
+    <Compile Include="UserControls\ucSidebarMenu.xaml.cs">
       <DependentUpon>ucSidebarMenu.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
@@ -80,7 +80,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ucSidebarMenu.xaml">
+    <Page Include="UserControls\ucSidebarMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -135,7 +135,6 @@
     <Resource Include="Images\GlamOfficeIcon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="UserControls\" />
     <Folder Include="Windows\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
