@@ -1,4 +1,5 @@
-﻿using EntityLayer.Entities;
+﻿using DataAccessLayer.Interfaces;
+using EntityLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories
 {
-    public class ClientRepository : Repository<Client>
+    public class ClientRepository : Repository<Client>, IClientRepository
     {
         // Dohvati klijenta prema email adresi
         public async Task<Client> GetByEmailAsync(string email)
