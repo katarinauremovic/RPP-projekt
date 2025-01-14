@@ -22,22 +22,9 @@ namespace PresentationLayer
     /// </summary>
     public partial class MainWindow : Window
     {
-        private IClientService _clientService;
-
         public MainWindow()
         {
-            InitializeComponent();
-            _clientService = new ClientService();         
-        }
-
-        private async void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            await LoadClients();
-        }
-
-        private async Task LoadClients()
-        {
-            dgvClients.ItemsSource = await _clientService.GetAllClientsAsync();
+            InitializeComponent();  
         }
     }
 }
