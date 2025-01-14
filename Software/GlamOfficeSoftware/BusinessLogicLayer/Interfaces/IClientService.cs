@@ -9,6 +9,7 @@ namespace BusinessLogicLayer.Interfaces
 {
     public interface IClientService
     {
+        Task<IEnumerable<Client>> GetAllClientsAsync();
         Task<Client> GetByEmailAsync(string email);
         Task<IEnumerable<Client>> GetWithActiveGiftCardsAsync();
         Task<IEnumerable<Client>> GetWithDetailsAsync();

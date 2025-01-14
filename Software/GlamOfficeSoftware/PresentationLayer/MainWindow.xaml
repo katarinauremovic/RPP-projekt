@@ -5,8 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PresentationLayer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
+    <DataGrid x:Name="dgvClients" AutoGenerateColumns="False" >
+        <!-- Prikazivanje imena i prezimena klijenta -->
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="Ime" Binding="{Binding Firstname}" Width="*"/>
+            <DataGridTextColumn Header="Prezime" Binding="{Binding Lastname}" Width="*"/>
+            <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
+            <DataGridTextColumn Header="Broj Telefona" Binding="{Binding PhoneNumber}" Width="*"/>
+            <DataGridTextColumn Header="Status Poklon Kartice" Binding="{Binding GiftCard.Status}" Width="*"/>
+        </DataGrid.Columns>
+    </DataGrid>
 </Window>

@@ -10,58 +10,86 @@ using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Services
 {
-    public class ClientService : Service<Client>, IClientService
+    public class ClientService : IClientService
     {
-        private readonly IClientRepository _clientRepository;
-
-        public ClientService(IClientRepository clientRepository) : base(clientRepository)
+        public async Task<IEnumerable<Client>> GetAllClientsAsync()
         {
-            _clientRepository = clientRepository;
+            using (var repo = new ClientRepository())
+            {
+                return await repo.GetAllAsync();
+            }
         }
 
         public async Task<Client> GetByEmailAsync(string email)
         {
-            return await _clientRepository.GetByEmailAsync(email);
+            using (var repo = new ClientRepository())
+            {
+                return await repo.GetByEmailAsync(email);
+            }
         }
 
         public async Task<IEnumerable<Client>> GetWithActiveGiftCardsAsync()
         {
-            return await _clientRepository.GetWithActiveGiftCardsAsync();
+            using (var repo = new ClientRepository())
+            {
+                return await repo.GetWithActiveGiftCardsAsync();
+            }
         }
 
         public async Task<IEnumerable<Client>> GetWithDetailsAsync()
         {
-            return await _clientRepository.GetWithDetailsAsync();
+            using (var repo = new ClientRepository())
+            {
+                return await repo.GetWithDetailsAsync();
+            }
         }
 
         public async Task<bool> ExistsByPhoneNumberAsync(string phoneNumber)
         {
-            return await _clientRepository.ExistsByPhoneNumberAsync(phoneNumber);
+            using (var repo = new ClientRepository())
+            {
+                return await repo.ExistsByPhoneNumberAsync(phoneNumber);
+            }
         }
 
         public async Task<IEnumerable<Client>> GetClientsBySpendingAsync(decimal topN)
         {
-            return await _clientRepository.GetClientsBySpendingAsync(topN);
+            using (var repo = new ClientRepository())
+            {
+                return await repo.GetClientsBySpendingAsync(topN);
+            }
         }
 
         public async Task<IEnumerable<Client>> GetClientsWithReservationsInDateRangeAsync(DateTime startDate, DateTime endDate)
         {
-            return await _clientRepository.GetClientsWithReservationsInDateRangeAsync(startDate, endDate);
+            using (var repo = new ClientRepository())
+            {
+                return await repo.GetClientsWithReservationsInDateRangeAsync(startDate, endDate);
+            }
         }
 
         public async Task<IEnumerable<Client>> GetClientsWithoutReservationsAsync()
         {
-            return await _clientRepository.GetClientsWithoutReservationsAsync();
+            using (var repo = new ClientRepository())
+            {
+                return await repo.GetClientsWithoutReservationsAsync();
+            }
         }
 
         public async Task<IEnumerable<Client>> GetClientsWithExpiredGiftCardsAsync()
         {
-            return await _clientRepository.GetClientsWithExpiredGiftCardsAsync();
+            using (var repo = new ClientRepository())
+            {
+                return await repo.GetClientsWithExpiredGiftCardsAsync();
+            }
         }
 
         public async Task<IEnumerable<Client>> GetClientsByRewardTypeAsync(string rewardType)
         {
-            return await _clientRepository.GetClientsByRewardTypeAsync(rewardType);
+            using (var repo = new ClientRepository())
+            {
+                return await repo.GetClientsByRewardTypeAsync(rewardType);
+            }
         }
     }
 }
