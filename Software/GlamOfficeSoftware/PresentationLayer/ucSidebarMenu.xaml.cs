@@ -20,9 +20,21 @@ namespace PresentationLayer
     /// </summary>
     public partial class ucSidebarMenu : UserControl
     {
+        public MainWindow Parent { get; set; }
+
         public ucSidebarMenu()
         {
             InitializeComponent();
+        }
+
+        private void btnCloseSidebar_Click(object sender, RoutedEventArgs e)
+        {
+            Parent.CloseSidebarMenu();
+        }
+
+        private void btnDashboard_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

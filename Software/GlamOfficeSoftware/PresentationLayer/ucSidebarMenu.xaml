@@ -7,42 +7,54 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="240">
     <Grid>
-        <Border Width="240" DockPanel.Dock="Right" Background="#b894ac" Margin="0,0,0,0">
+        <Border Width="240" DockPanel.Dock="Right" Background="#b894ac">
             <Grid>
-                <StackPanel>
-                    <Button x:Name="btnDashboard" Style="{StaticResource SidebarButtonStyle}" Click="btnDashboard_Click">
-                        <Button.ContentTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="/Media/Images/dashboard.png" Width="16" Height="16" Margin="5"/>
-                                    <TextBlock Text="Dashboard" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </Button.ContentTemplate>
+                <DockPanel>
+                    <Button x:Name="btnCloseSidebar" DockPanel.Dock="Top" Style="{StaticResource SidebarButtonStyle}" Click="btnCloseSidebar_Click" HorizontalAlignment="Right">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Grid>
+                                    <Image Source="/Images/close-circle.png" Width="30"/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
                     </Button>
+                    
+                    <StackPanel Margin="0,50,0,0">
+                        <Button x:Name="btnDashboard" Style="{StaticResource SidebarButtonStyle}" Click="btnDashboard_Click">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Media/Images/dashboard.png" Width="16" Height="16" Margin="5"/>
+                                        <TextBlock Text="Dashboard" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
 
-                    <Button x:Name="btnClientAdministration" Style="{StaticResource SidebarButtonStyle}">
-                        <Button.ContentTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="/Media/Images/employee-administration.png" Width="16" Height="16" Margin="5"/>
-                                    <TextBlock Text="Client administration" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </Button.ContentTemplate>
-                    </Button>
+                        <Button x:Name="btnClientAdministration" Style="{StaticResource SidebarButtonStyle}">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Media/Images/employee-administration.png" Width="16" Height="16" Margin="5"/>
+                                        <TextBlock Text="Client administration" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
 
-                    <Button x:Name="btnLogout" Style="{StaticResource SidebarButtonStyle}">
-                        <Button.ContentTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="/Media/Images/log-out.png" Width="16" Height="16" Margin="5"/>
-                                    <TextBlock Text="Logout" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </Button.ContentTemplate>
-                    </Button>
-                </StackPanel>
+                        <Button x:Name="btnLogout" Style="{StaticResource SidebarButtonStyle}">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Media/Images/log-out.png" Width="16" Height="16" Margin="5"/>
+                                        <TextBlock Text="Logout" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+                    </StackPanel>
+                </DockPanel>
             </Grid>
         </Border>
     </Grid>
