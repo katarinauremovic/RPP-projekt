@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PresentationLayer"
         mc:Ignorable="d"
-        Title="Glam Office Software" Height="600" Width="1200">
+        Icon="/Images/GlamOfficeIcon.ico"
+        Title="GlamOffice" Height="600" Width="1200">
     <Window.Resources>
         <Storyboard x:Key="SlideInAnimation">
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)">
