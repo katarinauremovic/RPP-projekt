@@ -25,11 +25,11 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#339685" />
+                    <Setter Property="Background" Value="#745c7c" />
                     <Setter Property="Foreground" Value="White" />
                 </Trigger>
                 <Trigger Property="IsMouseCaptured" Value="True">
-                    <Setter Property="Background" Value="#2D7A6C" />
+                    <Setter Property="Background" Value="#745c7c" />
                     <Setter Property="Foreground" Value="White" />
                 </Trigger>
             </Style.Triggers>

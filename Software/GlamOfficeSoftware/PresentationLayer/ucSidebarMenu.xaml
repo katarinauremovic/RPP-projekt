@@ -10,17 +10,17 @@
         <Border Width="240" DockPanel.Dock="Right" Background="#b894ac">
             <Grid>
                 <DockPanel>
-                    <Button x:Name="btnCloseSidebar" DockPanel.Dock="Top" Style="{StaticResource SidebarButtonStyle}" Click="btnCloseSidebar_Click" HorizontalAlignment="Right">
+                    <Button x:Name="btnCloseSidebar" DockPanel.Dock="Top" Style="{StaticResource btnMRC}" Click="btnCloseSidebar_Click" HorizontalAlignment="Right">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Grid>
-                                    <Image Source="/Images/close-circle.png" Width="30"/>
+                                    <Image Source="/Images/close-circle.png" Width="50" Height="30"/>
                                 </Grid>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
                     
-                    <StackPanel Margin="0,50,0,0">
+                    <StackPanel Margin="0,0,0,0">
                         <Button x:Name="btnDashboard" Style="{StaticResource SidebarButtonStyle}" Click="btnDashboard_Click">
                             <Button.ContentTemplate>
                                 <DataTemplate>

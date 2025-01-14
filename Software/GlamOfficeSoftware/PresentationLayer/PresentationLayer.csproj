@@ -112,13 +112,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\GlamOfficeIcon.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\hamburger-menu.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\close-circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GlamOfficeIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GlamOfficeIcon-bijela-transparent.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
