@@ -65,6 +65,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ucSidebarMenu.xaml.cs">
+      <DependentUpon>ucSidebarMenu.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -77,6 +80,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ucSidebarMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -114,6 +121,18 @@
       <Project>{5802cf89-8439-4169-a24c-b10f49229e6a}</Project>
       <Name>EntityLayer</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\hamburger-menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\close-circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GlamOfficeIcon-bijela-transparent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GlamOfficeIcon.ico" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UserControls\" />
