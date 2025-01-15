@@ -26,7 +26,7 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBlock x:Name="textSearch" Width="180" MouseDown="textSearch_MouseDown" Style="{StaticResource placeholder}"/>
-                            <TextBox x:Name="txtSearch" TextChanged="txtSearch_TextChanged" Style="{StaticResource textBox}"/>
+                            <TextBox x:Name="txtSearch" Width="180" TextChanged="txtSearch_TextChanged" Style="{StaticResource textBox}"/>
                         </Grid>
                     </Border>
 

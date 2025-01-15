@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BusinessLogicLayer.Interfaces;
+using BusinessLogicLayer.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,12 @@ namespace PresentationLayer.UserControls
     /// </summary>
     public partial class ucClientAdministration : UserControl
     {
+        private IClientService _clientService;
+
         public ucClientAdministration()
         {
             InitializeComponent();
+            _clientService = new ClientService();
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -47,16 +52,6 @@ namespace PresentationLayer.UserControls
             cmbFilters.IsDropDownOpen = true;
         }
 
-        private void textSearch_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
         private void cmbFilters_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             cmbFilters.IsDropDownOpen = true;
@@ -72,6 +67,28 @@ namespace PresentationLayer.UserControls
             } else if (cmbFilters.SelectedIndex == 3)
             {
                 textSearch.Text = "Insert phone number...";
+            }
+        }
+
+        private void textSearch_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            txtSearch.Focus();
+        }
+
+        private async void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var placeholderSearch = textSearch;
+            var pattern = txtSearch.Text.ToLower();
+
+            if (!string.IsNullOrEmpty(pattern) && pattern.Length >= 0)
+            {
+                placeholderSearch.Visibility = Visibility.Collapsed;
+                //UpdateData();
+            } else
+            {
+                placeholderSearch.Visibility = Visibility.Visible;
+                dgvClients.ItemsSource = await _clientService.GetAllClientsAsync();
+                //HideColumns();
             }
         }
     }
