@@ -32,7 +32,7 @@
                             </Button.ContentTemplate>
                         </Button>
 
-                        <Button x:Name="btnClientAdministration" Style="{StaticResource SidebarButtonStyle}">
+                        <Button x:Name="btnClientAdministration" Style="{StaticResource SidebarButtonStyle}" Click="btnClientAdministration_Click">
                             <Button.ContentTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">

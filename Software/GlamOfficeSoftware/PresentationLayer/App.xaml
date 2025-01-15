@@ -4,6 +4,34 @@
              xmlns:local="clr-namespace:PresentationLayer"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+
+        <Style x:Key="titleText" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="26" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="#745c7c" />
+        </Style>
+
+        <Style x:Key="placeholder" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Grid.Column" Value="1" />
+            <Setter Property="Panel.ZIndex" Value="1" />
+            <Setter Property="Margin" Value="5 0" />
+            <Setter Property="Foreground" Value="#acb0af" />
+        </Style>
+
+        <Style x:Key="textBox" TargetType="Control">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Grid.Column" Value="1" />
+            <Setter Property="Margin" Value="10 0 0 0" />
+            <Setter Property="Foreground" Value="#acb0af" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+
         <Style x:Key="SidebarButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="White"/>
@@ -35,6 +63,78 @@
             </Style.Triggers>
         </Style>
 
+        <Style x:Key="combobox" TargetType="ComboBox">
+            <Setter Property="Foreground" Value="#ffffff" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Background" Value="#b894ac" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton x:Name="ToggleButton" 
+                                  BorderBrush="{TemplateBinding BorderBrush}" 
+                                  BorderThickness="{TemplateBinding BorderThickness}" 
+                                  Background="{TemplateBinding Background}" 
+                                  Grid.Column="1" 
+                                  IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                                  ClickMode="Press">
+                                <ContentPresenter />
+                            </ToggleButton>
+                            <ContentPresenter x:Name="ContentSite" 
+                                      Content="{TemplateBinding SelectionBoxItem}" 
+                                      ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" 
+                                      ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" 
+                                      VerticalAlignment="Center" 
+                                      HorizontalAlignment="Left" 
+                                      Margin="3,3,23,3" 
+                                      IsHitTestVisible="False"/>
+                            <Popup x:Name="Popup" 
+                           Placement="Bottom" 
+                           IsOpen="{TemplateBinding IsDropDownOpen}" 
+                           AllowsTransparency="True" 
+                           Focusable="False" 
+                           PopupAnimation="Slide">
+                                <Grid x:Name="DropDown" 
+                              SnapsToDevicePixels="True" 
+                              MinWidth="{TemplateBinding ActualWidth}" 
+                              MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border x:Name="DropDownBorder" 
+                                    Background="{TemplateBinding Background}" 
+                                    BorderThickness="1" 
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    CornerRadius="5">
+                                        <!-- Dodajte CornerRadius -->
+                                        <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                            <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained" />
+                                        </ScrollViewer>
+                                    </Border>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="IsTabStop" Value="False"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Style.Triggers>
+                <Trigger Property="IsDropDownOpen" Value="True">
+                    <Setter Property="Opacity" Value="0.8" />
+                    <Setter Property="Foreground" Value="#f5f5f5" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="0.8" />
+                    <Setter Property="Foreground" Value="#f5f5f5" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
 
         <Style x:Key="btnMRC" TargetType="Button">
             <Setter Property="VerticalAlignment" Value="Center" />

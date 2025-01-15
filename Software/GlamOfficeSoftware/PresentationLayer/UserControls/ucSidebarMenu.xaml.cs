@@ -36,5 +36,11 @@ namespace PresentationLayer.UserControls
         {
 
         }
+
+        private void btnClientAdministration_Click(object sender, RoutedEventArgs e)
+        {
+            var ucClientAdministration = new ucClientAdministration();
+            Parent.ccContent.Content = ucClientAdministration;
+        }
     }
 }

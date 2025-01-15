@@ -40,10 +40,10 @@
             </Border>
 
             <!--Sidebar-->
-            <ContentControl x:Name="ccSidebarMenu" Width="240" DockPanel.Dock="Right" Margin="0,-40,0,0" />
+            <ContentControl x:Name="ccSidebarMenu" Width="240" DockPanel.Dock="Right" Margin="0,-40,0,0" Panel.ZIndex="99" />
 
             <!--Content-->
-            <ContentControl x:Name="ccDashboard" />
+            <ContentControl x:Name="ccContent" Margin="0,0,-240,0" />
         </DockPanel>
     </Grid>
 </Window>

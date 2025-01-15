@@ -26,7 +26,7 @@ namespace PresentationLayer
     {
         public MainWindow()
         {
-            InitializeComponent();  
+            InitializeComponent();
         }
 
         private void btnDashboard_Click(object sender, RoutedEventArgs e)
@@ -47,6 +47,7 @@ namespace PresentationLayer
         {
             var slideOutAnimation = FindResource("SlideOutAnimation") as Storyboard;
             var sidebarMenu = (FrameworkElement)ccSidebarMenu.Content;
+            var content = (FrameworkElement)ccContent.Content;
 
             if (sidebarMenu != null)
             {
