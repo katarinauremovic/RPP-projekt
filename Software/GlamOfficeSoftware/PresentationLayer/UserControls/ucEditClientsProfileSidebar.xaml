@@ -50,7 +50,7 @@
                         <!-- Ime -->
                         <StackPanel Background="#f0dcdc" >
                             <TextBlock Text="Firstname: " Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="20,7,0,7" />
-                            <Border  Grid.Row="1" BorderThickness="1" BorderBrush="#acb0af" Grid.ColumnSpan="2" CornerRadius="5" Background="#ffffff" Margin="20,0,5,7">
+                            <Border  Grid.Row="1" BorderThickness="1" BorderBrush="#acb0af" Grid.ColumnSpan="2" CornerRadius="20" Background="#ffffff" Margin="20,0,5,7">
                                 <Grid Margin="7 9">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
@@ -63,7 +63,7 @@
 
                         <!-- Prezime -->
                         <TextBlock Text="Lastname: "  Grid.Row="2"  HorizontalAlignment="Left" Margin="20,7,0,7" />
-                        <Border  Grid.Row="3" BorderThickness="1" BorderBrush="#acb0af" Grid.ColumnSpan="2" CornerRadius="5" Background="#ffffff" Margin="20,0,5,7">
+                        <Border  Grid.Row="3" BorderThickness="1" BorderBrush="#acb0af" Grid.ColumnSpan="2" CornerRadius="20" Background="#ffffff" Margin="20,0,5,7">
                             <Grid Margin="7 9">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -76,7 +76,7 @@
                         <!-- Email -->
                         <StackPanel Background="#f0dcdc" Grid.Row="4">
                             <TextBlock Text="E-mail: "  Grid.Row="4" HorizontalAlignment="Left" Margin="20,7,0,7" />
-                            <Border  Grid.Row="5" BorderThickness="1" BorderBrush="#acb0af" Grid.ColumnSpan="2" CornerRadius="5" Background="#ffffff" Margin="20,0,5,7">
+                            <Border  Grid.Row="5" BorderThickness="1" BorderBrush="#acb0af" Grid.ColumnSpan="2" CornerRadius="20" Background="#ffffff" Margin="20,0,5,7">
                                 <Grid Margin="7 9">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
@@ -89,7 +89,7 @@
 
                         <!-- Tel. br. -->
                         <TextBlock Text="Phone number: "  Grid.Row="6"  HorizontalAlignment="Left" Margin="20,7,0,7" />
-                        <Border  Grid.Row="7" BorderThickness="1" BorderBrush="#acb0af" Grid.ColumnSpan="2" CornerRadius="5" Background="#ffffff" Margin="20,0,5,7">
+                        <Border  Grid.Row="7" BorderThickness="1" BorderBrush="#acb0af" Grid.ColumnSpan="2" CornerRadius="20" Background="#ffffff" Margin="20,0,5,7">
                             <Grid Margin="7 9">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
