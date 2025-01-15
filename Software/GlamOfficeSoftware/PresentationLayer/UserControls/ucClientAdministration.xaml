@@ -6,6 +6,22 @@
              xmlns:local="clr-namespace:PresentationLayer.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <Storyboard x:Key="SlideInAnimation">
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)">
+                <EasingThicknessKeyFrame KeyTime="0" Value="0,0,240,0"/>
+                <EasingThicknessKeyFrame KeyTime="0:0:0.5" Value="0"/>
+            </ThicknessAnimationUsingKeyFrames>
+        </Storyboard>
+
+        <Storyboard x:Key="SlideOutAnimation">
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)">
+                <EasingThicknessKeyFrame KeyTime="0" Value="0"/>
+                <EasingThicknessKeyFrame KeyTime="0:0:0.5" Value="240,0,0,0"/>
+            </ThicknessAnimationUsingKeyFrames>
+        </Storyboard>
+    </UserControl.Resources>
+
     <Grid Background="#f5f5f5">
         <DockPanel Margin="30,0,30,15">
             <!-- naslov -->
@@ -57,12 +73,15 @@
 
             <!-- Gumbovi -->
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="0,0,0,-66" HorizontalAlignment="Right" >
-                <Button x:Name="btnShowClientsProfile" FontWeight="SemiBold" Content="Show" Width="100" Style="{StaticResource classicButton}" Height="40" Margin="0, 0, 7, 0"/>
+                <Button x:Name="btnShowClientsProfile" Click="btnShowClientsProfile_Click" FontWeight="SemiBold" Content="Show" Width="100" Style="{StaticResource classicButton}" Height="40" Margin="0, 0, 7, 0"/>
                 <Button x:Name="btnAddClient" FontWeight="SemiBold" Content="Add" Width="100" Style="{StaticResource classicButton}" Height="40"/>
             </StackPanel>
 
+            <!--Sidebar-->
+            <ContentControl x:Name="ccSidebar" Width="240" DockPanel.Dock="Right" Margin="0,-54.55,-30,-81" Panel.ZIndex="2" />
+
             <!-- Tablica s klijentima -->
-            <Grid>
+            <Grid Margin="0,0,-210,0">
                 <!-- DataGrid za prikaz klijenata -->
                 <DataGrid x:Name="dgvClients" Visibility="Collapsed" AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <!-- Definirane kolone za prikaz klijenata -->

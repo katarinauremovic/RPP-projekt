@@ -17,6 +17,8 @@ using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using EntityLayer.Entities;
 using System.ComponentModel;
+using System.Windows.Media.Animation;
+using EntityLayer.DTOs;
 
 namespace PresentationLayer.UserControls
 {
@@ -161,6 +163,74 @@ namespace PresentationLayer.UserControls
             } finally
             {
                 ShowLoadingIndicator(false);
+            }
+        }
+
+        private void btnShowClientsProfile_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var client = dgvClients.SelectedItem as ClientDTO;
+                
+                if (dgvClients.SelectedItem != null)
+                {
+                    try
+                    {
+                        var ucClientProfileSidebar = new ucShowClientsProfileSidebar(client);
+                        ccSidebar.Content = ucClientProfileSidebar;
+
+                        ShowSidebarMenu();
+                    } catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                } else
+                {
+                    MessageBox.Show("Please select client");
+                }            
+            } catch (ApplicationException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }          
+        }
+
+        public void CloseSidebarMenu()
+        {
+            var slideOutAnimation = FindResource("SlideOutAnimation") as Storyboard;
+            var sidebarMenu = (FrameworkElement)ccSidebar.Content;
+
+            if (sidebarMenu != null)
+            {
+                slideOutAnimation?.Begin(sidebarMenu);
+
+                slideOutAnimation.Completed += (s, e) =>
+                {
+                    ccSidebar.Content = null;
+                    sidebarMenu.Visibility = Visibility.Collapsed;
+                };
+            }
+        }
+
+        private void ShowSidebarMenu()
+        {
+            var slideInAnimation = FindResource("SlideInAnimation") as Storyboard;
+            var sidebarMenu = (FrameworkElement)ccSidebar.Content;
+
+            if (sidebarMenu != null)
+            {
+                sidebarMenu.Visibility = Visibility.Visible;
+
+                sidebarMenu.Margin = new Thickness(240, 0, 0, 0);
+
+                var marginAnimation = new ThicknessAnimation
+                {
+                    From = new Thickness(240, 0, 0, 0),
+                    To = new Thickness(0, 0, 0, 0),
+                    Duration = new Duration(TimeSpan.FromSeconds(0.5)),
+                    EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut }
+                };
+
+                sidebarMenu.BeginAnimation(MarginProperty, marginAnimation);
             }
         }
     }
