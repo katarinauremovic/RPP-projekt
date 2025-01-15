@@ -22,6 +22,7 @@ namespace PresentationLayer.UserControls
     public partial class ucShowClientsProfileSidebar : UserControl
     {
         private ClientDTO _selectedClient { get; set; }
+        public ucClientAdministration Parent { get; set; }
         public ucShowClientsProfileSidebar(ClientDTO selectedClient)
         {
             InitializeComponent();
@@ -43,6 +44,11 @@ namespace PresentationLayer.UserControls
             textGiftCardDesc.Text = _selectedClient.GiftCardDescription;
             textReservationDates.Text = _selectedClient.ReservationsDates;
             textReviewsComments.Text = _selectedClient.ReviewsComments;
+        }
+
+        private void btnCloseSidebar_Click(object sender, RoutedEventArgs e)
+        {
+            Parent.CloseSidebarMenu();
         }
     }
 }

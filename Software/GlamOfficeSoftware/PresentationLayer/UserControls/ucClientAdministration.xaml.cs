@@ -168,30 +168,8 @@ namespace PresentationLayer.UserControls
 
         private void btnShowClientsProfile_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                var client = dgvClients.SelectedItem as ClientDTO;
-                
-                if (dgvClients.SelectedItem != null)
-                {
-                    try
-                    {
-                        var ucClientProfileSidebar = new ucShowClientsProfileSidebar(client);
-                        ccSidebar.Content = ucClientProfileSidebar;
-
-                        ShowSidebarMenu();
-                    } catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                } else
-                {
-                    MessageBox.Show("Please select client");
-                }            
-            } catch (ApplicationException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }          
+            SwitchClient();
+            ShowSidebarMenu();
         }
 
         public void CloseSidebarMenu()
@@ -231,6 +209,43 @@ namespace PresentationLayer.UserControls
                 };
 
                 sidebarMenu.BeginAnimation(MarginProperty, marginAnimation);
+            }
+        }
+
+        private void dgvClients_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var sidebarMenu = (FrameworkElement)ccSidebar.Content;
+
+            if(sidebarMenu != null)
+            {
+                SwitchClient();
+            }
+        }
+
+        private void SwitchClient()
+        {
+            try
+            {
+                var client = dgvClients.SelectedItem as ClientDTO;
+
+                if (dgvClients.SelectedItem != null)
+                {
+                    try
+                    {
+                        var ucClientProfileSidebar = new ucShowClientsProfileSidebar(client);
+                        ucClientProfileSidebar.Parent = this;
+                        ccSidebar.Content = ucClientProfileSidebar;
+                    } catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                } else
+                {
+                    MessageBox.Show("Please select client");
+                }
+            } catch (ApplicationException ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
     }

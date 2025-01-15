@@ -15,8 +15,18 @@
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
 
+                <Button x:Name="btnCloseSidebar" Style="{StaticResource btnMRC}" Click="btnCloseSidebar_Click" HorizontalAlignment="Right">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Grid>
+                                <Image Source="/Images/close-circle.png" Width="50" Height="30"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
                 <!-- Child informations -->
-                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" Width="200" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" Width="200" VerticalAlignment="Center">
                     <Grid >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -55,15 +65,15 @@
 
                         <!-- Gift card -->
                         <TextBlock Text="Gift card: " Grid.Column="0" Grid.Row="5"  HorizontalAlignment="Right" Margin="0,0,7,7" />
-                        <TextBlock x:Name="textGiftCardDesc" Grid.Column="1" Grid.Row="5"  HorizontalAlignment="Left" Margin="7,0,0,7" />
+                        <TextBlock x:Name="textGiftCardDesc" Grid.Column="1" Grid.Row="5"  HorizontalAlignment="Left" Margin="7,0,0,7" TextWrapping="Wrap" VerticalAlignment="Center" />
 
                         <!-- Reservation -->
                         <TextBlock Text="Reservations: " Grid.Column="0" Grid.Row="6"  HorizontalAlignment="Right" Margin="0,0,7,7" />
-                        <TextBlock x:Name="textReservationDates" Grid.Column="1" Grid.Row="6"  HorizontalAlignment="Left" Margin="7,0,0,7" />
+                        <TextBlock x:Name="textReservationDates" Grid.Column="1" Grid.Row="6"  HorizontalAlignment="Left" Margin="7,0,0,7" TextWrapping="Wrap" VerticalAlignment="Center" />
 
                         <!-- Reviews -->
                         <TextBlock Text="Reviews: " Grid.Column="0" Grid.Row="7"  HorizontalAlignment="Right" Margin="0,0,7,7" />
-                        <TextBlock x:Name="textReviewsComments" Grid.Column="1" Grid.Row="7"  HorizontalAlignment="Left" TextAlignment="Left" Margin="7,0,0,7" />
+                        <TextBlock x:Name="textReviewsComments" Grid.Column="1" Grid.Row="7"  HorizontalAlignment="Left" TextAlignment="Left" Margin="7,0,0,7" TextWrapping="Wrap" VerticalAlignment="Center" />
                     </Grid>
                 </ScrollViewer>
 
