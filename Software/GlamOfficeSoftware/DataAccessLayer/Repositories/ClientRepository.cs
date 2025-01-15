@@ -84,5 +84,23 @@ namespace DataAccessLayer.Repositories
                               .Where(client => client.RewardPoints.Any(rp => rp.Reward.Name == rewardType))
                               .ToListAsync();
         }
+
+        //Dohvati klijente po uzorku imena i prezimena
+        public async Task<IEnumerable<Client>> GetClientsByFirstAndLastNamePattern(string firstAndLastNamePattern)
+        {
+            return await items.Where(i => i.Firstname.Contains(firstAndLastNamePattern) || i.Lastname.Contains(firstAndLastNamePattern)).ToArrayAsync();
+        }
+
+        //Dohvati klijente po uzorku na email
+        public async Task<IEnumerable<Client>> GetClientsByEmailPattern(string emailPattern)
+        {
+            return await items.Where(i => i.Email.Contains(emailPattern)).ToArrayAsync();
+        }
+
+        //Dohvati klijente po uzorku na email
+        public async Task<IEnumerable<Client>> GetClientsByPhoneNumberPattern(string phoneNumberPattern)
+        {
+            return await items.Where(i => i.PhoneNumber.Contains(phoneNumberPattern)).ToArrayAsync();
+        }
     }
 }

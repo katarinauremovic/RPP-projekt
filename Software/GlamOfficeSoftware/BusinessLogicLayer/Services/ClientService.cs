@@ -91,5 +91,29 @@ namespace BusinessLogicLayer.Services
                 return await repo.GetClientsByRewardTypeAsync(rewardType);
             }
         }
+
+        public async Task<IEnumerable<Client>> GetClientsByFirstAndLastNamePattern(string firstAndLastNamePattern)
+        {
+            using (var repo = new ClientRepository())
+            {
+                return await repo.GetClientsByFirstAndLastNamePattern(firstAndLastNamePattern);
+            }
+        }
+
+        public async Task<IEnumerable<Client>> GetClientsByEmailPattern(string emailPattern)
+        {
+            using (var repo = new ClientRepository())
+            {
+                return await repo.GetClientsByEmailPattern(emailPattern);
+            }
+        }
+
+        public async Task<IEnumerable<Client>> GetClientsByPhoneNumberPattern(string phoneNumberPattern)
+        {
+            using (var repo = new ClientRepository())
+            {
+                return await repo.GetClientsByPhoneNumberPattern(phoneNumberPattern);
+            }
+        }
     }
 }

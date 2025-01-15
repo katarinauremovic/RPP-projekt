@@ -19,5 +19,8 @@ namespace BusinessLogicLayer.Interfaces
         Task<IEnumerable<Client>> GetClientsWithoutReservationsAsync();
         Task<IEnumerable<Client>> GetClientsWithExpiredGiftCardsAsync();
         Task<IEnumerable<Client>> GetClientsByRewardTypeAsync(string rewardType);
+        Task<IEnumerable<Client>> GetClientsByFirstAndLastNamePattern(string firstAndLastNamePattern);
+        Task<IEnumerable<Client>> GetClientsByEmailPattern(string emailPattern);
+        Task<IEnumerable<Client>> GetClientsByPhoneNumberPattern(string phoneNumberPattern);
     }
 }

@@ -14,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
+using EntityLayer.Entities;
+using System.ComponentModel;
 
 namespace PresentationLayer.UserControls
 {
@@ -24,26 +27,33 @@ namespace PresentationLayer.UserControls
     {
         private IClientService _clientService;
 
+        public ObservableCollection<Client> Clients { get; set; } = new ObservableCollection<Client>();
+
+        public bool IsLoading { get; set; }
+
         public ucClientAdministration()
         {
             InitializeComponent();
             _clientService = new ClientService();
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             LoadFilters();
+            await Task.Delay(1);
+            ShowLoadingIndicator(true);
+            await LoadClientsAsync();
+            ShowLoadingIndicator(false);
         }
 
         private void LoadFilters()
         {
             //cmb fill
-            cmbFilters.Items.Add("PIN");
             cmbFilters.Items.Add("First and lastname");
             cmbFilters.Items.Add("Email");
             cmbFilters.Items.Add("Phone number");
 
-            cmbFilters.SelectedIndex = 1;
+            cmbFilters.SelectedIndex = 0;
             cmbFilters.IsDropDownOpen = false;
         }
 
@@ -57,14 +67,11 @@ namespace PresentationLayer.UserControls
             cmbFilters.IsDropDownOpen = true;
             if (cmbFilters.SelectedIndex == 0)
             {
-                textSearch.Text = "Insert PIN...";
+                textSearch.Text = "Insert first and lastname...";
             } else if (cmbFilters.SelectedIndex == 1)
             {
-                textSearch.Text = "Insert first and lastname...";
-            } else if (cmbFilters.SelectedIndex == 2)
-            {
                 textSearch.Text = "Insert e-mail...";
-            } else if (cmbFilters.SelectedIndex == 3)
+            } else if (cmbFilters.SelectedIndex == 2)
             {
                 textSearch.Text = "Insert phone number...";
             }
@@ -83,12 +90,77 @@ namespace PresentationLayer.UserControls
             if (!string.IsNullOrEmpty(pattern) && pattern.Length >= 0)
             {
                 placeholderSearch.Visibility = Visibility.Collapsed;
-                //UpdateData();
+                SearchingByFilter();
             } else
             {
                 placeholderSearch.Visibility = Visibility.Visible;
-                dgvClients.ItemsSource = await _clientService.GetAllClientsAsync();
+                await LoadClientsAsync();
                 //HideColumns();
+            }
+        }
+
+        private async Task LoadClientsAsync()
+        {
+            try
+            {
+                var clients = await _clientService.GetAllClientsAsync();
+                dgvClients.ItemsSource = clients;
+            } catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to load clients: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void ShowLoadingIndicator(bool isLoading)
+        {
+            if (isLoading)
+            {
+                loadingIndicator.Visibility = Visibility.Visible;
+                dgvClients.Visibility = Visibility.Collapsed;
+            } else
+            {
+                loadingIndicator.Visibility = Visibility.Collapsed;
+                dgvClients.Visibility = Visibility.Visible;
+            }
+        }
+
+        private async void SearchingByFilter()
+        {
+            var pattern = txtSearch.Text.ToLower();
+            var selectedItem = cmbFilters.SelectedIndex;
+
+            if (string.IsNullOrEmpty(pattern))
+            {
+                ShowLoadingIndicator(true);
+                await LoadClientsAsync();
+                ShowLoadingIndicator(false);
+                return;
+            }
+
+            try
+            {
+                ShowLoadingIndicator(true);
+                switch (selectedItem)
+                {
+                    case 0:
+                        dgvClients.ItemsSource = await _clientService.GetClientsByFirstAndLastNamePattern(pattern);
+                        break;
+                    case 1:
+                        dgvClients.ItemsSource = await _clientService.GetClientsByEmailPattern(pattern);
+                        break;
+                    case 2:
+                        dgvClients.ItemsSource = await _clientService.GetClientsByPhoneNumberPattern(pattern);
+                        break;
+                    default:
+                        MessageBox.Show("Invalid filter selection.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        break;
+                }
+            } catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to search clients: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            } finally
+            {
+                ShowLoadingIndicator(false);
             }
         }
     }
