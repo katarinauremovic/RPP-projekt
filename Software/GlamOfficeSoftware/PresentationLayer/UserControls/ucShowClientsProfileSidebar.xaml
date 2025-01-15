@@ -42,8 +42,8 @@
                         <TextBlock x:Name="textLastname" Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" Margin="7,0,0,7" />
 
                         <!-- Email -->
-                        <TextBlock Text="E-mail: " Grid.Column="0" Grid.Row="2"  HorizontalAlignment="Right" Margin="0,0,7,7" />
-                        <TextBlock x:Name="textEmail" Grid.Column="1" Grid.Row="2"  HorizontalAlignment="Left" Margin="7,0,0,7" TextAlignment="Left" VerticalAlignment="Center" />
+                        <TextBlock Text="E-mail: " Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" Margin="0,0,7,7" />
+                        <TextBlock x:Name="textEmail" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Margin="7,0,0,7" TextWrapping="Wrap" VerticalAlignment="Center" />
 
                         <!-- Tel. br. -->
                         <TextBlock Text="Phone number: " Grid.Column="0" Grid.Row="3"  HorizontalAlignment="Right" Margin="0,0,7,7" />
