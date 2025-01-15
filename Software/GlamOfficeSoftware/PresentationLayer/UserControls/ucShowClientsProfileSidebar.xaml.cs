@@ -50,5 +50,12 @@ namespace PresentationLayer.UserControls
         {
             Parent.CloseSidebarMenu();
         }
+
+        private void btnEditProfile_Click(object sender, RoutedEventArgs e)
+        {
+            var ucEditClientsProfileSidebar = new ucEditClientsProfileSidebar(_selectedClient);
+            ucEditClientsProfileSidebar.Parent = this;
+            Parent.ccSidebar.Content = ucEditClientsProfileSidebar;
+        }
     }
 }

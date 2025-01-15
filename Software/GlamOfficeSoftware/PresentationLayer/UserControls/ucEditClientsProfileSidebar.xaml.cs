@@ -1,7 +1,9 @@
-﻿using System;
+﻿using EntityLayer.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,59 +22,153 @@ namespace PresentationLayer.UserControls
     /// </summary>
     public partial class ucEditClientsProfileSidebar : UserControl
     {
-        public ucEditClientsProfileSidebar()
+        private ClientDTO _selectedClient { get; set; }
+        public ucShowClientsProfileSidebar Parent { get; set; }
+        public ucEditClientsProfileSidebar(ClientDTO selectedClient)
         {
             InitializeComponent();
-        }
-
-        private void textFirstname_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void txtFirstname_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void textLastname_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void txtLastname_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void textEmail_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void txtEmail_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void textPhoneNumber_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void txtPhoneNumber_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
+            _selectedClient = selectedClient;
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            LoadClientsData();
+        }
 
+        private void LoadClientsData()
+        {
+            textFirstname.Text = _selectedClient.Firstname;
+            textLastname.Text = _selectedClient.Lastname;
+            textEmail.Text = _selectedClient.Email;
+            textPhoneNumber.Text = _selectedClient.PhoneNumber;
+            textRewardPoints.Text = _selectedClient.RewardPointsCount.ToString();
+            textGiftCardDesc.Text = _selectedClient.GiftCardDescription;
+            textReservationDates.Text = _selectedClient.ReservationsDates;
+            textReviewsComments.Text = _selectedClient.ReviewsComments;
+        }
+
+        private void textFirstname_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            txtFirstname.Focus();
+        }
+
+        private void txtFirstname_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var firstName = txtFirstname.Text;
+            var placeholderFirstName = textFirstname;
+
+            if (!string.IsNullOrEmpty(firstName) && firstName.Length >= 0)
+            {
+                placeholderFirstName.Visibility = Visibility.Collapsed;
+            } else
+            {
+                placeholderFirstName.Text = _selectedClient.Firstname;
+                placeholderFirstName.Visibility = Visibility.Visible;
+            }
+
+            if (!IsLettersOnly(firstName))
+            {
+                if (string.IsNullOrEmpty(firstName)) return;
+                txtLastname.Clear();
+                MessageBox.Show("Firstname must contain only letters.");
+                return;
+            }
+        }
+
+        private void textLastname_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            txtLastname.Focus();
+        }
+
+        private void txtLastname_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var lastName = txtLastname.Text;
+            var placeholderLastName = textLastname;
+
+            if (!string.IsNullOrEmpty(lastName) && lastName.Length >= 0)
+            {
+                placeholderLastName.Visibility = Visibility.Collapsed;
+            } else
+            {
+                placeholderLastName.Text = _selectedClient.Lastname;
+                placeholderLastName.Visibility = Visibility.Visible;
+            }
+
+            if (!IsLettersOnly(lastName))
+            {
+                if (string.IsNullOrEmpty(lastName)) return;
+                txtLastname.Clear();
+                MessageBox.Show("Firstname must contain only letters.");
+                return;
+            }
+        }
+
+        private void textEmail_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            txtEmail.Focus();
+        }
+
+        private void txtEmail_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var email = txtEmail.Text;
+            var placeholderEmail = textEmail;
+
+            if (!string.IsNullOrEmpty(email) && email.Length >= 0)
+            {
+                placeholderEmail.Visibility = Visibility.Collapsed;
+            } else
+            {
+                placeholderEmail.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void textPhoneNumber_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            txtPhoneNumber.Focus();
+        }
+
+        private void txtPhoneNumber_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var telephone = txtPhoneNumber.Text;
+            var placeholderTelephone = textPhoneNumber;
+
+            if (!string.IsNullOrEmpty(telephone) && telephone.Length >= 0)
+            {
+                placeholderTelephone.Visibility = Visibility.Collapsed;
+            } else
+            {
+                placeholderTelephone.Text = _selectedClient.PhoneNumber;
+                placeholderTelephone.Visibility = Visibility.Visible;
+            }
+
+            if (!IsValidTelephone(telephone))
+            {
+                if (string.IsNullOrWhiteSpace(telephone)) return;
+                txtPhoneNumber.Clear();
+                MessageBox.Show("Please enter a valid phone number!");
+                return;
+            }
         }
 
         private void btnCloseSidebar_Click(object sender, RoutedEventArgs e)
         {
+            Parent.Parent.CloseSidebarMenu();
+        }
 
+        //Provjere
+        private bool IsLettersOnly(string value)
+        {
+            return !string.IsNullOrEmpty(value) && value.All(c => char.IsLetter(c) || char.IsWhiteSpace(c) || c == '-');
+        }
+
+        private bool IsValidTelephone(string telephone)
+        {
+            return Regex.IsMatch(telephone, @"^[\+0-9\s]+$");
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            Parent.Parent.ccSidebar.Content = Parent;
         }
     }
 }
