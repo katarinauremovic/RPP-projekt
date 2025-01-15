@@ -98,7 +98,7 @@ namespace PresentationLayer.UserControls
             {
                 if (string.IsNullOrEmpty(lastName)) return;
                 txtLastname.Clear();
-                MessageBox.Show("Firstname must contain only letters.");
+                MessageBox.Show("Lastname must contain only letters.");
                 return;
             }
         }
