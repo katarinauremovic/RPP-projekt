@@ -25,14 +25,18 @@
                     </Button.Template>
                 </Button>
 
-                <!-- Child informations -->
-                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" Width="200" VerticalAlignment="Center">
+                <!-- klijentove info -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" VerticalAlignment="Center" Margin="5,5,5,0">
                     <Grid >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="auto" />
@@ -44,36 +48,46 @@
                         </Grid.RowDefinitions>
 
                         <!-- Ime -->
-                        <TextBlock Text="Firstname: " Grid.Column="0" Grid.Row="0"  HorizontalAlignment="Right" Margin="0,0,7,7" />
-                        <TextBlock x:Name="textFirstname" Grid.Column="1" Grid.Row="0"  HorizontalAlignment="Left" Margin="7,0,0,7" />
+                        <StackPanel Background="#f0dcdc" >
+                            <TextBlock Text="Firstname: " Grid.Row="0"  HorizontalAlignment="Left" Margin="20,7,0,7" />
+                            <TextBlock x:Name="textFirstname" Grid.Row="1"  HorizontalAlignment="Left" Margin="20,0,0,7" />
+                        </StackPanel>
+                        
 
                         <!-- Prezime -->
-                        <TextBlock Text="Lastname: " Grid.Column="0" Grid.Row="1"  HorizontalAlignment="Right" Margin="0,0,7,7" />
-                        <TextBlock x:Name="textLastname" Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" Margin="7,0,0,7" />
+                        <TextBlock Text="Lastname: "  Grid.Row="2"  HorizontalAlignment="Left" Margin="20,7,0,7" />
+                        <TextBlock x:Name="textLastname"  Grid.Row="3"  HorizontalAlignment="Left" Margin="20,0,0,7" />
 
                         <!-- Email -->
-                        <TextBlock Text="E-mail: " Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" Margin="0,0,7,7" />
-                        <TextBlock x:Name="textEmail" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Margin="7,0,0,7" TextWrapping="Wrap" VerticalAlignment="Center" />
+                        <StackPanel Grid.Row="4" Background="#f0dcdc">
+                            <TextBlock Text="E-mail: "  Grid.Row="4" HorizontalAlignment="Left" Margin="20,7,0,7" />
+                            <TextBlock x:Name="textEmail"  Grid.Row="5" HorizontalAlignment="Left" Margin="20,0,0,7" TextWrapping="Wrap" VerticalAlignment="Center" />
+                        </StackPanel>
+                        
 
                         <!-- Tel. br. -->
-                        <TextBlock Text="Phone number: " Grid.Column="0" Grid.Row="3"  HorizontalAlignment="Right" Margin="0,0,7,7" />
-                        <TextBlock x:Name="textPhoneNumber" Grid.Column="1" Grid.Row="3"  HorizontalAlignment="Left" Margin="7,0,0,7" />
+                        <TextBlock Text="Phone number: "  Grid.Row="6"  HorizontalAlignment="Left" Margin="20,7,0,7" />
+                        <TextBlock x:Name="textPhoneNumber"  Grid.Row="7"  HorizontalAlignment="Left" Margin="20,0,0,7" />
 
                         <!-- Reward points -->
-                        <TextBlock Text="Reward points: " Grid.Column="0" Grid.Row="4"  HorizontalAlignment="Right" Margin="0,0,7,7" />
-                        <TextBlock x:Name="textRewardPoints" Grid.Column="1" Grid.Row="4"  HorizontalAlignment="Left" Margin="7,0,0,7" />
+                        <StackPanel Grid.Row="8" Background="#f0dcdc" Orientation="Horizontal">
+                            <TextBlock Text="Reward points: "  Grid.Row="8"  HorizontalAlignment="Left" Margin="20,7,0,7" />
+                            <TextBlock x:Name="textRewardPoints"  Grid.Row="8"  HorizontalAlignment="Center" Margin="7,7,0,7" />
+                        </StackPanel>
 
                         <!-- Gift card -->
-                        <TextBlock Text="Gift card: " Grid.Column="0" Grid.Row="5"  HorizontalAlignment="Right" Margin="0,0,7,7" />
-                        <TextBlock x:Name="textGiftCardDesc" Grid.Column="1" Grid.Row="5"  HorizontalAlignment="Left" Margin="7,0,0,7" TextWrapping="Wrap" VerticalAlignment="Center" />
+                        <TextBlock Text="Gift card: "  Grid.Row="10"  HorizontalAlignment="Left" Margin="20,7,0,7" />
+                        <TextBlock x:Name="textGiftCardDesc"  Grid.Row="11"  HorizontalAlignment="Left" Margin="20,0,0,7" TextWrapping="Wrap" VerticalAlignment="Center" />
 
                         <!-- Reservation -->
-                        <TextBlock Text="Reservations: " Grid.Column="0" Grid.Row="6"  HorizontalAlignment="Right" Margin="0,0,7,7" />
-                        <TextBlock x:Name="textReservationDates" Grid.Column="1" Grid.Row="6"  HorizontalAlignment="Left" Margin="7,0,0,7" TextWrapping="Wrap" VerticalAlignment="Center" />
+                        <StackPanel  Grid.Row="12" Background="#f0dcdc">
+                            <TextBlock Text="Reservations: "  Grid.Row="12"  HorizontalAlignment="Left" Margin="20,7,0,7" />
+                            <TextBlock x:Name="textReservationDates"  Grid.Row="13"  HorizontalAlignment="Left" Margin="20,0,0,7" TextWrapping="Wrap" VerticalAlignment="Center" />
+                        </StackPanel>
 
                         <!-- Reviews -->
-                        <TextBlock Text="Reviews: " Grid.Column="0" Grid.Row="7"  HorizontalAlignment="Right" Margin="0,0,7,7" />
-                        <TextBlock x:Name="textReviewsComments" Grid.Column="1" Grid.Row="7"  HorizontalAlignment="Left" TextAlignment="Left" Margin="7,0,0,7" TextWrapping="Wrap" VerticalAlignment="Center" />
+                        <TextBlock Text="Reviews: "  Grid.Row="14"  HorizontalAlignment="Left" Margin="20,7,7,7" />
+                        <TextBlock x:Name="textReviewsComments"  Grid.Row="15"  HorizontalAlignment="Left" TextAlignment="Left" Margin="20,0,0,7" TextWrapping="Wrap" VerticalAlignment="Center" />
                     </Grid>
                 </ScrollViewer>
 
@@ -83,9 +97,9 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                    <StackPanel Orientation="Vertical" Grid.Row="0">
+                    <StackPanel Orientation="Vertical" Grid.Row="0" Margin="0,15,0,15">
                         <Button x:Name="btnEditProfile" FontWeight="SemiBold" Height="40" Content="Edit" Style="{StaticResource classicButton}" Background="#f5f5f5" Foreground="Black" Margin="15,0,15,7" />
-                        <Button x:Name="btnDeleteProfile" FontWeight="SemiBold" Height="40" Content="Delete" Style="{StaticResource deleteButton}" Background="#d02c2c" Margin="15,0,15,15" />
+                        <Button x:Name="btnDeleteProfile" FontWeight="SemiBold" Height="40" Content="Delete" Style="{StaticResource deleteButton}" Background="#d02c2c" Margin="15,0,15,0" />
                     </StackPanel>
                 </Grid>
             </Grid>

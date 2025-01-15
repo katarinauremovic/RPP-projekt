@@ -36,8 +36,12 @@ namespace BusinessLogicLayer.Services
                     PhoneNumber = c.PhoneNumber,
                     RewardPointsCount = c.RewardPoints.Count,
                     GiftCardDescription = c.GiftCard?.Description ?? "No GiftCard",
-                    ReservationsDates = string.Join(", ", c.Reservations.Select(r => r.Date.ToString().Split(' ')[0])),
-                    ReviewsComments = string.Join(", ", c.Reviews.Select(r => r.Comment))
+                    ReservationsDates = c.Reservations.Any() 
+                        ? string.Join(", ", c.Reservations.Select(r => r.Date.ToString().Split(' ')[0]))
+                        : "No reservations",
+                    ReviewsComments = c.Reviews.Any()
+                        ? string.Join(", ", c.Reviews.Select(r => r.Comment))
+                        : "No reviews"
                 }).ToList();
 
                 return clientsDTO;
