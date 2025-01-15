@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTOs\ClientDTO.cs" />
     <Compile Include="Entities\Client.cs" />
     <Compile Include="Entities\DailySchedule.cs" />
     <Compile Include="Entities\Day.cs" />
@@ -60,8 +61,6 @@
     <Compile Include="Entities\WorkPosition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DTOs\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

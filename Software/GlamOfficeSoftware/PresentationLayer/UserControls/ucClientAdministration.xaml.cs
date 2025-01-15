@@ -103,7 +103,7 @@ namespace PresentationLayer.UserControls
         {
             try
             {
-                var clients = await _clientService.GetAllClientsAsync();
+                var clients = await _clientService.GetAllClientsDTOAsync();
                 dgvClients.ItemsSource = clients;
             } catch (Exception ex)
             {

@@ -1,6 +1,7 @@
 ﻿using BusinessLogicLayer.Interfaces;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
+using EntityLayer.DTOs;
 using EntityLayer.Entities;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,28 @@ namespace BusinessLogicLayer.Services
             using (var repo = new ClientRepository())
             {
                 return await repo.GetAllAsync();
+            }
+        }
+
+        public async Task<IEnumerable<ClientDTO>> GetAllClientsDTOAsync()
+        {
+            using (var repo = new ClientRepository())
+            {
+                var clients = await repo.GetAllAsync();
+
+                var clientsDTO = clients.Select(c => new ClientDTO
+                {
+                    Firstname = c.Firstname,
+                    Lastname = c.Lastname,
+                    Email = c.Email,
+                    PhoneNumber = c.PhoneNumber,
+                    RewardPointsCount = c.RewardPoints.Count,
+                    GiftCardDescription = c.GiftCard?.Description ?? "No GiftCard",
+                    ReservationsDates = string.Join(", ", c.Reservations.Select(r => r.Date.ToString().Split(' ')[0])),
+                    ReviewsComments = string.Join(", ", c.Reviews.Select(r => r.Comment))
+                }).ToList();
+
+                return clientsDTO;
             }
         }
 

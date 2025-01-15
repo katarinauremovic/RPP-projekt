@@ -1,4 +1,5 @@
-﻿using EntityLayer.Entities;
+﻿using EntityLayer.DTOs;
+using EntityLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace BusinessLogicLayer.Interfaces
     public interface IClientService
     {
         Task<IEnumerable<Client>> GetAllClientsAsync();
+        Task<IEnumerable<ClientDTO>> GetAllClientsDTOAsync();
         Task<Client> GetByEmailAsync(string email);
         Task<IEnumerable<Client>> GetWithActiveGiftCardsAsync();
         Task<IEnumerable<Client>> GetWithDetailsAsync();

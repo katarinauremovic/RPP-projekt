@@ -4,12 +4,23 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories
 {
     public class ClientRepository : Repository<Client>, IClientRepository
     {
+        // Dohvaca sve klijente s joinanim podacima
+        public async override Task<IEnumerable<Client>> GetAllAsync()
+        {
+            return await items.Include(c => c.RewardPoints)
+                .Include(c => c.GiftCard)
+                .Include(c => c.Reservations)
+                .Include(c => c.Reviews)
+                .ToListAsync();
+        }
+
         // Dohvati klijenta prema email adresi
         public async Task<Client> GetByEmailAsync(string email)
         {
