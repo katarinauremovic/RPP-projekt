@@ -29,6 +29,7 @@ namespace BusinessLogicLayer.Services
 
                 var clientsDTO = clients.Select(c => new ClientDTO
                 {
+                    Id = c.idClient,
                     Firstname = c.Firstname,
                     Lastname = c.Lastname,
                     Email = c.Email,
