@@ -38,7 +38,8 @@ namespace DataAccessLayer.Repositories
 
         public virtual async Task RemoveAsync(T item)
         {
-            items.Remove(item);
+            var attachedItem = items.Attach(item);
+            items.Remove(attachedItem);
             await SaveChangesAsync();
         }
 

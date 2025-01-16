@@ -56,7 +56,7 @@ namespace BusinessLogicLayer.Services
             {
                 try
                 {
-                    var client = await ConvertClientDtoToClient(clientDTO);
+                    var client = await UpdateClientFromClientDTO(clientDTO);
 
                     await repo.UpdateClientAsync(client);
                 } catch (ClientNotFoundException ex)
@@ -77,14 +77,21 @@ namespace BusinessLogicLayer.Services
                 {
                     throw new ClientNotFoundException($"Client with ID {clientDTO.Id} does not exist.");
                 }
-                
-                client.Firstname = clientDTO.Firstname;
-                client.Lastname = clientDTO.Lastname;
-                client.Email = clientDTO.Email;
-                client.PhoneNumber = clientDTO.PhoneNumber;
 
                 return client;
             }
+        }
+
+        private async Task<Client> UpdateClientFromClientDTO(ClientDTO clientDTO)
+        {
+            var client = await ConvertClientDtoToClient(clientDTO);
+
+            client.Firstname = clientDTO.Firstname;
+            client.Lastname = clientDTO.Lastname;
+            client.Email = clientDTO.Email;
+            client.PhoneNumber = clientDTO.PhoneNumber;
+
+            return client;
         }
 
         public async Task AddNewClient(Client client)
@@ -92,6 +99,16 @@ namespace BusinessLogicLayer.Services
             using (var repo = new ClientRepository())
             {
                 await repo.AddAsync(client);
+            }
+        }
+
+        public async Task RemoveClient(ClientDTO clientDTO)
+        {
+            using (var repo = new ClientRepository())
+            {
+                var client = await ConvertClientDtoToClient(clientDTO);
+
+                await repo.RemoveAsync(client);
             }
         }
 

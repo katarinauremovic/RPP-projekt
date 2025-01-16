@@ -248,7 +248,7 @@ namespace PresentationLayer.UserControls
             }
         }
 
-        private ClientDTO GetClientFromDataGrid()
+        public ClientDTO GetClientFromDataGrid()
         {
             var client = dgvClients.SelectedItem as ClientDTO;
             return client;

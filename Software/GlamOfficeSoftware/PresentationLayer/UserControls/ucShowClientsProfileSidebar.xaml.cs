@@ -1,4 +1,6 @@
-﻿using EntityLayer.DTOs;
+﻿using BusinessLogicLayer.Interfaces;
+using BusinessLogicLayer.Services;
+using EntityLayer.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,10 +25,13 @@ namespace PresentationLayer.UserControls
     {
         private ClientDTO _selectedClient { get; set; }
         public ucClientAdministration Parent { get; set; }
+
+        private IClientService _clientService;
         public ucShowClientsProfileSidebar(ClientDTO selectedClient)
         {
             InitializeComponent();
             _selectedClient = selectedClient;
+            _clientService = new ClientService();
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -56,6 +61,26 @@ namespace PresentationLayer.UserControls
             var ucEditClientsProfileSidebar = new ucEditClientsProfileSidebar(_selectedClient);
             ucEditClientsProfileSidebar.Parent = this;
             Parent.ccSidebar.Content = ucEditClientsProfileSidebar;
+        }
+
+        private async void btnDeleteProfile_Click(object sender, RoutedEventArgs e)
+        {
+            var client = Parent.GetClientFromDataGrid();
+            ClientDTO firstSelectedClient = null;
+            
+            if (client != null)
+            {
+                await _clientService.RemoveClient(client);
+                Parent.RefreshGui();
+
+                firstSelectedClient = Parent.dgvClients.Items.Count > 0 ? Parent.dgvClients.Items[0] as ClientDTO : null;
+                if (firstSelectedClient != null)
+                {
+                    Parent.dgvClients.SelectedItem = firstSelectedClient;
+                }
+            }
+
+            Parent.SwitchClient(firstSelectedClient);
         }
     }
 }
