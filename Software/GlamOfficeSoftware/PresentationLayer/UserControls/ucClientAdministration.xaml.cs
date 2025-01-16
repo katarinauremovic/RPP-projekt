@@ -20,6 +20,7 @@ using System.ComponentModel;
 using System.Windows.Media.Animation;
 using EntityLayer.DTOs;
 using BusinessLogicLayer.Exceptions;
+using System.Runtime.CompilerServices;
 
 namespace PresentationLayer.UserControls
 {
@@ -279,7 +280,7 @@ namespace PresentationLayer.UserControls
         public ClientDTO GetClientFromDataGrid()
         {
             var client = dgvClients.SelectedItem as ClientDTO;
-            if (client == null)
+            if (client == null && ccSidebar.Content == null)
             {
                 throw new DataGridNoSelectionException("No client selected in the DataGrid.");
             }
@@ -302,9 +303,6 @@ namespace PresentationLayer.UserControls
                     {
                         MessageBox.Show(ex.Message);
                     }
-                } else
-                {
-                    MessageBox.Show("Please select client");
                 }
             } catch (ApplicationException ex)
             {

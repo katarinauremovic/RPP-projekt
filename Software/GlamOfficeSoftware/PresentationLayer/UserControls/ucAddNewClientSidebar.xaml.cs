@@ -135,6 +135,27 @@ namespace PresentationLayer.UserControls
 
         private async void btnAdd_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(txtFirstname.Text) ||
+                string.IsNullOrWhiteSpace(txtLastname.Text) ||
+                string.IsNullOrWhiteSpace(txtEmail.Text) ||
+                string.IsNullOrWhiteSpace(txtPhoneNumber.Text))
+                {
+                    MessageBox.Show("All fields are required!");
+                    return;
+                }   
+
+            if (!IsLettersOnly(txtFirstname.Text) || !IsLettersOnly(txtLastname.Text))
+            {
+                MessageBox.Show("First and lastname must contain only letters.");
+                return;
+            }
+
+            if (!IsValidTelephone(txtPhoneNumber.Text))
+            {
+                MessageBox.Show("Invalid phone number format.");
+                return;
+            }
+
             var client = new Client
             {
                 Firstname = txtFirstname.Text,
