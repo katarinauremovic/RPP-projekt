@@ -96,7 +96,6 @@ namespace PresentationLayer.UserControls
             {
                 placeholderSearch.Visibility = Visibility.Visible;
                 await LoadClientsAsync();
-                //HideColumns();
             }
         }
 
