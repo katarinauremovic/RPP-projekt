@@ -159,7 +159,7 @@ namespace PresentationLayer.UserControls
         private void btnCloseSidebar_Click(object sender, RoutedEventArgs e)
         {
             var ucClientAdministration = Parent.Parent;
-            ucClientAdministration.CloseSidebarMenu();
+            ucClientAdministration.CloseSidebar();
         }
 
         private async void btnSave_Click(object sender, RoutedEventArgs e)

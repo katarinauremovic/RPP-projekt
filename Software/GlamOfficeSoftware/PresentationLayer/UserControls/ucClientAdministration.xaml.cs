@@ -28,6 +28,7 @@ namespace PresentationLayer.UserControls
     public partial class ucClientAdministration : UserControl
     {
         private IClientService _clientService;
+        public MainWindow Parent { get; set; }
 
         public ucClientAdministration()
         {
@@ -38,7 +39,7 @@ namespace PresentationLayer.UserControls
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             LoadFilters();
-            await Task.Delay(1);
+            //await Task.Delay(1);
             ShowLoadingIndicator(true);
             await LoadClientsAsync();
             ShowLoadingIndicator(false);
@@ -58,6 +59,7 @@ namespace PresentationLayer.UserControls
         private void btnDropdown_Click(object sender, RoutedEventArgs e)
         {
             cmbFilters.IsDropDownOpen = true;
+            CloseSidebarMenu();
         }
 
         private void cmbFilters_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -78,6 +80,7 @@ namespace PresentationLayer.UserControls
         private void textSearch_MouseDown(object sender, MouseButtonEventArgs e)
         {
             txtSearch.Focus();
+            CloseSidebarMenu();
         }
 
         private async void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
@@ -110,7 +113,7 @@ namespace PresentationLayer.UserControls
         {
             try
             {
-                var clients = await _clientService.GetAllClientsDTOAsync();
+                var clients = await Task.Run(() => _clientService.GetAllClientsDTOAsync());
                 dgvClients.ItemsSource = clients;
             } catch (Exception ex)
             {
@@ -175,11 +178,13 @@ namespace PresentationLayer.UserControls
         {
             var client = GetClientFromDataGrid();
             SwitchClient(client);
-            ShowSidebarMenu();
+            ShowSidebar();
         }
 
         private void dgvClients_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            CloseSidebarMenu();
+
             var sidebarMenu = (FrameworkElement)ccSidebar.Content;
 
             if (sidebarMenu != null)
@@ -200,11 +205,11 @@ namespace PresentationLayer.UserControls
             var ucAddNewClientSidebar = new ucAddNewClientSidebar();
             ucAddNewClientSidebar.Parent = this;
             ccSidebar.Content = ucAddNewClientSidebar;
-            ShowSidebarMenu();
+            ShowSidebar();
 
         }
 
-        public async void CloseSidebarMenu()
+        public async void CloseSidebar()
         {
             var slideOutAnimation = FindResource("SlideOutAnimation") as Storyboard;
             var sidebarMenu = (FrameworkElement)ccSidebar.Content;
@@ -225,7 +230,7 @@ namespace PresentationLayer.UserControls
             ccSidebar.Content = null;
         }
 
-        private void ShowSidebarMenu()
+        private void ShowSidebar()
         {
             var slideInAnimation = FindResource("SlideInAnimation") as Storyboard;
             var sidebarMenu = (FrameworkElement)ccSidebar.Content;
@@ -246,6 +251,11 @@ namespace PresentationLayer.UserControls
 
                 sidebarMenu.BeginAnimation(MarginProperty, marginAnimation);
             }
+        }
+
+        private void CloseSidebarMenu()
+        {
+            Parent.CloseSidebarMenu();
         }
 
         public ClientDTO GetClientFromDataGrid()

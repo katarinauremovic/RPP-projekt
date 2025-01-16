@@ -158,12 +158,12 @@ namespace PresentationLayer.UserControls
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            Parent.CloseSidebarMenu();
+            Parent.CloseSidebar();
         }
 
         private void btnCloseSidebar_Click(object sender, RoutedEventArgs e)
         {
-            Parent.CloseSidebarMenu();
+            Parent.CloseSidebar();
         }
 
         //Provjere

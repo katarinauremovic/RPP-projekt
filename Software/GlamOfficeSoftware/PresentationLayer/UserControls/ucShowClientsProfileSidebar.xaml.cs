@@ -53,7 +53,7 @@ namespace PresentationLayer.UserControls
 
         private void btnCloseSidebar_Click(object sender, RoutedEventArgs e)
         {
-            Parent.CloseSidebarMenu();
+            Parent.CloseSidebar();
         }
 
         private void btnEditProfile_Click(object sender, RoutedEventArgs e)
