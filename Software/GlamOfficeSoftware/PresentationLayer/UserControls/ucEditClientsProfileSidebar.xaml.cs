@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.Interfaces;
+﻿using BusinessLogicLayer.Exceptions;
+using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
 using EntityLayer.DTOs;
 using System;
@@ -163,38 +164,59 @@ namespace PresentationLayer.UserControls
 
         private async void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            var firstname = string.IsNullOrWhiteSpace(txtFirstname.Text) ? _selectedClient.Firstname : txtFirstname.Text;
-            var lastname = string.IsNullOrWhiteSpace(txtLastname.Text) ? _selectedClient.Lastname : txtLastname.Text;
-            var email = string.IsNullOrWhiteSpace(txtEmail.Text) ? _selectedClient.Email : txtEmail.Text;
-            var phoneNumber = string.IsNullOrWhiteSpace(txtPhoneNumber.Text) ? _selectedClient.PhoneNumber : txtPhoneNumber.Text;
-
-            var clientDTO = new ClientDTO
+            try
             {
-                Id = _selectedClient.Id,
-                Firstname = firstname,
-                Lastname = lastname,
-                Email = email,
-                PhoneNumber = phoneNumber,
-                RewardPointsCount = _selectedClient.RewardPointsCount,
-                GiftCardDescription = _selectedClient.GiftCardDescription,
-                ReservationsDates = _selectedClient.ReservationsDates,
-                ReviewsComments = _selectedClient.ReviewsComments
-            };
+                var firstname = string.IsNullOrWhiteSpace(txtFirstname.Text) ? _selectedClient.Firstname : txtFirstname.Text;
+                var lastname = string.IsNullOrWhiteSpace(txtLastname.Text) ? _selectedClient.Lastname : txtLastname.Text;
+                var email = string.IsNullOrWhiteSpace(txtEmail.Text) ? _selectedClient.Email : txtEmail.Text;
+                var phoneNumber = string.IsNullOrWhiteSpace(txtPhoneNumber.Text) ? _selectedClient.PhoneNumber : txtPhoneNumber.Text;
 
-            await _clientService.UpdateClientAsync(clientDTO);
-            
-            LoadNewClientsProfile(clientDTO);          
+                var clientDTO = new ClientDTO
+                {
+                    Id = _selectedClient.Id,
+                    Firstname = firstname,
+                    Lastname = lastname,
+                    Email = email,
+                    PhoneNumber = phoneNumber,
+                    RewardPointsCount = _selectedClient.RewardPointsCount,
+                    GiftCardDescription = _selectedClient.GiftCardDescription,
+                    ReservationsDates = _selectedClient.ReservationsDates,
+                    ReviewsComments = _selectedClient.ReviewsComments
+                };
+
+                await _clientService.UpdateClientAsync(clientDTO);
+                LoadNewClientsProfile(clientDTO);
+            } catch (ClientNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message, "Client Not Found", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
-        private async void LoadNewClientsProfile(ClientDTO clientDTO)
+        private void LoadNewClientsProfile(ClientDTO clientDTO)
         {
             var ucClientAdministration = Parent.Parent;
-            await ucClientAdministration.RefreshGui();
+            ucClientAdministration.RefreshGui();
 
-            var ucShowClientsProfileSidebar = new ucShowClientsProfileSidebar(clientDTO);
-            ucClientAdministration.ccSidebar.Content = ucShowClientsProfileSidebar;
-            ucShowClientsProfileSidebar.Parent = ucClientAdministration;
+            ucClientAdministration.dgvClients.Dispatcher.InvokeAsync(async () =>
+            {
+                await Task.Delay(50);
+
+                var clients = ucClientAdministration.dgvClients.ItemsSource as IEnumerable<ClientDTO>;
+                if (clients != null)
+                {
+                    var selectedClient = clients.FirstOrDefault(c => c.Id == clientDTO.Id);
+                    if (selectedClient != null)
+                    {
+                        ucClientAdministration.dgvClients.SelectedItem = selectedClient;
+                        ucClientAdministration.dgvClients.ScrollIntoView(selectedClient);
+                    }
+                }
+            });
+
+            //osigurač
+            ucClientAdministration.SwitchClient(clientDTO);
         }
+
 
         //Provjere
         private bool IsLettersOnly(string value)

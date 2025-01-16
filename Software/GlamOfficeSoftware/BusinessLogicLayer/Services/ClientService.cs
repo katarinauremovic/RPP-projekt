@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.Interfaces;
+﻿using BusinessLogicLayer.Exceptions;
+using BusinessLogicLayer.Interfaces;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
 using EntityLayer.DTOs;
@@ -52,9 +53,16 @@ namespace BusinessLogicLayer.Services
         {
             using (var repo = new ClientRepository())
             {
-                var client = await ConvertClientDtoToClient(clientDTO);
+                try
+                {
+                    var client = await ConvertClientDtoToClient(clientDTO);
 
-                await repo.UpdateClientAsync(client);
+                    await repo.UpdateClientAsync(client);
+                } catch (ClientNotFoundException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    throw;
+                }
             }
         }
 
@@ -62,9 +70,12 @@ namespace BusinessLogicLayer.Services
         {
             using (var repo = new ClientRepository())
             {
-                Console.WriteLine(clientDTO.Id);
-
                 var client = await repo.GetByIdAsync(clientDTO.Id);
+
+                if(client == null)
+                {
+                    throw new ClientNotFoundException($"Client with ID {clientDTO.Id} does not exist.");
+                }
                 
                 client.Firstname = clientDTO.Firstname;
                 client.Lastname = clientDTO.Lastname;

@@ -97,9 +97,13 @@ namespace PresentationLayer.UserControls
             }
         }
 
-        public async Task RefreshGui()
+        public async void RefreshGui()
         {
             await LoadClientsAsync();
+            await Task.Delay(1);
+            txtSearch.Clear();
+            cmbFilters.SelectedIndex = 0;
+            cmbFilters.IsDropDownOpen = false;
         }
 
         private async Task LoadClientsAsync()
@@ -169,7 +173,8 @@ namespace PresentationLayer.UserControls
 
         private void btnShowClientsProfile_Click(object sender, RoutedEventArgs e)
         {
-            SwitchClient();
+            var client = GetClientFromDataGrid();
+            SwitchClient(client);
             ShowSidebarMenu();
         }
 
@@ -223,17 +228,28 @@ namespace PresentationLayer.UserControls
 
             if(sidebarMenu != null)
             {
-                SwitchClient();
+                var client = GetClientFromDataGrid();
+                
+                if (client == null)
+                {
+                    return;
+                }
+
+                SwitchClient(client);
             }
         }
 
-        private void SwitchClient()
+        private ClientDTO GetClientFromDataGrid()
+        {
+            var client = dgvClients.SelectedItem as ClientDTO;
+            return client;
+        }
+
+        public void SwitchClient(ClientDTO client)
         {
             try
             {
-                var client = dgvClients.SelectedItem as ClientDTO;
-
-                if (dgvClients.SelectedItem != null)
+                if (client != null)
                 {
                     try
                     {
