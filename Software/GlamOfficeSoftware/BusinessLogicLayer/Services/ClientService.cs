@@ -48,6 +48,33 @@ namespace BusinessLogicLayer.Services
             }
         }
 
+        public async Task UpdateClientAsync(ClientDTO clientDTO)
+        {
+            using (var repo = new ClientRepository())
+            {
+                var client = await ConvertClientDtoToClient(clientDTO);
+
+                await repo.UpdateClientAsync(client);
+            }
+        }
+
+        private async Task<Client> ConvertClientDtoToClient(ClientDTO clientDTO)
+        {
+            using (var repo = new ClientRepository())
+            {
+                Console.WriteLine(clientDTO.Id);
+
+                var client = await repo.GetByIdAsync(clientDTO.Id);
+                
+                client.Firstname = clientDTO.Firstname;
+                client.Lastname = clientDTO.Lastname;
+                client.Email = clientDTO.Email;
+                client.PhoneNumber = clientDTO.PhoneNumber;
+
+                return client;
+            }
+        }
+
         public async Task<Client> GetByEmailAsync(string email)
         {
             using (var repo = new ClientRepository())

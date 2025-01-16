@@ -128,7 +128,7 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <StackPanel Orientation="Vertical" Grid.Row="0" Margin="0,15,0,15">
-                        <Button x:Name="btnSave" FontWeight="SemiBold" Height="40" Content="Save" Style="{StaticResource classicButton}" Background="#f5f5f5" Foreground="Black" Margin="15,0,15,7" />
+                        <Button x:Name="btnSave" Click="btnSave_Click" FontWeight="SemiBold" Height="40" Content="Save" Style="{StaticResource classicButton}" Background="#f5f5f5" Foreground="Black" Margin="15,0,15,7" />
                         <Button x:Name="btnCancel" Click="btnCancel_Click" FontWeight="SemiBold" Height="40" Content="Cancel" Style="{StaticResource deleteButton}" Background="#d02c2c" Margin="15,0,15,0" />
                     </StackPanel>
                 </Grid>

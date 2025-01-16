@@ -21,6 +21,22 @@ namespace DataAccessLayer.Repositories
                 .ToListAsync();
         }
 
+        // Azurira klijenta
+        public async Task UpdateClientAsync(Client client)
+        {
+            var clientDb = await items.FirstOrDefaultAsync(c => c.idClient == client.idClient);
+
+            if (clientDb != null)
+            {
+                clientDb.Firstname = client.Firstname;
+                clientDb.Lastname = client.Lastname;
+                clientDb.Email = client.Email;
+                clientDb.PhoneNumber = client.PhoneNumber;
+
+                await SaveChangesAsync();
+            }
+        }
+
         // Dohvati klijenta prema email adresi
         public async Task<Client> GetByEmailAsync(string email)
         {

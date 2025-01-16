@@ -1,4 +1,6 @@
-﻿using EntityLayer.DTOs;
+﻿using BusinessLogicLayer.Interfaces;
+using BusinessLogicLayer.Services;
+using EntityLayer.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,10 +26,13 @@ namespace PresentationLayer.UserControls
     {
         private ClientDTO _selectedClient { get; set; }
         public ucShowClientsProfileSidebar Parent { get; set; }
+
+        private IClientService _clientService;
         public ucEditClientsProfileSidebar(ClientDTO selectedClient)
         {
             InitializeComponent();
             _selectedClient = selectedClient;
+            _clientService = new ClientService();
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -154,6 +159,41 @@ namespace PresentationLayer.UserControls
         {
             var ucClientAdministration = Parent.Parent;
             ucClientAdministration.CloseSidebarMenu();
+        }
+
+        private async void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            var firstname = string.IsNullOrWhiteSpace(txtFirstname.Text) ? _selectedClient.Firstname : txtFirstname.Text;
+            var lastname = string.IsNullOrWhiteSpace(txtLastname.Text) ? _selectedClient.Lastname : txtLastname.Text;
+            var email = string.IsNullOrWhiteSpace(txtEmail.Text) ? _selectedClient.Email : txtEmail.Text;
+            var phoneNumber = string.IsNullOrWhiteSpace(txtPhoneNumber.Text) ? _selectedClient.PhoneNumber : txtPhoneNumber.Text;
+
+            var clientDTO = new ClientDTO
+            {
+                Id = _selectedClient.Id,
+                Firstname = firstname,
+                Lastname = lastname,
+                Email = email,
+                PhoneNumber = phoneNumber,
+                RewardPointsCount = _selectedClient.RewardPointsCount,
+                GiftCardDescription = _selectedClient.GiftCardDescription,
+                ReservationsDates = _selectedClient.ReservationsDates,
+                ReviewsComments = _selectedClient.ReviewsComments
+            };
+
+            await _clientService.UpdateClientAsync(clientDTO);
+            
+            LoadNewClientsProfile(clientDTO);          
+        }
+
+        private async void LoadNewClientsProfile(ClientDTO clientDTO)
+        {
+            var ucClientAdministration = Parent.Parent;
+            await ucClientAdministration.RefreshGui();
+
+            var ucShowClientsProfileSidebar = new ucShowClientsProfileSidebar(clientDTO);
+            ucClientAdministration.ccSidebar.Content = ucShowClientsProfileSidebar;
+            ucShowClientsProfileSidebar.Parent = ucClientAdministration;
         }
 
         //Provjere

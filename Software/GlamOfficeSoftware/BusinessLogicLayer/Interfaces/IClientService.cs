@@ -12,6 +12,7 @@ namespace BusinessLogicLayer.Interfaces
     {
         Task<IEnumerable<Client>> GetAllClientsAsync();
         Task<IEnumerable<ClientDTO>> GetAllClientsDTOAsync();
+        Task UpdateClientAsync(ClientDTO client);
         Task<Client> GetByEmailAsync(string email);
         Task<IEnumerable<Client>> GetWithActiveGiftCardsAsync();
         Task<IEnumerable<Client>> GetWithDetailsAsync();

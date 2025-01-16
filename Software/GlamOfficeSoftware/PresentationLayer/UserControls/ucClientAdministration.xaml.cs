@@ -29,10 +29,6 @@ namespace PresentationLayer.UserControls
     {
         private IClientService _clientService;
 
-        public ObservableCollection<Client> Clients { get; set; } = new ObservableCollection<Client>();
-
-        public bool IsLoading { get; set; }
-
         public ucClientAdministration()
         {
             InitializeComponent();
@@ -99,6 +95,11 @@ namespace PresentationLayer.UserControls
                 await LoadClientsAsync();
                 //HideColumns();
             }
+        }
+
+        public async Task RefreshGui()
+        {
+            await LoadClientsAsync();
         }
 
         private async Task LoadClientsAsync()

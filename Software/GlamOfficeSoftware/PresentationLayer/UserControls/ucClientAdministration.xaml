@@ -84,7 +84,7 @@
             <Grid Margin="0,0,-210,0">
                 <!-- DataGrid za prikaz klijenata -->
                 <DataGrid x:Name="dgvClients" Visibility="Collapsed" SelectionChanged="dgvClients_SelectionChanged" AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <!-- Definirane kolone za prikaz klijenata -->
+                    <!-- Stupci za prikaz klijenata -->
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Firstname" Binding="{Binding Firstname}" Width="auto" />
                         <DataGridTextColumn Header="Lastname" Binding="{Binding Lastname}" Width="auto" />
