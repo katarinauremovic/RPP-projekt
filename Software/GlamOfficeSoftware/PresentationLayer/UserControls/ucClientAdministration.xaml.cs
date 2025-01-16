@@ -19,6 +19,7 @@ using EntityLayer.Entities;
 using System.ComponentModel;
 using System.Windows.Media.Animation;
 using EntityLayer.DTOs;
+using BusinessLogicLayer.Exceptions;
 
 namespace PresentationLayer.UserControls
 {
@@ -114,9 +115,9 @@ namespace PresentationLayer.UserControls
             {
                 var clients = await Task.Run(() => _clientService.GetAllClientsDTOAsync());
                 dgvClients.ItemsSource = clients;
-            } catch (Exception ex)
+            } catch (ClientOperationException ex)
             {
-                MessageBox.Show($"Failed to load clients: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                throw new ClientOperationException("Failed to load clients.", ex);
             }
         }
 
@@ -175,9 +176,21 @@ namespace PresentationLayer.UserControls
 
         private void btnShowClientsProfile_Click(object sender, RoutedEventArgs e)
         {
-            var client = GetClientFromDataGrid();
-            SwitchClient(client);
-            ShowSidebar();
+            try
+            {
+                var client = GetClientFromDataGrid();
+                SwitchClient(client);
+                ShowSidebar();
+            } catch (DataGridNoSelectionException ex)
+            {
+                MessageBox.Show(ex.Message, "Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            } catch (ClientOperationException ex)
+            {
+                MessageBox.Show(ex.Message, "Client Operation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            } catch (Exception ex)
+            {
+                MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void dgvClients_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -188,14 +201,20 @@ namespace PresentationLayer.UserControls
 
             if (sidebarMenu != null)
             {
-                var client = GetClientFromDataGrid();
-
-                if (client == null)
+                try
                 {
-                    return;
+                    var client = GetClientFromDataGrid();
+                    SwitchClient(client);
+                } catch (DataGridNoSelectionException ex)
+                {
+                    MessageBox.Show(ex.Message, "Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                } catch (ClientOperationException ex)
+                {
+                    MessageBox.Show(ex.Message, "Client Operation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                } catch (Exception ex)
+                {
+                    MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-
-                SwitchClient(client);
             }
         }
 
@@ -260,8 +279,13 @@ namespace PresentationLayer.UserControls
         public ClientDTO GetClientFromDataGrid()
         {
             var client = dgvClients.SelectedItem as ClientDTO;
+            if (client == null)
+            {
+                throw new DataGridNoSelectionException("No client selected in the DataGrid.");
+            }
             return client;
         }
+
 
         public void SwitchClient(ClientDTO client)
         {
