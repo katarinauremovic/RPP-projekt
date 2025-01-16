@@ -152,7 +152,8 @@ namespace PresentationLayer.UserControls
 
         private void btnCloseSidebar_Click(object sender, RoutedEventArgs e)
         {
-            Parent.Parent.CloseSidebarMenu();
+            var ucClientAdministration = Parent.Parent;
+            ucClientAdministration.CloseSidebarMenu();
         }
 
         //Provjere

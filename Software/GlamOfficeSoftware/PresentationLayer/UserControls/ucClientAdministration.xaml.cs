@@ -172,7 +172,7 @@ namespace PresentationLayer.UserControls
             ShowSidebarMenu();
         }
 
-        public void CloseSidebarMenu()
+        public async void CloseSidebarMenu()
         {
             var slideOutAnimation = FindResource("SlideOutAnimation") as Storyboard;
             var sidebarMenu = (FrameworkElement)ccSidebar.Content;
@@ -187,6 +187,10 @@ namespace PresentationLayer.UserControls
                     sidebarMenu.Visibility = Visibility.Collapsed;
                 };
             }
+
+            //kod prvog zatvaranja se otvara na selection changed! Sad više NE!
+            await Task.Delay(500);
+            ccSidebar.Content = null;
         }
 
         private void ShowSidebarMenu()
