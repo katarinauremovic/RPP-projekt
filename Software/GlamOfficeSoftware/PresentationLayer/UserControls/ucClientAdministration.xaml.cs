@@ -178,6 +178,32 @@ namespace PresentationLayer.UserControls
             ShowSidebarMenu();
         }
 
+        private void dgvClients_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var sidebarMenu = (FrameworkElement)ccSidebar.Content;
+
+            if (sidebarMenu != null)
+            {
+                var client = GetClientFromDataGrid();
+
+                if (client == null)
+                {
+                    return;
+                }
+
+                SwitchClient(client);
+            }
+        }
+
+        private void btnAddClient_Click(object sender, RoutedEventArgs e)
+        {
+            var ucAddNewClientSidebar = new ucAddNewClientSidebar();
+            ucAddNewClientSidebar.Parent = this;
+            ccSidebar.Content = ucAddNewClientSidebar;
+            ShowSidebarMenu();
+
+        }
+
         public async void CloseSidebarMenu()
         {
             var slideOutAnimation = FindResource("SlideOutAnimation") as Storyboard;
@@ -219,23 +245,6 @@ namespace PresentationLayer.UserControls
                 };
 
                 sidebarMenu.BeginAnimation(MarginProperty, marginAnimation);
-            }
-        }
-
-        private void dgvClients_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var sidebarMenu = (FrameworkElement)ccSidebar.Content;
-
-            if(sidebarMenu != null)
-            {
-                var client = GetClientFromDataGrid();
-                
-                if (client == null)
-                {
-                    return;
-                }
-
-                SwitchClient(client);
             }
         }
 

@@ -74,7 +74,7 @@
             <!-- Gumbovi -->
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="0,0,0,-66" HorizontalAlignment="Right" >
                 <Button x:Name="btnShowClientsProfile" Click="btnShowClientsProfile_Click" FontWeight="SemiBold" Content="Show" Width="100" Style="{StaticResource classicButton}" Height="40" Margin="0, 0, 7, 0"/>
-                <Button x:Name="btnAddClient" FontWeight="SemiBold" Content="Add" Width="100" Style="{StaticResource classicButton}" Height="40"/>
+                <Button x:Name="btnAddClient" Click="btnAddClient_Click" FontWeight="SemiBold" Content="Add" Width="100" Style="{StaticResource classicButton}" Height="40"/>
             </StackPanel>
 
             <!--Sidebar-->
@@ -82,9 +82,7 @@
 
             <!-- Tablica s klijentima -->
             <Grid Margin="0,0,-210,0">
-                <!-- DataGrid za prikaz klijenata -->
                 <DataGrid x:Name="dgvClients" Visibility="Collapsed" SelectionChanged="dgvClients_SelectionChanged" AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <!-- Stupci za prikaz klijenata -->
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Firstname" Binding="{Binding Firstname}" Width="auto" />
                         <DataGridTextColumn Header="Lastname" Binding="{Binding Lastname}" Width="auto" />

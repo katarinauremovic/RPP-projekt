@@ -7,6 +7,7 @@ using EntityLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -83,6 +84,14 @@ namespace BusinessLogicLayer.Services
                 client.PhoneNumber = clientDTO.PhoneNumber;
 
                 return client;
+            }
+        }
+
+        public async Task AddNewClient(Client client)
+        {
+            using (var repo = new ClientRepository())
+            {
+                await repo.AddAsync(client);
             }
         }
 
