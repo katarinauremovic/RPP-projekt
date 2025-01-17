@@ -9,7 +9,8 @@ namespace DataAccessLayer.Interfaces
 {
     public interface IReceiptRepository
     {
-        string GenerateReceiptNumberAsync();
+        string GenerateReceiptNumber();
+        Task<bool> IsClientsGiftCard(int giftCardId, string promoCode);
         Task<IEnumerable<Receipt>> GetReceiptsByClientAsync(int clientId);
         Task<bool> ExistsAsync(int receiptId);
         Task<Receipt> GenerateReceiptAsync(int reservationId);

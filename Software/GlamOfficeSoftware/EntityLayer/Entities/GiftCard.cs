@@ -15,6 +15,11 @@ namespace EntityLayer.Entities
 
         [StringLength(45)]
         public string Status { get; set; }
+        public DateTime? ActivationDate { get; set; }
+
+        public DateTime? ExpirationDate { get; set; }
+
+        public DateTime? RedemptionDate { get; set; }
 
         [StringLength(200)]
         public string Description { get; set; }

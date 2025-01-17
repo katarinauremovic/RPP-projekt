@@ -2,6 +2,7 @@
 using EntityLayer.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
@@ -15,6 +16,15 @@ namespace DataAccessLayer.Repositories
         public async override Task<IEnumerable<Receipt>> GetAllAsync()
         {
             return await items.Include(r => r.Reservation).ToListAsync();
+        }
+
+        //provjerava je li giftcard postoji kod klijenta
+        public async Task<bool> IsClientsGiftCard(int giftCardId, string promoCode)
+        {
+            return await items.Where
+                (r => r.Reservation.Client.GiftCard_idGiftCard == giftCardId 
+                && r.Reservation.Client.GiftCard.PromoCode == promoCode)
+                .AnyAsync();
         }
 
         public async Task ApplyDiscountAsync(int receiptId, decimal discountAmount)
@@ -58,11 +68,6 @@ namespace DataAccessLayer.Repositories
         public string GenerateReceiptNumber()
         {
             return Guid.NewGuid().ToString();
-        }
-
-        public string GenerateReceiptNumberAsync()
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<Receipt> GetReceiptByIdAsync(int receiptId)
