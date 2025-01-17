@@ -34,12 +34,28 @@ namespace BusinessLogicLayer.Services
         {
             using(var repo = new ReceiptRepository())
             {
-                var receipt = repo.GetByIdAsync(receiptId);
+                var receipt = await repo.GetByIdAsync(receiptId);
 
-                var voidReceipt = new Receipt
+                if (receipt != null)
                 {
+                    var voidReceipt = new Receipt
+                    {
+                        ReceiptNumber = receipt.ReceiptNumber,
+                        TotalTreatmentAmount = -receipt.TotalTreatmentAmount,
+                        GiftCardDiscount = -receipt.GiftCardDiscount,
+                        RewardDiscount = -receipt.RewardDiscount,
+                        TotalPrice = -receipt.TotalPrice,
+                        Reservation_idReservation = receipt.Reservation_idReservation,
+                        Reservation = receipt.Reservation
+                    };
 
-                };
+
+                    //RecoverGiftCard();
+                    //RecoverReward();
+                    return voidReceipt;
+                }
+
+                return null;
             }
         }
 
