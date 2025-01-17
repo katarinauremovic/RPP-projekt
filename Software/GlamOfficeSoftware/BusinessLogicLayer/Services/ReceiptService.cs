@@ -13,6 +13,39 @@ namespace BusinessLogicLayer.Services
 {
     public class ReceiptService : IReceiptService
     {
-        
+        public async Task<IEnumerable<Receipt>> GetAllReceiptsAsync()
+        {
+            using (var repo = new ReceiptRepository())
+            {
+                return await repo.GetAllAsync();
+            }
+        }
+
+        public async Task AddNewReceiptAsync(Receipt receipt)
+        {
+            using (var repo = new ReceiptRepository())
+            {
+                receipt.ReceiptNumber = GenerateReceiptNumber();
+                await repo.AddAsync(receipt);
+            }
+        }
+
+        public async Task<Receipt> VoidReceiptAsync(int receiptId)
+        {
+            using(var repo = new ReceiptRepository())
+            {
+                var receipt = repo.GetByIdAsync(receiptId);
+
+                var voidReceipt = new Receipt
+                {
+
+                };
+            }
+        }
+
+        private string GenerateReceiptNumber()
+        {
+            return Guid.NewGuid().ToString();
+        }
     }
 }

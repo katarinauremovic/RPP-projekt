@@ -14,7 +14,13 @@ namespace EntityLayer.Entities
         [StringLength(45)]
         public string ReceiptNumber { get; set; }
 
-        public decimal? Balance { get; set; }
+        public decimal? TotalTreatmentAmount { get; set; }
+
+        public decimal? GiftCardDiscount { get; set; }
+
+        public decimal? RewardDiscount { get; set; }
+
+        public decimal? TotalPrice { get; set; }
 
         public int Reservation_idReservation { get; set; }
 

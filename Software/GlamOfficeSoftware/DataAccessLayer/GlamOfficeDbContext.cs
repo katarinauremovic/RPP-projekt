@@ -148,8 +148,20 @@ namespace DataAccessLayer
                 .IsUnicode(false);
 
             modelBuilder.Entity<Receipt>()
-                .Property(e => e.Balance)
-                .HasPrecision(10, 2);
+                .Property(e => e.TotalTreatmentAmount)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Receipt>()
+                .Property(e => e.GiftCardDiscount)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Receipt>()
+                .Property(e => e.RewardDiscount)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Receipt>()
+                .Property(e => e.TotalPrice)
+                .HasPrecision(18, 2);
 
             modelBuilder.Entity<Reservation>()
                 .Property(e => e.Remark)
@@ -158,6 +170,27 @@ namespace DataAccessLayer
             modelBuilder.Entity<Reservation>()
                 .Property(e => e.Status)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<Reservation>()
+                .Property(e => e.TotalTreatmentAmount)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Reservation>()
+                .Property(e => e.GiftCardDiscount)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Reservation>()
+                .Property(e => e.RewardDiscount)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Reservation>()
+                .Property(e => e.TotalPrice)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Reservation>()
+                .Property(e => e.Paid)
+                .HasColumnType("bit")
+                .IsRequired();
 
             modelBuilder.Entity<Reservation>()
                 .HasMany(e => e.Receipts)

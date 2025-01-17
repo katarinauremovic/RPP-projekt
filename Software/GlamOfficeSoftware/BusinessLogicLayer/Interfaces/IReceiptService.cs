@@ -9,6 +9,6 @@ namespace BusinessLogicLayer.Interfaces
 {
     public interface IReceiptService
     {
-        
+        Task<IEnumerable<Receipt>> GetAllReceiptsAsync();
     }
 }
