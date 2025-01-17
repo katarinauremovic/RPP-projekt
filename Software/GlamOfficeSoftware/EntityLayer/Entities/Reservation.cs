@@ -31,10 +31,16 @@ namespace EntityLayer.Entities
 
         [StringLength(45)]
         public string Status { get; set; }
+        
         public decimal? TotalTreatmentAmount { get; set; }
+        
         public decimal? GiftCardDiscount { get; set; }
+        
         public decimal? RewardDiscount { get; set; }
+        
         public decimal? TotalPrice { get; set; }
+        
+        public bool Paid { get; set; } = false;
 
         public int? Client_idClient { get; set; }
 
