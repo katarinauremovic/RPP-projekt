@@ -45,8 +45,10 @@
     <Compile Include="Exceptions\ClientOperationException.cs" />
     <Compile Include="Exceptions\DataGridNoSelectionException.cs" />
     <Compile Include="Interfaces\IClientService.cs" />
+    <Compile Include="Interfaces\IReceiptService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ClientService.cs" />
+    <Compile Include="Services\ReceiptService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">

@@ -11,13 +11,13 @@ namespace DataAccessLayer.Repositories
 {
     public abstract class Repository<T> : IRepository<T>, IDisposable where T : class
     {
-        private GlamOfficeDbContext _context { get; set; }
+        protected GlamOfficeDbContext context { get; set; }
         protected DbSet<T> items { get; set; }
 
         protected Repository()
         {
-            _context = new GlamOfficeDbContext();
-            items = _context.Set<T>();
+            context = new GlamOfficeDbContext();
+            items = context.Set<T>();
         }
 
         public virtual async Task<IEnumerable<T>> GetAllAsync()
@@ -45,12 +45,12 @@ namespace DataAccessLayer.Repositories
 
         public virtual async Task SaveChangesAsync()
         {
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
 
         public void Dispose()
         {
-            _context.Dispose();
+            context.Dispose();
         }
     }
 }
