@@ -52,10 +52,12 @@
   <ItemGroup>
     <Compile Include="GlamOfficeDbContext.cs" />
     <Compile Include="Interfaces\IClientRepository.cs" />
+    <Compile Include="Interfaces\IGiftCardRepository.cs" />
     <Compile Include="Interfaces\IReceiptRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ClientRepository.cs" />
+    <Compile Include="Repositories\GiftCardRepository.cs" />
     <Compile Include="Repositories\ReceiptRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
   </ItemGroup>

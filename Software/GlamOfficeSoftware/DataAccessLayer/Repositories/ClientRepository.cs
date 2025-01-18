@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Interfaces;
 using EntityLayer.Entities;
+using EntityLayer.Enums;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -47,7 +48,7 @@ namespace DataAccessLayer.Repositories
         public async Task<IEnumerable<Client>> GetWithActiveGiftCardsAsync()
         {
             return await items.Where(client => client.GiftCard_idGiftCard != null &&
-                                               client.GiftCard.Status == "Aktivno")
+                                               client.GiftCard.Status == GiftCardStatuses.Active.ToString())
                               .Include(client => client.GiftCard)
                               .ToListAsync();
         }
@@ -99,7 +100,7 @@ namespace DataAccessLayer.Repositories
         public async Task<IEnumerable<Client>> GetClientsWithExpiredGiftCardsAsync()
         {
             return await items.Where(client => client.GiftCard_idGiftCard != null &&
-                                               client.GiftCard.Status == "Isteklo")
+                                               client.GiftCard.Status == GiftCardStatuses.Expired.ToString())
                               .Include(client => client.GiftCard)
                               .ToListAsync();
         }

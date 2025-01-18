@@ -42,16 +42,16 @@ namespace BusinessLogicLayer.Services
                     {
                         ReceiptNumber = receipt.ReceiptNumber,
                         TotalTreatmentAmount = -receipt.TotalTreatmentAmount,
-                        GiftCardDiscount = -receipt.GiftCardDiscount,
-                        RewardDiscount = -receipt.RewardDiscount,
+                        GiftCardDiscount = receipt.GiftCardDiscount,
+                        RewardDiscount = receipt.RewardDiscount,
                         TotalPrice = -receipt.TotalPrice,
                         Reservation_idReservation = receipt.Reservation_idReservation,
                         Reservation = receipt.Reservation
                     };
 
 
-                    //RecoverGiftCard();
-                    //RecoverReward();
+                    //RecoverGiftCard(int giftCardId);
+                    //RecoverReward(int rewardId);
                     return voidReceipt;
                 }
 
