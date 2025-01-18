@@ -9,6 +9,6 @@ namespace DataAccessLayer.Interfaces
 {
     public interface IReceiptRepository
     {
-        
+        Task<int?> GetGiftCardIdByReceiptAsync(Receipt receipt);
     }
 }

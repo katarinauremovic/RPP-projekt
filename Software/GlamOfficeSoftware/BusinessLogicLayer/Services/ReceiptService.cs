@@ -49,14 +49,29 @@ namespace BusinessLogicLayer.Services
                         Reservation = receipt.Reservation
                     };
 
+                    var giftCardId = (int)await GetGiftCardIdByReceiptAsync(receipt);
 
-                    //RecoverGiftCard(int giftCardId);
-                    //RecoverReward(int rewardId);
+                    await RecoverGiftCard(giftCardId, (decimal)receipt.GiftCardDiscount);
+                    //RecoverRewardAndRewardPoints(int rewardId);
                     return voidReceipt;
                 }
 
                 return null;
             }
+        }
+
+        public async Task<int?> GetGiftCardIdByReceiptAsync(Receipt receipt)
+        {
+            using (var repo = new ReceiptRepository())
+            {
+                return await repo.GetGiftCardIdByReceiptAsync(receipt);
+            }
+        }
+
+        private async Task RecoverGiftCard(int giftCardId, decimal giftCardDiscount)
+        {
+            IGiftCardService service = new GiftCardService();
+            await service.RecoverGiftCardAsync(giftCardId, giftCardDiscount);
         }
 
         private string GenerateReceiptNumber()
