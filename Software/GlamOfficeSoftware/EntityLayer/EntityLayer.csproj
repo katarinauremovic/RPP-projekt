@@ -60,6 +60,8 @@
     <Compile Include="Entities\WeeklySchedule.cs" />
     <Compile Include="Entities\WorkPosition.cs" />
     <Compile Include="Enums\GiftCardStatuses.cs" />
+    <Compile Include="Enums\RewardPointStatuses.cs" />
+    <Compile Include="Enums\RewardThresholds.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

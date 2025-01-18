@@ -30,9 +30,9 @@ namespace BusinessLogicLayer.Services
             }
         }
 
-        public async Task<Receipt> VoidReceiptAsync(int receiptId)
+        public async Task<Receipt> VoidReceiptAsync(int receiptId, bool wantsGiftCardRecover = false)
         {
-            using(var repo = new ReceiptRepository())
+            using (var repo = new ReceiptRepository())
             {
                 var receipt = await repo.GetByIdAsync(receiptId);
 
@@ -42,25 +42,38 @@ namespace BusinessLogicLayer.Services
                     {
                         ReceiptNumber = receipt.ReceiptNumber,
                         TotalTreatmentAmount = -receipt.TotalTreatmentAmount,
-                        GiftCardDiscount = receipt.GiftCardDiscount,
                         RewardDiscount = receipt.RewardDiscount,
-                        TotalPrice = -receipt.TotalPrice,
                         Reservation_idReservation = receipt.Reservation_idReservation,
                         Reservation = receipt.Reservation
                     };
 
-                    var giftCardId = (int)await GetGiftCardIdByReceiptAsync(receipt);
+                    if (wantsGiftCardRecover)
+                    {
+                        var giftCardId = await GetGiftCardIdByReceiptAsync(receipt);
+                        if (giftCardId != null && receipt.GiftCardDiscount > 0)
+                        {
+                            await RecoverGiftCardAsync(giftCardId.Value, (decimal)receipt.GiftCardDiscount);
+                        }
 
-                    await RecoverGiftCard(giftCardId, (decimal)receipt.GiftCardDiscount);
-                    //RecoverRewardAndRewardPoints(int rewardId);
-                    return voidReceipt;
+                        voidReceipt.GiftCardDiscount = receipt.GiftCardDiscount;
+                        voidReceipt.TotalPrice = -receipt.TotalPrice;
+                    } else
+                    {
+                        voidReceipt.GiftCardDiscount = 0;
+                        voidReceipt.TotalPrice = -(receipt.TotalPrice + receipt.GiftCardDiscount);
+                    }
+
+                    await repo.AddAsync(voidReceipt);
+                    
+                    return voidReceipt;                   
                 }
 
                 return null;
             }
         }
 
-        public async Task<int?> GetGiftCardIdByReceiptAsync(Receipt receipt)
+
+        private async Task<int?> GetGiftCardIdByReceiptAsync(Receipt receipt)
         {
             using (var repo = new ReceiptRepository())
             {
@@ -68,7 +81,7 @@ namespace BusinessLogicLayer.Services
             }
         }
 
-        private async Task RecoverGiftCard(int giftCardId, decimal giftCardDiscount)
+        private async Task RecoverGiftCardAsync(int giftCardId, decimal giftCardDiscount)
         {
             IGiftCardService service = new GiftCardService();
             await service.RecoverGiftCardAsync(giftCardId, giftCardDiscount);

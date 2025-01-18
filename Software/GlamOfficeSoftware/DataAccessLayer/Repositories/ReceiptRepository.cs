@@ -25,5 +25,13 @@ namespace DataAccessLayer.Repositories
                 .Select(r => r.Reservation.Client.GiftCard_idGiftCard)
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<int?> GetClientIdByReceiptAsync(Receipt receipt)
+        {
+            return await items
+                .Where(r => r.idReceipt == receipt.idReceipt)
+                .Select(r => r.Reservation.Client.idClient)
+                .FirstOrDefaultAsync();
+        }
     }
 }
