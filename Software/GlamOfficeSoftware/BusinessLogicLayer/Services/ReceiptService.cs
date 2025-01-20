@@ -1,10 +1,15 @@
-﻿using BusinessLogicLayer.Interfaces;
+﻿using BusinessLogicLayer.Exceptions;
+using BusinessLogicLayer.Interfaces;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
+using EntityLayer.DTOs;
 using EntityLayer.Entities;
+using PdfFactory;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -27,6 +32,7 @@ namespace BusinessLogicLayer.Services
             {
                 receipt.ReceiptNumber = GenerateReceiptNumber();
                 await repo.AddAsync(receipt);
+                await GenerateReceiptPdf(receipt);
             }
         }
 
@@ -48,7 +54,7 @@ namespace BusinessLogicLayer.Services
                     };
 
                     await HandleGiftCardRecoveryAsync(receipt, voidReceipt, wantsGiftCardRecover);
-
+                    await GenerateReceiptPdf(voidReceipt);
                     await repo.AddAsync(voidReceipt);
 
                     return voidReceipt;
@@ -56,6 +62,57 @@ namespace BusinessLogicLayer.Services
 
                 return null;
             }
+        }
+
+        public async Task<IEnumerable<ReceiptDTO>> GetAllReceiptsDTOAsync()
+        {
+            using (var repo = new ReceiptRepository())
+            {
+                var receipts = await repo.GetAllAsync();
+                var euroCulture = new CultureInfo("de-DE");
+                euroCulture.NumberFormat.CurrencyDecimalSeparator = ".";
+
+                var receiptsDTO = receipts.Select(r => new ReceiptDTO
+                {
+                    Id = r.idReceipt,
+                    ReceiptNumber = r.ReceiptNumber,
+                    TotalTreatmentAmount = r.TotalTreatmentAmount,
+                    GiftCardDiscount = r.GiftCardDiscount,
+                    RewardDiscount = r.RewardDiscount,
+                    TotalPrice = r.TotalPrice,
+                    idReservation = r.Reservation_idReservation,
+                    ReservationDate = r.Reservation.Date,
+                    Treatments = string.Join("\n", 
+                    r.Reservation.Reservation_has_Treatment.Select(
+                        rt => $"{rt.Treatment.Name} (Qty: {rt.Amount}, Total: {string.Format(euroCulture, "{0:C}", rt.Amount * rt.Treatment.Price)})")),
+                    Client = string.Join(" ", r.Reservation.Client.Firstname, r.Reservation.Client.Lastname),
+                    Employee = string.Join(" ", r.Reservation.Employee.Firstname, r.Reservation.Employee.Lastname)
+                }).ToList();
+
+                return receiptsDTO;
+            }
+        }
+
+        private async Task<Receipt> ConvertReceiptDtoToReceipt(ReceiptDTO receiptDTO)
+        {
+            using (var repo = new ReceiptRepository())
+            {
+                var receipt = await repo.GetByIdAsync(receiptDTO.Id);
+
+                if (receipt == null)
+                {
+                    throw new ClientNotFoundException($"Receipt with ID {receipt.idReceipt} does not exist.");
+                }
+
+                return receipt;
+            }
+        }
+
+        private async Task GenerateReceiptPdf(Receipt receipt)
+        {
+            IPdfFactory<Receipt> pdfFactory = new ReceiptPdf();
+            var pdfBytes = await pdfFactory.GeneratePdf(receipt);
+            await Task.Run(() => File.WriteAllBytes($"Receipts/{receipt.ReceiptNumber}.pdf", pdfBytes));
         }
 
         private async Task HandleGiftCardRecoveryAsync(Receipt receipt, Receipt voidReceipt, bool wantsGiftCardRecover)

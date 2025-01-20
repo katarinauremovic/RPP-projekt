@@ -8,6 +8,6 @@ namespace PdfFactory
 {
     public interface IPdfFactory<T> where T : class
     {
-        byte[] GeneratePdf(T data);
+        Task<byte[]> GeneratePdf(T data);
     }
 }

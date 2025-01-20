@@ -8,11 +8,11 @@ namespace PdfFactory
 {
     public abstract class PdfFactory<T> : IPdfFactory<T> where T : class
     {
-        public abstract byte[] GeneratePdf(T data);
+        public abstract Task<byte[]> GeneratePdf(T data);
 
-        protected byte[] ConvertToPdf(string content)
+        protected async Task<byte[]> ConvertToPdf(string content)
         {
-            return System.Text.Encoding.UTF8.GetBytes(content);
+            return await Task.Run(() => Encoding.UTF8.GetBytes(content));
         }
     }
 }

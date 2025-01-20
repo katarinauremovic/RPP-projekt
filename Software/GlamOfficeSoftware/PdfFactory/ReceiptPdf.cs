@@ -9,7 +9,7 @@ namespace PdfFactory
 {
     public class ReceiptPdf : PdfFactory<Receipt>
     {
-        public override byte[] GeneratePdf(Receipt receipt)
+        public override async Task<byte[]> GeneratePdf(Receipt receipt)
         {
             string reservationDetails = receipt.Reservation != null
                 ? $@"
@@ -32,7 +32,7 @@ namespace PdfFactory
                 {reservationDetails}
                 ";
 
-            return ConvertToPdf(content);
+            return await ConvertToPdf(content);
         }
     }
 }

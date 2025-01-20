@@ -1,4 +1,5 @@
-﻿using EntityLayer.Entities;
+﻿using EntityLayer.DTOs;
+using EntityLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace BusinessLogicLayer.Interfaces
         Task<IEnumerable<Receipt>> GetAllReceiptsAsync();
         Task AddNewReceiptAsync(Receipt receipt);
         Task<Receipt> VoidReceiptAsync(int receiptId, bool wantsGiftCardRecover = false);
+        Task<IEnumerable<ReceiptDTO>> GetAllReceiptsDTOAsync();
     }
 }

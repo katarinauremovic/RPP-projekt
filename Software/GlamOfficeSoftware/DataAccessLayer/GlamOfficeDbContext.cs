@@ -188,7 +188,7 @@ namespace DataAccessLayer
                 .HasPrecision(18, 2);
 
             modelBuilder.Entity<Reservation>()
-                .Property(e => e.Paid)
+                .Property(e => e.isPaid)
                 .HasColumnType("bit")
                 .IsRequired();
 

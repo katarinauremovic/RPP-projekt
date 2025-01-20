@@ -40,7 +40,7 @@ namespace EntityLayer.Entities
         
         public decimal? TotalPrice { get; set; }
         
-        public bool Paid { get; set; } = false;
+        public bool isPaid { get; set; } = false;
 
         public int? Client_idClient { get; set; }
 

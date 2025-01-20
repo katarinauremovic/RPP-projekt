@@ -43,5 +43,12 @@ namespace PresentationLayer.UserControls
             ucClientAdministration.Parent = Parent;
             Parent.ccContent.Content = ucClientAdministration;
         }
+
+        private void btnReceipts_Click(object sender, RoutedEventArgs e)
+        {
+            var ucReceipts = new ucReceipts();
+            ucReceipts.Parent = Parent;
+            Parent.ccContent.Content = ucReceipts;
+        }
     }
 }

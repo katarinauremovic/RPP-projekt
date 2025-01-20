@@ -61,6 +61,10 @@
       <Project>{5802cf89-8439-4169-a24c-b10f49229e6a}</Project>
       <Name>EntityLayer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PdfFactory\PdfFactory.csproj">
+      <Project>{89cb27e9-ec4c-4c7b-8108-de0acf13f61f}</Project>
+      <Name>PdfFactory</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
