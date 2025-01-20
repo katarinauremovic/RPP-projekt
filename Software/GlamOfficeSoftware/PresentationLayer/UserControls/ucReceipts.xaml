@@ -15,15 +15,15 @@
             <Grid>
                 <DataGrid x:Name="dgvReceipts" Visibility="Collapsed" AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Receipt Number" Binding="{Binding ReceiptNumber}" />
-                        <DataGridTextColumn Header="Total Treatment Amount" Binding="{Binding TotalTreatmentAmount}" />
-                        <DataGridTextColumn Header="Gift Card Discount" Binding="{Binding GiftCardDiscount}" />
-                        <DataGridTextColumn Header="Reward Discount" Binding="{Binding RewardDiscount}" />
-                        <DataGridTextColumn Header="Total Price" Binding="{Binding TotalPrice}" />
-                        <DataGridTextColumn Header="Reservation Date" Binding="{Binding ReservationDate}" />
-                        <DataGridTextColumn Header="Treatments" Binding="{Binding Treatments}" />
-                        <DataGridTextColumn Header="Client" Binding="{Binding Client}" />
-                        <DataGridTextColumn Header="Employee" Binding="{Binding Employee}" />
+                        <DataGridTextColumn Header="Receipt Number" Binding="{Binding ReceiptNumber}" Width="Auto"/>
+                        <DataGridTextColumn Header="Total Treatment Amount" Binding="{Binding TotalTreatmentAmount}" Width="Auto" />
+                        <DataGridTextColumn Header="Gift Card Discount" Binding="{Binding GiftCardDiscount}" Width="Auto" />
+                        <DataGridTextColumn Header="Reward Discount" Binding="{Binding RewardDiscount}" Width="Auto" />
+                        <DataGridTextColumn Header="Total Price" Binding="{Binding TotalPrice}" Width="Auto" />
+                        <DataGridTextColumn Header="Reservation Date" Binding="{Binding ReservationDate}" Width="Auto" />
+                        <DataGridTextColumn Header="Treatments" Binding="{Binding Treatments}" Width="Auto" />
+                        <DataGridTextColumn Header="Client" Binding="{Binding Client}" Width="Auto" />
+                        <DataGridTextColumn Header="Employee" Binding="{Binding Employee}" Width="Auto" />
                     </DataGrid.Columns>
                 </DataGrid>
 
