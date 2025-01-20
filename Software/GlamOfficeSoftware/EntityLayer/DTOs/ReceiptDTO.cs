@@ -12,17 +12,17 @@ namespace EntityLayer.DTOs
 
         public string ReceiptNumber { get; set; }
 
-        public decimal? TotalTreatmentAmount { get; set; }
+        public string TotalTreatmentAmount { get; set; }
 
-        public decimal? GiftCardDiscount { get; set; }
+        public string GiftCardDiscount { get; set; }
 
-        public decimal? RewardDiscount { get; set; }
+        public string RewardDiscount { get; set; }
 
-        public decimal? TotalPrice { get; set; }
+        public string TotalPrice { get; set; }
 
         public int idReservation { get; set; }
         
-        public DateTime? ReservationDate { get; set; }
+        public string ReservationDate { get; set; }
 
         public string Treatments { get; set; }
         

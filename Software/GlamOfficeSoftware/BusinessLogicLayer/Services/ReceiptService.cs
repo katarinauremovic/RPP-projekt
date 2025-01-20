@@ -76,12 +76,12 @@ namespace BusinessLogicLayer.Services
                 {
                     Id = r.idReceipt,
                     ReceiptNumber = r.ReceiptNumber,
-                    TotalTreatmentAmount = r.TotalTreatmentAmount,
-                    GiftCardDiscount = r.GiftCardDiscount,
-                    RewardDiscount = r.RewardDiscount,
-                    TotalPrice = r.TotalPrice,
+                    TotalTreatmentAmount = string.Format(euroCulture, "{0:C}", r.TotalTreatmentAmount.Value),
+                    GiftCardDiscount = string.Format(euroCulture, "{0:C}", r.GiftCardDiscount.Value),
+                    RewardDiscount = string.Format(euroCulture, "{0:C}", r.RewardDiscount.Value),
+                    TotalPrice = string.Format(euroCulture, "{0:C}", r.TotalPrice.Value),
                     idReservation = r.Reservation_idReservation,
-                    ReservationDate = r.Reservation.Date,
+                    ReservationDate = r.Reservation.Date.Value.ToString("dd.MM.yyyy.", euroCulture),
                     Treatments = string.Join("\n", 
                     r.Reservation.Reservation_has_Treatment.Select(
                         rt => $"{rt.Treatment.Name} (Qty: {rt.Amount}, Total: {string.Format(euroCulture, "{0:C}", rt.Amount * rt.Treatment.Price)})")),

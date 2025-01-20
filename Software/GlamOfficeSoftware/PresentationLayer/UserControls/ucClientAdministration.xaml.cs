@@ -41,7 +41,6 @@ namespace PresentationLayer.UserControls
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             LoadFilters();
-            //await Task.Delay(1);
             ShowLoadingIndicator(true);
             await LoadClientsAsync();
             ShowLoadingIndicator(false);

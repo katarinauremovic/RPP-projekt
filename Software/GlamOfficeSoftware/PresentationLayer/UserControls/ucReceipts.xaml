@@ -14,17 +14,17 @@
             <!-- Tablica s računima -->
             <Grid>
                 <DataGrid x:Name="dgvReceipts" Visibility="Collapsed" AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <DataGridTextColumn Header="Receipt ID" Binding="{Binding Id}" Width="Auto" />
-                    <DataGridTextColumn Header="Receipt Number" Binding="{Binding ReceiptNumber}" Width="Auto" />
-                    <DataGridTextColumn Header="Total Treatments (€)" Binding="{Binding TotalTreatmentAmount, StringFormat=N2}" Width="Auto" />
-                    <DataGridTextColumn Header="Gift Card Discount (€)" Binding="{Binding GiftCardDiscount, StringFormat=N2}" Width="Auto" />
-                    <DataGridTextColumn Header="Reward Discount (€)" Binding="{Binding RewardDiscount, StringFormat=N2}" Width="Auto" />
-                    <DataGridTextColumn Header="Total Price (€)" Binding="{Binding TotalPrice, StringFormat=N2}" Width="Auto" />
-                    <DataGridTextColumn Header="Reservation ID" Binding="{Binding idReservation}" Width="Auto" />
-                    <DataGridTextColumn Header="Reservation Date" Binding="{Binding ReservationDate, StringFormat=dd.MM.yyyy}" Width="Auto" />
-                    <DataGridTextColumn Header="Treatments" Binding="{Binding Treatments}" Width="Auto" />
-                    <DataGridTextColumn Header="Client" Binding="{Binding Client}" Width="Auto" />
-                    <DataGridTextColumn Header="Employee" Binding="{Binding Employee}" Width="Auto" />
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Receipt Number" Binding="{Binding ReceiptNumber}" />
+                        <DataGridTextColumn Header="Total Treatment Amount" Binding="{Binding TotalTreatmentAmount}" />
+                        <DataGridTextColumn Header="Gift Card Discount" Binding="{Binding GiftCardDiscount}" />
+                        <DataGridTextColumn Header="Reward Discount" Binding="{Binding RewardDiscount}" />
+                        <DataGridTextColumn Header="Total Price" Binding="{Binding TotalPrice}" />
+                        <DataGridTextColumn Header="Reservation Date" Binding="{Binding ReservationDate}" />
+                        <DataGridTextColumn Header="Treatments" Binding="{Binding Treatments}" />
+                        <DataGridTextColumn Header="Client" Binding="{Binding Client}" />
+                        <DataGridTextColumn Header="Employee" Binding="{Binding Employee}" />
+                    </DataGrid.Columns>
                 </DataGrid>
 
                 <!-- Indikator učitavanja -->
