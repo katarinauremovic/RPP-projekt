@@ -47,28 +47,33 @@ namespace BusinessLogicLayer.Services
                         Reservation = receipt.Reservation
                     };
 
-                    if (wantsGiftCardRecover)
-                    {
-                        var giftCardId = await GetGiftCardIdByReceiptAsync(receipt);
-                        if (giftCardId != null && receipt.GiftCardDiscount > 0)
-                        {
-                            await RecoverGiftCardAsync(giftCardId.Value, (decimal)receipt.GiftCardDiscount);
-                        }
-
-                        voidReceipt.GiftCardDiscount = receipt.GiftCardDiscount;
-                        voidReceipt.TotalPrice = -receipt.TotalPrice;
-                    } else
-                    {
-                        voidReceipt.GiftCardDiscount = 0;
-                        voidReceipt.TotalPrice = -(receipt.TotalPrice + receipt.GiftCardDiscount);
-                    }
+                    await HandleGiftCardRecoveryAsync(receipt, voidReceipt, wantsGiftCardRecover);
 
                     await repo.AddAsync(voidReceipt);
-                    
-                    return voidReceipt;                   
+
+                    return voidReceipt;
                 }
 
                 return null;
+            }
+        }
+
+        private async Task HandleGiftCardRecoveryAsync(Receipt receipt, Receipt voidReceipt, bool wantsGiftCardRecover)
+        {
+            if (wantsGiftCardRecover)
+            {
+                var giftCardId = await GetGiftCardIdByReceiptAsync(receipt);
+                if (giftCardId != null && receipt.GiftCardDiscount > 0)
+                {
+                    await RecoverGiftCardAsync(giftCardId.Value, (decimal)receipt.GiftCardDiscount);
+                }
+
+                voidReceipt.GiftCardDiscount = receipt.GiftCardDiscount;
+                voidReceipt.TotalPrice = -receipt.TotalPrice;
+            } else
+            {
+                voidReceipt.GiftCardDiscount = 0;
+                voidReceipt.TotalPrice = -(receipt.TotalPrice + receipt.GiftCardDiscount);
             }
         }
 
