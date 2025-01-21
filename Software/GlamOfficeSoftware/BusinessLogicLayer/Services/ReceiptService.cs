@@ -33,6 +33,9 @@ namespace BusinessLogicLayer.Services
             {
                 receipt.ReceiptNumber = GenerateReceiptNumber();
                 await repo.AddAsync(receipt);
+                
+                IReservationService service = new ReservationService();
+                await service.ChangeReservationStatusAsync(receipt.Reservation_idReservation, ReservationStatuses.Completed);
 
                 var receiptDTO = ConvertReceiptToReceiptDto(receipt);
                 await GenerateReceiptPdf(receiptDTO);
