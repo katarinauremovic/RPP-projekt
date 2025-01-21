@@ -80,6 +80,9 @@
     <Compile Include="UserControls\ucShowClientsProfileSidebar.xaml.cs">
       <DependentUpon>ucShowClientsProfileSidebar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ucShowReceiptSidebar.xaml.cs">
+      <DependentUpon>ucShowReceiptSidebar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ucSidebarMenu.xaml.cs">
       <DependentUpon>ucSidebarMenu.xaml</DependentUpon>
     </Compile>
@@ -112,6 +115,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ucShowClientsProfileSidebar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ucShowReceiptSidebar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

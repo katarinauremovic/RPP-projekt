@@ -14,5 +14,6 @@ namespace BusinessLogicLayer.Interfaces
         Task AddNewReceiptAsync(Receipt receipt);
         Task<Receipt> VoidReceiptAsync(int receiptId, bool wantsGiftCardRecover = false);
         Task<IEnumerable<ReceiptDTO>> GetAllReceiptsDTOAsync();
+        Task<string> LoadReceiptInReceiptFormat(ReceiptDTO receiptDTO);
     }
 }

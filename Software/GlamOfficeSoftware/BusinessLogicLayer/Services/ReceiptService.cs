@@ -32,7 +32,9 @@ namespace BusinessLogicLayer.Services
             {
                 receipt.ReceiptNumber = GenerateReceiptNumber();
                 await repo.AddAsync(receipt);
-                await GenerateReceiptPdf(receipt);
+
+                var receiptDTO = ConvertReceiptToReceiptDto(receipt);
+                await GenerateReceiptPdf(receiptDTO);
             }
         }
 
@@ -56,7 +58,8 @@ namespace BusinessLogicLayer.Services
 
                     await HandleGiftCardRecoveryAsync(receipt, voidReceipt, wantsGiftCardRecover);
                     await reservationService.ChangeReservationStatusAsync(receipt.Reservation_idReservation, ReservationStatuses.Voided);
-                    await GenerateReceiptPdf(voidReceipt);
+                    var voidReceiptDTO = ConvertReceiptToReceiptDto(voidReceipt);
+                    await GenerateReceiptPdf(voidReceiptDTO);
                     await repo.AddAsync(voidReceipt);
 
                     return voidReceipt;
@@ -71,31 +74,48 @@ namespace BusinessLogicLayer.Services
             using (var repo = new ReceiptRepository())
             {
                 var receipts = await repo.GetAllAsync();
-                var euroCulture = new CultureInfo("de-DE");
-                euroCulture.NumberFormat.CurrencyDecimalSeparator = ".";
-
-                var receiptsDTO = receipts.Select(r => new ReceiptDTO
-                {
-                    Id = r.idReceipt,
-                    ReceiptNumber = r.ReceiptNumber,
-                    TotalTreatmentAmount = string.Format(euroCulture, "{0:C}", r.TotalTreatmentAmount.Value),
-                    GiftCardDiscount = string.Format(euroCulture, "{0:C}", r.GiftCardDiscount.Value),
-                    RewardDiscount = string.Format(euroCulture, "{0:C}", r.RewardDiscount.Value),
-                    TotalPrice = string.Format(euroCulture, "{0:C}", r.TotalPrice.Value),
-                    idReservation = r.Reservation_idReservation,
-                    ReservationDate = r.Reservation.Date.Value.ToString("dd.MM.yyyy.", euroCulture),
-                    Treatments = string.Join("\n", 
-                    r.Reservation.Reservation_has_Treatment.Select(
-                        rt => $"{rt.Treatment.Name} " +
-                        $"(Qty: {rt.Amount}, " +
-                        $"Price: {string.Format(euroCulture, "{0:C}", rt.Treatment.Price)}, " +
-                        $"Total: {string.Format(euroCulture, "{0:C}", rt.Amount * rt.Treatment.Price)})")),
-                    Client = string.Join(" ", r.Reservation.Client.Firstname, r.Reservation.Client.Lastname),
-                    Employee = string.Join(" ", r.Reservation.Employee.Firstname, r.Reservation.Employee.Lastname)
-                }).ToList();
+                
+                var receiptsDTO = receipts.Select(receipt => ConvertReceiptToReceiptDto(receipt)).ToList();
 
                 return receiptsDTO;
             }
+        }
+
+        private ReceiptDTO ConvertReceiptToReceiptDto(Receipt receipt)
+        {
+            var euroCulture = new CultureInfo("de-DE");
+            euroCulture.NumberFormat.CurrencyDecimalSeparator = ".";
+
+            var receiptDTO = new ReceiptDTO
+            {
+                Id = receipt.idReceipt,
+                ReceiptNumber = receipt.ReceiptNumber,
+                TotalTreatmentAmount = string.Format(euroCulture, "{0:C}", receipt.TotalTreatmentAmount.Value),
+                GiftCardDiscount = string.Format(euroCulture, "{0:C}", receipt.GiftCardDiscount.Value),
+                RewardDiscount = string.Format(euroCulture, "{0:C}", receipt.RewardDiscount.Value),
+                TotalPrice = string.Format(euroCulture, "{0:C}", receipt.TotalPrice.Value),
+                idReservation = receipt.Reservation_idReservation,
+                ReservationDate = receipt.Reservation.Date.Value.ToString("dd.MM.yyyy.", euroCulture),
+                Treatments = string.Join("\n",
+                    receipt.Reservation.Reservation_has_Treatment.Select(
+                        rt => $"{rt.Treatment.Name} " +
+                              $"(Qty: {rt.Amount}, " +
+                              $"Price: {string.Format(euroCulture, "{0:C}", rt.Treatment.Price)}, " +
+                              $"Total: {string.Format(euroCulture, "{0:C}", rt.Amount * rt.Treatment.Price)})")),
+                Client = string.Join(" ", receipt.Reservation.Client.Firstname, receipt.Reservation.Client.Lastname),
+                Employee = string.Join(" ", receipt.Reservation.Employee.Firstname, receipt.Reservation.Employee.Lastname)
+            };
+
+            return receiptDTO;
+        }
+
+        public async Task<string> LoadReceiptInReceiptFormat(ReceiptDTO receiptDTO)
+        {
+            IPdfFactory<ReceiptDTO> pdfFactory = new ReceiptPdf();
+            var pdfBytes = await pdfFactory.GeneratePdf(receiptDTO);
+            string base64Pdf = Convert.ToBase64String(pdfBytes);
+
+            return base64Pdf;
         }
 
         private async Task<Receipt> ConvertReceiptDtoToReceipt(ReceiptDTO receiptDTO)
@@ -113,11 +133,11 @@ namespace BusinessLogicLayer.Services
             }
         }
 
-        private async Task GenerateReceiptPdf(Receipt receipt)
+        private async Task GenerateReceiptPdf(ReceiptDTO receiptDto)
         {
-            IPdfFactory<Receipt> pdfFactory = new ReceiptPdf();
-            var pdfBytes = await pdfFactory.GeneratePdf(receipt);
-            await Task.Run(() => File.WriteAllBytes($"Receipts/{receipt.ReceiptNumber}.pdf", pdfBytes));
+            IPdfFactory<ReceiptDTO> pdfFactory = new ReceiptPdf();
+            var pdfBytes = await pdfFactory.GeneratePdf(receiptDto);
+            await Task.Run(() => File.WriteAllBytes($"Receipts/{receiptDto.ReceiptNumber}.pdf", pdfBytes));
         }
 
         private async Task HandleGiftCardRecoveryAsync(Receipt receipt, Receipt voidReceipt, bool wantsGiftCardRecover)
