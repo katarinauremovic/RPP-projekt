@@ -43,17 +43,17 @@ namespace PresentationLayer.UserControls
 
         private async Task LoadReceiptAsync()
         {
-            await _receiptService.GenerateReceiptPdf(_selectedReceipt);
+            txtReceipt.Text = await Task.Run(() => _receiptService.GenerateReceiptInStringFormat(_selectedReceipt));
         }
 
         private void btnCloseSidebar_Click(object sender, RoutedEventArgs e)
         {
-            
+            Parent.CloseSidebar();
         }
 
-        private void btnSaveToPdf_Click(object sender, RoutedEventArgs e)
+        private async void btnSaveToPdf_Click(object sender, RoutedEventArgs e)
         {
-
+            await Task.Run(() => _receiptService.GenerateReceiptPdf(_selectedReceipt));
         }
 
         private void btnVoid_Click(object sender, RoutedEventArgs e)

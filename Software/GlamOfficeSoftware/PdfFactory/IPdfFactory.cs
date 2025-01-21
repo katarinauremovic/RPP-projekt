@@ -9,5 +9,6 @@ namespace PdfFactory
     public interface IPdfFactory<T> where T : class
     {
         Task<byte[]> GeneratePdf(T data);
+        Task<string> GenerateStr(T data);
     }
 }

@@ -40,11 +40,13 @@ namespace PdfFactory
                 document.Add(new Chunk("\n"));
 
                 document.Add(new Paragraph($"Receipt Number: {receipt.ReceiptNumber}", boldFont));
-                document.Add(new Paragraph($"Date: {DateTime.Now.ToString("dd.MM.yyyy.")}", regularFont));
+                document.Add(new Paragraph($"Receipt Issuance: {receipt.ReceiptIssueDateTime.ToString("dd.MM.yyyy. HH:mm:ss")}", regularFont));
                 document.Add(new Chunk("\n"));
 
                 document.Add(new Paragraph("Client Information:", subHeaderFont));
-                document.Add(new Paragraph($"Name: {receipt.Client}", regularFont));
+                document.Add(new Paragraph($"Name: {receipt.strClient}", regularFont));
+                document.Add(new Paragraph($"E-mail: {receipt.Client.Email}", regularFont));
+                document.Add(new Paragraph($"Phone Number: {receipt.Client.PhoneNumber}", regularFont));
                 document.Add(new Chunk("\n"));
 
                 var table = new PdfPTable(4)
@@ -79,6 +81,77 @@ namespace PdfFactory
 
                 return await Task.Run(() => memoryStream.ToArray());
             }
+        }
+
+        public override Task<string> GenerateStr(ReceiptDTO data)
+        {
+            var stringBuilder = new StringBuilder();
+
+            // Header
+            stringBuilder.AppendLine("==========================");
+            stringBuilder.AppendLine("                          Receipt        ");
+            stringBuilder.AppendLine("==========================");
+            stringBuilder.AppendLine($"Receipt No: {data.ReceiptNumber}");
+            stringBuilder.AppendLine($"Date: {data.ReceiptIssueDateTime.ToString("dd.MM.yyyy. HH:mm")}");
+            stringBuilder.AppendLine("---------------------------------------------");
+
+            // Client Information
+            stringBuilder.AppendLine("Client Info:");
+            stringBuilder.AppendLine($"Name: {data.strClient}");
+            stringBuilder.AppendLine($"Email: {data.Client.Email}");
+            stringBuilder.AppendLine($"Phone: {data.Client.PhoneNumber}");
+            stringBuilder.AppendLine("---------------------------------------------");
+
+            // Reservation Information
+            stringBuilder.AppendLine("Reservation:");
+            stringBuilder.AppendLine($"Date: {data.ReservationDate}");
+            stringBuilder.AppendLine("---------------------------------------------");
+
+            // Treatments
+            stringBuilder.AppendLine("Treatments:");
+            stringBuilder.AppendLine("---------------------------------------------");
+
+            // Column headers with left alignment
+            stringBuilder.AppendLine(string.Format("{0,-20} {1,2} {2,5} {3,8}", "Treatment", "Qty", "Unit Price", "Total"));
+
+            // Loop through each treatment and fill columns
+            foreach (var treatment in data.Treatments)
+            {
+                // Limiting column lengths
+                string treatmentName = LimitStringLength(treatment.Name, 20);
+                string quantity = LimitStringLength(treatment.Quantity.ToString(), 5);
+                string unitPrice = LimitStringLength(treatment.UnitPrice, 10);
+                string totalPrice = LimitStringLength(treatment.TotalPrice, 10);
+
+                stringBuilder.AppendLine(string.Format("{0,-20} {1,5} {2,10} {3,10}", treatmentName, quantity, unitPrice, totalPrice));
+            }
+
+            stringBuilder.AppendLine("---------------------------------------------");
+
+            // Pricing Information
+            stringBuilder.AppendLine("Pricing:");
+            stringBuilder.AppendLine($"Total: {data.TotalTreatmentAmount}");
+            stringBuilder.AppendLine($"Gift Card: {data.GiftCardDiscount}");
+            stringBuilder.AppendLine($"Reward: {data.RewardDiscount}");
+            stringBuilder.AppendLine($"Total Price: {data.TotalPrice}");
+            stringBuilder.AppendLine("---------------------------------------------");
+
+            // Employee Information
+            stringBuilder.AppendLine("Employee:");
+            stringBuilder.AppendLine($"{data.Employee}");
+            stringBuilder.AppendLine("==========================");
+
+            // Return the result as a string
+            return Task.FromResult(stringBuilder.ToString());
+        }
+
+        private string LimitStringLength(string value, int maxLength)
+        {
+            if (value.Length > maxLength)
+            {
+                return value.Substring(0, maxLength);
+            }
+            return value.PadRight(maxLength);
         }
     }
 }

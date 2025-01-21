@@ -20,15 +20,19 @@ namespace EntityLayer.DTOs
 
         public string TotalPrice { get; set; }
 
+        public DateTime ReceiptIssueDateTime { get; set; }
+
         public int idReservation { get; set; }
         
         public string ReservationDate { get; set; }
 
         public ICollection<TreatmentReceiptDTO> Treatments { get; set; }
 
-        public string TreatmentsStr { get; set; }
-        
-        public string Client { get; set; }
+        public string strTreatments { get; set; }
+
+        public ClientReceiptDTO Client { get; set; }
+
+        public string strClient { get; set; }
         
         public string Employee { get; set; }
     }

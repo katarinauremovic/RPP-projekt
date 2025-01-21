@@ -82,12 +82,11 @@ namespace BusinessLogicLayer.Services
             }
         }
 
-        public async Task<string> LoadReceiptInReceiptFormat(ReceiptDTO receiptDTO)
+        public async Task<string> GenerateReceiptInStringFormat(ReceiptDTO receiptDTO)
         {
             IPdfFactory<ReceiptDTO> pdfFactory = new ReceiptPdf();
-            var pdfBytes = await pdfFactory.GeneratePdf(receiptDTO);
-            string base64Pdf = Convert.ToBase64String(pdfBytes);
-            return base64Pdf;
+            var receipt = await pdfFactory.GenerateStr(receiptDTO);
+            return receipt;
         }
 
         public async Task GenerateReceiptPdf(ReceiptDTO receiptDTO)
@@ -109,12 +108,25 @@ namespace BusinessLogicLayer.Services
                 GiftCardDiscount = FormatCurrency(receipt.GiftCardDiscount.Value, euroCulture),
                 RewardDiscount = FormatCurrency(receipt.RewardDiscount.Value, euroCulture),
                 TotalPrice = FormatCurrency(receipt.TotalPrice.Value, euroCulture),
+                ReceiptIssueDateTime = receipt.IssueDateTime,
                 idReservation = receipt.Reservation_idReservation,
                 ReservationDate = FormatDate(receipt.Reservation.Date.Value, euroCulture),
                 Treatments = ConvertTreatments(receipt.Reservation.Reservation_has_Treatment, euroCulture),
-                TreatmentsStr = GenerateTreatmentsString(receipt.Reservation.Reservation_has_Treatment, euroCulture),
-                Client = FormatFullName(receipt.Reservation.Client.Firstname, receipt.Reservation.Client.Lastname),
+                strTreatments = GenerateTreatmentsString(receipt.Reservation.Reservation_has_Treatment, euroCulture),
+                Client = ConvertClient(receipt.Reservation.Client),
+                strClient = FormatFullName(receipt.Reservation.Client.Firstname, receipt.Reservation.Client.Lastname),
                 Employee = FormatFullName(receipt.Reservation.Employee.Firstname, receipt.Reservation.Employee.Lastname)
+            };
+        }
+
+        private ClientReceiptDTO ConvertClient(Client client)
+        {
+            return new ClientReceiptDTO
+            {
+                Firstname = client.Firstname,
+                Lastname = client.Lastname,
+                Email = client.Email,
+                PhoneNumber = client.PhoneNumber
             };
         }
 

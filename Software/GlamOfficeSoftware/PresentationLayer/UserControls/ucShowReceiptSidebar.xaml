@@ -28,7 +28,7 @@
                 <!-- račun info -->
                 <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" Margin="5,5,5,0">
                     <Grid >
-                        <TextBlock x:Name="txtReceipt" />
+                        <TextBlock x:Name="txtReceipt" Background="#ffffff" TextWrapping="Wrap" Padding="5"/>
                     </Grid>
                 </ScrollViewer>
 

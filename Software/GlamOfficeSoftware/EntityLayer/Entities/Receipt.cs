@@ -22,6 +22,9 @@ namespace EntityLayer.Entities
 
         public decimal? TotalPrice { get; set; }
 
+        [Required]
+        public DateTime IssueDateTime { get; set; }
+
         public int Reservation_idReservation { get; set; }
 
         public virtual Reservation Reservation { get; set; }

@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTOs\ClientDTO.cs" />
+    <Compile Include="DTOs\ClientReceiptDTO.cs" />
     <Compile Include="DTOs\ReceiptDTO.cs" />
     <Compile Include="DTOs\TreatmentReceiptDTO.cs" />
     <Compile Include="Entities\Client.cs" />
