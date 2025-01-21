@@ -11,7 +11,8 @@ namespace EntityLayer.Enums
         Pending,
         Confirmed,
         Completed,
-        Cancelled,
-        NoShow
+        Canceled,
+        NoShow,
+        Voided
     }
 }

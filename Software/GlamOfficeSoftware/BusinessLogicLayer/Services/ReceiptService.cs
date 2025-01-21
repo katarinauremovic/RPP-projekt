@@ -1,9 +1,9 @@
 ﻿using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.Interfaces;
-using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
 using EntityLayer.DTOs;
 using EntityLayer.Entities;
+using EntityLayer.Enums;
 using PdfFactory;
 using System;
 using System.Collections.Generic;
@@ -41,12 +41,13 @@ namespace BusinessLogicLayer.Services
             using (var repo = new ReceiptRepository())
             {
                 var receipt = await repo.GetByIdAsync(receiptId);
+                IReservationService reservationService = new ReservationService();
 
                 if (receipt != null)
                 {
                     var voidReceipt = new Receipt
                     {
-                        ReceiptNumber = receipt.ReceiptNumber,
+                        ReceiptNumber = "-" + receipt.ReceiptNumber,
                         TotalTreatmentAmount = -receipt.TotalTreatmentAmount,
                         RewardDiscount = receipt.RewardDiscount,
                         Reservation_idReservation = receipt.Reservation_idReservation,
@@ -54,6 +55,7 @@ namespace BusinessLogicLayer.Services
                     };
 
                     await HandleGiftCardRecoveryAsync(receipt, voidReceipt, wantsGiftCardRecover);
+                    await reservationService.ChangeReservationStatus(receipt.Reservation_idReservation, ReservationStatuses.Voided);
                     await GenerateReceiptPdf(voidReceipt);
                     await repo.AddAsync(voidReceipt);
 
@@ -84,7 +86,10 @@ namespace BusinessLogicLayer.Services
                     ReservationDate = r.Reservation.Date.Value.ToString("dd.MM.yyyy.", euroCulture),
                     Treatments = string.Join("\n", 
                     r.Reservation.Reservation_has_Treatment.Select(
-                        rt => $"{rt.Treatment.Name} (Qty: {rt.Amount}, Total: {string.Format(euroCulture, "{0:C}", rt.Amount * rt.Treatment.Price)})")),
+                        rt => $"{rt.Treatment.Name} " +
+                        $"(Qty: {rt.Amount}, " +
+                        $"Price: {string.Format(euroCulture, "{0:C}", rt.Treatment.Price)}, " +
+                        $"Total: {string.Format(euroCulture, "{0:C}", rt.Amount * rt.Treatment.Price)})")),
                     Client = string.Join(" ", r.Reservation.Client.Firstname, r.Reservation.Client.Lastname),
                     Employee = string.Join(" ", r.Reservation.Employee.Firstname, r.Reservation.Employee.Lastname)
                 }).ToList();
