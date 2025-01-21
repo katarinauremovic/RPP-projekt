@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="DTOs\ClientDTO.cs" />
     <Compile Include="DTOs\ReceiptDTO.cs" />
+    <Compile Include="DTOs\TreatmentReceiptDTO.cs" />
     <Compile Include="Entities\Client.cs" />
     <Compile Include="Entities\DailySchedule.cs" />
     <Compile Include="Entities\Day.cs" />

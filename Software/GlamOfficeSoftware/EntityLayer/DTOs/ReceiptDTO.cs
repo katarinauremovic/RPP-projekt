@@ -24,7 +24,9 @@ namespace EntityLayer.DTOs
         
         public string ReservationDate { get; set; }
 
-        public string Treatments { get; set; }
+        public ICollection<TreatmentReceiptDTO> Treatments { get; set; }
+
+        public string TreatmentsStr { get; set; }
         
         public string Client { get; set; }
         

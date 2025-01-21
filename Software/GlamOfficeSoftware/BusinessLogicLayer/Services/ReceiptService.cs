@@ -8,6 +8,7 @@ using PdfFactory;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -81,41 +82,82 @@ namespace BusinessLogicLayer.Services
             }
         }
 
-        private ReceiptDTO ConvertReceiptToReceiptDto(Receipt receipt)
-        {
-            var euroCulture = new CultureInfo("de-DE");
-            euroCulture.NumberFormat.CurrencyDecimalSeparator = ".";
-
-            var receiptDTO = new ReceiptDTO
-            {
-                Id = receipt.idReceipt,
-                ReceiptNumber = receipt.ReceiptNumber,
-                TotalTreatmentAmount = string.Format(euroCulture, "{0:C}", receipt.TotalTreatmentAmount.Value),
-                GiftCardDiscount = string.Format(euroCulture, "{0:C}", receipt.GiftCardDiscount.Value),
-                RewardDiscount = string.Format(euroCulture, "{0:C}", receipt.RewardDiscount.Value),
-                TotalPrice = string.Format(euroCulture, "{0:C}", receipt.TotalPrice.Value),
-                idReservation = receipt.Reservation_idReservation,
-                ReservationDate = receipt.Reservation.Date.Value.ToString("dd.MM.yyyy.", euroCulture),
-                Treatments = string.Join("\n",
-                    receipt.Reservation.Reservation_has_Treatment.Select(
-                        rt => $"{rt.Treatment.Name} " +
-                              $"(Qty: {rt.Amount}, " +
-                              $"Price: {string.Format(euroCulture, "{0:C}", rt.Treatment.Price)}, " +
-                              $"Total: {string.Format(euroCulture, "{0:C}", rt.Amount * rt.Treatment.Price)})")),
-                Client = string.Join(" ", receipt.Reservation.Client.Firstname, receipt.Reservation.Client.Lastname),
-                Employee = string.Join(" ", receipt.Reservation.Employee.Firstname, receipt.Reservation.Employee.Lastname)
-            };
-
-            return receiptDTO;
-        }
-
         public async Task<string> LoadReceiptInReceiptFormat(ReceiptDTO receiptDTO)
         {
             IPdfFactory<ReceiptDTO> pdfFactory = new ReceiptPdf();
             var pdfBytes = await pdfFactory.GeneratePdf(receiptDTO);
             string base64Pdf = Convert.ToBase64String(pdfBytes);
-
             return base64Pdf;
+        }
+
+        public async Task GenerateReceiptPdf(ReceiptDTO receiptDTO)
+        {
+            IPdfFactory<ReceiptDTO> pdfFactory = new ReceiptPdf();
+            var pdfBytes = await pdfFactory.GeneratePdf(receiptDTO);
+            await OpenReceiptPdfAsync(receiptDTO, pdfBytes);
+        }
+
+        private ReceiptDTO ConvertReceiptToReceiptDto(Receipt receipt)
+        {
+            var euroCulture = CreateEuroCulture();
+
+            return new ReceiptDTO
+            {
+                Id = receipt.idReceipt,
+                ReceiptNumber = receipt.ReceiptNumber,
+                TotalTreatmentAmount = FormatCurrency(receipt.TotalTreatmentAmount.Value, euroCulture),
+                GiftCardDiscount = FormatCurrency(receipt.GiftCardDiscount.Value, euroCulture),
+                RewardDiscount = FormatCurrency(receipt.RewardDiscount.Value, euroCulture),
+                TotalPrice = FormatCurrency(receipt.TotalPrice.Value, euroCulture),
+                idReservation = receipt.Reservation_idReservation,
+                ReservationDate = FormatDate(receipt.Reservation.Date.Value, euroCulture),
+                Treatments = ConvertTreatments(receipt.Reservation.Reservation_has_Treatment, euroCulture),
+                TreatmentsStr = GenerateTreatmentsString(receipt.Reservation.Reservation_has_Treatment, euroCulture),
+                Client = FormatFullName(receipt.Reservation.Client.Firstname, receipt.Reservation.Client.Lastname),
+                Employee = FormatFullName(receipt.Reservation.Employee.Firstname, receipt.Reservation.Employee.Lastname)
+            };
+        }
+
+        private CultureInfo CreateEuroCulture()
+        {
+            var euroCulture = new CultureInfo("de-DE");
+            euroCulture.NumberFormat.CurrencyDecimalSeparator = ".";
+            return euroCulture;
+        }
+
+        private string FormatCurrency(decimal value, CultureInfo culture)
+        {
+            return string.Format(culture, "{0:C}", value);
+        }
+
+        private string FormatDate(DateTime date, CultureInfo culture)
+        {
+            return date.ToString("dd.MM.yyyy.", culture);
+        }
+
+        private List<TreatmentReceiptDTO> ConvertTreatments(IEnumerable<Reservation_has_Treatment> treatments, CultureInfo culture)
+        {
+            return treatments.Select(rt => new TreatmentReceiptDTO
+            {
+                Name = rt.Treatment.Name,
+                Quantity = rt.Amount,
+                UnitPrice = FormatCurrency((decimal)rt.Treatment.Price, culture),
+                TotalPrice = FormatCurrency((decimal)(rt.Amount * rt.Treatment.Price), culture)
+            }).ToList();
+        }
+
+        private string GenerateTreatmentsString(IEnumerable<Reservation_has_Treatment> treatments, CultureInfo culture)
+        {
+            return string.Join("\n", treatments.Select(rt =>
+                $"{rt.Treatment.Name} " +
+                $"(Qty: {rt.Amount}, " +
+                $"Price: {FormatCurrency((decimal)rt.Treatment.Price, culture)}, " +
+                $"Total: {FormatCurrency((decimal)(rt.Amount * rt.Treatment.Price), culture)})"));
+        }
+
+        private string FormatFullName(string firstname, string lastname)
+        {
+            return string.Join(" ", firstname, lastname);
         }
 
         private async Task<Receipt> ConvertReceiptDtoToReceipt(ReceiptDTO receiptDTO)
@@ -133,12 +175,14 @@ namespace BusinessLogicLayer.Services
             }
         }
 
-        private async Task GenerateReceiptPdf(ReceiptDTO receiptDto)
+        private async Task OpenReceiptPdfAsync(ReceiptDTO receiptDTO, byte[] pdfBytes)
         {
-            IPdfFactory<ReceiptDTO> pdfFactory = new ReceiptPdf();
-            var pdfBytes = await pdfFactory.GeneratePdf(receiptDto);
-            await Task.Run(() => File.WriteAllBytes($"Receipts/{receiptDto.ReceiptNumber}.pdf", pdfBytes));
+            string tempFilePath = Path.Combine(Path.GetTempPath(), $"{receiptDTO.ReceiptNumber}.pdf");
+
+            await Task.Run(() => File.WriteAllBytes(tempFilePath, pdfBytes));
+            await Task.Run(() => Process.Start(new ProcessStartInfo(tempFilePath) { UseShellExecute = true }));
         }
+
 
         private async Task HandleGiftCardRecoveryAsync(Receipt receipt, Receipt voidReceipt, bool wantsGiftCardRecover)
         {

@@ -46,7 +46,7 @@
                         <DataGridTextColumn Header="Reward Discount" Binding="{Binding RewardDiscount}" Width="Auto" />
                         <DataGridTextColumn Header="Total Price" Binding="{Binding TotalPrice}" Width="Auto" />
                         <DataGridTextColumn Header="Reservation Date" Binding="{Binding ReservationDate}" Width="Auto" />
-                        <DataGridTextColumn Header="Treatments" Binding="{Binding Treatments}" Width="Auto" />
+                        <DataGridTextColumn Header="Treatments" Binding="{Binding TreatmentsStr}" Width="Auto" />
                         <DataGridTextColumn Header="Client" Binding="{Binding Client}" Width="Auto" />
                         <DataGridTextColumn Header="Employee" Binding="{Binding Employee}" Width="Auto" />
                     </DataGrid.Columns>

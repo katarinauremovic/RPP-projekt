@@ -43,7 +43,7 @@ namespace PresentationLayer.UserControls
 
         private async Task LoadReceiptAsync()
         {
-            txtReceipt.Text = await _receiptService.LoadReceiptInReceiptFormat(_selectedReceipt);
+            await _receiptService.GenerateReceiptPdf(_selectedReceipt);
         }
 
         private void btnCloseSidebar_Click(object sender, RoutedEventArgs e)

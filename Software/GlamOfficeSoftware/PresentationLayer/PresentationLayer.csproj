@@ -182,6 +182,11 @@
   <ItemGroup>
     <Resource Include="Images\dropdown-arrow.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\GlamOfficeIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
