@@ -13,6 +13,6 @@ namespace BusinessLogicLayer.Interfaces
         Task<IEnumerable<Reservation>> GetAllReservationsAsync();
         Task AddNewReservationAsync(Reservation reservation);
         Task<Reservation> UpdateReservationAsync(Reservation reservation);
-        Task ChangeReservationStatus(int reservationId, ReservationStatuses status);
+        Task ChangeReservationStatusAsync(int reservationId, ReservationStatuses status);
     }
 }

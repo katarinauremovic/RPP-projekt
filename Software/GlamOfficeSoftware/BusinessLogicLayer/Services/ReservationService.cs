@@ -37,7 +37,7 @@ namespace BusinessLogicLayer.Services
             }
         }
 
-        public async Task ChangeReservationStatus(int reservationId, ReservationStatuses status)
+        public async Task ChangeReservationStatusAsync(int reservationId, ReservationStatuses status)
         {
             using (var repo = new ReservationRepository())
             {

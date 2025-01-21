@@ -55,7 +55,7 @@ namespace BusinessLogicLayer.Services
                     };
 
                     await HandleGiftCardRecoveryAsync(receipt, voidReceipt, wantsGiftCardRecover);
-                    await reservationService.ChangeReservationStatus(receipt.Reservation_idReservation, ReservationStatuses.Voided);
+                    await reservationService.ChangeReservationStatusAsync(receipt.Reservation_idReservation, ReservationStatuses.Voided);
                     await GenerateReceiptPdf(voidReceipt);
                     await repo.AddAsync(voidReceipt);
 
