@@ -79,7 +79,7 @@ namespace PresentationLayer.UserControls
                 SwitchReceipt(receipt);
                 ShowSidebar();
             } catch (DataGridNoSelectionException ex)
-            {
+            {  
                 MessageBox.Show(ex.Message, "Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             } catch (ClientOperationException ex)
             {
@@ -170,6 +170,29 @@ namespace PresentationLayer.UserControls
                 };
 
                 sidebarMenu.BeginAnimation(MarginProperty, marginAnimation);
+            }
+        }
+
+        private void dgvReceipts_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                var receipt = GetReceiptFromDataGrid();
+
+                if (ccSidebar.Content != null)
+                {
+                    SwitchReceipt(receipt); 
+                }
+
+            } catch (DataGridNoSelectionException ex)
+            {
+                MessageBox.Show(ex.Message, "Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            } catch (ClientOperationException ex)
+            {
+                MessageBox.Show(ex.Message, "Receipt Operation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            } catch (Exception ex)
+            {
+                MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

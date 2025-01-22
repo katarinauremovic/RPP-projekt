@@ -38,7 +38,7 @@
 
             <!-- Tablica s računima -->
             <Grid Margin="0,0,-210,0">
-                <DataGrid x:Name="dgvReceipts" Visibility="Collapsed" AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <DataGrid x:Name="dgvReceipts" Visibility="Collapsed" SelectionChanged="dgvReceipts_SelectionChanged" AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Receipt Number" Binding="{Binding ReceiptNumber}" Width="Auto"/>
                         <DataGridTextColumn Header="Total Treatment Amount" Binding="{Binding TotalTreatmentAmount}" Width="Auto" />
