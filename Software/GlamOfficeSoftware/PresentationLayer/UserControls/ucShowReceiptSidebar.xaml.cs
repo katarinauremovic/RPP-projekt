@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.Interfaces;
+﻿using BusinessLogicLayer.Exceptions;
+using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
 using EntityLayer.DTOs;
 using System;
@@ -53,13 +54,31 @@ namespace PresentationLayer.UserControls
 
         private async void btnSaveToPdf_Click(object sender, RoutedEventArgs e)
         {
-            await Task.Run(() => _receiptService.GenerateReceiptPdf(_selectedReceipt));
+            try
+            {
+                await Task.Run(() => _receiptService.GenerateReceiptPdf(_selectedReceipt));
+            } catch (ClientOperationException ex)
+            {
+                MessageBox.Show(ex.Message, "Receipt Operation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private async void btnVoid_Click(object sender, RoutedEventArgs e)
         {
-            await Task.Run(() => _receiptService.VoidReceiptAsync(_selectedReceipt.Id));
-            await Parent.RefreshGui();
+            try
+            {
+                await Task.Run(() => _receiptService.VoidReceiptAsync(_selectedReceipt.Id, true));
+                await Parent.RefreshGui();
+            } catch (DataGridNoSelectionException ex)
+            {
+                MessageBox.Show(ex.Message, "Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            } catch (ClientOperationException ex)
+            {
+                MessageBox.Show(ex.Message, "Receipt Operation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            } catch (ReceiptNotVoidableException ex)
+            {
+                MessageBox.Show(ex.Message, "Void Receipt Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

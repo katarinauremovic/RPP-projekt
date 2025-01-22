@@ -124,10 +124,23 @@ namespace PresentationLayer.UserControls
 
         private async void btnVoidReceipt_Click(object sender, RoutedEventArgs e)
         {
-            var selectedReceipt = GetReceiptFromDataGrid();
-            await Task.Run(() => _receiptService.VoidReceiptAsync(selectedReceipt.Id, true));
-            await RefreshGui();
+            try
+            {
+                var selectedReceipt = GetReceiptFromDataGrid();
+                await Task.Run(() => _receiptService.VoidReceiptAsync(selectedReceipt.Id, true));
+                await RefreshGui();
+            } catch (DataGridNoSelectionException ex)
+            {
+                MessageBox.Show(ex.Message, "Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            } catch (ClientOperationException ex)
+            {
+                MessageBox.Show(ex.Message, "Receipt Operation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            } catch (ReceiptNotVoidableException ex)
+            {
+                MessageBox.Show(ex.Message, "Void Receipt Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
+
 
         public async void CloseSidebar()
         {

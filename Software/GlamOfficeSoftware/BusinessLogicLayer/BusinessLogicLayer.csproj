@@ -44,6 +44,8 @@
     <Compile Include="Exceptions\ClientNotFoundException.cs" />
     <Compile Include="Exceptions\ClientOperationException.cs" />
     <Compile Include="Exceptions\DataGridNoSelectionException.cs" />
+    <Compile Include="Exceptions\FailedToOpenPdfException.cs" />
+    <Compile Include="Exceptions\ReceiptNotVoidableException.cs" />
     <Compile Include="Interfaces\IClientService.cs" />
     <Compile Include="Interfaces\IGiftCardService.cs" />
     <Compile Include="Interfaces\IReceiptService.cs" />

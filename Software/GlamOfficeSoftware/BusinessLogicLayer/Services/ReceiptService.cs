@@ -49,31 +49,43 @@ namespace BusinessLogicLayer.Services
                 var receipt = await repo.GetByIdAsync(receiptId);
                 IReservationService reservationService = new ReservationService();
 
-                if (receipt != null && receipt.Status != ReceiptStatuses.Voided.ToString())
+                if (receipt == null)
                 {
-                    var voidReceipt = new Receipt
-                    {
-                        ReceiptNumber = "-1-" + receipt.ReceiptNumber,
-                        IssueDateTime = DateTime.Now,
-                        TotalTreatmentAmount = -receipt.TotalTreatmentAmount,
-                        RewardDiscount = receipt.RewardDiscount,
-                        GiftCardDiscount = -receipt.GiftCardDiscount,
-                        Status = ReceiptStatuses.Voided.ToString(),
-                        Reservation_idReservation = receipt.Reservation_idReservation,
-                        Reservation = receipt.Reservation
-                    };
-
-                    await HandleGiftCardRecoveryAsync(receipt, voidReceipt, wantsGiftCardRecover);
-                    await ChangeReceiptStatusAsync(receipt);
-                    await reservationService.ChangeReservationStatusAsync(receipt.Reservation_idReservation, ReservationStatuses.Voided);
-                    //var voidReceiptDTO = ConvertReceiptToReceiptDto(voidReceipt);
-                    //await GenerateReceiptPdf(voidReceiptDTO);
-                    await repo.AddAsync(voidReceipt);
-
-                    return voidReceipt;
+                    throw new ReceiptNotVoidableException("Receipt not found.");
                 }
 
-                return null;
+                if (receipt.Status == ReceiptStatuses.Voided.ToString())
+                {
+                    throw new ReceiptNotVoidableException("Receipt has already been voided.");
+                }
+
+                var voidReceipt = new Receipt
+                {
+                    ReceiptNumber = "-1-" + receipt.ReceiptNumber,
+                    IssueDateTime = DateTime.Now,
+                    TotalTreatmentAmount = -receipt.TotalTreatmentAmount,
+                    RewardDiscount = receipt.RewardDiscount,
+                    GiftCardDiscount = -receipt.GiftCardDiscount,
+                    Status = ReceiptStatuses.Voided.ToString(),
+                    Reservation_idReservation = receipt.Reservation_idReservation,
+                    Reservation = receipt.Reservation
+                };
+
+                await HandleGiftCardRecoveryAsync(receipt, voidReceipt, wantsGiftCardRecover);
+                await ChangeReceiptStatusAsync(receipt);
+                await reservationService.ChangeReservationStatusAsync(receipt.Reservation_idReservation, ReservationStatuses.Voided);
+                try
+                {
+                    var voidReceiptDTO = ConvertReceiptToReceiptDto(voidReceipt);
+                    //await GenerateReceiptPdf(voidReceiptDTO);
+                } catch (FailedToOpenPdfException ex)
+                {
+                    throw ex;
+                }
+
+                await repo.AddAsync(voidReceipt);
+
+                return voidReceipt;
             }
         }
 
@@ -107,9 +119,15 @@ namespace BusinessLogicLayer.Services
 
         public async Task GenerateReceiptPdf(ReceiptDTO receiptDTO)
         {
-            IPdfFactory<ReceiptDTO> pdfFactory = new ReceiptPdf();
-            var pdfBytes = await pdfFactory.GeneratePdf(receiptDTO);
-            await OpenReceiptPdfAsync(receiptDTO, pdfBytes);
+            try
+            {
+                IPdfFactory<ReceiptDTO> pdfFactory = new ReceiptPdf();
+                var pdfBytes = await pdfFactory.GeneratePdf(receiptDTO);
+                await OpenReceiptPdfAsync(receiptDTO, pdfBytes);
+            } catch (FailedToOpenPdfException ex)
+            {
+                throw ex;
+            }
         }
 
         private ReceiptDTO ConvertReceiptToReceiptDto(Receipt receipt)
@@ -192,10 +210,16 @@ namespace BusinessLogicLayer.Services
         {
             string tempFilePath = Path.Combine(Path.GetTempPath(), $"{receiptDTO.ReceiptNumber}.pdf");
 
-            await Task.Run(() => File.WriteAllBytes(tempFilePath, pdfBytes));
-            await Task.Run(() => Process.Start(new ProcessStartInfo(tempFilePath) { UseShellExecute = true }));
+            try
+            {
+                //treba pronaci exception za kad je vec pdf otvoren
+                await Task.Run(() => File.WriteAllBytes(tempFilePath, pdfBytes));
+                await Task.Run(() => Process.Start(new ProcessStartInfo(tempFilePath) { UseShellExecute = true }));
+            } catch (FailedToOpenPdfException)
+            {
+                throw new FailedToOpenPdfException("Failed to open the PDF file.");
+            }
         }
-
 
         private async Task HandleGiftCardRecoveryAsync(Receipt receipt, Receipt voidReceipt, bool wantsGiftCardRecover)
         {
