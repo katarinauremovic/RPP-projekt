@@ -26,12 +26,11 @@ namespace DataAccessLayer.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<int?> GetClientIdByReceiptAsync(Receipt receipt)
+        public async Task ChangeReceiptStatusAsync(Receipt receipt)
         {
-            return await items
-                .Where(r => r.idReceipt == receipt.idReceipt)
-                .Select(r => r.Reservation.Client.idClient)
-                .FirstOrDefaultAsync();
+            var receiptDb = await items.FirstOrDefaultAsync(r => r.idReceipt == receipt.idReceipt);
+            receiptDb.Status = receipt.Status;
+            await SaveChangesAsync();
         }
     }
 }

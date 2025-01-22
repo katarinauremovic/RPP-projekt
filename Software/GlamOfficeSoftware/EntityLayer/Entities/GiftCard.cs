@@ -13,6 +13,8 @@ namespace EntityLayer.Entities
 
         public decimal? Value { get; set; }
 
+        public decimal? ToSpend { get; set; }
+
         [StringLength(45)]
         public string Status { get; set; }
         

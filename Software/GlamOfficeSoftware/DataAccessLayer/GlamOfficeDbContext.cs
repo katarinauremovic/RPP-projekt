@@ -132,6 +132,10 @@ namespace DataAccessLayer
                 .HasPrecision(10, 2);
 
             modelBuilder.Entity<GiftCard>()
+                .Property(e => e.ToSpend)
+                .HasPrecision(10, 2);
+
+            modelBuilder.Entity<GiftCard>()
                 .Property(e => e.Status)
                 .IsUnicode(false);
 
@@ -162,6 +166,10 @@ namespace DataAccessLayer
             modelBuilder.Entity<Receipt>()
                 .Property(e => e.TotalPrice)
                 .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Receipt>()
+                .Property(e => e.Status)
+                .IsUnicode(false);
 
             modelBuilder.Entity<Reservation>()
                 .Property(e => e.Remark)

@@ -56,9 +56,10 @@ namespace PresentationLayer.UserControls
             await Task.Run(() => _receiptService.GenerateReceiptPdf(_selectedReceipt));
         }
 
-        private void btnVoid_Click(object sender, RoutedEventArgs e)
+        private async void btnVoid_Click(object sender, RoutedEventArgs e)
         {
-
+            await Task.Run(() => _receiptService.VoidReceiptAsync(_selectedReceipt.Id));
+            await Parent.RefreshGui();
         }
     }
 }

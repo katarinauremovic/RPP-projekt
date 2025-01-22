@@ -49,27 +49,40 @@ namespace BusinessLogicLayer.Services
                 var receipt = await repo.GetByIdAsync(receiptId);
                 IReservationService reservationService = new ReservationService();
 
-                if (receipt != null)
+                if (receipt != null && receipt.Status != ReceiptStatuses.Voided.ToString())
                 {
                     var voidReceipt = new Receipt
                     {
-                        ReceiptNumber = "-" + receipt.ReceiptNumber,
+                        ReceiptNumber = "-1-" + receipt.ReceiptNumber,
+                        IssueDateTime = DateTime.Now,
                         TotalTreatmentAmount = -receipt.TotalTreatmentAmount,
                         RewardDiscount = receipt.RewardDiscount,
+                        GiftCardDiscount = -receipt.GiftCardDiscount,
+                        Status = ReceiptStatuses.Voided.ToString(),
                         Reservation_idReservation = receipt.Reservation_idReservation,
                         Reservation = receipt.Reservation
                     };
 
                     await HandleGiftCardRecoveryAsync(receipt, voidReceipt, wantsGiftCardRecover);
+                    await ChangeReceiptStatusAsync(receipt);
                     await reservationService.ChangeReservationStatusAsync(receipt.Reservation_idReservation, ReservationStatuses.Voided);
-                    var voidReceiptDTO = ConvertReceiptToReceiptDto(voidReceipt);
-                    await GenerateReceiptPdf(voidReceiptDTO);
+                    //var voidReceiptDTO = ConvertReceiptToReceiptDto(voidReceipt);
+                    //await GenerateReceiptPdf(voidReceiptDTO);
                     await repo.AddAsync(voidReceipt);
 
                     return voidReceipt;
                 }
 
                 return null;
+            }
+        }
+
+        private async Task ChangeReceiptStatusAsync(Receipt receipt)
+        {
+            using (var repo = new ReceiptRepository())
+            {
+                receipt.Status = ReceiptStatuses.Voided.ToString();
+                await repo.ChangeReceiptStatusAsync(receipt);
             }
         }
 
@@ -175,21 +188,6 @@ namespace BusinessLogicLayer.Services
             return string.Join(" ", firstname, lastname);
         }
 
-        private async Task<Receipt> ConvertReceiptDtoToReceipt(ReceiptDTO receiptDTO)
-        {
-            using (var repo = new ReceiptRepository())
-            {
-                var receipt = await repo.GetByIdAsync(receiptDTO.Id);
-
-                if (receipt == null)
-                {
-                    throw new ClientNotFoundException($"Receipt with ID {receipt.idReceipt} does not exist.");
-                }
-
-                return receipt;
-            }
-        }
-
         private async Task OpenReceiptPdfAsync(ReceiptDTO receiptDTO, byte[] pdfBytes)
         {
             string tempFilePath = Path.Combine(Path.GetTempPath(), $"{receiptDTO.ReceiptNumber}.pdf");
@@ -204,19 +202,20 @@ namespace BusinessLogicLayer.Services
             if (wantsGiftCardRecover)
             {
                 var giftCardId = await GetGiftCardIdByReceiptAsync(receipt);
-                if (giftCardId != null && receipt.GiftCardDiscount > 0)
+                if (giftCardId != null && receipt.GiftCardDiscount != 0)
                 {
                     await RecoverGiftCardAsync(giftCardId.Value, (decimal)receipt.GiftCardDiscount);
+                    Console.WriteLine(voidReceipt);
                 }
 
-                voidReceipt.GiftCardDiscount = receipt.GiftCardDiscount;
                 voidReceipt.TotalPrice = -receipt.TotalPrice;
             } else
             {
                 voidReceipt.GiftCardDiscount = 0;
-                voidReceipt.TotalPrice = -(receipt.TotalPrice + receipt.GiftCardDiscount);
+                voidReceipt.TotalPrice = -(receipt.TotalPrice - receipt.GiftCardDiscount);
             }
         }
+
 
 
         private async Task<int?> GetGiftCardIdByReceiptAsync(Receipt receipt)

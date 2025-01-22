@@ -17,14 +17,7 @@ namespace DataAccessLayer.Repositories
             
             if (giftCardDb != null)
             {
-                giftCardDb.Value = recoveredGiftCard.Value;
-                giftCardDb.Status = recoveredGiftCard.Status;
-                giftCardDb.ActivationDate = recoveredGiftCard.ActivationDate;
-                giftCardDb.ExpirationDate = recoveredGiftCard.ExpirationDate;
-                giftCardDb.RedemptionDate = recoveredGiftCard.RedemptionDate;
-                giftCardDb.Description = recoveredGiftCard.Description;
-                giftCardDb.PromoCode = recoveredGiftCard.PromoCode;
-
+                giftCardDb = recoveredGiftCard;
                 await SaveChangesAsync();
             }
         }

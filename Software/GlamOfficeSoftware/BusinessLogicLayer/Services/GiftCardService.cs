@@ -20,18 +20,11 @@ namespace BusinessLogicLayer.Services
 
                 if (giftCard != null)
                 {
-                    var recoveredGiftCard = new GiftCard
-                    {
-                        Value = giftCardDiscount,
-                        Status = CheckGiftCardStatus(giftCard.ActivationDate, giftCard.ExpirationDate, giftCard.RedemptionDate).ToString(),
-                        ActivationDate = giftCard.ActivationDate,
-                        ExpirationDate = giftCard.ExpirationDate,
-                        RedemptionDate = null,
-                        Description = giftCard.Description,
-                        PromoCode = giftCard.PromoCode
-                    };
+                    giftCard.Status = CheckGiftCardStatus(giftCard.ActivationDate, giftCard.ExpirationDate, giftCard.RedemptionDate).ToString();
+                    UpdateGiftCardAmount(giftCard, giftCardDiscount);
+                    giftCard.RedemptionDate = null;       
 
-                    await repo.RecoverGiftCardAsync(recoveredGiftCard);
+                    await repo.RecoverGiftCardAsync(giftCard);
                 }
             }
         }
@@ -44,6 +37,17 @@ namespace BusinessLogicLayer.Services
             }
 
             return GiftCardStatuses.Active;
+        }
+
+        private void UpdateGiftCardAmount(GiftCard giftCard, decimal giftCardDiscount)
+        {
+            if (giftCard.Status == GiftCardStatuses.Expired.ToString())
+            {
+                giftCard.ToSpend = 0;
+            } else
+            {
+                giftCard.ToSpend = giftCardDiscount;
+            }
         }
     }
 }

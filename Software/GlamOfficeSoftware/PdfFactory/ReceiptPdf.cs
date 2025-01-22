@@ -87,6 +87,11 @@ namespace PdfFactory
         {
             var stringBuilder = new StringBuilder();
 
+            // Info
+            stringBuilder.AppendLine("                   Glam Office d.o.o.        ");
+            stringBuilder.AppendLine("                     Julija Merlića 9        ");
+            stringBuilder.AppendLine("            42000, Varaždin, Hrvatska        ");
+
             // Header
             stringBuilder.AppendLine("==========================");
             stringBuilder.AppendLine("                          Receipt        ");
@@ -139,6 +144,8 @@ namespace PdfFactory
             // Employee Information
             stringBuilder.AppendLine("Employee:");
             stringBuilder.AppendLine($"{data.Employee}");
+            stringBuilder.AppendLine("==========================");
+            stringBuilder.AppendLine("                        THANK YOU!        ");
             stringBuilder.AppendLine("==========================");
 
             // Return the result as a string

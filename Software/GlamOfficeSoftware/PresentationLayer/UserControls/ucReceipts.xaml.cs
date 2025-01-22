@@ -36,6 +36,11 @@ namespace PresentationLayer.UserControls
 
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+           await RefreshGui();
+        }
+
+        public async Task RefreshGui()
+        {
             ShowLoadingIndicator(true);
             await LoadReceiptsAsync();
             ShowLoadingIndicator(false);
@@ -117,9 +122,11 @@ namespace PresentationLayer.UserControls
             }
         }
 
-        private void btnVoidReceipt_Click(object sender, RoutedEventArgs e)
+        private async void btnVoidReceipt_Click(object sender, RoutedEventArgs e)
         {
-
+            var selectedReceipt = GetReceiptFromDataGrid();
+            await Task.Run(() => _receiptService.VoidReceiptAsync(selectedReceipt.Id, true));
+            await RefreshGui();
         }
 
         public async void CloseSidebar()
