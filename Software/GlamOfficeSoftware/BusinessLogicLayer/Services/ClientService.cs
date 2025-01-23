@@ -28,24 +28,7 @@ namespace BusinessLogicLayer.Services
             using (var repo = new ClientRepository())
             {
                 var clients = await repo.GetAllAsync();
-
-                var clientsDTO = clients.Select(c => new ClientDTO
-                {
-                    Id = c.idClient,
-                    Firstname = c.Firstname,
-                    Lastname = c.Lastname,
-                    Email = c.Email,
-                    PhoneNumber = c.PhoneNumber,
-                    RewardPointsCount = c.RewardPoints.Count,
-                    GiftCardDescription = c.GiftCard?.Description ?? "No GiftCard",
-                    ReservationsDates = c.Reservations.Any() 
-                        ? string.Join(", ", c.Reservations.Select(r => r.Date.ToString().Split(' ')[0]))
-                        : "No reservations",
-                    ReviewsComments = c.Reviews.Any()
-                        ? string.Join(", ", c.Reviews.Select(r => r.Comment))
-                        : "No reviews"
-                }).ToList();
-
+                var clientsDTO = clients.Select(ConvertClientToClientDTO).ToList();
                 return clientsDTO;
             }
         }
@@ -64,6 +47,74 @@ namespace BusinessLogicLayer.Services
                     Console.WriteLine(ex.Message);
                     throw;
                 }
+            }
+        }
+
+        public ClientDTO ConvertClientToClientDTO(Client client)
+        {
+            return new ClientDTO
+            {
+                Id = client.idClient,
+                Firstname = client.Firstname,
+                Lastname = client.Lastname,
+                Email = client.Email,
+                PhoneNumber = client.PhoneNumber,
+                RewardPointsCount = client.RewardPoints.Count,
+                GiftCardDescription = client.GiftCard?.Description ?? "No GiftCard",
+                ReservationsDates = client.Reservations.Any()
+                    ? string.Join(", ", client.Reservations.Select(r => r.Date.ToString().Split(' ')[0]))
+                    : "No reservations",
+                ReviewsComments = client.Reviews.Any()
+                    ? string.Join(", ", client.Reviews.Select(r => r.Comment))
+                    : "No reviews"
+            };
+        }
+
+        public async Task AddNewClient(Client client)
+        {
+            using (var repo = new ClientRepository())
+            {
+                await repo.AddAsync(client);
+            }
+        }
+
+        public async Task RemoveClient(ClientDTO clientDTO)
+        {
+            using (var repo = new ClientRepository())
+            {
+                var client = await ConvertClientDtoToClient(clientDTO);
+
+                await repo.RemoveAsync(client);
+            }
+        }
+
+        public async Task<IEnumerable<ClientDTO>> GetClientsByFirstAndLastNamePattern(string firstAndLastNamePattern)
+        {
+            using (var repo = new ClientRepository())
+            {
+                var clients = await repo.GetClientsByFirstAndLastNamePattern(firstAndLastNamePattern);
+                var clientsDto = clients.Select(ConvertClientToClientDTO).ToList();
+                return clientsDto;
+            }
+        }
+
+        public async Task<IEnumerable<ClientDTO>> GetClientsByEmailPattern(string emailPattern)
+        {
+            using (var repo = new ClientRepository())
+            {
+                var clients = await repo.GetClientsByEmailPattern(emailPattern);
+                var clientsDto = clients.Select(ConvertClientToClientDTO).ToList();
+                return clientsDto;
+            }
+        }
+
+        public async Task<IEnumerable<ClientDTO>> GetClientsByPhoneNumberPattern(string phoneNumberPattern)
+        {
+            using (var repo = new ClientRepository())
+            {
+                var clients = await repo.GetClientsByPhoneNumberPattern(phoneNumberPattern);
+                var clientsDto = clients.Select(ConvertClientToClientDTO).ToList();
+                return clientsDto;
             }
         }
 
@@ -92,24 +143,6 @@ namespace BusinessLogicLayer.Services
             client.PhoneNumber = clientDTO.PhoneNumber;
 
             return client;
-        }
-
-        public async Task AddNewClient(Client client)
-        {
-            using (var repo = new ClientRepository())
-            {
-                await repo.AddAsync(client);
-            }
-        }
-
-        public async Task RemoveClient(ClientDTO clientDTO)
-        {
-            using (var repo = new ClientRepository())
-            {
-                var client = await ConvertClientDtoToClient(clientDTO);
-
-                await repo.RemoveAsync(client);
-            }
         }
 
         public async Task<Client> GetByEmailAsync(string email)
@@ -181,30 +214,6 @@ namespace BusinessLogicLayer.Services
             using (var repo = new ClientRepository())
             {
                 return await repo.GetClientsByRewardTypeAsync(rewardType);
-            }
-        }
-
-        public async Task<IEnumerable<Client>> GetClientsByFirstAndLastNamePattern(string firstAndLastNamePattern)
-        {
-            using (var repo = new ClientRepository())
-            {
-                return await repo.GetClientsByFirstAndLastNamePattern(firstAndLastNamePattern);
-            }
-        }
-
-        public async Task<IEnumerable<Client>> GetClientsByEmailPattern(string emailPattern)
-        {
-            using (var repo = new ClientRepository())
-            {
-                return await repo.GetClientsByEmailPattern(emailPattern);
-            }
-        }
-
-        public async Task<IEnumerable<Client>> GetClientsByPhoneNumberPattern(string phoneNumberPattern)
-        {
-            using (var repo = new ClientRepository())
-            {
-                return await repo.GetClientsByPhoneNumberPattern(phoneNumberPattern);
             }
         }
     }

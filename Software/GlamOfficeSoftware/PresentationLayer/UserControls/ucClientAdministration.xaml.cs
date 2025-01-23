@@ -48,7 +48,6 @@ namespace PresentationLayer.UserControls
 
         private void LoadFilters()
         {
-            //cmb fill
             cmbFilters.Items.Add("First and lastname");
             cmbFilters.Items.Add("Email");
             cmbFilters.Items.Add("Phone number");
@@ -153,13 +152,13 @@ namespace PresentationLayer.UserControls
                 switch (selectedItem)
                 {
                     case 0:
-                        dgvClients.ItemsSource = await _clientService.GetClientsByFirstAndLastNamePattern(pattern);
+                        dgvClients.ItemsSource = await Task.Run(() => _clientService.GetClientsByFirstAndLastNamePattern(pattern));
                         break;
                     case 1:
-                        dgvClients.ItemsSource = await _clientService.GetClientsByEmailPattern(pattern);
+                        dgvClients.ItemsSource = await Task.Run(() => _clientService.GetClientsByEmailPattern(pattern));
                         break;
                     case 2:
-                        dgvClients.ItemsSource = await _clientService.GetClientsByPhoneNumberPattern(pattern);
+                        dgvClients.ItemsSource = await Task.Run(() =>  _clientService.GetClientsByPhoneNumberPattern(pattern));
                         break;
                     default:
                         MessageBox.Show("Invalid filter selection.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -204,7 +203,12 @@ namespace PresentationLayer.UserControls
                 try
                 {
                     var client = GetClientFromDataGrid();
-                    SwitchClient(client);
+
+                    if (ccSidebar.Content != null)
+                    {
+                        SwitchClient(client);
+                    }
+
                 } catch (DataGridNoSelectionException ex)
                 {
                     MessageBox.Show(ex.Message, "Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);

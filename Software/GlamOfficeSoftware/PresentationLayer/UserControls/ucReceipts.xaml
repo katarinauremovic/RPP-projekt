@@ -30,8 +30,52 @@
             <!--Sidebar-->
             <ContentControl x:Name="ccSidebar" Width="240" DockPanel.Dock="Right" Margin="0,-54.55,-30,-15" Panel.ZIndex="2" />
 
+            <!-- sadržaj ispod tablice s računima -->
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Left">
+                <!-- Pretraživanje i filteri -->
+                <StackPanel Orientation="Horizontal">
+                    <!-- Pretraživanje -->
+                    <StackPanel>
+                        <TextBlock Text="Search clients:" Margin="0, 5" />
+                        <Border BorderThickness="1" BorderBrush="#acb0af" CornerRadius="20" Background="#ffffff" HorizontalAlignment="Left">
+                            <Grid Margin="7 9">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock x:Name="textSearch" Width="190" MouseDown="textSearch_MouseDown" Style="{StaticResource placeholder}" Margin="7,0,0,0" />
+                                <TextBox x:Name="txtSearch" Width="200" TextChanged="txtSearch_TextChanged" Style="{StaticResource textBox}" />
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Filter -->
+                    <StackPanel>
+                        <TextBlock Text="Filters:" Margin="7,5" />
+                        <Border BorderThickness="1" Width="190" BorderBrush="#acb0af" CornerRadius="20" Height="40" Background="#b894ac" Margin="7,0" HorizontalAlignment="Left">
+                            <Grid Margin="7 9">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <ComboBox x:Name="cmbFilters" Grid.Column="0" Width="140" SelectionChanged="cmbFilters_SelectionChanged" HorizontalAlignment="Left" Height="30" Style="{StaticResource combobox}" VerticalAlignment="Center" Margin="7,0,0,0" />
+                                <Button x:Name="btnDropdown" Grid.Column="1" Click="btnDropdown_Click">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Grid>
+                                                <Image Source="/Images/dropdown-arrow.png" Width="20" />
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+
             <!-- Gumbovi -->
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,15,-210,0" >
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,15,-210,-66" >
                 <Button x:Name="btnShowReceipt" Click="btnShowReceipt_Click" FontWeight="SemiBold" Content="Show" Width="100" Style="{StaticResource classicButton}" Height="40" Margin="0, 0, 7, 0"/>
                 <Button x:Name="btnVoidReceipt" Click="btnVoidReceipt_Click" FontWeight="SemiBold" Content="Void" Width="100" Style="{StaticResource deleteButton}" Height="40"/>
             </StackPanel>

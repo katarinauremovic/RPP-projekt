@@ -15,6 +15,9 @@ namespace BusinessLogicLayer.Interfaces
         Task UpdateClientAsync(ClientDTO client);
         Task AddNewClient(Client client);
         Task RemoveClient(ClientDTO clientDTO);
+        Task<IEnumerable<ClientDTO>> GetClientsByFirstAndLastNamePattern(string firstAndLastNamePattern);
+        Task<IEnumerable<ClientDTO>> GetClientsByEmailPattern(string emailPattern);
+        Task<IEnumerable<ClientDTO>> GetClientsByPhoneNumberPattern(string phoneNumberPattern);
         Task<Client> GetByEmailAsync(string email);
         Task<IEnumerable<Client>> GetWithActiveGiftCardsAsync();
         Task<IEnumerable<Client>> GetWithDetailsAsync();
@@ -24,8 +27,5 @@ namespace BusinessLogicLayer.Interfaces
         Task<IEnumerable<Client>> GetClientsWithoutReservationsAsync();
         Task<IEnumerable<Client>> GetClientsWithExpiredGiftCardsAsync();
         Task<IEnumerable<Client>> GetClientsByRewardTypeAsync(string rewardType);
-        Task<IEnumerable<Client>> GetClientsByFirstAndLastNamePattern(string firstAndLastNamePattern);
-        Task<IEnumerable<Client>> GetClientsByEmailPattern(string emailPattern);
-        Task<IEnumerable<Client>> GetClientsByPhoneNumberPattern(string phoneNumberPattern);
     }
 }

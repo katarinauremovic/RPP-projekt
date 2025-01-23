@@ -16,5 +16,8 @@ namespace BusinessLogicLayer.Interfaces
         Task<IEnumerable<ReceiptDTO>> GetAllReceiptsDTOAsync();
         Task<string> GenerateReceiptInStringFormat(ReceiptDTO receiptDTO);
         Task GenerateReceiptPdf(ReceiptDTO receiptDTO);
+        Task<IEnumerable<ReceiptDTO>> GetReceiptsByReceiptNumberPattrern(string receiptNumber);
+        Task<IEnumerable<ReceiptDTO>> GetReceiptsByClientsFirstAndLastNamePattern(string firstAndLastNamePattern);
+        Task<IEnumerable<ReceiptDTO>> GetReceiptsByEmployeesFirstAndLastNamePattern(string firstAndLastNamePattern);
     }
 }

@@ -130,6 +130,36 @@ namespace BusinessLogicLayer.Services
             }
         }
 
+        public async Task<IEnumerable<ReceiptDTO>> GetReceiptsByReceiptNumberPattrern(string receiptNumber)
+        {
+            using (var repo = new ReceiptRepository())
+            {
+                var receipts = await repo.GetReceiptsByReceiptNumberPattrern(receiptNumber);
+                var receiptsDto = receipts.Select(ConvertReceiptToReceiptDto).ToList();
+                return receiptsDto;
+            }
+        }
+
+        public async Task<IEnumerable<ReceiptDTO>> GetReceiptsByClientsFirstAndLastNamePattern(string firstAndLastNamePattern)
+        {
+            using (var repo = new ReceiptRepository())
+            {
+                var receipts = await repo.GetReceiptsByClientsFirstAndLastNamePattern(firstAndLastNamePattern);
+                var receiptsDto = receipts.Select(ConvertReceiptToReceiptDto).ToList();
+                return receiptsDto;
+            }
+        }
+
+        public async Task<IEnumerable<ReceiptDTO>> GetReceiptsByEmployeesFirstAndLastNamePattern(string firstAndLastNamePattern)
+        {
+            using (var repo = new ReceiptRepository())
+            {
+                var receipts = await repo.GetReceiptsByEmployeesFirstAndLastNamePattern(firstAndLastNamePattern);
+                var receiptsDto = receipts.Select(ConvertReceiptToReceiptDto).ToList();
+                return receiptsDto;
+            }
+        }
+
         private ReceiptDTO ConvertReceiptToReceiptDto(Receipt receipt)
         {
             var euroCulture = CreateEuroCulture();
@@ -198,7 +228,7 @@ namespace BusinessLogicLayer.Services
                 $"{rt.Treatment.Name} " +
                 $"(Qty: {rt.Amount}, " +
                 $"Price: {FormatCurrency((decimal)rt.Treatment.Price, culture)}, " +
-                $"Total: {FormatCurrency((decimal)(rt.Amount * rt.Treatment.Price), culture)})"));
+                $"Total: {FormatCurrency((decimal)(rt.Amount * rt.Treatment.Price), culture)}"));
         }
 
         private string FormatFullName(string firstname, string lastname)

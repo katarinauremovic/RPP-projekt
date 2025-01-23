@@ -32,5 +32,26 @@ namespace DataAccessLayer.Repositories
             receiptDb.Status = receipt.Status;
             await SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<Receipt>> GetReceiptsByReceiptNumberPattrern(string receiptNumber)
+        {
+            return await items.Where(r => r.ReceiptNumber.Contains(receiptNumber)).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Receipt>> GetReceiptsByClientsFirstAndLastNamePattern(string firstAndLastNamePattern)
+        {
+            return await items
+                .Where(r => r.Reservation.Client.Firstname.Contains(firstAndLastNamePattern) ||
+                            r.Reservation.Client.Lastname.Contains(firstAndLastNamePattern))
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Receipt>> GetReceiptsByEmployeesFirstAndLastNamePattern(string firstAndLastNamePattern)
+        {
+            return await items
+                .Where(r => r.Reservation.Employee.Firstname.Contains(firstAndLastNamePattern) ||
+                            r.Reservation.Employee.Lastname.Contains(firstAndLastNamePattern))
+                .ToListAsync();
+        }
     }
 }

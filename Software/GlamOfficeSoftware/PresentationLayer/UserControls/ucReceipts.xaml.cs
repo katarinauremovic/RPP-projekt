@@ -25,9 +25,10 @@ namespace PresentationLayer.UserControls
     /// </summary>
     public partial class ucReceipts : UserControl
     {
-        public MainWindow Parent { get; set; }
-        
         private IReceiptService _receiptService;
+
+        public MainWindow Parent { get; set; }
+       
         public ucReceipts()
         {
             InitializeComponent();
@@ -36,7 +37,8 @@ namespace PresentationLayer.UserControls
 
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-           await RefreshGui();
+            LoadFilters();
+            await RefreshGui();
         }
 
         public async Task RefreshGui()
@@ -44,6 +46,168 @@ namespace PresentationLayer.UserControls
             ShowLoadingIndicator(true);
             await LoadReceiptsAsync();
             ShowLoadingIndicator(false);
+        }
+
+        private void LoadFilters()
+        {
+            cmbFilters.Items.Add("Receipt number");
+            cmbFilters.Items.Add("Client");
+            cmbFilters.Items.Add("Employee");
+
+            cmbFilters.SelectedIndex = 0;
+            cmbFilters.IsDropDownOpen = false;
+        }
+
+        private void cmbFilters_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cmbFilters.IsDropDownOpen = true;
+            if (cmbFilters.SelectedIndex == 0)
+            {
+                textSearch.Text = "Insert receipt number...";
+            } else if (cmbFilters.SelectedIndex == 1)
+            {
+                textSearch.Text = "Insert clients first and lastname...";
+            } else if (cmbFilters.SelectedIndex == 2)
+            {
+                textSearch.Text = "Insert employees first and lastname...";
+            }
+        }
+
+        private void btnDropdown_Click(object sender, RoutedEventArgs e)
+        {
+            cmbFilters.IsDropDownOpen = true;
+            Parent.CloseSidebarMenu();
+        }
+
+
+        private void textSearch_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            txtSearch.Focus();
+            Parent.CloseSidebarMenu();
+        }
+
+        private async void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var placeholderSearch = textSearch;
+            var pattern = txtSearch.Text.ToLower();
+
+            if (!string.IsNullOrEmpty(pattern) && pattern.Length >= 0)
+            {
+                placeholderSearch.Visibility = Visibility.Collapsed;
+                SearchingByFilter();
+            } else
+            {
+                placeholderSearch.Visibility = Visibility.Visible;
+                await RefreshGui();
+            }
+        }
+
+        private async void SearchingByFilter()
+        {
+            var pattern = txtSearch.Text.ToLower();
+            var selectedItem = cmbFilters.SelectedIndex;
+
+            if (string.IsNullOrEmpty(pattern))
+            {
+                ShowLoadingIndicator(true);
+                await RefreshGui();
+                ShowLoadingIndicator(false);
+                return;
+            }
+
+            try
+            {
+                ShowLoadingIndicator(true);
+                switch (selectedItem)
+                {
+                    case 0:
+                        dgvReceipts.ItemsSource = await Task.Run(() => _receiptService.GetReceiptsByReceiptNumberPattrern(pattern));
+                        break;
+                    case 1:
+                        dgvReceipts.ItemsSource = await Task.Run(() =>  _receiptService.GetReceiptsByClientsFirstAndLastNamePattern(pattern));
+                        break;
+                    case 2:
+                        dgvReceipts.ItemsSource = await Task.Run(() =>  _receiptService.GetReceiptsByEmployeesFirstAndLastNamePattern(pattern));
+                        break;
+                    default:
+                        MessageBox.Show("Invalid filter selection.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        break;
+                }
+            } catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to search rececipts: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            } finally
+            {
+                ShowLoadingIndicator(false);
+            }
+        }
+
+        private void dgvReceipts_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Parent.CloseSidebarMenu();
+
+            var sidebarMenu = (FrameworkElement)ccSidebar.Content;
+
+            if (sidebarMenu != null)
+            {
+                try
+                {
+                    var receipt = GetReceiptFromDataGrid();
+
+                    if (ccSidebar.Content != null)
+                    {
+                        SwitchReceipt(receipt);
+                    }
+
+                } catch (DataGridNoSelectionException ex)
+                {
+                    MessageBox.Show(ex.Message, "Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                } catch (ClientOperationException ex)
+                {
+                    MessageBox.Show(ex.Message, "Receipt Operation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                } catch (Exception ex)
+                {
+                    MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void btnShowReceipt_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var receipt = GetReceiptFromDataGrid();
+                SwitchReceipt(receipt);
+                ShowSidebar();
+            } catch (DataGridNoSelectionException ex)
+            {
+                MessageBox.Show(ex.Message, "Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            } catch (ClientOperationException ex)
+            {
+                MessageBox.Show(ex.Message, "Receipt Operation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            } catch (Exception ex)
+            {
+                MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private async void btnVoidReceipt_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var selectedReceipt = GetReceiptFromDataGrid();
+                await Task.Run(() => _receiptService.VoidReceiptAsync(selectedReceipt.Id, true));
+                await RefreshGui();
+            } catch (DataGridNoSelectionException ex)
+            {
+                MessageBox.Show(ex.Message, "Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            } catch (ClientOperationException ex)
+            {
+                MessageBox.Show(ex.Message, "Receipt Operation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            } catch (ReceiptNotVoidableException ex)
+            {
+                MessageBox.Show(ex.Message, "Void Receipt Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private async Task LoadReceiptsAsync()
@@ -68,25 +232,6 @@ namespace PresentationLayer.UserControls
             {
                 loadingIndicator.Visibility = Visibility.Collapsed;
                 dgvReceipts.Visibility = Visibility.Visible;
-            }
-        }
-
-        private void btnShowReceipt_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var receipt = GetReceiptFromDataGrid();
-                SwitchReceipt(receipt);
-                ShowSidebar();
-            } catch (DataGridNoSelectionException ex)
-            {  
-                MessageBox.Show(ex.Message, "Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-            } catch (ClientOperationException ex)
-            {
-                MessageBox.Show(ex.Message, "Receipt Operation Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            } catch (Exception ex)
-            {
-                MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -121,26 +266,6 @@ namespace PresentationLayer.UserControls
                 MessageBox.Show(ex.Message);
             }
         }
-
-        private async void btnVoidReceipt_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var selectedReceipt = GetReceiptFromDataGrid();
-                await Task.Run(() => _receiptService.VoidReceiptAsync(selectedReceipt.Id, true));
-                await RefreshGui();
-            } catch (DataGridNoSelectionException ex)
-            {
-                MessageBox.Show(ex.Message, "Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-            } catch (ClientOperationException ex)
-            {
-                MessageBox.Show(ex.Message, "Receipt Operation Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            } catch (ReceiptNotVoidableException ex)
-            {
-                MessageBox.Show(ex.Message, "Void Receipt Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
 
         public async void CloseSidebar()
         {
@@ -183,29 +308,6 @@ namespace PresentationLayer.UserControls
                 };
 
                 sidebarMenu.BeginAnimation(MarginProperty, marginAnimation);
-            }
-        }
-
-        private void dgvReceipts_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            try
-            {
-                var receipt = GetReceiptFromDataGrid();
-
-                if (ccSidebar.Content != null)
-                {
-                    SwitchReceipt(receipt); 
-                }
-
-            } catch (DataGridNoSelectionException ex)
-            {
-                MessageBox.Show(ex.Message, "Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-            } catch (ClientOperationException ex)
-            {
-                MessageBox.Show(ex.Message, "Receipt Operation Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            } catch (Exception ex)
-            {
-                MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
