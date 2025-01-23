@@ -144,12 +144,12 @@ namespace PresentationLayer.UserControls
 
         private void dgvReceipts_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Parent.CloseSidebarMenu();
-
             var sidebarMenu = (FrameworkElement)ccSidebar.Content;
 
             if (sidebarMenu != null)
             {
+                Parent.CloseSidebarMenu();
+
                 try
                 {
                     var receipt = GetReceiptFromDataGrid();

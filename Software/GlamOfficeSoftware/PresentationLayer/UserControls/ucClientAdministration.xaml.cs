@@ -194,12 +194,12 @@ namespace PresentationLayer.UserControls
 
         private void dgvClients_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CloseSidebarMenu();
-
             var sidebarMenu = (FrameworkElement)ccSidebar.Content;
 
             if (sidebarMenu != null)
             {
+                CloseSidebarMenu();
+
                 try
                 {
                     var client = GetClientFromDataGrid();
