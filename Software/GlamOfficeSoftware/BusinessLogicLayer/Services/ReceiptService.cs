@@ -74,14 +74,6 @@ namespace BusinessLogicLayer.Services
                 await HandleGiftCardRecoveryAsync(receipt, voidReceipt, wantsGiftCardRecover);
                 await ChangeReceiptStatusAsync(receipt);
                 await reservationService.ChangeReservationStatusAsync(receipt.Reservation_idReservation, ReservationStatuses.Voided);
-                try
-                {
-                    var voidReceiptDTO = ConvertReceiptToReceiptDto(voidReceipt);
-                    //await GenerateReceiptPdf(voidReceiptDTO);
-                } catch (FailedToOpenPdfException ex)
-                {
-                    throw ex;
-                }
 
                 await repo.AddAsync(voidReceipt);
 
