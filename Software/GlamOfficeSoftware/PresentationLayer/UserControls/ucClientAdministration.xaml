@@ -88,7 +88,7 @@
                         <DataGridTextColumn Header="Lastname" Binding="{Binding Lastname}" Width="auto" />
                         <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="auto" />
                         <DataGridTextColumn Header="Phone Number" Binding="{Binding PhoneNumber}" Width="auto" />
-                        <DataGridTextColumn Header="Reward Points" Binding="{Binding RewardPointsCount}" Width="auto" />
+                        <DataGridTextColumn Header="Reward Points" Binding="{Binding Points}" Width="auto" />
                         <DataGridTextColumn Header="GiftCard Description" Binding="{Binding GiftCardDescription}" Width="auto" />
                         <DataGridTextColumn Header="Reservation Dates" Binding="{Binding ReservationsDates}" Width="auto" />
                         <DataGridTextColumn Header="Reviews Comments" Binding="{Binding ReviewsComments}" Width="auto" />

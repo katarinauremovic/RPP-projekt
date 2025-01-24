@@ -11,9 +11,9 @@ namespace EntityLayer.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Client()
         {
+            Client_has_Reward = new HashSet<Client_has_Reward>();
             Reservations = new HashSet<Reservation>();
             Reviews = new HashSet<Review>();
-            RewardPoints = new HashSet<RewardPoint>();
         }
 
         [Key]
@@ -31,10 +31,14 @@ namespace EntityLayer.Entities
         [StringLength(45)]
         public string PhoneNumber { get; set; }
 
+        public int? Points { get; set; }
+
         public int? GiftCard_idGiftCard { get; set; }
 
-        [ForeignKey("GiftCard_idGiftCard")]
-        public virtual GiftCard GiftCard { get; set; }
+        public int? LoyaltyLevel_id { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Client_has_Reward> Client_has_Reward { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Reservation> Reservations { get; set; }
@@ -42,7 +46,8 @@ namespace EntityLayer.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Review> Reviews { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RewardPoint> RewardPoints { get; set; }
+        public virtual GiftCard GiftCard { get; set; }
+
+        public virtual LoyaltyLevel LoyaltyLevel { get; set; }
     }
 }

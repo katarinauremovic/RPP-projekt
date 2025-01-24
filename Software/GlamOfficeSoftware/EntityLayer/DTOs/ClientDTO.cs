@@ -13,7 +13,7 @@ namespace EntityLayer.DTOs
         public string Lastname { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        public int RewardPointsCount { get; set; }
+        public int Points { get; set; }
         public string GiftCardDescription { get; set; }
         public string ReservationsDates { get; set; }
         public string ReviewsComments { get; set; }

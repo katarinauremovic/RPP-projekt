@@ -59,7 +59,7 @@ namespace BusinessLogicLayer.Services
                 Lastname = client.Lastname,
                 Email = client.Email,
                 PhoneNumber = client.PhoneNumber,
-                RewardPointsCount = client.RewardPoints.Count,
+                Points = client.Points.Value,
                 GiftCardDescription = client.GiftCard?.Description ?? "No GiftCard",
                 ReservationsDates = client.Reservations.Any()
                     ? string.Join(", ", client.Reservations.Select(r => r.Date.ToString().Split(' ')[0]))

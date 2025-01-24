@@ -61,7 +61,6 @@
     <Compile Include="Repositories\ReceiptRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\ReservationRepository.cs" />
-    <Compile Include="Repositories\RewardPointsRepository.cs" />
     <Compile Include="Repositories\RewardRepository.cs" />
   </ItemGroup>
   <ItemGroup>

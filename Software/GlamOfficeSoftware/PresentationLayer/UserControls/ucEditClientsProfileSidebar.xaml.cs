@@ -47,7 +47,7 @@ namespace PresentationLayer.UserControls
             textLastname.Text = _selectedClient.Lastname;
             textEmail.Text = _selectedClient.Email;
             textPhoneNumber.Text = _selectedClient.PhoneNumber;
-            textRewardPoints.Text = _selectedClient.RewardPointsCount.ToString();
+            textRewardPoints.Text = _selectedClient.Points.ToString();
             textGiftCardDesc.Text = _selectedClient.GiftCardDescription;
             textReservationDates.Text = _selectedClient.ReservationsDates;
             textReviewsComments.Text = _selectedClient.ReviewsComments;
@@ -178,7 +178,7 @@ namespace PresentationLayer.UserControls
                     Lastname = lastname,
                     Email = email,
                     PhoneNumber = phoneNumber,
-                    RewardPointsCount = _selectedClient.RewardPointsCount,
+                    Points = _selectedClient.Points,
                     GiftCardDescription = _selectedClient.GiftCardDescription,
                     ReservationsDates = _selectedClient.ReservationsDates,
                     ReviewsComments = _selectedClient.ReviewsComments

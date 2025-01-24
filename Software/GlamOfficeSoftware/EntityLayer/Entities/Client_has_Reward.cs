@@ -5,7 +5,7 @@ namespace EntityLayer.Entities
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public partial class RewardPoint
+    public partial class Client_has_Reward
     {
         [Key]
         [Column(Order = 0)]
@@ -17,12 +17,17 @@ namespace EntityLayer.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Reward_idReward { get; set; }
 
-        public int Points { get; set; }
+        public int SpentPoints { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime AssignmentDate { get; set; }
+        public DateTime PurchaseDate { get; set; }
 
-        [Required]
+        [Column(TypeName = "date")]
+        public DateTime RedeemDate { get; set; }
+
+        [StringLength(45)]
+        public string ReedemCode { get; set; }
+
         [StringLength(45)]
         public string Status { get; set; }
 

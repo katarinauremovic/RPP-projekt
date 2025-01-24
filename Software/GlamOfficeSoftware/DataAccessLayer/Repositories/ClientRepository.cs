@@ -15,7 +15,8 @@ namespace DataAccessLayer.Repositories
         // Dohvaca sve klijente s joinanim podacima
         public async override Task<IEnumerable<Client>> GetAllAsync()
         {
-            return await items.Include(c => c.RewardPoints)
+            return await items.Include(c => c.Client_has_Reward)
+                .Include(c => c.LoyaltyLevel)
                 .Include(c => c.GiftCard)
                 .Include(c => c.Reservations)
                 .Include(c => c.Reviews)
@@ -108,8 +109,8 @@ namespace DataAccessLayer.Repositories
         // Dohvati klijente na temelju vrste nagrade
         public async Task<IEnumerable<Client>> GetClientsByRewardTypeAsync(string rewardType)
         {
-            return await items.Include(client => client.RewardPoints.Select(rp => rp.Reward))
-                              .Where(client => client.RewardPoints.Any(rp => rp.Reward.Name == rewardType))
+            return await items.Include(client => client.Client_has_Reward.Select(rp => rp.Reward))
+                              .Where(client => client.Client_has_Reward.Any(rp => rp.Reward.Name == rewardType))
                               .ToListAsync();
         }
 

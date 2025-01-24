@@ -22,7 +22,6 @@ namespace EntityLayer.Entities
 
         public decimal? TotalPrice { get; set; }
 
-        [Required]
         public DateTime IssueDateTime { get; set; }
 
         [StringLength(45)]

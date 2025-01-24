@@ -9,21 +9,22 @@ namespace DataAccessLayer
     public partial class GlamOfficeDbContext : DbContext
     {
         public GlamOfficeDbContext()
-            : base("name=GlamOfficeDB")
+            : base("name=GlamOfficeDb")
         {
         }
 
         public virtual DbSet<Client> Clients { get; set; }
+        public virtual DbSet<Client_has_Reward> Client_has_Reward { get; set; }
         public virtual DbSet<DailySchedule> DailySchedules { get; set; }
         public virtual DbSet<Day> Days { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<GiftCard> GiftCards { get; set; }
+        public virtual DbSet<LoyaltyLevel> LoyaltyLevels { get; set; }
         public virtual DbSet<Receipt> Receipts { get; set; }
         public virtual DbSet<Reservation> Reservations { get; set; }
         public virtual DbSet<Reservation_has_Treatment> Reservation_has_Treatment { get; set; }
         public virtual DbSet<Review> Reviews { get; set; }
         public virtual DbSet<Reward> Rewards { get; set; }
-        public virtual DbSet<RewardPoint> RewardPoints { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Treatment> Treatments { get; set; }
         public virtual DbSet<TreatmentGroup> TreatmentGroups { get; set; }
@@ -49,6 +50,12 @@ namespace DataAccessLayer
                 .IsUnicode(false);
 
             modelBuilder.Entity<Client>()
+                .HasMany(e => e.Client_has_Reward)
+                .WithRequired(e => e.Client)
+                .HasForeignKey(e => e.Client_idClient)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Client>()
                 .HasMany(e => e.Reservations)
                 .WithOptional(e => e.Client)
                 .HasForeignKey(e => e.Client_idClient);
@@ -58,11 +65,13 @@ namespace DataAccessLayer
                 .WithOptional(e => e.Client)
                 .HasForeignKey(e => e.Client_idClient);
 
-            modelBuilder.Entity<Client>()
-                .HasMany(e => e.RewardPoints)
-                .WithRequired(e => e.Client)
-                .HasForeignKey(e => e.Client_idClient)
-                .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Client_has_Reward>()
+                .Property(e => e.ReedemCode)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Client_has_Reward>()
+                .Property(e => e.Status)
+                .IsUnicode(false);
 
             modelBuilder.Entity<Day>()
                 .Property(e => e.Name)
@@ -147,25 +156,32 @@ namespace DataAccessLayer
                 .Property(e => e.PromoCode)
                 .IsUnicode(false);
 
+            modelBuilder.Entity<GiftCard>()
+                .HasMany(e => e.Clients)
+                .WithOptional(e => e.GiftCard)
+                .HasForeignKey(e => e.GiftCard_idGiftCard);
+
+            modelBuilder.Entity<LoyaltyLevel>()
+                .Property(e => e.Name)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<LoyaltyLevel>()
+                .Property(e => e.Description)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<LoyaltyLevel>()
+                .HasMany(e => e.Clients)
+                .WithOptional(e => e.LoyaltyLevel)
+                .HasForeignKey(e => e.LoyaltyLevel_id);
+
+            modelBuilder.Entity<LoyaltyLevel>()
+                .HasMany(e => e.Rewards)
+                .WithOptional(e => e.LoyaltyLevel)
+                .HasForeignKey(e => e.LoyaltyLevel_id);
+
             modelBuilder.Entity<Receipt>()
                 .Property(e => e.ReceiptNumber)
                 .IsUnicode(false);
-
-            modelBuilder.Entity<Receipt>()
-                .Property(e => e.TotalTreatmentAmount)
-                .HasPrecision(18, 2);
-
-            modelBuilder.Entity<Receipt>()
-                .Property(e => e.GiftCardDiscount)
-                .HasPrecision(18, 2);
-
-            modelBuilder.Entity<Receipt>()
-                .Property(e => e.RewardDiscount)
-                .HasPrecision(18, 2);
-
-            modelBuilder.Entity<Receipt>()
-                .Property(e => e.TotalPrice)
-                .HasPrecision(18, 2);
 
             modelBuilder.Entity<Receipt>()
                 .Property(e => e.Status)
@@ -178,27 +194,6 @@ namespace DataAccessLayer
             modelBuilder.Entity<Reservation>()
                 .Property(e => e.Status)
                 .IsUnicode(false);
-
-            modelBuilder.Entity<Reservation>()
-                .Property(e => e.TotalTreatmentAmount)
-                .HasPrecision(18, 2);
-
-            modelBuilder.Entity<Reservation>()
-                .Property(e => e.GiftCardDiscount)
-                .HasPrecision(18, 2);
-
-            modelBuilder.Entity<Reservation>()
-                .Property(e => e.RewardDiscount)
-                .HasPrecision(18, 2);
-
-            modelBuilder.Entity<Reservation>()
-                .Property(e => e.TotalPrice)
-                .HasPrecision(18, 2);
-
-            modelBuilder.Entity<Reservation>()
-                .Property(e => e.isPaid)
-                .HasColumnType("bit")
-                .IsRequired();
 
             modelBuilder.Entity<Reservation>()
                 .HasMany(e => e.Receipts)
@@ -226,18 +221,18 @@ namespace DataAccessLayer
                 .IsUnicode(false);
 
             modelBuilder.Entity<Reward>()
-                .Property(e => e.Threshold)
+                .Property(e => e.Description)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Reward>()
-                .HasMany(e => e.RewardPoints)
+                .Property(e => e.RewardAmount)
+                .HasPrecision(10, 2);
+
+            modelBuilder.Entity<Reward>()
+                .HasMany(e => e.Client_has_Reward)
                 .WithRequired(e => e.Reward)
                 .HasForeignKey(e => e.Reward_idReward)
                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<RewardPoint>()
-                .Property(e => e.Status)
-                .IsUnicode(false);
 
             modelBuilder.Entity<Role>()
                 .Property(e => e.Name)
