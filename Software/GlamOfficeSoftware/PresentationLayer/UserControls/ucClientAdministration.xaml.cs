@@ -196,30 +196,31 @@ namespace PresentationLayer.UserControls
         {
             var sidebarMenu = (FrameworkElement)ccSidebar.Content;
 
-            if (sidebarMenu != null)
+            if (sidebarMenu == null && Parent.ccSidebarMenu.Content != null)
             {
                 CloseSidebarMenu();
-
-                try
-                {
-                    var client = GetClientFromDataGrid();
-
-                    if (ccSidebar.Content != null)
-                    {
-                        SwitchClient(client);
-                    }
-
-                } catch (DataGridNoSelectionException ex)
-                {
-                    MessageBox.Show(ex.Message, "Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                } catch (ClientOperationException ex)
-                {
-                    MessageBox.Show(ex.Message, "Client Operation Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                } catch (Exception ex)
-                {
-                    MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
             }
+
+            try
+            {
+                var client = GetClientFromDataGrid();
+
+                if (ccSidebar.Content != null)
+                {
+                    SwitchClient(client);
+                }
+
+            } catch (DataGridNoSelectionException ex)
+            {
+                MessageBox.Show(ex.Message, "Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            } catch (ClientOperationException ex)
+            {
+                MessageBox.Show(ex.Message, "Client Operation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            } catch (Exception ex)
+            {
+                MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            
         }
 
         private void btnAddClient_Click(object sender, RoutedEventArgs e)
