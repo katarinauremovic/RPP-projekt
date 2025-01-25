@@ -119,6 +119,36 @@ namespace BusinessLogicLayer.Services
             }
         }
 
+        public async Task<bool> IsClientInRewardSystemAsync(int clientId)
+        {
+            using (var repo = new ClientRepository())
+            {
+                return await repo.IsClientInRewardSystemAsync(clientId);
+            }
+        }
+
+        public async Task AddClientToRewardSystemAsync(int clientId)
+        {
+            using (var repo = new ClientRepository())
+            {
+                var isClientInRewardSystem = await repo.IsClientInRewardSystemAsync(clientId);
+                ILoyaltyLevelService loyaltyLevelService = new LoyaltyLevelService();
+
+                if (!isClientInRewardSystem)
+                {
+                    var client = await repo.GetByIdAsync(clientId);
+                    client.Points = 400;
+                    var loyaltyLevelName = loyaltyLevelService.CheckLoyaltyLevel(client.Points.Value);
+                    
+                    var loyaltyLevel = await loyaltyLevelService.GetLoyaltyLevelByNameAsync(loyaltyLevelName);
+                    client.LoyaltyLevel = loyaltyLevel;
+                    client.LoyaltyLevel_id = loyaltyLevel.Id;
+                    
+                    await repo.UpdateClientAsync(client);
+                }
+            }
+        }
+
         private async Task<Client> ConvertClientDtoToClient(ClientDTO clientDTO)
         {
             using (var repo = new ClientRepository())

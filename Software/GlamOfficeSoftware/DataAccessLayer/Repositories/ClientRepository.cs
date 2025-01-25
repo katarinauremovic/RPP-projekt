@@ -34,9 +34,20 @@ namespace DataAccessLayer.Repositories
                 clientDb.Lastname = client.Lastname;
                 clientDb.Email = client.Email;
                 clientDb.PhoneNumber = client.PhoneNumber;
+                clientDb.Points = client.Points;
+                clientDb.GiftCard_idGiftCard = client.GiftCard_idGiftCard;
+                clientDb.GiftCard = client.GiftCard;
+                clientDb.LoyaltyLevel_id = client.LoyaltyLevel_id;
+                clientDb.LoyaltyLevel = client.LoyaltyLevel;
 
                 await SaveChangesAsync();
             }
+        }
+
+        public async Task<bool> IsClientInRewardSystemAsync(int clientId)
+        {
+            return await items.Include(c => c.Client_has_Reward)
+                .AnyAsync(c => c.idClient == clientId && c.Client_has_Reward.Any());
         }
 
         // Dohvati klijenta prema email adresi
@@ -81,7 +92,6 @@ namespace DataAccessLayer.Repositories
 
             return clients;
         }
-
 
         // Dohvati klijente s rezervacijama unutar određenog vremenskog razdoblja
         public async Task<IEnumerable<Client>> GetClientsWithReservationsInDateRangeAsync(DateTime startDate, DateTime endDate)

@@ -81,15 +81,6 @@ namespace BusinessLogicLayer.Services
             }
         }
 
-        private async Task ChangeReceiptStatusAsync(Receipt receipt)
-        {
-            using (var repo = new ReceiptRepository())
-            {
-                receipt.Status = ReceiptStatuses.Voided.ToString();
-                await repo.ChangeReceiptStatusAsync(receipt);
-            }
-        }
-
         public async Task<IEnumerable<ReceiptDTO>> GetAllReceiptsDTOAsync()
         {
             using (var repo = new ReceiptRepository())
@@ -149,6 +140,20 @@ namespace BusinessLogicLayer.Services
                 var receipts = await repo.GetReceiptsByEmployeesFirstAndLastNamePattern(firstAndLastNamePattern);
                 var receiptsDto = receipts.Select(ConvertReceiptToReceiptDto).ToList();
                 return receiptsDto;
+            }
+        }
+
+        public int CalculatePoints(int totalAmount)
+        {
+            return totalAmount * 100;
+        }
+
+        private async Task ChangeReceiptStatusAsync(Receipt receipt)
+        {
+            using (var repo = new ReceiptRepository())
+            {
+                receipt.Status = ReceiptStatuses.Voided.ToString();
+                await repo.ChangeReceiptStatusAsync(receipt);
             }
         }
 

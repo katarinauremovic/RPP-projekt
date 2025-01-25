@@ -19,10 +19,8 @@ namespace EntityLayer.Entities
 
         public int SpentPoints { get; set; }
 
-        [Column(TypeName = "date")]
         public DateTime PurchaseDate { get; set; }
 
-        [Column(TypeName = "date")]
         public DateTime RedeemDate { get; set; }
 
         [StringLength(45)]
