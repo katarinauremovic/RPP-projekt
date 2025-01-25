@@ -37,7 +37,7 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Media/Images/employee-administration.png" Width="16" Height="16" Margin="5"/>
-                                        <TextBlock Text="Client administration" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                        <TextBlock Text="Clients" VerticalAlignment="Center" Margin="5,0,0,0"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </Button.ContentTemplate>

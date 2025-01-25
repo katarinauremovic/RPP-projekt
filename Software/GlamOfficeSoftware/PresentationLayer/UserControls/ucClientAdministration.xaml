@@ -25,7 +25,7 @@
     <Grid Background="#f5f5f5">
         <DockPanel Margin="30,0,30,15">
             <!-- naslov -->
-            <TextBlock Text="Client administration" Style="{StaticResource titleText}" Margin="10" DockPanel.Dock="Top" />
+            <TextBlock Text="Clients" Style="{StaticResource titleText}" Margin="10" DockPanel.Dock="Top" />
             
             <!-- sadržaj ispod tablice s klijentima -->
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Left">

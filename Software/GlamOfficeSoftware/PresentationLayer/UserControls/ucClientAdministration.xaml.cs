@@ -196,11 +196,6 @@ namespace PresentationLayer.UserControls
         {
             var sidebarMenu = (FrameworkElement)ccSidebar.Content;
 
-            if (sidebarMenu == null && Parent.ccSidebarMenu.Content != null)
-            {
-                CloseSidebarMenu();
-            }
-
             try
             {
                 var client = GetClientFromDataGrid();
