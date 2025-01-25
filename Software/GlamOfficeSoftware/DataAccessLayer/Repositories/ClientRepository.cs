@@ -44,10 +44,10 @@ namespace DataAccessLayer.Repositories
             }
         }
 
-        public async Task<bool> IsClientInRewardSystemAsync(int clientId)
+        public async Task<bool> IsClientInTheRewardSystemAsync(int clientId)
         {
             return await items.Include(c => c.Client_has_Reward)
-                .AnyAsync(c => c.idClient == clientId && c.Client_has_Reward.Any());
+                .AnyAsync(c => c.idClient == clientId && c.Client_has_Reward.Any() || c.LoyaltyLevel_id == 6);
         }
 
         // Dohvati klijenta prema email adresi

@@ -119,33 +119,48 @@ namespace BusinessLogicLayer.Services
             }
         }
 
-        public async Task<bool> IsClientInRewardSystemAsync(int clientId)
+        public async Task<bool> IsClientInTheRewardSystemAsync(int clientId)
         {
             using (var repo = new ClientRepository())
             {
-                return await repo.IsClientInRewardSystemAsync(clientId);
+                return await repo.IsClientInTheRewardSystemAsync(clientId);
             }
+        }
+
+        private async Task UpdateClientsLoyaltyLevelAsync(Client client)
+        {
+            ILoyaltyLevelService loyaltyLevelService = new LoyaltyLevelService();
+
+            var loyaltyLevelName = loyaltyLevelService.CheckLoyaltyLevel(client.Points.Value);
+            var loyaltyLevel = await loyaltyLevelService.GetLoyaltyLevelByNameAsync(loyaltyLevelName);
+
+            client.LoyaltyLevel = loyaltyLevel;
+            client.LoyaltyLevel_id = loyaltyLevel.Id;
         }
 
         public async Task AddClientToRewardSystemAsync(int clientId)
         {
             using (var repo = new ClientRepository())
             {
-                var isClientInRewardSystem = await repo.IsClientInRewardSystemAsync(clientId);
-                ILoyaltyLevelService loyaltyLevelService = new LoyaltyLevelService();
+                var client = await repo.GetByIdAsync(clientId);
+                client.Points = 200;
 
-                if (!isClientInRewardSystem)
-                {
-                    var client = await repo.GetByIdAsync(clientId);
-                    client.Points = 400;
-                    var loyaltyLevelName = loyaltyLevelService.CheckLoyaltyLevel(client.Points.Value);
-                    
-                    var loyaltyLevel = await loyaltyLevelService.GetLoyaltyLevelByNameAsync(loyaltyLevelName);
-                    client.LoyaltyLevel = loyaltyLevel;
-                    client.LoyaltyLevel_id = loyaltyLevel.Id;
-                    
-                    await repo.UpdateClientAsync(client);
-                }
+                await UpdateClientsLoyaltyLevelAsync(client);
+
+                await repo.UpdateClientAsync(client);
+            }
+        }
+
+        public async Task AddPointsToClientAsync(int clientId, int points)
+        {
+            using (var repo = new ClientRepository())
+            {
+                var client = await repo.GetByIdAsync(clientId);
+                client.Points = client.Points + points;
+
+                await UpdateClientsLoyaltyLevelAsync(client);
+
+                await repo.UpdateClientAsync(client);
             }
         }
 

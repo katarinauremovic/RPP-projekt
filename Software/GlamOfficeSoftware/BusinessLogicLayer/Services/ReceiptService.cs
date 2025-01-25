@@ -34,8 +34,21 @@ namespace BusinessLogicLayer.Services
                 receipt.ReceiptNumber = GenerateReceiptNumber();
                 await repo.AddAsync(receipt);
                 
-                IReservationService service = new ReservationService();
-                await service.ChangeReservationStatusAsync(receipt.Reservation_idReservation, ReservationStatuses.Completed);
+                IReservationService reservationService = new ReservationService();
+                await reservationService.ChangeReservationStatusAsync(receipt.Reservation_idReservation, ReservationStatuses.Completed);
+
+                IClientService clientService = new ClientService();
+                var isClientInTheRewardSystem = await clientService.IsClientInTheRewardSystemAsync(receipt.Reservation.Client_idClient.Value);
+                if(isClientInTheRewardSystem)
+                {
+                    var earnedPoints = CalculatePoints(receipt.TotalTreatmentAmount.Value);
+                    await clientService.AddPointsToClientAsync(receipt.Reservation.Client_idClient.Value, earnedPoints);
+                } else
+                {
+                    await clientService.AddClientToRewardSystemAsync(receipt.Reservation.Client_idClient.Value);
+                    var earnedPoints = CalculatePoints(receipt.TotalTreatmentAmount.Value);
+                    await clientService.AddPointsToClientAsync(receipt.Reservation.Client_idClient.Value, earnedPoints);
+                }
 
                 var receiptDTO = ConvertReceiptToReceiptDto(receipt);
                 await GenerateReceiptPdf(receiptDTO);
@@ -143,9 +156,9 @@ namespace BusinessLogicLayer.Services
             }
         }
 
-        public int CalculatePoints(int totalAmount)
+        private int CalculatePoints(decimal totalAmount)
         {
-            return totalAmount * 100;
+            return (int)Math.Round(totalAmount * 10);
         }
 
         private async Task ChangeReceiptStatusAsync(Receipt receipt)

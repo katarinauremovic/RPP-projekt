@@ -61,6 +61,7 @@
     <Compile Include="Services\ReceiptService.cs" />
     <Compile Include="Services\ReservationService.cs" />
     <Compile Include="Services\RewardService.cs" />
+    <Compile Include="Services\RewardSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">
