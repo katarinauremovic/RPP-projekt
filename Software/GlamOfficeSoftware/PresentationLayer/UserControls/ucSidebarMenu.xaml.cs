@@ -50,5 +50,12 @@ namespace PresentationLayer.UserControls
             ucReceipts.Parent = Parent;
             Parent.ccContent.Content = ucReceipts;
         }
+
+        private void btnRewards_Click(object sender, RoutedEventArgs e)
+        {
+            var ucRewards = new ucRewards();
+            ucRewards.Parent = Parent;
+            Parent.ccContent.Content = ucRewards;
+        }
     }
 }

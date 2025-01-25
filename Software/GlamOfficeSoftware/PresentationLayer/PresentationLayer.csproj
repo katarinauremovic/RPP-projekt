@@ -77,6 +77,12 @@
     <Compile Include="UserControls\ucReceipts.xaml.cs">
       <DependentUpon>ucReceipts.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ucRewardCards.xaml.cs">
+      <DependentUpon>ucRewardCards.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ucRewards.xaml.cs">
+      <DependentUpon>ucRewards.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ucShowClientsProfileSidebar.xaml.cs">
       <DependentUpon>ucShowClientsProfileSidebar.xaml</DependentUpon>
     </Compile>
@@ -114,6 +120,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ucReceipts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ucRewardCards.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ucRewards.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

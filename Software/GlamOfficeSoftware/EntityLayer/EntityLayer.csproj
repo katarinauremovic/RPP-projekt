@@ -45,6 +45,7 @@
     <Compile Include="DTOs\ClientDTO.cs" />
     <Compile Include="DTOs\ClientReceiptDTO.cs" />
     <Compile Include="DTOs\ReceiptDTO.cs" />
+    <Compile Include="DTOs\RewardDTO.cs" />
     <Compile Include="DTOs\TreatmentReceiptDTO.cs" />
     <Compile Include="Entities\Client.cs" />
     <Compile Include="Entities\Client_has_Reward.cs" />
@@ -67,7 +68,7 @@
     <Compile Include="Enums\ReceiptStatuses.cs" />
     <Compile Include="Enums\ReservationStatuses.cs" />
     <Compile Include="Enums\RewardPointStatuses.cs" />
-    <Compile Include="Enums\RewardThresholds.cs" />
+    <Compile Include="Enums\LoyaltyLevels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

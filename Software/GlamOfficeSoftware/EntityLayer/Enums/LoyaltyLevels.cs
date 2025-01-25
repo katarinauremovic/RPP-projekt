@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EntityLayer.Enums
 {
-    public enum RewardThresholds
+    public enum LoyaltyLevels
     {
         Bronze,
         Silver,
