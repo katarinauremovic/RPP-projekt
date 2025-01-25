@@ -15,7 +15,7 @@ namespace EntityLayer.Entities
             Rewards = new HashSet<Reward>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Key]
         public int Id { get; set; }
 
         [Required]

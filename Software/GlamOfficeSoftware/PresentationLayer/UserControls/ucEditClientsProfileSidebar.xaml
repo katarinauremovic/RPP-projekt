@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PresentationLayer.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="240" Loaded="UserControl_Loaded">
+             d:DesignHeight="750" d:DesignWidth="240" Loaded="UserControl_Loaded">
     <Grid>
         <Border Width="240" DockPanel.Dock="Right" Background="#b894ac">
             <Grid>
@@ -105,19 +105,25 @@
                             <TextBlock x:Name="textRewardPoints"  Grid.Row="8"  HorizontalAlignment="Center" Margin="7,0,0,0" VerticalAlignment="Center" />
                         </StackPanel>
 
-                        <!-- Gift card -->
-                        <TextBlock Text="Gift card: "  Grid.Row="9"  HorizontalAlignment="Left" Margin="20,7,0,7" />
-                        <TextBlock x:Name="textGiftCardDesc"  Grid.Row="10"  HorizontalAlignment="Left" Margin="20,0,0,7" TextWrapping="Wrap" VerticalAlignment="Center" />
+                        <!-- Loyalty level -->
+                        <TextBlock Text="Loyalty level: "  Grid.Row="9"  HorizontalAlignment="Left" Margin="20,7,0,7" />
+                        <TextBlock x:Name="textLoyaltyLevel"  Grid.Row="10"  HorizontalAlignment="Left" Margin="20,0,0,7" />
 
-                        <!-- Reservation -->
+                        <!-- Gift card -->
                         <StackPanel Grid.Row="11" Background="#f0dcdc">
-                            <TextBlock Text="Reservations: "  Grid.Row="11"  HorizontalAlignment="Left" Margin="20,7,0,7" />
-                            <TextBlock x:Name="textReservationDates"  Grid.Row="12"  HorizontalAlignment="Left" Margin="20,0,0,7" TextWrapping="Wrap" VerticalAlignment="Center" />
+                            <TextBlock Text="Gift card: "  Grid.Row="11"  HorizontalAlignment="Left" Margin="20,7,0,7" />
+                            <TextBlock x:Name="textGiftCardDesc"  Grid.Row="12"  HorizontalAlignment="Left" Margin="20,0,0,7" TextWrapping="Wrap" VerticalAlignment="Center" />
                         </StackPanel>
 
+                        <!-- Reservation -->
+                        <TextBlock Text="Reservations: "  Grid.Row="13"  HorizontalAlignment="Left" Margin="20,7,0,7" />
+                        <TextBlock x:Name="textReservationDates"  Grid.Row="14"  HorizontalAlignment="Left" Margin="20,0,0,7" TextWrapping="Wrap" VerticalAlignment="Center" />
+
                         <!-- Reviews -->
-                        <TextBlock Text="Reviews: "  Grid.Row="13"  HorizontalAlignment="Left" Margin="20,7,0,7" />
-                        <TextBlock x:Name="textReviewsComments"  Grid.Row="14"  HorizontalAlignment="Left" TextAlignment="Left" Margin="20,0,0,7" TextWrapping="Wrap" VerticalAlignment="Center" />
+                        <StackPanel  Grid.Row="15" Background="#f0dcdc">
+                            <TextBlock Text="Reviews: "  Grid.Row="15"  HorizontalAlignment="Left" Margin="20,7,7,7" />
+                            <TextBlock x:Name="textReviewsComments"  Grid.Row="16"  HorizontalAlignment="Left" TextAlignment="Left" Margin="20,0,0,7" TextWrapping="Wrap" VerticalAlignment="Center" />
+                        </StackPanel>
                     </Grid>
                 </ScrollViewer>
 

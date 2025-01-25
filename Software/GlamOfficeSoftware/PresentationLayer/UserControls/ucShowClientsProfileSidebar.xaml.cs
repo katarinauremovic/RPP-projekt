@@ -46,6 +46,7 @@ namespace PresentationLayer.UserControls
             textEmail.Text = _selectedClient.Email;
             textPhoneNumber.Text = _selectedClient.PhoneNumber;
             textRewardPoints.Text = _selectedClient.Points.ToString();
+            textLoyaltyLevel.Text = _selectedClient.LoyaltyLevel;
             textGiftCardDesc.Text = _selectedClient.GiftCardDescription;
             textReservationDates.Text = _selectedClient.ReservationsDates;
             textReviewsComments.Text = _selectedClient.ReviewsComments;

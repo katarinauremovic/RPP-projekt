@@ -60,6 +60,7 @@ namespace BusinessLogicLayer.Services
                 Email = client.Email,
                 PhoneNumber = client.PhoneNumber,
                 Points = client.Points.Value,
+                LoyaltyLevel = client.LoyaltyLevel?.Name ?? "Not in reward system",
                 GiftCardDescription = client.GiftCard?.Description ?? "No GiftCard",
                 ReservationsDates = client.Reservations.Any()
                     ? string.Join(", ", client.Reservations.Select(r => r.Date.ToString().Split(' ')[0]))

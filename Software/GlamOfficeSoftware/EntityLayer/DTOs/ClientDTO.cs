@@ -14,6 +14,7 @@ namespace EntityLayer.DTOs
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public int Points { get; set; }
+        public string LoyaltyLevel { get; set; }
         public string GiftCardDescription { get; set; }
         public string ReservationsDates { get; set; }
         public string ReviewsComments { get; set; }

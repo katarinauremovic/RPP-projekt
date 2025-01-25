@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PresentationLayer.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="240" Loaded="UserControl_Loaded">
+             d:DesignHeight="650" d:DesignWidth="240" Loaded="UserControl_Loaded">
     <Grid>
         <Border Width="240" DockPanel.Dock="Right" Background="#b894ac">
             <Grid>
@@ -52,7 +52,6 @@
                             <TextBlock Text="Firstname: " Grid.Row="0"  HorizontalAlignment="Left" Margin="20,7,0,7" />
                             <TextBlock x:Name="textFirstname" Grid.Row="1"  HorizontalAlignment="Left" Margin="20,0,0,7" />
                         </StackPanel>
-                        
 
                         <!-- Prezime -->
                         <TextBlock Text="Lastname: "  Grid.Row="2"  HorizontalAlignment="Left" Margin="20,7,0,7" />
@@ -63,7 +62,6 @@
                             <TextBlock Text="E-mail: "  Grid.Row="4" HorizontalAlignment="Left" Margin="20,7,0,7" />
                             <TextBlock x:Name="textEmail"  Grid.Row="5" HorizontalAlignment="Left" Margin="20,0,0,7" TextWrapping="Wrap" VerticalAlignment="Center" />
                         </StackPanel>
-                        
 
                         <!-- Tel. br. -->
                         <TextBlock Text="Phone number: "  Grid.Row="6"  HorizontalAlignment="Left" Margin="20,7,0,7" />
@@ -75,19 +73,25 @@
                             <TextBlock x:Name="textRewardPoints"  Grid.Row="8"  HorizontalAlignment="Center" Margin="7,7,0,7" />
                         </StackPanel>
 
-                        <!-- Gift card -->
-                        <TextBlock Text="Gift card: "  Grid.Row="10"  HorizontalAlignment="Left" Margin="20,7,0,7" />
-                        <TextBlock x:Name="textGiftCardDesc"  Grid.Row="11"  HorizontalAlignment="Left" Margin="20,0,0,7" TextWrapping="Wrap" VerticalAlignment="Center" />
+                        <!-- Loyalty level -->
+                        <TextBlock Text="Loyalty level: "  Grid.Row="9"  HorizontalAlignment="Left" Margin="20,7,0,7" />
+                        <TextBlock x:Name="textLoyaltyLevel"  Grid.Row="10"  HorizontalAlignment="Left" Margin="20,0,0,7" />
 
-                        <!-- Reservation -->
-                        <StackPanel  Grid.Row="12" Background="#f0dcdc">
-                            <TextBlock Text="Reservations: "  Grid.Row="12"  HorizontalAlignment="Left" Margin="20,7,0,7" />
-                            <TextBlock x:Name="textReservationDates"  Grid.Row="13"  HorizontalAlignment="Left" Margin="20,0,0,7" TextWrapping="Wrap" VerticalAlignment="Center" />
+                        <!-- Gift card -->
+                        <StackPanel Grid.Row="11" Background="#f0dcdc">
+                            <TextBlock Text="Gift card: "  Grid.Row="11"  HorizontalAlignment="Left" Margin="20,7,0,7" />
+                            <TextBlock x:Name="textGiftCardDesc"  Grid.Row="12"  HorizontalAlignment="Left" Margin="20,0,0,7" TextWrapping="Wrap" VerticalAlignment="Center" />
                         </StackPanel>
 
+                        <!-- Reservation -->
+                        <TextBlock Text="Reservations: "  Grid.Row="13"  HorizontalAlignment="Left" Margin="20,7,0,7" />
+                        <TextBlock x:Name="textReservationDates"  Grid.Row="14"  HorizontalAlignment="Left" Margin="20,0,0,7" TextWrapping="Wrap" VerticalAlignment="Center" />
+                        
                         <!-- Reviews -->
-                        <TextBlock Text="Reviews: "  Grid.Row="14"  HorizontalAlignment="Left" Margin="20,7,7,7" />
-                        <TextBlock x:Name="textReviewsComments"  Grid.Row="15"  HorizontalAlignment="Left" TextAlignment="Left" Margin="20,0,0,7" TextWrapping="Wrap" VerticalAlignment="Center" />
+                        <StackPanel  Grid.Row="15" Background="#f0dcdc">
+                            <TextBlock Text="Reviews: "  Grid.Row="15"  HorizontalAlignment="Left" Margin="20,7,7,7" />
+                            <TextBlock x:Name="textReviewsComments"  Grid.Row="16"  HorizontalAlignment="Left" TextAlignment="Left" Margin="20,0,0,7" TextWrapping="Wrap" VerticalAlignment="Center" />
+                        </StackPanel>
                     </Grid>
                 </ScrollViewer>
 
