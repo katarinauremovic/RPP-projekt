@@ -12,7 +12,8 @@ namespace BusinessLogicLayer.Interfaces
     public interface IRewardService
     {
         Task<IEnumerable<Reward>> GetRewardsAsync();
-        Task<IEnumerable<RewardDTO>> GetRewardsDtoByLoyaltyLevelName(LoyaltyLevels loyaltyLevelName);
+        Task<IEnumerable<RewardDTO>> GetRewardsDtoByLoyaltyLevelNameAsync(LoyaltyLevels loyaltyLevelName);
+        Task<IEnumerable<RewardDTO>> GetRewardsDtoWithinClientsLoyaltyLevel(LoyaltyLevels loyaltyLevelName);
         Task<IEnumerable<RewardDTO>> GetRewardsDtoAsync();
     }
 }

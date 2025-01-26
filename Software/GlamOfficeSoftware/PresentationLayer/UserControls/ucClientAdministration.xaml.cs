@@ -192,7 +192,7 @@ namespace PresentationLayer.UserControls
             }
         }
 
-        private void dgvClients_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        public void dgvClients_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var sidebarMenu = (FrameworkElement)ccSidebar.Content;
 

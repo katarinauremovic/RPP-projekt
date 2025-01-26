@@ -21,12 +21,12 @@ namespace BusinessLogicLayer.Services
             }
         }
 
-        public async Task<IEnumerable<RewardDTO>> GetRewardsDtoByLoyaltyLevelName(LoyaltyLevels loyaltyLevelName)
+        public async Task<IEnumerable<RewardDTO>> GetRewardsDtoByLoyaltyLevelNameAsync(LoyaltyLevels loyaltyLevelName)
         {
             using (var repo = new RewardRepository())
             {
                 var strLoyaltyLevelName = loyaltyLevelName.ToString();
-                var rewards = await repo.GetRewardsByLoyaltyLevelName(strLoyaltyLevelName);
+                var rewards = await repo.GetRewardsByLoyaltyLevelNameAsync(strLoyaltyLevelName);
                 var rewardsDto = rewards.Select(ConvertRewardToRewardDto);
                 return rewardsDto;
             }
@@ -37,6 +37,30 @@ namespace BusinessLogicLayer.Services
             using (var repo = new RewardRepository())
             {
                 var rewards = await repo.GetAllAsync();
+                var rewardsDto = rewards.Select(ConvertRewardToRewardDto);
+                return rewardsDto;
+            }
+        }
+
+        public async Task<IEnumerable<RewardDTO>> GetRewardsDtoWithinClientsPointsAsync(int points)
+        {
+            using (var repo = new RewardRepository())
+            {
+                var rewards = await repo.GetRewardsWithinClientsPointsAsync(points);
+                var rewardsDto = rewards.Select(ConvertRewardToRewardDto);
+                return rewardsDto;
+            }
+        }
+
+        public async Task<IEnumerable<RewardDTO>> GetRewardsDtoWithinClientsLoyaltyLevel(LoyaltyLevels loyaltyLevelName)
+        {
+            using (var repo = new RewardRepository())
+            {
+                ILoyaltyLevelService loyaltyLevelService = new LoyaltyLevelService();
+                var loyaltyLevel = await loyaltyLevelService.GetLoyaltyLevelByNameAsync(loyaltyLevelName);
+                
+                var rewards = await repo.GetRewardsWithinClientsPointsAsync(loyaltyLevel.RequiredPoints);
+                
                 var rewardsDto = rewards.Select(ConvertRewardToRewardDto);
                 return rewardsDto;
             }

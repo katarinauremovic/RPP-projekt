@@ -52,11 +52,11 @@ namespace PresentationLayer.UserControls
 
         private async Task LoadRewards()
         {
-            BronzeRewards = new ObservableCollection<RewardDTO>(await Task.Run(() => _rewardService.GetRewardsDtoByLoyaltyLevelName(LoyaltyLevels.Bronze)));
-            SilverRewards = new ObservableCollection<RewardDTO>(await Task.Run(() => _rewardService.GetRewardsDtoByLoyaltyLevelName(LoyaltyLevels.Silver)));
-            GoldRewards = new ObservableCollection<RewardDTO>(await Task.Run(() => _rewardService.GetRewardsDtoByLoyaltyLevelName(LoyaltyLevels.Gold)));
-            PlatinumRewards = new ObservableCollection<RewardDTO>(await Task.Run(() => _rewardService.GetRewardsDtoByLoyaltyLevelName(LoyaltyLevels.Platinum)));
-            VipRewards = new ObservableCollection<RewardDTO>(await Task.Run(() => _rewardService.GetRewardsDtoByLoyaltyLevelName(LoyaltyLevels.VIP)));
+            BronzeRewards = new ObservableCollection<RewardDTO>(await Task.Run(() => _rewardService.GetRewardsDtoByLoyaltyLevelNameAsync(LoyaltyLevels.Bronze)));
+            SilverRewards = new ObservableCollection<RewardDTO>(await Task.Run(() => _rewardService.GetRewardsDtoByLoyaltyLevelNameAsync(LoyaltyLevels.Silver)));
+            GoldRewards = new ObservableCollection<RewardDTO>(await Task.Run(() => _rewardService.GetRewardsDtoByLoyaltyLevelNameAsync(LoyaltyLevels.Gold)));
+            PlatinumRewards = new ObservableCollection<RewardDTO>(await Task.Run(() => _rewardService.GetRewardsDtoByLoyaltyLevelNameAsync(LoyaltyLevels.Platinum)));
+            VipRewards = new ObservableCollection<RewardDTO>(await Task.Run(() => _rewardService.GetRewardsDtoByLoyaltyLevelNameAsync(LoyaltyLevels.VIP)));
         }
 
         private void ShowLoadingIndicators(bool isLoading)
@@ -72,6 +72,13 @@ namespace PresentationLayer.UserControls
             goldRewardsItemsControl.Visibility = isLoading ? Visibility.Collapsed : Visibility.Visible;
             platinumRewardsItemsControl.Visibility = isLoading ? Visibility.Collapsed : Visibility.Visible;
             vipRewardsItemsControl.Visibility = isLoading ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        private void btnViewForClient_Click(object sender, RoutedEventArgs e)
+        {
+            var ucClientRewards = new ucClientRewards();
+            ucClientRewards.Parent = this;
+            Parent.ccContent.Content = ucClientRewards;
         }
     }
 }

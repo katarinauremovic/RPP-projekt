@@ -127,17 +127,6 @@ namespace BusinessLogicLayer.Services
             }
         }
 
-        private async Task UpdateClientsLoyaltyLevelAsync(Client client)
-        {
-            ILoyaltyLevelService loyaltyLevelService = new LoyaltyLevelService();
-
-            var loyaltyLevelName = loyaltyLevelService.CheckLoyaltyLevel(client.Points.Value);
-            var loyaltyLevel = await loyaltyLevelService.GetLoyaltyLevelByNameAsync(loyaltyLevelName);
-
-            client.LoyaltyLevel = loyaltyLevel;
-            client.LoyaltyLevel_id = loyaltyLevel.Id;
-        }
-
         public async Task AddClientToRewardSystemAsync(int clientId)
         {
             using (var repo = new ClientRepository())
@@ -145,7 +134,8 @@ namespace BusinessLogicLayer.Services
                 var client = await repo.GetByIdAsync(clientId);
                 client.Points = 200;
 
-                await UpdateClientsLoyaltyLevelAsync(client);
+                var rewardSystem = new RewardSystem();
+                await rewardSystem.UpdateClientsLoyaltyLevelAsync(client);
 
                 await repo.UpdateClientAsync(client);
             }
@@ -158,7 +148,8 @@ namespace BusinessLogicLayer.Services
                 var client = await repo.GetByIdAsync(clientId);
                 client.Points = client.Points + points;
 
-                await UpdateClientsLoyaltyLevelAsync(client);
+                var rewardSystem = new RewardSystem();
+                await rewardSystem.UpdateClientsLoyaltyLevelAsync(client);
 
                 await repo.UpdateClientAsync(client);
             }

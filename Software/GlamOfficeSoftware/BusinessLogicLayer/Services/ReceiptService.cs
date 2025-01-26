@@ -37,17 +37,16 @@ namespace BusinessLogicLayer.Services
                 IReservationService reservationService = new ReservationService();
                 await reservationService.ChangeReservationStatusAsync(receipt.Reservation_idReservation, ReservationStatuses.Completed);
 
-                IClientService clientService = new ClientService();
-                var isClientInTheRewardSystem = await clientService.IsClientInTheRewardSystemAsync(receipt.Reservation.Client_idClient.Value);
+                RewardSystem rewardSystem = new RewardSystem();
+
+                var isClientInTheRewardSystem = await rewardSystem.IsClientInTheRewardSystemAsync(receipt.Reservation.Client_idClient.Value);
                 if(isClientInTheRewardSystem)
                 {
-                    var earnedPoints = CalculatePoints(receipt.TotalTreatmentAmount.Value);
-                    await clientService.AddPointsToClientAsync(receipt.Reservation.Client_idClient.Value, earnedPoints);
+                    await rewardSystem.AddPointsToClientAsync(receipt.Reservation.Client_idClient.Value, receipt.TotalTreatmentAmount.Value);
                 } else
                 {
-                    await clientService.AddClientToRewardSystemAsync(receipt.Reservation.Client_idClient.Value);
-                    var earnedPoints = CalculatePoints(receipt.TotalTreatmentAmount.Value);
-                    await clientService.AddPointsToClientAsync(receipt.Reservation.Client_idClient.Value, earnedPoints);
+                    await rewardSystem.AddClientToRewardSystemAsync(receipt.Reservation.Client_idClient.Value);
+                    await rewardSystem.AddPointsToClientAsync(receipt.Reservation.Client_idClient.Value, receipt.TotalTreatmentAmount.Value);
                 }
 
                 var receiptDTO = ConvertReceiptToReceiptDto(receipt);
