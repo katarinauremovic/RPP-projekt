@@ -18,7 +18,7 @@
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <!-- Loading Indicator -->
                             <TextBlock x:Name="loadingIndicatorRewards" Text="Please select client..." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Foreground="Gray" Visibility="Visible" />
-                            <ItemsControl x:Name="rewardsItemsControl" ItemsSource="{Binding Rewards}" Visibility="Collapsed">
+                            <ItemsControl x:Name="rewardsItemsControl" Visibility="Collapsed">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Orientation="Horizontal" />

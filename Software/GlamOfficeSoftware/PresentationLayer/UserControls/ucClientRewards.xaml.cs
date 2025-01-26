@@ -123,7 +123,7 @@ namespace PresentationLayer.UserControls
             } else
             {
                 ShowLoadingRewardsIndicator(false);
-                DataContext = this;
+                rewardsItemsControl.ItemsSource = Rewards;
             }
         }
 
