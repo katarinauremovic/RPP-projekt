@@ -12,6 +12,16 @@ namespace DataAccessLayer.Repositories
 {
     public class ClientRepository : Repository<Client>, IClientRepository
     {
+        public async override Task<Client> GetByIdAsync(int id)
+        {
+            return await items.Include(c => c.Client_has_Reward)
+                .Include(c => c.LoyaltyLevel)
+                .Include(c => c.GiftCard)
+                .Include(c => c.Reservations)
+                .Include(c => c.Reviews)
+                .FirstOrDefaultAsync(c => c.idClient == id);
+        }
+
         // Dohvaca sve klijente s joinanim podacima
         public async override Task<IEnumerable<Client>> GetAllAsync()
         {

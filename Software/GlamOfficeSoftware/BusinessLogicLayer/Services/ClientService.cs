@@ -177,7 +177,7 @@ namespace BusinessLogicLayer.Services
                 client.Points = client.Points - pointsToSubtract;
 
                 var rewardSystem = new RewardSystem();
-                await rewardSystem.UpdateClientsLoyaltyLevelAsync(client);
+                client.LoyaltyLevel_id = await rewardSystem.UpdateClientsLoyaltyLevelAsync(client);
 
                 await repo.UpdateClientAsync(client);
             }

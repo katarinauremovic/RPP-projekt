@@ -38,8 +38,13 @@ namespace PresentationLayer.UserControls
         {
             var clientId = int.Parse(txtClientId.Text);
             var rewardId = int.Parse(txtRewardId.Text);
+            var ucClientReward = new ucClientRewards();
             
             await _rewardSystem.PurchaseReward(clientId, rewardId);
+
+            await ucClientReward.LoadRewardsForSelectedClient(clientId);
+
+            ucClientReward.HaveRewards(ucClientReward.Rewards.Count);
 
             ShowButtons();
         }

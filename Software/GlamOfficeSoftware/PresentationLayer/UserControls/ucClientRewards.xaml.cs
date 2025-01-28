@@ -104,19 +104,19 @@ namespace PresentationLayer.UserControls
             var selectedClient = dgvClients.SelectedItem as ClientDTO;
             var loyaltyLevel = (LoyaltyLevels)Enum.Parse(typeof(LoyaltyLevels), selectedClient.LoyaltyLevel);
             
-            await LoadRewardsForSelectedClient(selectedClient);
+            await LoadRewardsForSelectedClient(selectedClient.Id);
 
             txtClientsPoints.Text = selectedClient.Points.ToString();
 
             HaveRewards(Rewards.Count);            
         }
 
-        private async Task LoadRewardsForSelectedClient(ClientDTO client)
+        public async Task LoadRewardsForSelectedClient(int clientId)
         {
-            Rewards = new ObservableCollection<RewardDTO>(await Task.Run(() => _rewardSystem.GetRewardsDtoForClientAsync(client)));
+            Rewards = new ObservableCollection<RewardDTO>(await Task.Run(() => _rewardSystem.GetRewardsDtoForClientAsync(clientId)));
         }
 
-        private void HaveRewards(int count)
+        public void HaveRewards(int count)
         {
             if (count == 0)
             {

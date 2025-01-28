@@ -42,9 +42,7 @@ namespace BusinessLogicLayer.Services
                 SpentPoints = reward.CostPoints.Value,
                 PurchaseDate = DateTime.Now,
                 ReedemCode = GenerateRedeemCode(),
-                Status = ClientHasRewardStatuses.Active.ToString(),
-                Client = client,
-                Reward = reward
+                Status = ClientHasRewardStatuses.Active.ToString()
             };
 
             await _clientHasRewardService.AddClientHasRewardAsync(clientHasReward);
@@ -67,24 +65,24 @@ namespace BusinessLogicLayer.Services
             await _clientService.AddPointsToClientAsync(clientId, points);
         }
 
-        public async Task UpdateClientsLoyaltyLevelAsync(Client client)
+        public async Task<int> UpdateClientsLoyaltyLevelAsync(Client client)
         {
             var loyaltyLevelName = _loyaltyLevelService.CheckLoyaltyLevel(client.Points.Value);
             var loyaltyLevel = await _loyaltyLevelService.GetLoyaltyLevelByNameAsync(loyaltyLevelName);
 
-            client.LoyaltyLevel = loyaltyLevel;
-            client.LoyaltyLevel_id = loyaltyLevel.Id;
+            return loyaltyLevel.Id;
         }
 
-        public async Task<IEnumerable<RewardDTO>> GetRewardsDtoForClientAsync(ClientDTO client)
+        public async Task<IEnumerable<RewardDTO>> GetRewardsDtoForClientAsync(int clientId)
         {
-            var clientsRewards = await _clientHasRewardService.GetClientHasRewardsForClientAsync(client.Id);
-            var loyaltyLevel = (LoyaltyLevels)Enum.Parse(typeof(LoyaltyLevels), client.LoyaltyLevel);
+            var client = await _clientService.GetClientByIdAsync(clientId);
+            var clientsRewards = await _clientHasRewardService.GetClientHasRewardsForClientAsync(client.idClient);
+            var loyaltyLevel = (LoyaltyLevels)Enum.Parse(typeof(LoyaltyLevels), client.LoyaltyLevel.Name);
             var rewards = await _rewardService.GetRewardsDtoWithinClientsLoyaltyLevelAsync(loyaltyLevel);
 
             var rewardsDto = rewards.Select(r => new RewardDTO
             {
-                ClientId = client.Id,
+                ClientId = client.idClient,
                 RewardId = r.RewardId,
                 Name = r.Name,
                 Description = r.Description,

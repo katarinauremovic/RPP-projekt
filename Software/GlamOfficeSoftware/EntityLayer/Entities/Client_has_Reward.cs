@@ -21,7 +21,7 @@ namespace EntityLayer.Entities
 
         public DateTime PurchaseDate { get; set; }
 
-        public DateTime RedeemDate { get; set; }
+        public DateTime? RedeemDate { get; set; }
 
         [StringLength(45)]
         public string ReedemCode { get; set; }
