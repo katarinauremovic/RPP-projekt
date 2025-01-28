@@ -29,9 +29,30 @@ namespace PresentationLayer.UserControls
             _rewardSystem = new RewardSystem();
         }
 
-        private void btnPurchase_Click(object sender, RoutedEventArgs e)
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            awa
+            ShowButtons();
+        }
+
+        private async void btnPurchase_Click(object sender, RoutedEventArgs e)
+        {
+            var clientId = int.Parse(txtClientId.Text);
+            var rewardId = int.Parse(txtRewardId.Text);
+            
+            await _rewardSystem.PurchaseReward(clientId, rewardId);
+
+            ShowButtons();
+        }
+
+        void ShowButtons()
+        {
+            if (string.IsNullOrEmpty(txtReedemCode.Text) && string.IsNullOrEmpty(txtStatus.Text) && txtClientId.Text != "0")
+            {
+                btnPurchase.Visibility = Visibility.Visible;
+            } else
+            {
+                btnPurchase.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }

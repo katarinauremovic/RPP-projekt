@@ -84,14 +84,15 @@ namespace BusinessLogicLayer.Services
 
             var rewardsDto = rewards.Select(r => new RewardDTO
             {
-                Id = r.Id,
+                ClientId = client.Id,
+                RewardId = r.RewardId,
                 Name = r.Name,
                 Description = r.Description,
                 CostPoints = r.CostPoints,
                 LoyaltyLevelName = r.LoyaltyLevelName,
                 RewardAmount = r.RewardAmount,
-                ReedemCode = clientsRewards.Where(cr => cr.Reward_idReward == r.Id).Select(cr => cr.ReedemCode).FirstOrDefault() ?? "",
-                Status = clientsRewards.Where(cr => cr.Reward_idReward == r.Id).Select(cr => cr.Status).FirstOrDefault() ?? "",
+                ReedemCode = clientsRewards.Where(cr => cr.Reward_idReward == r.RewardId).Select(cr => cr.ReedemCode).FirstOrDefault() ?? null,
+                Status = clientsRewards.Where(cr => cr.Reward_idReward == r.RewardId).Select(cr => cr.Status).FirstOrDefault() ?? null
             });
 
             return rewardsDto;
