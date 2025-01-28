@@ -52,7 +52,7 @@ namespace BusinessLogicLayer.Services
             }
         }
 
-        public async Task<IEnumerable<RewardDTO>> GetRewardsDtoWithinClientsLoyaltyLevel(LoyaltyLevels loyaltyLevelName)
+        public async Task<IEnumerable<RewardDTO>> GetRewardsDtoWithinClientsLoyaltyLevelAsync(LoyaltyLevels loyaltyLevelName)
         {
             using (var repo = new RewardRepository())
             {
@@ -70,6 +70,7 @@ namespace BusinessLogicLayer.Services
         {
             return new RewardDTO
             {
+                Id = reward.idReward,
                 Name = reward.Name,
                 Description = reward.Description,
                 CostPoints = reward.CostPoints.Value,

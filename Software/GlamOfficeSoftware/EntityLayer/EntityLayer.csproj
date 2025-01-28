@@ -64,6 +64,7 @@
     <Compile Include="Entities\TreatmentGroup.cs" />
     <Compile Include="Entities\WeeklySchedule.cs" />
     <Compile Include="Entities\WorkPosition.cs" />
+    <Compile Include="Enums\ClientHasRewardStatuses.cs" />
     <Compile Include="Enums\GiftCardStatuses.cs" />
     <Compile Include="Enums\ReceiptStatuses.cs" />
     <Compile Include="Enums\ReservationStatuses.cs" />

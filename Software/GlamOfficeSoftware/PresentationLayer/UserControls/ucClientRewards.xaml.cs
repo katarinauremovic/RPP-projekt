@@ -35,13 +35,13 @@ namespace PresentationLayer.UserControls
 
         private IClientService _clientService;
 
-        private IRewardService _rewardService;
+        private RewardSystem _rewardSystem;
 
         public ucClientRewards()
         {
             InitializeComponent();
             _clientService = new ClientService();
-            _rewardService = new RewardService();
+            _rewardSystem = new RewardSystem();
         }
 
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -104,14 +104,16 @@ namespace PresentationLayer.UserControls
             var selectedClient = dgvClients.SelectedItem as ClientDTO;
             var loyaltyLevel = (LoyaltyLevels)Enum.Parse(typeof(LoyaltyLevels), selectedClient.LoyaltyLevel);
             
-            await LoadRewardsByClientLoyaltyLevel(loyaltyLevel);
-            
+            await LoadRewardsForSelectedClient(selectedClient);
+
+            txtClientsPoints.Text = selectedClient.Points.ToString();
+
             HaveRewards(Rewards.Count);            
         }
 
-        private async Task LoadRewardsByClientLoyaltyLevel(LoyaltyLevels loyaltyLevel)
+        private async Task LoadRewardsForSelectedClient(ClientDTO client)
         {
-            Rewards = new ObservableCollection<RewardDTO>(await Task.Run(() => _rewardService.GetRewardsDtoWithinClientsLoyaltyLevel(loyaltyLevel)));
+            Rewards = new ObservableCollection<RewardDTO>(await Task.Run(() => _rewardSystem.GetRewardsDtoForClientAsync(client)));
         }
 
         private void HaveRewards(int count)

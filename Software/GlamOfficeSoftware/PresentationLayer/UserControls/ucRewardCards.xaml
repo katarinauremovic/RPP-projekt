@@ -34,6 +34,16 @@
                     <Binding Path="LoyaltyLevelName" Converter="{StaticResource LoyaltyLevelToTextColorConverter}" />
                 </TextBlock.Foreground>
             </TextBlock>
+            <TextBlock Text="{Binding ReedemCode}" FontStyle="Italic" FontWeight="DemiBold" FontSize="14" Margin="0,50,0,0" VerticalAlignment="Bottom">
+                <TextBlock.Foreground>
+                    <Binding Path="LoyaltyLevelName" Converter="{StaticResource LoyaltyLevelToTextColorConverter}" />
+                </TextBlock.Foreground>
+            </TextBlock>
+            <TextBlock Text="{Binding Status}" FontSize="14" Margin="0,5,0,0" VerticalAlignment="Bottom">
+                <TextBlock.Foreground>
+                    <Binding Path="LoyaltyLevelName" Converter="{StaticResource LoyaltyLevelToTextColorConverter}" />
+                </TextBlock.Foreground>
+            </TextBlock>
         </StackPanel>
     </Border>
 </UserControl>

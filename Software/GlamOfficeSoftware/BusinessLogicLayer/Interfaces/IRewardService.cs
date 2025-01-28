@@ -13,7 +13,7 @@ namespace BusinessLogicLayer.Interfaces
     {
         Task<IEnumerable<Reward>> GetRewardsAsync();
         Task<IEnumerable<RewardDTO>> GetRewardsDtoByLoyaltyLevelNameAsync(LoyaltyLevels loyaltyLevelName);
-        Task<IEnumerable<RewardDTO>> GetRewardsDtoWithinClientsLoyaltyLevel(LoyaltyLevels loyaltyLevelName);
+        Task<IEnumerable<RewardDTO>> GetRewardsDtoWithinClientsLoyaltyLevelAsync(LoyaltyLevels loyaltyLevelName);
         Task<IEnumerable<RewardDTO>> GetRewardsDtoAsync();
     }
 }

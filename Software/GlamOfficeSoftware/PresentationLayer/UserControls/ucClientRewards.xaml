@@ -13,7 +13,15 @@
                 <TextBlock Text="Clients:" Style="{StaticResource placeholder}" Foreground="#745c7c" DockPanel.Dock="Top" Margin="10,0,5,10" />
 
                 <StackPanel Margin="0,0,0,20" DockPanel.Dock="Bottom">
-                    <TextBlock Text="Rewards:" Style="{StaticResource placeholder}" Foreground="#745c7c" DockPanel.Dock="Top" Margin="10,0,0,-10" />
+                    <DockPanel>
+                        <TextBlock Text="Rewards:"  Style="{StaticResource placeholder}" Foreground="#745c7c" Margin="10,0,0,-10" />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+                            <TextBlock Text="Clients Points: "  Style="{StaticResource placeholder}" Foreground="#745c7c" Margin="10,0,0,-10" HorizontalAlignment="Right" />
+                            <TextBlock x:Name="txtClientsPoints" Style="{StaticResource placeholder}" FontWeight="Bold" Foreground="#745c7c" Margin="2,0,0,-10" HorizontalAlignment="Right" />
+                        </StackPanel>
+                       
+                    </DockPanel>
+                    
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" Height="250">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <!-- Loading Indicator -->

@@ -11,6 +11,7 @@ namespace BusinessLogicLayer.Interfaces
     public interface IClientService
     {
         Task<IEnumerable<Client>> GetAllClientsAsync();
+        Task<Client> GetClientByIdAsync(int clientId);
         Task<IEnumerable<ClientDTO>> GetAllClientsDTOAsync();
         Task UpdateClientAsync(ClientDTO client);
         Task AddNewClient(Client client);

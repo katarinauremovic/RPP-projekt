@@ -23,6 +23,14 @@ namespace BusinessLogicLayer.Services
             }
         }
 
+        public async Task<Client> GetClientByIdAsync(int clientId)
+        {
+            using (var repo = new ClientRepository())
+            {
+                return await repo.GetByIdAsync(clientId);
+            }
+        }
+
         public async Task<IEnumerable<ClientDTO>> GetAllClientsDTOAsync()
         {
             using (var repo = new ClientRepository())
