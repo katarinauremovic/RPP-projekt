@@ -21,6 +21,13 @@ namespace BusinessLogicLayer.Services
             }
         }
 
+        public async Task<Reward> GetRewardByIdAsync(int rewardId)
+        {
+            using (var repo = new RewardRepository())
+            {
+                return await repo.GetByIdAsync(rewardId);
+            }
+
         public async Task<IEnumerable<RewardDTO>> GetRewardsDtoByLoyaltyLevelNameAsync(LoyaltyLevels loyaltyLevelName)
         {
             using (var repo = new RewardRepository())

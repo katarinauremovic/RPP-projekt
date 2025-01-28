@@ -22,6 +22,8 @@ namespace BusinessLogicLayer.Interfaces
         Task<bool> IsClientInTheRewardSystemAsync(int clientId);
         Task AddClientToRewardSystemAsync(int clientId);
         Task AddPointsToClientAsync(int clientId, int points);
+        Task SubtractPointsFromClientAsync(int clientId, int pointsToSubtract);
+
 
         Task<Client> GetByEmailAsync(string email);
         Task<IEnumerable<Client>> GetWithActiveGiftCardsAsync();

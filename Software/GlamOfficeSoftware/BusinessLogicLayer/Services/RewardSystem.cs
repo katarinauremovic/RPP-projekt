@@ -27,6 +27,30 @@ namespace BusinessLogicLayer.Services
             _clientHasRewardService = new ClientHasRewardService();
         }
 
+        public async Task PurchaseReward(int clientId, int rewardId)
+        {
+            var client = await _clientService.GetClientByIdAsync(clientId);
+            var reward = await _rewardService.GetRewardByIdAsync(rewardId);
+            if (client.Points < reward.CostPoints)
+            {
+                throw new Exception("Client does not have enough points to purchase this reward.");
+            }
+            var clientHasReward = new Client_has_Reward
+            {
+                Client_idClient = clientId,
+                Reward_idReward = rewardId,
+                SpentPoints = reward.CostPoints.Value,
+                PurchaseDate = DateTime.Now,
+                ReedemCode = GenerateRedeemCode(),
+                Status = ClientHasRewardStatuses.Active.ToString(),
+                Client = client,
+                Reward = reward
+            };
+
+            await _clientHasRewardService.AddClientHasRewardAsync(clientHasReward);
+            await _clientService.SubtractPointsFromClientAsync(clientId, reward.CostPoints.Value);
+        }
+
         public async Task<bool> IsClientInTheRewardSystemAsync(int clientId)
         {
             return await _clientService.IsClientInTheRewardSystemAsync(clientId);
@@ -67,13 +91,8 @@ namespace BusinessLogicLayer.Services
                 LoyaltyLevelName = r.LoyaltyLevelName,
                 RewardAmount = r.RewardAmount,
                 ReedemCode = clientsRewards.Where(cr => cr.Reward_idReward == r.Id).Select(cr => cr.ReedemCode).FirstOrDefault() ?? "",
-                Status = clientsRewards.Where(cr => cr.Reward_idReward == r.Id).Select(cr => cr.Status).FirstOrDefault() ?? ""
+                Status = clientsRewards.Where(cr => cr.Reward_idReward == r.Id).Select(cr => cr.Status).FirstOrDefault() ?? "",
             });
-
-            foreach (var rd in rewardsDto)
-            {
-                Console.WriteLine(rd.Name.ToString());
-            }
 
             return rewardsDto;
         }
@@ -81,6 +100,11 @@ namespace BusinessLogicLayer.Services
         private int CalculatePoints(decimal totalAmount)
         {
             return (int)Math.Round(totalAmount * 10);
+        }
+
+        private string GenerateRedeemCode()
+        {
+            return NStringGenerator.NStringGenerator.Generate(8);
         }
     }
 }

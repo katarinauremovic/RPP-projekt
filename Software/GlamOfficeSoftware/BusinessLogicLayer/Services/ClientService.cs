@@ -7,6 +7,7 @@ using EntityLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -149,12 +150,12 @@ namespace BusinessLogicLayer.Services
             }
         }
 
-        public async Task AddPointsToClientAsync(int clientId, int points)
+        public async Task AddPointsToClientAsync(int clientId, int pointsToAdd)
         {
             using (var repo = new ClientRepository())
             {
                 var client = await repo.GetByIdAsync(clientId);
-                client.Points = client.Points + points;
+                client.Points = client.Points + pointsToAdd;
 
                 var rewardSystem = new RewardSystem();
                 await rewardSystem.UpdateClientsLoyaltyLevelAsync(client);
@@ -162,6 +163,26 @@ namespace BusinessLogicLayer.Services
                 await repo.UpdateClientAsync(client);
             }
         }
+
+        public async Task SubtractPointsFromClientAsync(int clientId, int pointsToSubtract)
+        {
+            if (pointsToSubtract <= 0)
+            {
+                throw new ArgumentException("Broj bodova za oduzimanje mora biti veći od nule.");
+            }
+
+            using (var repo = new ClientRepository())
+            {
+                var client = await repo.GetByIdAsync(clientId);
+                client.Points = client.Points - pointsToSubtract;
+
+                var rewardSystem = new RewardSystem();
+                await rewardSystem.UpdateClientsLoyaltyLevelAsync(client);
+
+                await repo.UpdateClientAsync(client);
+            }
+        }
+
 
         private async Task<Client> ConvertClientDtoToClient(ClientDTO clientDTO)
         {

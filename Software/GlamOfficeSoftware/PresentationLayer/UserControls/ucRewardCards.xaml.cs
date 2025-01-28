@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessLogicLayer.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,17 @@ namespace PresentationLayer.UserControls
     /// </summary>
     public partial class ucRewardCards : UserControl
     {
+        private RewardSystem _rewardSystem;
+
         public ucRewardCards()
         {
             InitializeComponent();
+            _rewardSystem = new RewardSystem();
+        }
+
+        private void btnPurchase_Click(object sender, RoutedEventArgs e)
+        {
+            awa
         }
     }
 }

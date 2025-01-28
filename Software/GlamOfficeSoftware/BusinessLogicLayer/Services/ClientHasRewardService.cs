@@ -19,5 +19,13 @@ namespace BusinessLogicLayer.Services
                 return await repo.GetClientHasRewardsForClientAsync(clientId);
             }
         }
+
+        public async Task AddClientHasRewardAsync(Client_has_Reward clientHasReward)
+        {
+            using (var repo = new ClientHasRewardRepository())
+            {
+                await repo.AddAsync(clientHasReward);
+            }
+        }
     }
 }

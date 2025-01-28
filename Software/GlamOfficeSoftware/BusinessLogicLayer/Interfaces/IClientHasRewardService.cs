@@ -10,5 +10,6 @@ namespace BusinessLogicLayer.Interfaces
     public interface IClientHasRewardService
     {
         Task<IEnumerable<Client_has_Reward>> GetClientHasRewardsForClientAsync(int clientId);
+        Task AddClientHasRewardAsync(Client_has_Reward clientHasReward);
     }
 }
