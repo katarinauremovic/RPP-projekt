@@ -98,25 +98,43 @@ namespace PresentationLayer.UserControls
 
         private async void dgvClients_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (dgvClients.SelectedItem == null) return;
+
             ShowLoadingRewardsIndicator(true);
             loadingIndicatorRewards.Text = "Loading rewards, please wait...";
-            
+
             var selectedClient = dgvClients.SelectedItem as ClientDTO;
             var loyaltyLevel = (LoyaltyLevels)Enum.Parse(typeof(LoyaltyLevels), selectedClient.LoyaltyLevel);
             
             await LoadRewardsForSelectedClient(selectedClient.Id);
 
             txtClientsPoints.Text = selectedClient.Points.ToString();
-
-            HaveRewards(Rewards.Count);            
         }
 
-        public async Task LoadRewardsForSelectedClient(int clientId)
+        private async Task LoadRewardsForSelectedClient(int clientId)
         {
             Rewards = new ObservableCollection<RewardDTO>(await Task.Run(() => _rewardSystem.GetRewardsDtoForClientAsync(clientId)));
+            rewardsItemsControl.ItemsSource = Rewards;
+            HaveRewards(Rewards.Count);
         }
 
-        public void HaveRewards(int count)
+        public async Task RefreshGui(int clientId)
+        {
+            var clients = await Task.Run(() => _clientService.GetAllClientsDTOAsync());
+            var selectedClient = clients.FirstOrDefault(c => c.Id == clientId);
+
+            if (selectedClient != null)
+            {
+                dgvClients.ItemsSource = clients;
+                await Task.Delay(100);
+                dgvClients.SelectedItem = selectedClient;
+                txtClientsPoints.Text = selectedClient.Points.ToString();
+                await LoadRewardsForSelectedClient(clientId);
+            }
+        }
+
+
+        private void HaveRewards(int count)
         {
             if (count == 0)
             {
@@ -125,7 +143,6 @@ namespace PresentationLayer.UserControls
             } else
             {
                 ShowLoadingRewardsIndicator(false);
-                rewardsItemsControl.ItemsSource = Rewards;
             }
         }
 
@@ -205,7 +222,7 @@ namespace PresentationLayer.UserControls
                         dgvClients.ItemsSource = await Task.Run(() => _clientService.GetClientsByPhoneNumberPattern(pattern));
                         break;
                     default:
-                        MessageBox.Show("Invalid filter selection.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        await LoadClientsAsync();
                         break;
                 }
             } catch (Exception ex)

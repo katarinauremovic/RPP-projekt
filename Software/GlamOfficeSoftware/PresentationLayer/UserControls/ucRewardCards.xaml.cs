@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.Services;
+﻿using BusinessLogicLayer.Exceptions;
+using BusinessLogicLayer.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,16 @@ namespace PresentationLayer.UserControls
     /// </summary>
     public partial class ucRewardCards : UserControl
     {
+        public static readonly DependencyProperty ParentProperty =
+        DependencyProperty.Register(
+            "Parent", typeof(ucClientRewards), typeof(ucRewardCards), new PropertyMetadata(null));
+
+        public ucClientRewards Parent
+        {
+            get { return (ucClientRewards)GetValue(ParentProperty); }
+            set { SetValue(ParentProperty, value); }
+        }
+
         private RewardSystem _rewardSystem;
 
         public ucRewardCards()
@@ -32,22 +43,52 @@ namespace PresentationLayer.UserControls
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             ShowButtons();
+            NotEnoughPoints();
+        }
+
+        private void NotEnoughPoints()
+        {
+            if (Parent == null || Parent.txtClientsPoints.Text == null) return;
+
+            var clientPoints = int.Parse(Parent.txtClientsPoints.Text);
+            var costPoints = int.Parse(txtCostPoints.Text);
+
+            if (clientPoints < costPoints)
+            {
+                txtStatus.Text = "Not enough points";
+                txtStatus.FontStyle = FontStyles.Italic;
+                txtStatus.FontWeight = FontWeights.SemiBold;
+                btnPurchase.Visibility = Visibility.Collapsed;
+            }
         }
 
         private async void btnPurchase_Click(object sender, RoutedEventArgs e)
         {
-            var clientId = int.Parse(txtClientId.Text);
-            var rewardId = int.Parse(txtRewardId.Text);
-            var ucClientReward = new ucClientRewards();
-            
-            await _rewardSystem.PurchaseReward(clientId, rewardId);
+            var result = MessageBox.Show(
+                "Are you sure you want to buy this reward?",
+                "Confirm Purchase",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
 
-            await ucClientReward.LoadRewardsForSelectedClient(clientId);
+            if (result == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    var clientId = int.Parse(txtClientId.Text);
+                    var rewardId = int.Parse(txtRewardId.Text);
 
-            ucClientReward.HaveRewards(ucClientReward.Rewards.Count);
+                    await _rewardSystem.PurchaseReward(clientId, rewardId);
 
-            ShowButtons();
+                    await Parent.RefreshGui(clientId);
+
+                    ShowButtons();
+                } catch (Exception ex)
+                {
+                    MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
+
 
         void ShowButtons()
         {
