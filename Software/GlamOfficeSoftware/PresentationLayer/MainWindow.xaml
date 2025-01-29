@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:PresentationLayer"
         mc:Ignorable="d"
         Icon="/Images/GlamOfficeIcon.ico"
-        Title="GlamOffice" Height="600" Width="1200">
+        Title="GlamOffice" Height="600" Width="1200"
+        WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Storyboard x:Key="SlideInAnimation">
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)">

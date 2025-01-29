@@ -53,11 +53,9 @@ namespace PresentationLayer.UserControls
             var clientPoints = int.Parse(Parent.txtClientsPoints.Text);
             var costPoints = int.Parse(txtCostPoints.Text);
 
-            if (clientPoints < costPoints)
+            if (clientPoints < costPoints && string.IsNullOrEmpty(txtReedemCode.Text) && string.IsNullOrEmpty(txtStatus.Text))
             {
-                txtStatus.Text = "Not enough points";
-                txtStatus.FontStyle = FontStyles.Italic;
-                txtStatus.FontWeight = FontWeights.SemiBold;
+                txtNotEnoughPoints.Visibility = Visibility.Visible;
                 btnPurchase.Visibility = Visibility.Collapsed;
             }
         }
@@ -90,14 +88,16 @@ namespace PresentationLayer.UserControls
         }
 
 
-        void ShowButtons()
+        private bool ShowButtons()
         {
-            if (string.IsNullOrEmpty(txtReedemCode.Text) && string.IsNullOrEmpty(txtStatus.Text) && txtClientId.Text != "0")
+            if (string.IsNullOrEmpty(txtReedemCode.Text) && string.IsNullOrEmpty(txtStatus.Text) && int.Parse(txtClientId.Text) != 0)
             {
                 btnPurchase.Visibility = Visibility.Visible;
+                return true;
             } else
             {
                 btnPurchase.Visibility = Visibility.Collapsed;
+                return false;
             }
         }
     }

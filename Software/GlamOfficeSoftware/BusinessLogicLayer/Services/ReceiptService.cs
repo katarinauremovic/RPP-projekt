@@ -32,24 +32,15 @@ namespace BusinessLogicLayer.Services
             using (var repo = new ReceiptRepository())
             {
                 receipt.ReceiptNumber = GenerateReceiptNumber();
+                receipt.Status = ReservationStatuses.Issued.ToString();
                 await repo.AddAsync(receipt);
-                
-                IReservationService reservationService = new ReservationService();
-                await reservationService.ChangeReservationStatusAsync(receipt.Reservation_idReservation, ReservationStatuses.Completed);
+
+                var receiptDb = await repo.GetLastReceiptAsync();
 
                 RewardSystem rewardSystem = new RewardSystem();
+                await rewardSystem.ProcessReceiptAsync(receiptDb);
 
-                var isClientInTheRewardSystem = await rewardSystem.IsClientInTheRewardSystemAsync(receipt.Reservation.Client_idClient.Value);
-                if(isClientInTheRewardSystem)
-                {
-                    await rewardSystem.AddPointsToClientAsync(receipt.Reservation.Client_idClient.Value, receipt.TotalTreatmentAmount.Value);
-                } else
-                {
-                    await rewardSystem.AddClientToRewardSystemAsync(receipt.Reservation.Client_idClient.Value);
-                    await rewardSystem.AddPointsToClientAsync(receipt.Reservation.Client_idClient.Value, receipt.TotalTreatmentAmount.Value);
-                }
-
-                var receiptDTO = ConvertReceiptToReceiptDto(receipt);
+                var receiptDTO = ConvertReceiptToReceiptDto(receiptDb);
                 await GenerateReceiptPdf(receiptDTO);
             }
         }
@@ -153,11 +144,6 @@ namespace BusinessLogicLayer.Services
                 var receiptsDto = receipts.Select(ConvertReceiptToReceiptDto).ToList();
                 return receiptsDto;
             }
-        }
-
-        private int CalculatePoints(decimal totalAmount)
-        {
-            return (int)Math.Round(totalAmount * 10);
         }
 
         private async Task ChangeReceiptStatusAsync(Receipt receipt)

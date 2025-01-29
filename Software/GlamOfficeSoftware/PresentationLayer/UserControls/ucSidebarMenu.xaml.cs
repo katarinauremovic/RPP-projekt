@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BusinessLogicLayer.Interfaces;
+using BusinessLogicLayer.Services;
+using EntityLayer.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -56,6 +59,29 @@ namespace PresentationLayer.UserControls
             var ucRewards = new ucRewards();
             ucRewards.Parent = Parent;
             Parent.ccContent.Content = ucRewards;
+        }
+
+        private async void btnPay_Click(object sender, RoutedEventArgs e)
+        {
+            // ovo služi samo kao test ne brišite.
+
+            /*
+            
+            IReceiptService receiptService = new ReceiptService();
+            
+            var receipt = new Receipt()
+            {
+                TotalPrice = 75,
+                GiftCardDiscount = -20,
+                RewardDiscount = -5,
+                TotalTreatmentAmount = 100,
+                IssueDateTime = DateTime.Now,
+                Reservation_idReservation = 11,
+            };
+
+            await Task.Run(() => receiptService.AddNewReceiptAsync(receipt));
+            
+            */
         }
     }
 }

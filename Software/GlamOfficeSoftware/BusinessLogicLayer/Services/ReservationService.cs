@@ -20,6 +20,14 @@ namespace BusinessLogicLayer.Services
             }
         }
 
+        public async Task<Reservation> GetReservationByIdAsync(int reservationId)
+        {
+            using (var repo = new ReservationRepository())
+            {
+                return await repo.GetByIdAsync(reservationId);
+            }
+        }
+
         public async Task AddNewReservationAsync(Reservation reservation)
         {
             using (var repo = new ReservationRepository())

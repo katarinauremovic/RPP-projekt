@@ -60,6 +60,11 @@
 
             <TextBlock x:Name="txtClientId" Text="{Binding ClientId}" Visibility="Collapsed" />
             <TextBlock x:Name="txtRewardId" Text="{Binding RewardId}" Visibility="Collapsed" />
+            <TextBlock x:Name="txtNotEnoughPoints" Text="Not enough points" FontSize="14" FontStyle="Italic" FontWeight="DemiBold" Visibility="Collapsed" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,0,7">
+                <TextBlock.Foreground>
+                    <Binding Path="LoyaltyLevelName" Converter="{StaticResource LoyaltyLevelToTextColorConverter}" />
+                </TextBlock.Foreground>
+            </TextBlock>
         </Grid>
     </Border>
 </UserControl>

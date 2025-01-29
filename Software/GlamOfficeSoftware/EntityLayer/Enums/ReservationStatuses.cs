@@ -13,6 +13,7 @@ namespace EntityLayer.Enums
         Completed,
         Canceled,
         NoShow,
-        Voided
+        Voided,
+        Issued
     }
 }

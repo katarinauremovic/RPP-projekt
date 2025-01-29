@@ -18,5 +18,6 @@ namespace EntityLayer.DTOs
         public string LoyaltyLevelName { get; set; }
         public string ReedemCode { get; set; }
         public string Status { get; set; }
+
     }
 }
