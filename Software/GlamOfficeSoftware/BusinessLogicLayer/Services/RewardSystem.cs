@@ -78,19 +78,27 @@ namespace BusinessLogicLayer.Services
             var client = await _clientService.GetClientByIdAsync(clientId);
             var clientsRewards = await _clientHasRewardService.GetClientHasRewardsForClientAsync(client.idClient);
             var loyaltyLevel = (LoyaltyLevels)Enum.Parse(typeof(LoyaltyLevels), client.LoyaltyLevel.Name);
-            var rewards = await _rewardService.GetRewardsDtoWithinClientsLoyaltyLevelAsync(loyaltyLevel);
+            var rewards = (await _rewardService.GetRewardsWithinClientsLoyaltyLevelAsync(loyaltyLevel)).ToList();
+
+            if (!rewards.Any())
+            {
+                var additionalRewards = await Task.WhenAll(
+                    clientsRewards.Select(cr => _rewardService.GetRewardByIdAsync(cr.Reward_idReward))
+                );
+                rewards.AddRange(additionalRewards);
+            }
 
             var rewardsDto = rewards.Select(r => new RewardDTO
             {
                 ClientId = client.idClient,
-                RewardId = r.RewardId,
+                RewardId = r.idReward,
                 Name = r.Name,
                 Description = r.Description,
-                CostPoints = r.CostPoints,
-                LoyaltyLevelName = r.LoyaltyLevelName,
-                RewardAmount = r.RewardAmount,
-                ReedemCode = clientsRewards.Where(cr => cr.Reward_idReward == r.RewardId).Select(cr => cr.ReedemCode).FirstOrDefault() ?? null,
-                Status = clientsRewards.Where(cr => cr.Reward_idReward == r.RewardId).Select(cr => cr.Status).FirstOrDefault() ?? null
+                CostPoints = r.CostPoints ?? 0,
+                LoyaltyLevelName = r.LoyaltyLevel.Name,
+                RewardAmount = r.RewardAmount ?? 0,
+                ReedemCode = clientsRewards.FirstOrDefault(cr => cr.Reward_idReward == r.idReward)?.ReedemCode,
+                Status = clientsRewards.FirstOrDefault(cr => cr.Reward_idReward == r.idReward)?.Status
             });
 
             return rewardsDto;

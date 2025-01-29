@@ -15,6 +15,11 @@ namespace DataAccessLayer.Repositories
             return await items.Include(r => r.LoyaltyLevel).ToListAsync();
         }
 
+        public override async Task<Reward> GetByIdAsync(int id)
+        {
+            return await items.Include(r => r.LoyaltyLevel).FirstOrDefaultAsync(r => r.idReward == id);
+        }
+
         public async Task<IEnumerable<Reward>> GetRewardsByLoyaltyLevelNameAsync(string loyaltyLevelName)
         {
             return await items.Where(r => r.LoyaltyLevel.Name == loyaltyLevelName).Include(r => r.LoyaltyLevel).ToListAsync();

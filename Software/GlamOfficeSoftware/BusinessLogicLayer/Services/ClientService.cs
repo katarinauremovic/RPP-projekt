@@ -168,7 +168,7 @@ namespace BusinessLogicLayer.Services
         {
             if (pointsToSubtract <= 0)
             {
-                throw new ArgumentException("Broj bodova za oduzimanje mora biti veći od nule.");
+                throw new ArgumentException("Substract number must be more then 0.");
             }
 
             using (var repo = new ClientRepository())

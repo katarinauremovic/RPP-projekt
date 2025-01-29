@@ -21,12 +21,14 @@
                         </StackPanel>
                        
                     </DockPanel>
-                    
+
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" Height="250">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Grid Margin="0,10,0,0">
                             <!-- Loading Indicator -->
                             <TextBlock x:Name="loadingIndicatorRewards" Text="Please select client..." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Foreground="Gray" Visibility="Visible" />
-                            <ItemsControl x:Name="rewardsItemsControl" Visibility="Collapsed">
+
+                            <!-- Rewards ItemsControl -->
+                            <ItemsControl x:Name="rewardsItemsControl" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Orientation="Horizontal" />
@@ -38,8 +40,9 @@
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
-                        </StackPanel>
+                        </Grid>
                     </ScrollViewer>
+
                 </StackPanel>
 
                 <!-- Clients -->

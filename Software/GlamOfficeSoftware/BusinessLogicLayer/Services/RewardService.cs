@@ -60,6 +60,19 @@ namespace BusinessLogicLayer.Services
             }
         }
 
+        public async Task<IEnumerable<Reward>> GetRewardsWithinClientsLoyaltyLevelAsync(LoyaltyLevels loyaltyLevelName)
+        {
+            using (var repo = new RewardRepository())
+            {
+                ILoyaltyLevelService loyaltyLevelService = new LoyaltyLevelService();
+                var loyaltyLevel = await loyaltyLevelService.GetLoyaltyLevelByNameAsync(loyaltyLevelName);
+
+                var rewards = await repo.GetRewardsWithinClientsPointsAsync(loyaltyLevel.RequiredPoints);
+
+                return rewards;
+            }
+        }
+
         public async Task<IEnumerable<RewardDTO>> GetRewardsDtoWithinClientsLoyaltyLevelAsync(LoyaltyLevels loyaltyLevelName)
         {
             using (var repo = new RewardRepository())
