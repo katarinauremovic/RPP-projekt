@@ -64,8 +64,6 @@ namespace PresentationLayer.UserControls
         private async void btnPay_Click(object sender, RoutedEventArgs e)
         {
             // ovo služi samo kao test ne brišite.
-
-            
             
             IReceiptService receiptService = new ReceiptService();
             
@@ -80,8 +78,19 @@ namespace PresentationLayer.UserControls
             };
 
             await Task.Run(() => receiptService.AddNewReceiptAsync(receipt));
-            
-            
+
+            /*
+
+            string recipient = "thesnackalchemist2023@gmail.com";
+            string subject = "Ponuda za suradnju";
+            string body = "<h1>Pozdrav!</h1><p>Ovo je vaša ponuda za suradnju...</p>";
+
+            var gmailService = new GmailService();
+            await gmailService.SendEmailAsync(recipient, subject, body);
+
+            Console.WriteLine("E-mail je uspješno poslan!");
+
+            */
         }
     }
 }

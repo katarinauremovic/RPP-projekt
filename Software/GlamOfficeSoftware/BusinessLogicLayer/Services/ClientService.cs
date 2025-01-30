@@ -146,7 +146,6 @@ namespace BusinessLogicLayer.Services
 
                 var rewardSystem = new RewardSystem();
                 client.LoyaltyLevel_id = await rewardSystem.UpdateClientsLoyaltyLevelAsync(client);
-                Console.WriteLine(client.LoyaltyLevel_id);
 
                 await repo.UpdateClientAsync(client);
             }
@@ -161,7 +160,6 @@ namespace BusinessLogicLayer.Services
 
                 var rewardSystem = new RewardSystem();
                 client.LoyaltyLevel_id = await rewardSystem.UpdateClientsLoyaltyLevelAsync(client);
-                Console.WriteLine(client.LoyaltyLevel_id);
 
                 await repo.UpdateClientAsync(client);
             }
@@ -181,7 +179,6 @@ namespace BusinessLogicLayer.Services
 
                 var rewardSystem = new RewardSystem();
                 client.LoyaltyLevel_id = await rewardSystem.UpdateClientsLoyaltyLevelAsync(client);
-                Console.WriteLine(client.LoyaltyLevel_id);
 
                 await repo.UpdateClientAsync(client);
             }

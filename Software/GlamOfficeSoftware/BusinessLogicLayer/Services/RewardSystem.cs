@@ -14,7 +14,6 @@ namespace BusinessLogicLayer.Services
     public class RewardSystem
     {
         private IClientService _clientService;
-        private IReceiptService _receiptService;
         private IRewardService _rewardService;
         private ILoyaltyLevelService _loyaltyLevelService;
         private IClientHasRewardService _clientHasRewardService;
@@ -22,7 +21,6 @@ namespace BusinessLogicLayer.Services
         public RewardSystem()
         {
             _clientService = new ClientService();
-            _receiptService = new ReceiptService();
             _rewardService = new RewardService();
             _loyaltyLevelService = new LoyaltyLevelService();
             _clientHasRewardService = new ClientHasRewardService();
@@ -68,31 +66,61 @@ namespace BusinessLogicLayer.Services
             }   
         }
 
-        public async Task<bool> IsClientInTheRewardSystemAsync(int clientId)
-        {
-            return await _clientService.IsClientInTheRewardSystemAsync(clientId);
-        }
-
-        public async Task AddClientToRewardSystemAsync(int clientId)
-        {
-            await _clientService.AddClientToRewardSystemAsync(clientId);
-        }
-
-        public async Task AddPointsToClientAsync(int clientId, decimal totalAmount)
-        {
-            var points = CalculatePoints(totalAmount);
-            await _clientService.AddPointsToClientAsync(clientId, points);
-        }
-
         public async Task<int> UpdateClientsLoyaltyLevelAsync(Client client)
         {
             var loyaltyLevelName = _loyaltyLevelService.CheckLoyaltyLevel(client.Points.Value);
-            Console.WriteLine(loyaltyLevelName);
             var loyaltyLevel = await _loyaltyLevelService.GetLoyaltyLevelByNameAsync(loyaltyLevelName);
-            Console.WriteLine(loyaltyLevel.Id);
+
+            if(loyaltyLevel.Id != client.LoyaltyLevel_id)
+            {
+                await SendLoyaltyLevelChangeEmailAsync(client, loyaltyLevel);
+            }
 
             return loyaltyLevel.Id;
         }
+
+        public async Task SendLoyaltyLevelChangeEmailAsync(Client client, LoyaltyLevel loyaltyLevel)
+        {
+            // Fetching rewards for the loyalty level
+            var loyaltyLevelName = (LoyaltyLevels)Enum.Parse(typeof(LoyaltyLevels), client.LoyaltyLevel.Name);
+            var rewards = await _rewardService.GetRewardsDtoWithinClientsLoyaltyLevelAsync(loyaltyLevelName);
+
+            // Constructing the email body with a table
+            string subject = $"Congratulations! Your new Loyalty Level is {loyaltyLevel.Name}";
+
+            string body = $"Hello {client.Firstname},<br><br>" +
+                          $"Your loyalty level has been upgraded to: <b>{loyaltyLevel.Name}</b>!<br>" +
+                          $"With this level, you are eligible for the following rewards:<br><br>" +
+                          "<table border='1' cellpadding='10' style='border-collapse: collapse;'>" +
+                          "<thead><tr>" +
+                          "<th>Reward</th>" +
+                          "<th>Description</th>" +
+                          "<th>Cost (Points)</th>" +
+                          "<th>Reward Amount</th>" +
+                          "</tr></thead>" +
+                          "<tbody>";
+
+            // Adding rows for each reward
+            foreach (var reward in rewards)
+            {
+                body += $"<tr>" +
+                        $"<td>{reward.Name}</td>" +
+                        $"<td>{reward.Description}</td>" +
+                        $"<td>{reward.CostPoints.ToString()}</td>" +
+                        "</tr>";
+            }
+
+            body += "</tbody></table><br><br>" +
+                    "Thank you for being a loyal customer!";
+
+            // Sending the email
+            var gmailService = new GmailService(); // Assuming there's an existing EmailService implementation
+            await gmailService.SendEmailAsync(client.Email, subject, body);
+
+            Console.WriteLine("Loyalty level change email successfully sent.");
+        }
+
+
 
         public async Task<IEnumerable<RewardDTO>> GetRewardsDtoForClientAsync(int clientId)
         {
@@ -127,6 +155,21 @@ namespace BusinessLogicLayer.Services
             });
 
             return rewardsDto;
+        }
+        private async Task AddPointsToClientAsync(int clientId, decimal totalAmount)
+        {
+            var points = CalculatePoints(totalAmount);
+            await _clientService.AddPointsToClientAsync(clientId, points);
+        }
+
+        private async Task<bool> IsClientInTheRewardSystemAsync(int clientId)
+        {
+            return await _clientService.IsClientInTheRewardSystemAsync(clientId);
+        }
+
+        private async Task AddClientToRewardSystemAsync(int clientId)
+        {
+            await _clientService.AddClientToRewardSystemAsync(clientId);
         }
 
         private int CalculatePoints(decimal totalAmount)
