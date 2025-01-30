@@ -1,6 +1,7 @@
 ﻿using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
 using EntityLayer.Entities;
+using PresentationLayer.Windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,7 +65,9 @@ namespace PresentationLayer.UserControls
         private async void btnPay_Click(object sender, RoutedEventArgs e)
         {
             // ovo služi samo kao test ne brišite.
-            
+
+            /*
+
             IReceiptService receiptService = new ReceiptService();
             
             var receipt = new Receipt()
@@ -79,6 +82,8 @@ namespace PresentationLayer.UserControls
 
             await Task.Run(() => receiptService.AddNewReceiptAsync(receipt));
 
+            */
+
             /*
 
             string recipient = "thesnackalchemist2023@gmail.com";
@@ -91,6 +96,9 @@ namespace PresentationLayer.UserControls
             Console.WriteLine("E-mail je uspješno poslan!");
 
             */
+
+            var win = new winAddNewRewardCard();
+            win.ShowDialog();
         }
     }
 }

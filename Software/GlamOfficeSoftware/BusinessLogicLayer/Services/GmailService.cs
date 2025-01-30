@@ -13,10 +13,10 @@ namespace BusinessLogicLayer.Services
 {
     public abstract class GmailService
     {
-        protected readonly string _email = "glamoffice2025@gmail.com";
-        protected readonly string _password = "zztv yfus xomu btrp";
-        protected readonly string _smtpServer = "smtp.gmail.com";
-        protected readonly int _smtpPort = 587;
+        private readonly string _email = "glamoffice2025@gmail.com";
+        private readonly string _password = "zztv yfus xomu btrp";
+        private readonly string _smtpServer = "smtp.gmail.com";
+        private readonly int _smtpPort = 587;
 
         public virtual async Task SendEmailAsync(string recipientEmail, string subject, string body)
         {
