@@ -65,7 +65,7 @@ namespace PresentationLayer.UserControls
         {
             // ovo služi samo kao test ne brišite.
 
-            /*
+            
             
             IReceiptService receiptService = new ReceiptService();
             
@@ -76,12 +76,12 @@ namespace PresentationLayer.UserControls
                 RewardDiscount = -5,
                 TotalTreatmentAmount = 100,
                 IssueDateTime = DateTime.Now,
-                Reservation_idReservation = 11,
+                Reservation_idReservation = 12,
             };
 
             await Task.Run(() => receiptService.AddNewReceiptAsync(receipt));
             
-            */
+            
         }
     }
 }

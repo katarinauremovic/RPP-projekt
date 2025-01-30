@@ -56,8 +56,9 @@ namespace DataAccessLayer.Repositories
 
         public async Task<bool> IsClientInTheRewardSystemAsync(int clientId)
         {
-            return await items.Include(c => c.Client_has_Reward)
-                .AnyAsync(c => c.idClient == clientId && c.Client_has_Reward.Any() || c.LoyaltyLevel_id == 6);
+            return await items
+                .Include(c => c.LoyaltyLevel)
+                .AnyAsync(c => c.idClient == clientId && c.LoyaltyLevel.Name != LoyaltyLevels.NotInRewardSystem.ToString());
         }
 
         // Dohvati klijenta prema email adresi

@@ -104,7 +104,7 @@ namespace PresentationLayer.UserControls
             loadingIndicatorRewards.Text = "Loading rewards, please wait...";
 
             var selectedClient = dgvClients.SelectedItem as ClientDTO;
-            var loyaltyLevel = (LoyaltyLevels)Enum.Parse(typeof(LoyaltyLevels), selectedClient.LoyaltyLevel);
+            //var loyaltyLevel = (LoyaltyLevels)Enum.Parse(typeof(LoyaltyLevels), selectedClient.LoyaltyLevel);
             
             await LoadRewardsForSelectedClient(selectedClient.Id);
 

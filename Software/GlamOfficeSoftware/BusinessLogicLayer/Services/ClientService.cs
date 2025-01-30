@@ -4,6 +4,7 @@ using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
 using EntityLayer.DTOs;
 using EntityLayer.Entities;
+using EntityLayer.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,7 +70,7 @@ namespace BusinessLogicLayer.Services
                 Email = client.Email,
                 PhoneNumber = client.PhoneNumber,
                 Points = client.Points.Value,
-                LoyaltyLevel = client.LoyaltyLevel?.Name ?? "Not in reward system",
+                LoyaltyLevel = client.LoyaltyLevel.Name,
                 GiftCardDescription = client.GiftCard?.Description ?? "No GiftCard",
                 ReservationsDates = client.Reservations.Any()
                     ? string.Join(", ", client.Reservations.Select(r => r.Date.ToString().Split(' ')[0]))
@@ -144,7 +145,8 @@ namespace BusinessLogicLayer.Services
                 client.Points = 200;
 
                 var rewardSystem = new RewardSystem();
-                await rewardSystem.UpdateClientsLoyaltyLevelAsync(client);
+                client.LoyaltyLevel_id = await rewardSystem.UpdateClientsLoyaltyLevelAsync(client);
+                Console.WriteLine(client.LoyaltyLevel_id);
 
                 await repo.UpdateClientAsync(client);
             }
@@ -158,7 +160,8 @@ namespace BusinessLogicLayer.Services
                 client.Points = client.Points + pointsToAdd;
 
                 var rewardSystem = new RewardSystem();
-                await rewardSystem.UpdateClientsLoyaltyLevelAsync(client);
+                client.LoyaltyLevel_id = await rewardSystem.UpdateClientsLoyaltyLevelAsync(client);
+                Console.WriteLine(client.LoyaltyLevel_id);
 
                 await repo.UpdateClientAsync(client);
             }
@@ -178,6 +181,7 @@ namespace BusinessLogicLayer.Services
 
                 var rewardSystem = new RewardSystem();
                 client.LoyaltyLevel_id = await rewardSystem.UpdateClientsLoyaltyLevelAsync(client);
+                Console.WriteLine(client.LoyaltyLevel_id);
 
                 await repo.UpdateClientAsync(client);
             }

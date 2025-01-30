@@ -53,20 +53,18 @@ namespace BusinessLogicLayer.Services
         public async Task ProcessReceiptAsync(Receipt receiptDb)
         {
             IReservationService reservationService = new ReservationService();
-            await reservationService.ChangeReservationStatusAsync(receiptDb.Reservation_idReservation, ReservationStatuses.Completed);
-
-            RewardSystem rewardSystem = new RewardSystem();
+            await reservationService.ChangeReservationStatusAndPaymentAsync(receiptDb.Reservation_idReservation, ReservationStatuses.Completed, true);
 
             var clientId = receiptDb.Reservation.Client_idClient.Value;
-            var isClientInTheRewardSystem = await rewardSystem.IsClientInTheRewardSystemAsync(clientId);
+            var isClientInTheRewardSystem = await IsClientInTheRewardSystemAsync(clientId);
 
             if (isClientInTheRewardSystem)
             {
-                await rewardSystem.AddPointsToClientAsync(clientId, receiptDb.TotalTreatmentAmount.Value);
+                await AddPointsToClientAsync(clientId, receiptDb.TotalTreatmentAmount.Value);
             } else
             {
-                await rewardSystem.AddClientToRewardSystemAsync(clientId);
-                await rewardSystem.AddPointsToClientAsync(clientId, receiptDb.TotalTreatmentAmount.Value);
+                await AddClientToRewardSystemAsync(clientId);
+                await AddPointsToClientAsync(clientId, receiptDb.TotalTreatmentAmount.Value);
             }   
         }
 
@@ -89,7 +87,9 @@ namespace BusinessLogicLayer.Services
         public async Task<int> UpdateClientsLoyaltyLevelAsync(Client client)
         {
             var loyaltyLevelName = _loyaltyLevelService.CheckLoyaltyLevel(client.Points.Value);
+            Console.WriteLine(loyaltyLevelName);
             var loyaltyLevel = await _loyaltyLevelService.GetLoyaltyLevelByNameAsync(loyaltyLevelName);
+            Console.WriteLine(loyaltyLevel.Id);
 
             return loyaltyLevel.Id;
         }
@@ -105,7 +105,8 @@ namespace BusinessLogicLayer.Services
             );
 
             // Ukloni kupljene nagrade koje već postoje u rewards listi
-            var rewards = (await _rewardService.GetRewardsWithinClientsLoyaltyLevelAsync((LoyaltyLevels)Enum.Parse(typeof(LoyaltyLevels), client.LoyaltyLevel.Name)))
+            var loyaltyLevel = (LoyaltyLevels)Enum.Parse(typeof(LoyaltyLevels), client.LoyaltyLevel.Name);
+            var rewards = (await _rewardService.GetRewardsWithinClientsLoyaltyLevelAsync(loyaltyLevel))
                 .Where(r => !additionalRewards.Any(ar => ar.idReward == r.idReward)) // Filtriraj da ne uključuje već kupljene
                 .ToList();
 
@@ -127,8 +128,6 @@ namespace BusinessLogicLayer.Services
 
             return rewardsDto;
         }
-
-
 
         private int CalculatePoints(decimal totalAmount)
         {

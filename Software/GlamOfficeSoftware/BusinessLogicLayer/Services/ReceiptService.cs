@@ -50,7 +50,6 @@ namespace BusinessLogicLayer.Services
             using (var repo = new ReceiptRepository())
             {
                 var receipt = await repo.GetByIdAsync(receiptId);
-                IReservationService reservationService = new ReservationService();
 
                 if (receipt == null)
                 {
@@ -76,7 +75,8 @@ namespace BusinessLogicLayer.Services
 
                 await HandleGiftCardRecoveryAsync(receipt, voidReceipt, wantsGiftCardRecover);
                 await ChangeReceiptStatusAsync(receipt);
-                await reservationService.ChangeReservationStatusAsync(receipt.Reservation_idReservation, ReservationStatuses.Voided);
+                IReservationService reservationService = new ReservationService();
+                await reservationService.ChangeReservationStatusAndPaymentAsync(receipt.Reservation_idReservation, ReservationStatuses.Voided, true);
 
                 await repo.AddAsync(voidReceipt);
 

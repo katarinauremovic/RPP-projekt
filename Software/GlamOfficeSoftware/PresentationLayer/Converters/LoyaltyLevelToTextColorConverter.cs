@@ -17,11 +17,11 @@ namespace PresentationLayer.Converters
                     case "silver":
                     case "bronze":
                     case "platinum":
-                        return new SolidColorBrush(Colors.Black); // Tamni tekst za svijetle pozadine
+                        return new SolidColorBrush(Colors.Black);
                     case "vip":
-                        return new SolidColorBrush(Colors.White); // Svijetli tekst za tamne pozadine
+                        return new SolidColorBrush(Colors.White);
                     default:
-                        return new SolidColorBrush(Colors.Black); // Zadano
+                        return new SolidColorBrush(Colors.Black);
                 }
             }
             return new SolidColorBrush(Colors.Black);

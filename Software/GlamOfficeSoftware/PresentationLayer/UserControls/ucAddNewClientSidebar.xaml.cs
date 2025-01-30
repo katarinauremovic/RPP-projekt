@@ -161,7 +161,9 @@ namespace PresentationLayer.UserControls
                 Firstname = txtFirstname.Text,
                 Lastname = txtLastname.Text,
                 Email = txtEmail.Text,
-                PhoneNumber = txtPhoneNumber.Text
+                PhoneNumber = txtPhoneNumber.Text,
+                Points = 0,
+                LoyaltyLevel_id = 15
             };
 
             await _clientService.AddNewClient(client);
