@@ -7,10 +7,11 @@
         xmlns:converters="clr-namespace:PresentationLayer.Converters"
         mc:Ignorable="d"
         Title="Add New Reward Card" Height="240" Width="390"
-        WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowState="Normal">
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowState="Normal" Loaded="Window_Loaded">
     <Window.Resources>
         <converters:LoyaltyLevelToColorConverter x:Key="LoyaltyLevelToColorConverter"/>
         <converters:LoyaltyLevelToTextColorConverter x:Key="LoyaltyLevelToTextColorConverter"/>
+        <converters:LoyaltyLevelToColorComboBoxConverter x:Key="LoyaltyLevelToColorComboBoxConverter"/>
     </Window.Resources>
 
     <Border Height="180" Width="350" CornerRadius="10" Padding="10" BorderBrush="#ccc" BorderThickness="1">
@@ -33,7 +34,7 @@
                                 <Binding Path="LoyaltyLevelName" Converter="{StaticResource LoyaltyLevelToTextColorConverter}" />
                             </TextBlock.Foreground>
                         </TextBlock>
-                        <TextBox Background="Transparent" x:Name="txtName" TextChanged="txtName_TextChanged" Style="{StaticResource textBox}" FontWeight="Bold" FontSize="16">
+                        <TextBox Background="Transparent" x:Name="txtName" TextChanged="txtName_TextChanged" Style="{StaticResource textBox}" FontWeight="Bold" FontSize="16" Margin="3,0,0,0">
                             <TextBox.Foreground>
                                 <Binding Path="LoyaltyLevelName" Converter="{StaticResource LoyaltyLevelToTextColorConverter}" />
                             </TextBox.Foreground>
@@ -52,7 +53,7 @@
                                 <Binding Path="LoyaltyLevelName" Converter="{StaticResource LoyaltyLevelToTextColorConverter}" />
                             </TextBlock.Foreground>
                         </TextBlock>
-                        <TextBox Background="Transparent" x:Name="txtDescription" TextChanged="txtDescription_TextChanged" Style="{StaticResource textBox}">
+                        <TextBox Background="Transparent" x:Name="txtDescription" TextChanged="txtDescription_TextChanged" Style="{StaticResource textBox}" Margin="3,0,0,0" FontSize="14">
                             <TextBox.Foreground>
                                 <Binding Path="LoyaltyLevelName" Converter="{StaticResource LoyaltyLevelToTextColorConverter}" />
                             </TextBox.Foreground>
@@ -71,7 +72,7 @@
                                 <Binding Path="LoyaltyLevelName" Converter="{StaticResource LoyaltyLevelToTextColorConverter}" />
                             </TextBlock.Foreground>
                         </TextBlock>
-                        <TextBox Background="Transparent" x:Name="txtCostPoints" TextChanged="txtCostPoints_TextChanged" Style="{StaticResource textBox}" FontSize="14">
+                        <TextBox Background="Transparent" x:Name="txtCostPoints" TextChanged="txtCostPoints_TextChanged" Style="{StaticResource textBox}" FontSize="14" Margin="3,0,0,0">
                             <TextBox.Foreground>
                                 <Binding Path="LoyaltyLevelName" Converter="{StaticResource LoyaltyLevelToTextColorConverter}" />
                             </TextBox.Foreground>
@@ -90,7 +91,7 @@
                                 <Binding Path="LoyaltyLevelName" Converter="{StaticResource LoyaltyLevelToTextColorConverter}" />
                             </TextBlock.Foreground>
                         </TextBlock>
-                        <TextBox Background="Transparent" x:Name="txtRewardAmount" TextChanged="txtRewardAmount_TextChanged" Style="{StaticResource textBox}" FontSize="14">
+                        <TextBox Background="Transparent" x:Name="txtRewardAmount" TextChanged="txtRewardAmount_TextChanged" Style="{StaticResource textBox}" FontSize="14" Margin="3,0,0,0">
                             <TextBox.Foreground>
                                 <Binding Path="LoyaltyLevelName" Converter="{StaticResource LoyaltyLevelToTextColorConverter}" />
                             </TextBox.Foreground>
@@ -100,24 +101,28 @@
 
                 <!-- LoyaltyLevel -->
                 <StackPanel Margin="7,10,0,0">
-                    <Border BorderThickness="1" Width="190" BorderBrush="#acb0af" CornerRadius="10" Height="30" Background="#3874c4" Margin="0,0" HorizontalAlignment="Left">
-                        <Grid Margin="7 9">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <ComboBox x:Name="cmbLoyaltyLevels" Grid.Column="0" Width="140" SelectionChanged="cmbLoyaltyLevels_SelectionChanged" Background="#3874c4" HorizontalAlignment="Left" Height="30" Style="{StaticResource combobox}" VerticalAlignment="Center" Margin="7,0,0,0" />
-                            <Button x:Name="btnDropdown" Grid.Column="1" Click="btnDropdown_Click">
-                                <Button.Template>
-                                    <ControlTemplate TargetType="Button">
-                                        <Grid>
-                                            <Image Source="/Images/dropdown-arrow.png" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                        </Grid>
-                                    </ControlTemplate>
-                                </Button.Template>
-                            </Button>
-                        </Grid>
-                    </Border>
+                    <Grid Margin="0,0,7,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <ComboBox x:Name="cmbLoyaltyLevels" Grid.Column="0" Width="140" SelectionChanged="cmbLoyaltyLevels_SelectionChanged" HorizontalAlignment="Left" Height="30" Style="{StaticResource combobox}" VerticalAlignment="Center">
+                            <ComboBox.Background>
+                                <MultiBinding Converter="{StaticResource LoyaltyLevelToColorComboBoxConverter}">
+                                    <Binding Path="LoyaltyLevelName" />
+                                </MultiBinding>
+                            </ComboBox.Background>
+                        </ComboBox>
+                        <Button x:Name="btnDropdown" Grid.Column="1" Click="btnDropdown_Click" HorizontalAlignment="Left">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Grid>
+                                        <Image Source="/Images/dropdown-arrow.png" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </Grid>
                 </StackPanel>
             </StackPanel>
 
