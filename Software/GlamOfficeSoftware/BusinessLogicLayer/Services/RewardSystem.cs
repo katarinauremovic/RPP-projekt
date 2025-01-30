@@ -71,24 +71,26 @@ namespace BusinessLogicLayer.Services
             var loyaltyLevelName = _loyaltyLevelService.CheckLoyaltyLevel(client.Points.Value);
             var loyaltyLevel = await _loyaltyLevelService.GetLoyaltyLevelByNameAsync(loyaltyLevelName);
 
-            if(loyaltyLevel.Id > client.LoyaltyLevel_id)
-            {
-                await SendLoyaltyLevelUpgradeEmailAsync(client, loyaltyLevel);
-            } else if (loyaltyLevel.Id < client.LoyaltyLevel_id)
-            {
-                Console.WriteLine($"{loyaltyLevel.Id} < {client.LoyaltyLevel_id}");
-                await SendLoyaltyLevelDowngradeEmailAsync(client, loyaltyLevel);
-            }
+            await HandleLoyaltyLevelChangeAsync(client, loyaltyLevel);
 
             return loyaltyLevel.Id;
         }
 
-        private async Task SendLoyaltyLevelUpgradeEmailAsync(Client client, LoyaltyLevel loyaltyLevel)
+        private async Task HandleLoyaltyLevelChangeAsync(Client client, LoyaltyLevel loyaltyLevel)
         {
-            
+            if (loyaltyLevel.Level > client.LoyaltyLevel.Level)
+            {
+                await SendLoyaltyLevelUpgradeEmailAsync(client, loyaltyLevel);
+            } else if (loyaltyLevel.Level < client.LoyaltyLevel.Level)
+            {
+                await SendLoyaltyLevelDowngradeEmailAsync(client, loyaltyLevel);
+            }
+        }
+
+        private async Task SendLoyaltyLevelUpgradeEmailAsync(Client client, LoyaltyLevel loyaltyLevel)
+        { 
             var rewards = await GetRewardsDtoForClientAsync(client.idClient);
 
-            // Constructing the email body with a table
             string subject = $"Congratulations! Your new Loyalty Level is {loyaltyLevel.Name}";
 
             string body = $"Hello {client.Firstname} {client.Lastname},<br><br>" +
@@ -104,7 +106,6 @@ namespace BusinessLogicLayer.Services
                           "</tr></thead>" +
                           "<tbody>";
 
-            // Adding rows for each reward
             foreach (var reward in rewards)
             {
                 body += $"<tr>" +
@@ -114,41 +115,35 @@ namespace BusinessLogicLayer.Services
                         $"<td>{reward.ReedemCode}</td>" +
                         $"<td>{reward.Status}</td>" +
                         "</tr>";
-
-                Console.WriteLine(reward.Name);
             }
 
             body += "</tbody></table><br><br>" +
                     "Thank you for being a loyal customer!";
 
-            // Sending the email
-            var gmailService = new GmailService(); // Assuming there's an existing EmailService implementation
-            //gmailService.SendEmailAsync(client.Email, subject, body).Wait();
+            var gmailService = new GmailService();
+            gmailService.SendEmailAsync(client.Email, subject, body).Wait();
 
             Console.WriteLine("Loyalty level change email successfully sent.");
         }
 
         private async Task SendLoyaltyLevelDowngradeEmailAsync(Client client, LoyaltyLevel loyaltyLevel)
         {
-            // Fetch data asynchronously
-            var rewards = await GetRewardsDtoForClientAsync(client.idClient);
-
-            // Parse loyalty level enum
             var loyaltyLevelName = (LoyaltyLevels)Enum.Parse(typeof(LoyaltyLevels), client.LoyaltyLevel.Name);
 
             var rewardsUpperLevel = await _rewardService.GetRewardsDtoByLoyaltyLevelNameAsync(loyaltyLevelName);
             var clientsRewards = await _clientHasRewardService.GetClientHasRewardsForClientAsync(client.idClient);
 
-            // Calculate lost rewards
-            var lostRewards = rewardsUpperLevel.Where(rul => !rewards.Any(r => r.RewardId == rul.RewardId)).ToList();
+            var lostRewards = rewardsUpperLevel
+                .Where(rul => !clientsRewards.Any(cr => cr.Reward_idReward == rul.RewardId))
+                .ToList();
 
-            // Construct email subject and body
+            lostRewards = lostRewards.Distinct().ToList();
+
             string subject = $"Notice: Your Loyalty Level has been downgraded to {loyaltyLevel.Name}";
             string body = $"Hello {client.Firstname} {client.Lastname},<br><br>" +
                           $"Your loyalty level has been changed to: <b>{loyaltyLevel.Name}</b>.<br>" +
                           $"We value your continued support and encourage you to keep earning points to unlock more rewards.<br><br>";
 
-            // Add lost rewards table if applicable
             if (lostRewards.Any())
             {
                 body += "Unfortunately, with this change, you no longer have access to the following rewards:<br><br>" +
@@ -157,8 +152,6 @@ namespace BusinessLogicLayer.Services
                         "<th>Reward</th>" +
                         "<th>Description</th>" +
                         "<th>Cost (Points)</th>" +
-                        "<th>Reedem Code</th>" +
-                        "<th>Status</th>" +
                         "</tr></thead>" +
                         "<tbody>";
 
@@ -168,8 +161,6 @@ namespace BusinessLogicLayer.Services
                             $"<td>{reward.Name}</td>" +
                             $"<td>{reward.Description}</td>" +
                             $"<td>{reward.CostPoints}</td>" +
-                            $"<td>{reward.ReedemCode}</td>" +
-                            $"<td>{reward.Status}</td>" +
                             "</tr>";
                 }
 
@@ -180,8 +171,7 @@ namespace BusinessLogicLayer.Services
                     "Keep earning points to reach higher levels again.<br><br>" +
                     "Best regards,<br>Your Loyalty Program Team";
 
-            // Send email asynchronously
-            var gmailService = new GmailService(); // Assuming there's an existing EmailService implementation
+            var gmailService = new GmailService();
             await gmailService.SendEmailAsync(client.Email, subject, body);
 
             Console.WriteLine("Loyalty level downgrade email successfully sent.");
@@ -201,7 +191,6 @@ namespace BusinessLogicLayer.Services
 
         private IEnumerable<RewardDTO> GetRewardsDtoForClientAsync(Client client, List<Reward> rewards, IEnumerable<Client_has_Reward> clientsRewards)
         {
-            // Transforming the rewards to a list of RewardDTOs
             var rewardsDto = rewards.Select(r => new RewardDTO
             {
                 ClientId = client.idClient,
