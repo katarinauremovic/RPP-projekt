@@ -100,6 +100,9 @@
     <Compile Include="Windows\LoginOptions.xaml.cs">
       <DependentUpon>LoginOptions.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\LoginWithCredentials.xaml.cs">
+      <DependentUpon>LoginWithCredentials.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\winMessageBox.xaml.cs">
       <DependentUpon>winMessageBox.xaml</DependentUpon>
     </Compile>
@@ -156,6 +159,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\LoginOptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\LoginWithCredentials.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
