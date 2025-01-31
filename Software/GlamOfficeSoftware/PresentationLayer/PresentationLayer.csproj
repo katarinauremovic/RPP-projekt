@@ -103,6 +103,9 @@
     <Compile Include="Windows\LoginWithCredentials.xaml.cs">
       <DependentUpon>LoginWithCredentials.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\LoginWithQRCode.xaml.cs">
+      <DependentUpon>LoginWithQRCode.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\winMessageBox.xaml.cs">
       <DependentUpon>winMessageBox.xaml</DependentUpon>
     </Compile>
@@ -163,6 +166,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\LoginWithCredentials.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\LoginWithQRCode.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

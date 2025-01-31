@@ -15,24 +15,13 @@ using System.Windows.Shapes;
 namespace PresentationLayer.Windows
 {
     /// <summary>
-    /// Interaction logic for LoginWithCredentials.xaml
+    /// Interaction logic for LoginWithQRCode.xaml
     /// </summary>
-    public partial class LoginWithCredentials : Window
+    public partial class LoginWithQRCode : Window
     {
-        public LoginWithCredentials()
+        public LoginWithQRCode()
         {
             InitializeComponent();
-        }
-
-        private void btnLogin_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnCancel_Click(object sender, RoutedEventArgs e)
-        {
-            var loginOptionForm = new LoginOptions();
-            loginOptionForm.ShowDialog();
         }
     }
 }
