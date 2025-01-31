@@ -66,7 +66,7 @@ namespace PresentationLayer.UserControls
         {
             // ovo služi samo kao test ne brišite.
 
-            /*
+            
 
             IReceiptService receiptService = new ReceiptService();
             
@@ -82,7 +82,7 @@ namespace PresentationLayer.UserControls
 
             await Task.Run(() => receiptService.AddNewReceiptAsync(receipt));
 
-            */
+            
 
             /*
 
@@ -97,8 +97,12 @@ namespace PresentationLayer.UserControls
 
             */
 
+            /*
+              
             var win = new winAddNewRewardCard();
             win.ShowDialog();
+
+            */
         }
     }
 }

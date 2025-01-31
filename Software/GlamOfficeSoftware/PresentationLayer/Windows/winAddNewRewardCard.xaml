@@ -11,7 +11,6 @@
     <Window.Resources>
         <converters:LoyaltyLevelToColorConverter x:Key="LoyaltyLevelToColorConverter"/>
         <converters:LoyaltyLevelToTextColorConverter x:Key="LoyaltyLevelToTextColorConverter"/>
-        <converters:LoyaltyLevelToColorComboBoxConverter x:Key="LoyaltyLevelToColorComboBoxConverter"/>
     </Window.Resources>
 
     <Border Height="180" Width="350" CornerRadius="10" Padding="10" BorderBrush="#ccc" BorderThickness="1">
@@ -100,7 +99,7 @@
                 </Border>
 
                 <!-- LoyaltyLevel -->
-                <StackPanel Margin="7,10,0,0">
+                <StackPanel Margin="3,5,0,0">
                     <Grid Margin="0,0,7,4">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto" />
@@ -108,10 +107,13 @@
                         </Grid.ColumnDefinitions>
                         <ComboBox x:Name="cmbLoyaltyLevels" Grid.Column="0" Width="140" SelectionChanged="cmbLoyaltyLevels_SelectionChanged" HorizontalAlignment="Left" Height="30" Style="{StaticResource combobox}" VerticalAlignment="Center">
                             <ComboBox.Background>
-                                <MultiBinding Converter="{StaticResource LoyaltyLevelToColorComboBoxConverter}">
+                                <MultiBinding Converter="{StaticResource LoyaltyLevelToColorConverter}">
                                     <Binding Path="LoyaltyLevelName" />
                                 </MultiBinding>
                             </ComboBox.Background>
+                            <ComboBox.Foreground>
+                                <Binding Path="LoyaltyLevelName" Converter="{StaticResource LoyaltyLevelToTextColorConverter}" />
+                            </ComboBox.Foreground>
                         </ComboBox>
                         <Button x:Name="btnDropdown" Grid.Column="1" Click="btnDropdown_Click" HorizontalAlignment="Left">
                             <Button.Template>

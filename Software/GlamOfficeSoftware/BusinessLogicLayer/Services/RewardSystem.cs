@@ -80,6 +80,7 @@ namespace BusinessLogicLayer.Services
         {
             if (loyaltyLevel.Level > client.LoyaltyLevel.Level)
             {
+                await _clientService.UpdateClientsLoyaltyLevelAsync(client.idClient, loyaltyLevel.Id);
                 await SendLoyaltyLevelUpgradeEmailAsync(client, loyaltyLevel);
             } else if (loyaltyLevel.Level < client.LoyaltyLevel.Level)
             {
@@ -149,20 +150,16 @@ namespace BusinessLogicLayer.Services
 
         private async Task<List<Reward>> GetClientRewardsWithPurchasedAsync(Client client)
         {
-            // Fetching all purchased rewards for the client
             var additionalRewards = await Task.WhenAll(
                 client.Client_has_Reward.Select(cr => _rewardService.GetRewardByIdAsync(cr.Reward_idReward))
             );
 
-            // Parsing the loyalty level for the client
             var loyaltyLevel = (LoyaltyLevels)Enum.Parse(typeof(LoyaltyLevels), client.LoyaltyLevel.Name);
 
-            // Fetching the available rewards for the client's current loyalty level
             var rewards = (await _rewardService.GetRewardsWithinClientsLoyaltyLevelAsync(loyaltyLevel))
-                .Where(r => !additionalRewards.Any(ar => ar.idReward == r.idReward)) // Filter out already purchased rewards
+                .Where(r => !additionalRewards.Any(ar => ar.idReward == r.idReward)) 
                 .ToList();
 
-            // Adding the purchased rewards at the beginning of the list
             rewards.InsertRange(0, additionalRewards);
 
             return rewards;

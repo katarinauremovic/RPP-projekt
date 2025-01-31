@@ -237,12 +237,18 @@ namespace BusinessLogicLayer.Services
 
             try
             {
-                //treba pronaci exception za kad je vec pdf otvoren
                 await Task.Run(() => File.WriteAllBytes(tempFilePath, pdfBytes));
-                await Task.Run(() => Process.Start(new ProcessStartInfo(tempFilePath) { UseShellExecute = true }));
-            } catch (FailedToOpenPdfException)
+
+                var processStartInfo = new ProcessStartInfo
+                {
+                    FileName = tempFilePath,
+                    UseShellExecute = true
+                };
+
+                await Task.Run(() => Process.Start(processStartInfo));
+            } catch (Exception ex)
             {
-                throw new FailedToOpenPdfException("Failed to open the PDF file.");
+                throw new Exception("Failed to open the PDF file.", ex);
             }
         }
 
@@ -264,8 +270,6 @@ namespace BusinessLogicLayer.Services
                 voidReceipt.TotalPrice = -(receipt.TotalPrice - receipt.GiftCardDiscount);
             }
         }
-
-
 
         private async Task<int?> GetGiftCardIdByReceiptAsync(Receipt receipt)
         {

@@ -13,7 +13,7 @@
 
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="0,0,0,0" HorizontalAlignment="Right" >
                     <Button x:Name="btnViewForClient" Click="btnViewForClient_Click" FontWeight="SemiBold" Content="View for Client" Width="150" Style="{StaticResource classicButton}" Height="40" Margin="0, 0, 7, 0"/>
-                    <Button x:Name="btnAddReward"  FontWeight="SemiBold" Content="Add" Width="100" Style="{StaticResource classicButton}" Height="40"/>
+                    <Button x:Name="btnAddReward" Click="btnAddReward_Click"  FontWeight="SemiBold" Content="Add" Width="100" Style="{StaticResource classicButton}" Height="40"/>
                 </StackPanel>
 
                 <StackPanel Margin="0,0,0,20">

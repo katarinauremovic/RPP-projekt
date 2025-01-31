@@ -243,7 +243,6 @@ namespace PresentationLayer.UserControls
                 };
             }
 
-            //kod prvog zatvaranja se otvara na selection changed! Sad više NE!
             await Task.Delay(500);
             ccSidebar.Content = null;
         }
@@ -285,7 +284,6 @@ namespace PresentationLayer.UserControls
             }
             return client;
         }
-
 
         public void SwitchClient(ClientDTO client)
         {
