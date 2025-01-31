@@ -1,0 +1,42 @@
+﻿<Window x:Class="PresentationLayer.Windows.LoginOptions"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PresentationLayer.Windows"
+        mc:Ignorable="d"
+        Title="LoginOptions" Background="#7D6685" Height="450" Width="800">
+    <StackPanel>
+        <Image Margin="0, 20, 0, 0" Source="\Images\GlamOfficeIcon-bijela-transparent.png" Height="60" HorizontalAlignment="Center"/>
+
+        <TextBlock Margin="0, 5, 0, 13" Text="GlamOffice" FontSize="28" Foreground="White" FontWeight="Light" TextAlignment="Center"/>
+        <TextBlock Text="Prijavi se" FontSize="20" Foreground="White" FontWeight="Light" TextAlignment="Center"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+            <WrapPanel 
+                Margin="10" HorizontalAlignment="Center">
+               
+               <Button x:Name="btnQRCodeLogin" Margin="10" Width="120" Height="120" Background="White" Click="btnQRCodeLogin_Click">
+    <Border CornerRadius="5" Background="White">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Image Source="\Images\QRCode.png" Width="50" Height="50"/>
+            <TextBlock Margin="3" Text="Skeniraj QR kod" TextWrapping="Wrap" TextAlignment="Center"/>
+        </StackPanel>
+    </Border>
+</Button>
+             
+                <Button x:Name="btnCredentialsLogin" Margin="10" Width="120" Height="120" Background="White" Click="btnCredentialsLogin_Click">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="\Images\user-login.png" Width="50" Height="50"/>
+                        <TextBlock Margin="4" Text="Unesi korisničko ime i lozinku" TextWrapping="Wrap" TextAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </WrapPanel>
+
+        </StackPanel>
+
+        <TextBlock Margin="5" Text="Odaberi način prijave" FontSize="16" Foreground="White" 
+                   FontWeight="Light"
+         TextAlignment="Center"/>
+    </StackPanel>
+</Window>
