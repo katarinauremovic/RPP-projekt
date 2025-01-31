@@ -5,8 +5,48 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PresentationLayer.Windows"
         mc:Ignorable="d"
-        Title="LoginWithQRCode" Height="450" Width="800">
-    <Grid>
-        
+        Title="LoginWithQRCode" Height="450" Width="800" Loaded="Window_Loaded">
+    <Grid Background="#7D6685">
+        <StackPanel Width="500" Height="400" Background="White" Orientation="Vertical">
+            <StackPanel HorizontalAlignment="Center" Margin="10" Orientation="Horizontal">
+                <ComboBox Height="25" Margin="0, 0, 7, 0" x:Name="cmbCamera" Width="150"></ComboBox>
+                <Button Click="btnStart_Click" Foreground="White" Name="btnStart" Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Pokreni kameru" Width="120" Height="30" Margin="10">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border CornerRadius="10" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="#B392AC"/>
+                            <Setter Property="BorderBrush" Value="#8a7084"/>
+                            <Setter Property="Foreground" Value="Black"/>
+                            <Setter Property="Padding" Value="5"/>
+                            <Style.Triggers>
+                         
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#8a7084"/>
+                                </Trigger>
+                           
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="#735D78"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+
+            <Border Margin="10" BorderBrush="#735D78" BorderThickness="1" VerticalAlignment="Center">
+            <Image x:Name="imgCamera" HorizontalAlignment="Stretch" Height="280" ></Image>
+            </Border>
+            <Button
+    x:Name="btnCancel"
+    BorderBrush="Transparent"
+    Foreground="Gray" HorizontalAlignment="Center" 
+        Background="Transparent" VerticalAlignment="Center"  Content="Odustani" Click="btnCancel_Click"></Button>
+        </StackPanel>
     </Grid>
 </Window>
