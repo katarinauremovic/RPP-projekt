@@ -19,6 +19,7 @@ namespace PresentationLayer.Windows
     /// </summary>
     public partial class LoginOptions : Window
     {
+
         public LoginOptions()
         {
             InitializeComponent();
@@ -26,12 +27,16 @@ namespace PresentationLayer.Windows
 
         private void btnCredentialsLogin_Click(object sender, RoutedEventArgs e)
         {
-
+            var loginCredentialsForm = new LoginWithCredentials(this);
+            loginCredentialsForm.Show();
+            this.Hide();
         }
 
         private void btnQRCodeLogin_Click(object sender, RoutedEventArgs e)
         {
-
+            var loginQRCodeForm = new LoginWithQRCode(this);
+            loginQRCodeForm.Show();
+            this.Hide();
         }
     }
 }

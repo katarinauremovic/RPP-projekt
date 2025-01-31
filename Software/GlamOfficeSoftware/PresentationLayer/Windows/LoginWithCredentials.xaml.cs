@@ -19,9 +19,11 @@ namespace PresentationLayer.Windows
     /// </summary>
     public partial class LoginWithCredentials : Window
     {
-        public LoginWithCredentials()
+        private LoginOptions _loginOptionsForm;
+        public LoginWithCredentials(LoginOptions loginOptionsForm)
         {
             InitializeComponent();
+            _loginOptionsForm = loginOptionsForm;
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
@@ -31,8 +33,8 @@ namespace PresentationLayer.Windows
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            var loginOptionForm = new LoginOptions();
-            loginOptionForm.ShowDialog();
+            _loginOptionsForm.Show();
+            this.Hide();
         }
     }
 }
