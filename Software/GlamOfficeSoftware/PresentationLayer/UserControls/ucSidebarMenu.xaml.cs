@@ -83,5 +83,12 @@ namespace PresentationLayer.UserControls
             
             */
         }
+
+        private void btnTreatmentManagement_Click(object sender, RoutedEventArgs e)
+        {
+            var ucTreatments = new ucTreatmentManagement();
+            ucTreatments.Parent = Parent;
+            Parent.ccContent.Content = ucTreatments;
+        }
     }
 }
