@@ -14,7 +14,6 @@ namespace BusinessLogicLayer.Services
     public class RewardSystem
     {
         private IClientService _clientService;
-        private IReceiptService _receiptService;
         private IRewardService _rewardService;
         private ILoyaltyLevelService _loyaltyLevelService;
         private IClientHasRewardService _clientHasRewardService;
@@ -22,7 +21,6 @@ namespace BusinessLogicLayer.Services
         public RewardSystem()
         {
             _clientService = new ClientService();
-            _receiptService = new ReceiptService();
             _rewardService = new RewardService();
             _loyaltyLevelService = new LoyaltyLevelService();
             _clientHasRewardService = new ClientHasRewardService();
@@ -53,37 +51,19 @@ namespace BusinessLogicLayer.Services
         public async Task ProcessReceiptAsync(Receipt receiptDb)
         {
             IReservationService reservationService = new ReservationService();
-            await reservationService.ChangeReservationStatusAsync(receiptDb.Reservation_idReservation, ReservationStatuses.Completed);
-
-            RewardSystem rewardSystem = new RewardSystem();
+            await reservationService.ChangeReservationStatusAndPaymentAsync(receiptDb.Reservation_idReservation, ReservationStatuses.Completed, true);
 
             var clientId = receiptDb.Reservation.Client_idClient.Value;
-            var isClientInTheRewardSystem = await rewardSystem.IsClientInTheRewardSystemAsync(clientId);
+            var isClientInTheRewardSystem = await IsClientInTheRewardSystemAsync(clientId);
 
             if (isClientInTheRewardSystem)
             {
-                await rewardSystem.AddPointsToClientAsync(clientId, receiptDb.TotalTreatmentAmount.Value);
+                await AddPointsToClientAsync(clientId, receiptDb.TotalTreatmentAmount.Value);
             } else
             {
-                await rewardSystem.AddClientToRewardSystemAsync(clientId);
-                await rewardSystem.AddPointsToClientAsync(clientId, receiptDb.TotalTreatmentAmount.Value);
+                await AddClientToRewardSystemAsync(clientId);
+                await AddPointsToClientAsync(clientId, receiptDb.TotalTreatmentAmount.Value);
             }   
-        }
-
-        public async Task<bool> IsClientInTheRewardSystemAsync(int clientId)
-        {
-            return await _clientService.IsClientInTheRewardSystemAsync(clientId);
-        }
-
-        public async Task AddClientToRewardSystemAsync(int clientId)
-        {
-            await _clientService.AddClientToRewardSystemAsync(clientId);
-        }
-
-        public async Task AddPointsToClientAsync(int clientId, decimal totalAmount)
-        {
-            var points = CalculatePoints(totalAmount);
-            await _clientService.AddPointsToClientAsync(clientId, points);
         }
 
         public async Task<int> UpdateClientsLoyaltyLevelAsync(Client client)
@@ -91,7 +71,50 @@ namespace BusinessLogicLayer.Services
             var loyaltyLevelName = _loyaltyLevelService.CheckLoyaltyLevel(client.Points.Value);
             var loyaltyLevel = await _loyaltyLevelService.GetLoyaltyLevelByNameAsync(loyaltyLevelName);
 
+            await HandleLoyaltyLevelChangeAsync(client, loyaltyLevel);
+
             return loyaltyLevel.Id;
+        }
+
+        private async Task HandleLoyaltyLevelChangeAsync(Client client, LoyaltyLevel loyaltyLevel)
+        {
+            if (loyaltyLevel.Level > client.LoyaltyLevel.Level)
+            {
+                await _clientService.UpdateClientsLoyaltyLevelAsync(client.idClient, loyaltyLevel.Id);
+                await SendLoyaltyLevelUpgradeEmailAsync(client, loyaltyLevel);
+            } else if (loyaltyLevel.Level < client.LoyaltyLevel.Level)
+            {
+                await SendLoyaltyLevelDowngradeEmailAsync(client, loyaltyLevel);
+            }
+        }
+
+        private async Task SendLoyaltyLevelUpgradeEmailAsync(Client client, LoyaltyLevel loyaltyLevel)
+        { 
+            var rewards = await GetRewardsDtoForClientAsync(client.idClient);
+
+            var clientGmailService = new ClientGmailService();
+            await clientGmailService.FormatLoyaltyLevelUpgradeEmail(client, loyaltyLevel, rewards);
+
+            Console.WriteLine("Loyalty level change email successfully sent.");
+        }
+
+        private async Task SendLoyaltyLevelDowngradeEmailAsync(Client client, LoyaltyLevel loyaltyLevel)
+        {
+            var loyaltyLevelName = (LoyaltyLevels)Enum.Parse(typeof(LoyaltyLevels), client.LoyaltyLevel.Name);
+
+            var rewardsUpperLevel = await _rewardService.GetRewardsDtoByLoyaltyLevelNameAsync(loyaltyLevelName);
+            var clientsRewards = await _clientHasRewardService.GetClientHasRewardsForClientAsync(client.idClient);
+
+            var lostRewards = rewardsUpperLevel
+                .Where(rul => !clientsRewards.Any(cr => cr.Reward_idReward == rul.RewardId))
+                .ToList();
+
+            lostRewards = lostRewards.Distinct().ToList();
+
+            var clientGmailService = new ClientGmailService();
+            await clientGmailService.FormatLoyaltyLevelDowngradeEmail(client, loyaltyLevel, lostRewards);
+
+            Console.WriteLine("Loyalty level downgrade email successfully sent.");
         }
 
         public async Task<IEnumerable<RewardDTO>> GetRewardsDtoForClientAsync(int clientId)
@@ -99,19 +122,15 @@ namespace BusinessLogicLayer.Services
             var client = await _clientService.GetClientByIdAsync(clientId);
             var clientsRewards = await _clientHasRewardService.GetClientHasRewardsForClientAsync(client.idClient);
 
-            // Dohvati sve nagrade koje su kupljene
-            var additionalRewards = await Task.WhenAll(
-                clientsRewards.Select(cr => _rewardService.GetRewardByIdAsync(cr.Reward_idReward))
-            );
+            var rewards = await GetClientRewardsWithPurchasedAsync(client);
 
-            // Ukloni kupljene nagrade koje već postoje u rewards listi
-            var rewards = (await _rewardService.GetRewardsWithinClientsLoyaltyLevelAsync((LoyaltyLevels)Enum.Parse(typeof(LoyaltyLevels), client.LoyaltyLevel.Name)))
-                .Where(r => !additionalRewards.Any(ar => ar.idReward == r.idReward)) // Filtriraj da ne uključuje već kupljene
-                .ToList();
+            var rewardsDto = GetRewardsDtoForClientAsync(client, rewards, clientsRewards);
 
-            // Dodaj kupljene nagrade u rewards listu
-            rewards.InsertRange(0, additionalRewards); // Dodaj kupljene nagrade na početak
+            return rewardsDto;
+        }
 
+        private IEnumerable<RewardDTO> GetRewardsDtoForClientAsync(Client client, List<Reward> rewards, IEnumerable<Client_has_Reward> clientsRewards)
+        {
             var rewardsDto = rewards.Select(r => new RewardDTO
             {
                 ClientId = client.idClient,
@@ -123,12 +142,44 @@ namespace BusinessLogicLayer.Services
                 RewardAmount = r.RewardAmount ?? 0,
                 ReedemCode = clientsRewards.FirstOrDefault(cr => cr.Reward_idReward == r.idReward)?.ReedemCode,
                 Status = clientsRewards.FirstOrDefault(cr => cr.Reward_idReward == r.idReward)?.Status
-            });
+            }).ToList();
 
             return rewardsDto;
         }
 
 
+        private async Task<List<Reward>> GetClientRewardsWithPurchasedAsync(Client client)
+        {
+            var additionalRewards = await Task.WhenAll(
+                client.Client_has_Reward.Select(cr => _rewardService.GetRewardByIdAsync(cr.Reward_idReward))
+            );
+
+            var loyaltyLevel = (LoyaltyLevels)Enum.Parse(typeof(LoyaltyLevels), client.LoyaltyLevel.Name);
+
+            var rewards = (await _rewardService.GetRewardsWithinClientsLoyaltyLevelAsync(loyaltyLevel))
+                .Where(r => !additionalRewards.Any(ar => ar.idReward == r.idReward)) 
+                .ToList();
+
+            rewards.InsertRange(0, additionalRewards);
+
+            return rewards;
+        }
+
+        private async Task AddPointsToClientAsync(int clientId, decimal totalAmount)
+        {
+            var points = CalculatePoints(totalAmount);
+            await _clientService.AddPointsToClientAsync(clientId, points);
+        }
+
+        private async Task<bool> IsClientInTheRewardSystemAsync(int clientId)
+        {
+            return await _clientService.IsClientInTheRewardSystemAsync(clientId);
+        }
+
+        private async Task AddClientToRewardSystemAsync(int clientId)
+        {
+            await _clientService.AddClientToRewardSystemAsync(clientId);
+        }
 
         private int CalculatePoints(decimal totalAmount)
         {

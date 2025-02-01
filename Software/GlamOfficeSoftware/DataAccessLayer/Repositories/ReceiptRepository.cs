@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories
 {
-    public class ReceiptRepository : Repository<Receipt>, IReceiptRepository
+    public class ReceiptRepository : Repository<Receipt>
     {
         public async override Task<IEnumerable<Receipt>> GetAllAsync()
         {

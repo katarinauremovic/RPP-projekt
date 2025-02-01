@@ -12,5 +12,6 @@ namespace BusinessLogicLayer.Interfaces
     {
         Task<LoyaltyLevel> GetLoyaltyLevelByNameAsync(LoyaltyLevels loyaltyLevel);
         LoyaltyLevels CheckLoyaltyLevel(int points);
+        Task<IEnumerable<LoyaltyLevels>> GetLoyaltyLevelsEnumsOrderingByLevels();
     }
 }

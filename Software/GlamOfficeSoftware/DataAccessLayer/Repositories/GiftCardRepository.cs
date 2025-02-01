@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories
 {
-    public class GiftCardRepository : Repository<GiftCard>, IGiftCardRepository
+    public class GiftCardRepository : Repository<GiftCard>
     {
         public async Task RecoverGiftCardAsync(GiftCard recoveredGiftCard)
         {
