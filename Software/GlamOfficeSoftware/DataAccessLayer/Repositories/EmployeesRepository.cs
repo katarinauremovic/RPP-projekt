@@ -205,5 +205,15 @@ namespace DataAccessLayer.Repositories
             return await context.Employees.FirstOrDefaultAsync(e => e.Username == username);
         }
 
+        public async Task DeleteEmployeeAsync(int employeeId)
+        {
+            var employee = await items.FirstOrDefaultAsync(e => e.idEmployee == employeeId);
+            if (employee != null)
+            {
+                items.Remove(employee);
+                await SaveChangesAsync();
+            }
+        }
+
     }
 }

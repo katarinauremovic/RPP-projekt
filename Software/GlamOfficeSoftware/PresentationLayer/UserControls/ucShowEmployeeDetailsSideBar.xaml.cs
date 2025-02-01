@@ -60,9 +60,31 @@ namespace PresentationLayer.UserControls
 
         }
 
-        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        private async void btnDelete_Click(object sender, RoutedEventArgs e)
         {
+            if (SelectedEmployee == null)
+            {
+                MessageBox.Show("No employee selected!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
+            var confirmBox = new PresentationLayer.Windows.winMessageBox();
+            bool result = await confirmBox.ShowAsync("Confirm Deletion", $"Are you sure you want to delete {SelectedEmployee.Firstname} {SelectedEmployee.Lastname}?");
+
+            if (result) 
+            {
+                try
+                {
+                    await _employeeService.DeleteEmployeeAsync(SelectedEmployee.Id);
+
+                    Parent.RefreshGui();
+                    Parent.CloseSideBarMenu();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error deleting employee: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
 
         private void btnCloseSidebar_Click(object sender, RoutedEventArgs e)

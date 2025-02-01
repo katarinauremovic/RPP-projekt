@@ -94,5 +94,13 @@ namespace BusinessLogicLayer.Services
                 return existingUser != null;
             }
         }
+
+        public async Task DeleteEmployeeAsync(int employeeId)
+        {
+            using (var repo = new EmployeesRepository())
+            {
+                await repo.DeleteEmployeeAsync(employeeId);
+            }
+        }
     }
 }
