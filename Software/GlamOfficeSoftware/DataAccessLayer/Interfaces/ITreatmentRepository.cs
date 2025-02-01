@@ -10,5 +10,7 @@ namespace DataAccessLayer.Interfaces
     public interface ITreatmentRepository : IRepository<Treatment>
     {
         Task<IEnumerable<Treatment>> GetTreatmentsByNamePattern(string namePattern);
+        Task<IEnumerable<TreatmentGroup>> GetAllTreatmentGroupsAsync();
+        Task<IEnumerable<WorkPosition>> GetAllWorkPositionsAsync();
     }
 }
