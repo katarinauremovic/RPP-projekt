@@ -20,7 +20,7 @@ namespace PresentationLayer.UserControls
     /// </summary>
     public partial class ucAddNewEmployee : UserControl
     {
-        public MainWindow Parent { get; set; }
+        public ucEmployeeAdministration Parent { get; set; }
         public ucAddNewEmployee()
         {
             InitializeComponent();
@@ -28,7 +28,7 @@ namespace PresentationLayer.UserControls
 
         private void btnCloseSidebar_Click(object sender, RoutedEventArgs e)
         {
-
+            Parent.CloseSideBarMenu();
         }
 
         private void btnAddNewEmployee_Click(object sender, RoutedEventArgs e)
@@ -38,7 +38,7 @@ namespace PresentationLayer.UserControls
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-
+            Parent.CloseSideBarMenu();
         }
     }
 }

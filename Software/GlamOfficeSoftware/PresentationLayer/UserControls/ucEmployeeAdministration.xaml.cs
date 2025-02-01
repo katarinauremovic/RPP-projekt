@@ -209,7 +209,7 @@ namespace PresentationLayer.UserControls
                 if (ccSidebar.Content == null)
                 {
                     _addNewEmployeeSidebar = new ucAddNewEmployee();
-                    _addNewEmployeeSidebar.Parent = this.Parent;
+                    _addNewEmployeeSidebar.Parent = this;
 
                     ccSidebar.Content = _addNewEmployeeSidebar;
                     _addNewEmployeeSidebar.Visibility = Visibility.Visible;
@@ -356,6 +356,26 @@ namespace PresentationLayer.UserControls
             {
                 ShowLoadingIndicator(false);
             }
+        }
+
+        internal void CloseSideBarMenu()
+        {
+            var slideOutAnimation = FindResource("SlideOutAnimation") as Storyboard;
+            var sidebarMenu = (FrameworkElement)ccSidebar.Content;
+
+            if (sidebarMenu != null)
+            {
+                slideOutAnimation?.Begin(sidebarMenu);
+
+                slideOutAnimation.Completed += (s, e) =>
+                {
+                    ccSidebar.Content = null;
+                    sidebarMenu.Visibility = Visibility.Collapsed;
+                };
+            }
+
+            //await Task.Delay(500);
+            ccSidebar.Content = null;
         }
     }
 }
