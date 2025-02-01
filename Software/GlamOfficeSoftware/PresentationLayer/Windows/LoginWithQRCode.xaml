@@ -15,6 +15,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
@@ -59,8 +60,9 @@
             <Border Grid.Row="1" Margin="10" BorderBrush="#735D78" BorderThickness="1">
                 <Image x:Name="imgCamera" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             </Border>
-
-            <Button Grid.Row="2" x:Name="btnCancel" BorderBrush="Transparent"
+            <Label Visibility="Collapsed" HorizontalAlignment="Center" Grid.Row="2"
+       x:Name="lblErrorMessage" Foreground="#d90429" Content="Poruka greške"></Label>
+            <Button Grid.Row="3" x:Name="btnCancel" BorderBrush="Transparent"
                     Foreground="Gray" Background="Transparent"
                     Click="btnCancel_Click" HorizontalAlignment="Center" Margin="5">
                 <Viewbox MaxHeight="20">

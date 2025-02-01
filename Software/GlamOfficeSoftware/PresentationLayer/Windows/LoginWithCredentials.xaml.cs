@@ -21,18 +21,28 @@ namespace PresentationLayer.Windows
     public partial class LoginWithCredentials : Window
     {
         private LoginOptions _loginOptionsForm;
-        private EmployeeService _employeeService = new EmployeeService();
+        private EmployeeService _employeeService;
         public LoginWithCredentials(LoginOptions loginOptionsForm)
         {
             InitializeComponent();
             _loginOptionsForm = loginOptionsForm;
+            _employeeService = new EmployeeService();
         }
 
         
         private async void LogIn()
         {
-           var username = txtUsername.Text;
+            Cursor = Cursors.Wait;
+            lblErrorMessage.Visibility = Visibility.Collapsed;
+            var username = txtUsername.Text;
             var password = txtPassword.Password;
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+            {
+                lblErrorMessage.Content = "Unesite korisničko ime i lozinku";
+                lblErrorMessage.Visibility = Visibility.Visible;
+                Cursor = Cursors.Arrow;
+                return;
+            }
             var employee = await _employeeService.LogInWithCredentialsAsync(username, password);
             if (employee != null) {
                 var mainWindow = new MainWindow();
@@ -41,8 +51,10 @@ namespace PresentationLayer.Windows
             }
             else
             {
-                MessageBox.Show("Pogrešno korisničko ime ili lozinka");
+                lblErrorMessage.Content = "Neispravni podaci";
+                lblErrorMessage.Visibility = Visibility.Visible;
             }
+            Cursor = Cursors.Arrow;
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)

@@ -4,84 +4,101 @@ using System;
 using ZXing;
 using System.Drawing;
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using BusinessLogicLayer.Services;
 using BusinessLogicLayer.Exceptions;
 
 namespace PresentationLayer.Windows
 {
-    /// <summary>
-    /// Interaction logic for LoginWithQRCode.xaml
-    /// </summary>
     public partial class LoginWithQRCode : Window
     {
         private FilterInfoCollection CaptureDevice;
         private VideoCaptureDevice Finalframe;
         private DispatcherTimer Timer;
         private LoginOptions _loginOptions;
-        private EmployeeService EmployeeService= new EmployeeService();
+        private EmployeeService EmployeeService = new EmployeeService();
+
         public LoginWithQRCode(LoginOptions loginOptions)
         {
             InitializeComponent();
             Timer = new DispatcherTimer();
-            Timer.Interval = TimeSpan.FromMilliseconds(500);
+            Timer.Interval = TimeSpan.FromMilliseconds(250);
             Timer.Tick += Timer_Tick;
             _loginOptions = loginOptions;
         }
 
         private async void Timer_Tick(object sender, EventArgs e)
         {
-            if(imgCamera.Source != null)
+            if (Finalframe == null || !Finalframe.IsRunning)
+                return;
+
+            if (imgCamera.Source == null)
+                return;
+
+            Bitmap bitmap = ConvertImageSourceToBitmap(imgCamera.Source);
+            if (bitmap == null)
+                return;
+
+            BarcodeReader barcodeReader = new BarcodeReader();
+            var result = await Task.Run(() => barcodeReader.Decode(bitmap));
+
+            if (result == null || string.IsNullOrWhiteSpace(result.Text) || result.Text.Trim().Length < 5)
+                return;
+
+            string decodedText = result.Text.Trim();
+
+            _ = Task.Run(async () =>
             {
-                Bitmap bitmap = ConvertImageSourceToBitmap(imgCamera.Source);
-                BarcodeReader barcodeReader = new BarcodeReader();
-                var result = barcodeReader.Decode(bitmap);
-                if(result != null)
+                try
                 {
-                    try
+                    var employee = await EmployeeService.LogInWithQRCodeAsync(decodedText);
+
+                    if (employee != null)
                     {
-                        string decodedText = result.Text.Trim();
-                        var employee = await EmployeeService.LogInWithQRCodeAsync(decodedText);
-                        if (employee != null)
+                        await StopCameraAsync();
+                        Dispatcher.Invoke(() =>
                         {
                             var mainWindow = new MainWindow();
                             mainWindow.Show();
                             this.Hide();
-                        }
+                        });
                     }
-                    catch (InvalidQRCodeFormatException ex)
+                    else
                     {
-
-                        MessageBox.Show(ex.Message);
+                        Dispatcher.Invoke(() =>
+                        {
+                            lblErrorMessage.Content = "QR kod nije valjan ili ne sadrži ispravne podatke.";
+                            lblErrorMessage.Visibility = Visibility.Visible;
+                        });
                     }
                 }
-            }
+                catch (Exception ex)
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        lblErrorMessage.Content = $"Došlo je do greške: {ex.Message}";
+                        lblErrorMessage.Visibility = Visibility.Visible;
+                    });
+                }
+            });
         }
+
         private Bitmap ConvertImageSourceToBitmap(ImageSource source)
         {
-            BitmapImage bitmapImage = source as BitmapImage;
-            if (bitmapImage != null)
+            if (source is BitmapImage bitmapImage)
             {
-                MemoryStream stream = new MemoryStream();
-                BitmapEncoder encoder = new BmpBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(bitmapImage));
-                encoder.Save(stream);
-
-                return new Bitmap(stream);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    BitmapEncoder encoder = new BmpBitmapEncoder();
+                    encoder.Frames.Add(BitmapFrame.Create(bitmapImage));
+                    encoder.Save(stream);
+                    return new Bitmap(stream);
+                }
             }
-
             return null;
         }
 
@@ -115,6 +132,7 @@ namespace PresentationLayer.Windows
                 imgCamera.Source = bitmapImage;
             });
         }
+
         private BitmapImage ConvertBitmapToBitmapImage(Bitmap bitmap)
         {
             using (MemoryStream memoryStream = new MemoryStream())
@@ -127,30 +145,37 @@ namespace PresentationLayer.Windows
                 bitmapImage.StreamSource = memoryStream;
                 bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
                 bitmapImage.EndInit();
-                bitmapImage.Freeze(); 
+                bitmapImage.Freeze();
 
                 return bitmapImage;
             }
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private async void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (Finalframe.IsRunning)
-            {
-                Finalframe.Stop();
-            }
-            Timer.Stop();
+            await StopCameraAsync();
         }
 
-        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        private async Task StopCameraAsync()
         {
+            await Dispatcher.InvokeAsync(() =>
+            {
+                if (Finalframe != null && Finalframe.IsRunning)
+                {
+                    Finalframe.SignalToStop();
+                    Finalframe.WaitForStop();
+                }
+                Timer.Stop();
+            });
+        }
+
+
+        private async void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            await StopCameraAsync();
             _loginOptions.Show();
             this.Hide();
-            if (Finalframe.IsRunning)
-            {
-                Finalframe.Stop();
-            }
-            Timer.Stop();
+            
         }
     }
 }
