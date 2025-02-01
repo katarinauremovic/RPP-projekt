@@ -3,6 +3,7 @@ using BusinessLogicLayer.Services;
 using EntityLayer.DTOs;
 using EntityLayer.Entities;
 using EntityLayer.Enums;
+using PresentationLayer.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -44,19 +45,32 @@ namespace PresentationLayer.UserControls
 
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            await RefreshGui();
+        }
+
+        public async Task RefreshGui()
+        {
             ShowLoadingIndicators(true);
             await LoadRewards();
             ShowLoadingIndicators(false);
-            DataContext = this;
         }
 
         private async Task LoadRewards()
         {
             BronzeRewards = new ObservableCollection<RewardDTO>(await Task.Run(() => _rewardService.GetRewardsDtoByLoyaltyLevelNameAsync(LoyaltyLevels.Bronze)));
+            bronzeRewardsItemsControl.ItemsSource = BronzeRewards;
+            
             SilverRewards = new ObservableCollection<RewardDTO>(await Task.Run(() => _rewardService.GetRewardsDtoByLoyaltyLevelNameAsync(LoyaltyLevels.Silver)));
+            silverRewardsItemsControl.ItemsSource = SilverRewards;
+            
             GoldRewards = new ObservableCollection<RewardDTO>(await Task.Run(() => _rewardService.GetRewardsDtoByLoyaltyLevelNameAsync(LoyaltyLevels.Gold)));
+            goldRewardsItemsControl.ItemsSource = GoldRewards;
+            
             PlatinumRewards = new ObservableCollection<RewardDTO>(await Task.Run(() => _rewardService.GetRewardsDtoByLoyaltyLevelNameAsync(LoyaltyLevels.Platinum)));
+            platinumRewardsItemsControl.ItemsSource = PlatinumRewards;
+
             VipRewards = new ObservableCollection<RewardDTO>(await Task.Run(() => _rewardService.GetRewardsDtoByLoyaltyLevelNameAsync(LoyaltyLevels.VIP)));
+            vipRewardsItemsControl.ItemsSource = VipRewards;
         }
 
         private void ShowLoadingIndicators(bool isLoading)
@@ -79,6 +93,13 @@ namespace PresentationLayer.UserControls
             var ucClientRewards = new ucClientRewards();
             ucClientRewards.Parent = this;
             Parent.ccContent.Content = ucClientRewards;
+        }
+
+        private void btnAddReward_Click(object sender, RoutedEventArgs e)
+        {
+            var win = new winAddNewRewardCard();
+            win.Parent = this;
+            win.ShowDialog();
         }
     }
 }

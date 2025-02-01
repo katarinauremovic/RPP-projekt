@@ -3,6 +3,7 @@ using DataAccessLayer.Repositories;
 using EntityLayer.Entities;
 using EntityLayer.Enums;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -41,6 +42,18 @@ namespace BusinessLogicLayer.Services
             } else
             {
                 return LoyaltyLevels.None;
+            }
+        }
+
+        public async Task<IEnumerable<LoyaltyLevels>> GetLoyaltyLevelsEnumsOrderingByLevels()
+        {
+            using (var repo = new LoyaltyLevelRepository())
+            {
+                var loyaltyLevels = await repo.GetAllAsync();
+                return loyaltyLevels
+                    .OrderBy(l => l.Level)
+                    .Select(l => (LoyaltyLevels)Enum.Parse(typeof(LoyaltyLevels), l.Name, true))
+                    .Skip(2);
             }
         }
     }

@@ -110,6 +110,9 @@
     <Compile Include="UserControls\ucSidebarMenu.xaml.cs">
       <DependentUpon>ucSidebarMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\winAddNewRewardCard.xaml.cs">
+      <DependentUpon>winAddNewRewardCard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\LoginOptions.xaml.cs">
       <DependentUpon>LoginOptions.xaml</DependentUpon>
     </Compile>
@@ -171,6 +174,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ucSidebarMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\winAddNewRewardCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

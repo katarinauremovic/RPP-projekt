@@ -1,6 +1,7 @@
 ﻿using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
 using EntityLayer.Entities;
+using PresentationLayer.Windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,7 +67,7 @@ namespace PresentationLayer.UserControls
             // ovo služi samo kao test ne brišite.
 
             /*
-            
+
             IReceiptService receiptService = new ReceiptService();
             
             var receipt = new Receipt()
@@ -76,11 +77,31 @@ namespace PresentationLayer.UserControls
                 RewardDiscount = -5,
                 TotalTreatmentAmount = 100,
                 IssueDateTime = DateTime.Now,
-                Reservation_idReservation = 11,
+                Reservation_idReservation = 12,
             };
 
             await Task.Run(() => receiptService.AddNewReceiptAsync(receipt));
-            
+
+            */
+
+            /*
+
+            string recipient = "thesnackalchemist2023@gmail.com";
+            string subject = "Ponuda za suradnju";
+            string body = "<h1>Pozdrav!</h1><p>Ovo je vaša ponuda za suradnju...</p>";
+
+            var gmailService = new GmailService();
+            await gmailService.SendEmailAsync(recipient, subject, body);
+
+            Console.WriteLine("E-mail je uspješno poslan!");
+
+            */
+
+            /*
+              
+            var win = new winAddNewRewardCard();
+            win.ShowDialog();
+
             */
         }
     }
