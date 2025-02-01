@@ -28,11 +28,7 @@ namespace PresentationLayer.Windows
             _loginOptionsForm = loginOptionsForm;
         }
 
-        private void btnLogin_Click(object sender, RoutedEventArgs e)
-        {
-            LogIn();
-        }
-
+        
         private async void LogIn()
         {
            var username = txtUsername.Text;
@@ -53,6 +49,11 @@ namespace PresentationLayer.Windows
         {
             _loginOptionsForm.Show();
             this.Hide();
+        }
+
+        private void btnLogin_Click_1(object sender, RoutedEventArgs e)
+        {
+            LogIn();
         }
     }
 }
