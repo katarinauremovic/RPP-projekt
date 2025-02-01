@@ -82,7 +82,7 @@
                                     <ColumnDefinition Width="auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <ComboBox x:Name="cmbSortingList" Grid.Column="0" Width="140" SelectionChanged="cmbSortingList_SelectionChanged" HorizontalAlignment="Left" Height="30" Style="{StaticResource combobox}" VerticalAlignment="Center" Margin="7,0,0,0" />
+                                <ComboBox x:Name="cmbSortingList" Grid.Column="0" Width="150" SelectionChanged="cmbSortingList_SelectionChanged" HorizontalAlignment="Left" Height="30" Style="{StaticResource combobox}" VerticalAlignment="Center" Margin="7,0,0,0" />
                                 <Button x:Name="btnDropdownList" Grid.Column="1" Click="btnDropdownList_Click">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">

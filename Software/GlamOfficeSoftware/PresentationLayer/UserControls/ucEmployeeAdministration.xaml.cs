@@ -169,7 +169,31 @@ namespace PresentationLayer.UserControls
 
         private void cmbSortingList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+            if (dgvEmployees.ItemsSource == null)
+                return;
+
+            var employees = dgvEmployees.ItemsSource.Cast<EmployeeDTO>().ToList(); 
+
+            switch (cmbSortingList.SelectedIndex)
+            {
+                case 0: 
+                    employees = employees.OrderBy(emp => emp.Firstname).ToList();
+                    break;
+                case 1:
+                    employees = employees.OrderByDescending(emp => emp.Firstname).ToList();
+                    break;
+                case 2: 
+                    employees = employees.OrderBy(emp => emp.Lastname).ToList();
+                    break;
+                case 3: 
+                    employees = employees.OrderByDescending(emp => emp.Lastname).ToList();
+                    break;
+                default:
+                    return;
+            }
+
+            dgvEmployees.ItemsSource = null;  
+            dgvEmployees.ItemsSource = employees;
         }
 
         private void btnShowEmployeesDetails_Click(object sender, RoutedEventArgs e)
