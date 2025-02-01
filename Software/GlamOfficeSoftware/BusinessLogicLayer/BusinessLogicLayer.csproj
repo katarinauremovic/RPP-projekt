@@ -80,6 +80,7 @@
     <Compile Include="Exceptions\ClientOperationException.cs" />
     <Compile Include="Exceptions\DataGridNoSelectionException.cs" />
     <Compile Include="Exceptions\FailedToOpenPdfException.cs" />
+    <Compile Include="Exceptions\InvalidQRCodeFormatException.cs" />
     <Compile Include="Exceptions\NotEnoughPointsException.cs" />
     <Compile Include="Exceptions\ReceiptNotVoidableException.cs" />
     <Compile Include="Interfaces\IClientHasRewardService.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Services\ClientGmailService.cs" />
     <Compile Include="Services\ClientHasRewardService.cs" />
     <Compile Include="Services\ClientService.cs" />
+    <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\GmailService.cs" />
     <Compile Include="Services\GiftCardService.cs" />
     <Compile Include="Services\LoyaltyLevelService.cs" />
