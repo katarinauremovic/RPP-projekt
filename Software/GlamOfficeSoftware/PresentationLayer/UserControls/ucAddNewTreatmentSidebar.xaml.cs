@@ -55,7 +55,7 @@ namespace PresentationLayer.UserControls
 
             await _treatmentService.AddTreatmentAsync(treatmentDTO);
 
-            MessageBox.Show("Treatment added successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+           
 
             ParentControl?.RefreshDataGrid(); 
             CloseSidebar();

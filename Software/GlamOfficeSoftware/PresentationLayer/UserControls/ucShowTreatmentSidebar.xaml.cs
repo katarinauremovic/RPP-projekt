@@ -1,4 +1,6 @@
-﻿using EntityLayer.DTOs;
+﻿using BusinessLogicLayer.Services;
+using EntityLayer.DTOs;
+using PresentationLayer.Windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +24,10 @@ namespace PresentationLayer.UserControls
     public partial class ucShowTreatmentSidebar : UserControl
     {
         public ucTreatmentManagement Parent { get; set; }
+        public ucTreatmentManagement ParentControl { get; internal set; }
+
+        private TreatmentDTO _currentTreatment;
+
         public ucShowTreatmentSidebar()
         {
             InitializeComponent();
@@ -29,6 +35,7 @@ namespace PresentationLayer.UserControls
 
         internal void SetTreatmentDetails(TreatmentDTO treatment)
         {
+            _currentTreatment = treatment;
             textTreatmentName.Text = treatment.Name;
             textPrice.Text = treatment.Price.HasValue ? $"{treatment.Price.Value:0.00} €" : "N/A";
             textDuration.Text = treatment.DurationMinutes.HasValue ? $"{treatment.DurationMinutes} min" : "N/A";
@@ -39,12 +46,26 @@ namespace PresentationLayer.UserControls
 
         private void btnCloseSidebar_Click(object sender, RoutedEventArgs e)
         {
-            Parent.CloseSidebar();
+            ParentControl.CloseSidebar();
         }
 
-        private void btnDeleteTreatment_Click(object sender, RoutedEventArgs e)
+        private async void btnDeleteTreatment_Click(object sender, RoutedEventArgs e)
         {
+          
 
+            var confirmationBox = new winMessageBox();
+            bool result = await confirmationBox.ShowAsync("Confirm Deletion",
+                                                          $"Are you sure you want to delete '{_currentTreatment.Name}'?");
+
+            if (result) 
+            {
+                await new TreatmentService().DeleteTreatmentAsync(_currentTreatment.idTreatment);
+
+               
+
+                ParentControl?.RefreshDataGrid();
+                ParentControl?.CloseSidebar();
+            }
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -54,7 +75,24 @@ namespace PresentationLayer.UserControls
 
         private void btnEditTreatment_Click(object sender, RoutedEventArgs e)
         {
+            if (_currentTreatment == null)
+            {
+                MessageBox.Show("No treatment selected.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
+            var editSidebar = new ucEditTreatmentSidebar();
+            editSidebar.ParentControl = ParentControl;
+            editSidebar.LoadTreatmentDetails(_currentTreatment);
+
+            if (ParentControl != null)
+            {
+                ParentControl.ShowSidebar(editSidebar);
+            }
+            else
+            {
+                MessageBox.Show("ParentControl is null!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

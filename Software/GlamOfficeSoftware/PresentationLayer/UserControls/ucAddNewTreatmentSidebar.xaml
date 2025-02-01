@@ -74,14 +74,14 @@
                         <TextBlock Text="Treatment Group:" Grid.Row="8" HorizontalAlignment="Left" Margin="20,7,0,7"/>
                         <Border Grid.Row="9" BorderThickness="1" BorderBrush="#acb0af" CornerRadius="20" Background="#ffffff" Margin="20,0,5,7">
                             <Grid Margin="7,9">
-                                <ComboBox x:Name="cmbTreatmentGroup" Style="{StaticResource combobox}"/>
+                                <ComboBox x:Name="cmbTreatmentGroup" Style="{StaticResource combobox}" Background="White" Foreground="#acb0af"/>
                             </Grid>
                         </Border>
 
                         <TextBlock Text="Work Position:" Grid.Row="10" HorizontalAlignment="Left" Margin="20,7,0,7"/>
                         <Border Grid.Row="11" BorderThickness="1" BorderBrush="#acb0af" CornerRadius="20" Background="#ffffff" Margin="20,0,5,7">
                             <Grid Margin="7,9">
-                                <ComboBox x:Name="cmbWorkPosition" Style="{StaticResource combobox}"/>
+                                <ComboBox x:Name="cmbWorkPosition" Style="{StaticResource combobox}" Background="White" Foreground="#acb0af"/>
                             </Grid>
                         </Border>
 

@@ -101,6 +101,29 @@ namespace DataAccessLayer.Repositories
             items.Add(treatment);
             await SaveChangesAsync();
         }
+        public async Task UpdateTreatmentAsync(Treatment treatment)
+        {
+            var existingTreatment = await context.Treatments.FindAsync(treatment.idTreatment);
+            if (existingTreatment != null)
+            {
+                existingTreatment.Name = treatment.Name;
+                existingTreatment.Price = treatment.Price;
+                existingTreatment.Description = treatment.Description;
+                existingTreatment.DurationMinutes = treatment.DurationMinutes;
+                existingTreatment.TreatmentGroup_idTreatmentGroup = treatment.TreatmentGroup_idTreatmentGroup;
+                existingTreatment.WorkPosition_idWorkPosition = treatment.WorkPosition_idWorkPosition;
 
+                await context.SaveChangesAsync();
+            }
+        }
+        public async Task DeleteTreatmentAsync(int treatmentId)
+        {
+            var treatment = await items.FirstOrDefaultAsync(t => t.idTreatment == treatmentId);
+            if (treatment != null)
+            {
+                items.Remove(treatment);
+                await SaveChangesAsync();
+            }
+        }
     }
 }

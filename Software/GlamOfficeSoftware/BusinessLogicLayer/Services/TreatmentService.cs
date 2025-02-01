@@ -108,6 +108,33 @@ namespace BusinessLogicLayer.Services
                 return position?.idWorkPosition;
             }
         }
+
+        public async Task UpdateTreatmentAsync(TreatmentDTO treatmentDTO)
+        {
+            using (var repo = new TreatmentRepository())
+            {
+                var treatment = await repo.GetByIdAsync(treatmentDTO.idTreatment);
+                if (treatment == null) return;
+
+                treatment.Name = treatmentDTO.Name;
+                treatment.Price = treatmentDTO.Price;
+                treatment.Description = treatmentDTO.Description;
+                treatment.DurationMinutes = treatmentDTO.DurationMinutes;
+                treatment.TreatmentGroup_idTreatmentGroup = await GetTreatmentGroupIdByName(treatmentDTO.TreatmentGroupName);
+                treatment.WorkPosition_idWorkPosition = await GetWorkPositionIdByName(treatmentDTO.WorkPositionName);
+
+                await repo.UpdateTreatmentAsync(treatment);
+            }
+        }
+        public async Task DeleteTreatmentAsync(int treatmentId)
+        {
+            using (var repo = new TreatmentRepository())
+            {
+                await repo.DeleteTreatmentAsync(treatmentId);
+            }
+        }
+
+
     }
 }
 

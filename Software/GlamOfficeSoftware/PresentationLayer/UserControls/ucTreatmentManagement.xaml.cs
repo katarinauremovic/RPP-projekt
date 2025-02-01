@@ -139,7 +139,7 @@ namespace PresentationLayer.UserControls
         {
             if (string.IsNullOrWhiteSpace(txtSearch.Text))
             {
-                LoadDataGrid();
+                await LoadDataGrid();
                 return;
             }
             loadingIndicator.Visibility = Visibility.Visible;
@@ -249,6 +249,8 @@ namespace PresentationLayer.UserControls
         {
             if (_selectedTreatment != null)
             {
+                var detailsSidebar = new ucShowTreatmentSidebar();
+                detailsSidebar.ParentControl = this;
                 ccSidebar.Content = null;
                 ShowTreatmentDetailsSidebar(_selectedTreatment);
             }
@@ -298,16 +300,16 @@ namespace PresentationLayer.UserControls
         }
         private void ShowTreatmentDetailsSidebar(TreatmentDTO treatment)
         {
-            if (treatment == null) return; 
+            if (treatment == null) return;
 
-            if (!(ccSidebar.Content is ucShowTreatmentSidebar))
+            if (!(ccSidebar.Content is ucShowTreatmentSidebar detailsSidebar))
             {
-                var detailsSidebar = new ucShowTreatmentSidebar();
+                detailsSidebar = new ucShowTreatmentSidebar();
+                detailsSidebar.ParentControl = this;
                 detailsSidebar.SetTreatmentDetails(treatment);
-                detailsSidebar.Parent = this;
 
                 ccSidebar.Content = detailsSidebar;
-                ShowSidebar();
+                ShowSidebar(detailsSidebar);
             }
         }
 
@@ -352,6 +354,34 @@ namespace PresentationLayer.UserControls
                 sidebarMenu.BeginAnimation(MarginProperty, marginAnimation);
             }
         }
+        internal void ShowSidebar(UserControl sidebar)
+        {
+            if (sidebar == null)
+                return;
+
+            ccSidebar.Content = sidebar;  
+            sidebar.Visibility = Visibility.Visible;
+
+            var slideInAnimation = FindResource("SlideInAnimation") as Storyboard;
+            var sidebarMenu = (FrameworkElement)ccSidebar.Content;
+
+            if (sidebarMenu != null)
+            {
+                sidebarMenu.Visibility = Visibility.Visible;
+                sidebarMenu.Margin = new Thickness(240, 0, 0, 0);
+
+                var marginAnimation = new ThicknessAnimation
+                {
+                    From = new Thickness(240, 0, 0, 0),
+                    To = new Thickness(0, 0, 0, 0),
+                    Duration = new Duration(TimeSpan.FromSeconds(0.5)),
+                    EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut }
+                };
+
+                sidebarMenu.BeginAnimation(MarginProperty, marginAnimation);
+            }
+        }
+
         private void ShowLoadingIndicator(bool isLoading)
         {
             if (isLoading)
