@@ -57,7 +57,7 @@ namespace PresentationLayer.Windows
                         if (employee != null)
                         {
                             var mainWindow = new MainWindow();
-                            mainWindow.ShowDialog();
+                            mainWindow.Show();
                             this.Hide();
                         }
                     }

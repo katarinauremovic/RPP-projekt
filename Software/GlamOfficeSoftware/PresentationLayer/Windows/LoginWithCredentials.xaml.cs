@@ -36,7 +36,7 @@ namespace PresentationLayer.Windows
             var employee = await _employeeService.LogInWithCredentialsAsync(username, password);
             if (employee != null) {
                 var mainWindow = new MainWindow();
-                mainWindow.ShowDialog();
+                mainWindow.Show();
                 this.Hide();
             }
             else
