@@ -70,6 +70,9 @@
     <Compile Include="UserControls\ucAddNewClientSidebar.xaml.cs">
       <DependentUpon>ucAddNewClientSidebar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ucAddNewTreatmentSidebar.xaml.cs">
+      <DependentUpon>ucAddNewTreatmentSidebar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ucClientAdministration.xaml.cs">
       <DependentUpon>ucClientAdministration.xaml</DependentUpon>
     </Compile>
@@ -116,6 +119,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="UserControls\ucAddNewClientSidebar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ucAddNewTreatmentSidebar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -70,6 +70,44 @@ namespace BusinessLogicLayer.Services
                 return await repo.GetTreatmentsByWorkPositionAsync(workPositionId);
             }
         }
+        public async Task AddTreatmentAsync(TreatmentDTO treatmentDTO)
+        {
+            using (var repo = new TreatmentRepository())
+            {
+                int? groupId = await GetTreatmentGroupIdByName(treatmentDTO.TreatmentGroupName);
+                int? positionId = await GetWorkPositionIdByName(treatmentDTO.WorkPositionName);
 
+                var treatment = new Treatment
+                {
+                    Name = treatmentDTO.Name,
+                    Price = treatmentDTO.Price,
+                    Description = treatmentDTO.Description,
+                    DurationMinutes = treatmentDTO.DurationMinutes,
+                    TreatmentGroup_idTreatmentGroup = groupId,
+                    WorkPosition_idWorkPosition = positionId 
+                };
+
+                await repo.AddTreatmentAsync(treatment);
+            }
+        }
+
+        private async Task<int?> GetTreatmentGroupIdByName(string groupName)
+        {
+            using (var repo = new TreatmentGroupRepository())
+            {
+                var group = await repo.GetByNameAsync(groupName);
+                return group?.idTreatmentGroup;
+            }
+        }
+
+        private async Task<int?> GetWorkPositionIdByName(string positionName)
+        {
+            using (var repo = new WorkPositionRepository())
+            {
+                var position = await repo.GetByNameAsync(positionName);
+                return position?.idWorkPosition;
+            }
+        }
     }
 }
+

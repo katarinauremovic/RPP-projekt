@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories
 {
-    public class TreatmentRepository : Repository<Treatment>, ITreatmentRepository
+    public class TreatmentRepository : Repository<Treatment>
     {
 
         public async Task<IEnumerable<TreatmentDTO>> GetAllTreatmentsWithDetailsAsync()
@@ -96,7 +96,11 @@ namespace DataAccessLayer.Repositories
             return result;
         }
 
-
+        public async Task AddTreatmentAsync(Treatment treatment)
+        {
+            items.Add(treatment);
+            await SaveChangesAsync();
+        }
 
     }
 }

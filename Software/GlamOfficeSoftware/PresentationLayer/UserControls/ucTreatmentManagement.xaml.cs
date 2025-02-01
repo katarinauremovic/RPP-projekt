@@ -26,9 +26,13 @@ namespace PresentationLayer.UserControls
     {
         private TreatmentService _treatmentService = new TreatmentService();
         public MainWindow Parent { get; set; }
+        private  ucAddNewTreatmentSidebar _addNewTreatmentSidebar;
+
         public ucTreatmentManagement()
         {
+
             InitializeComponent();
+            _addNewTreatmentSidebar = new ucAddNewTreatmentSidebar();
             LoadDataGrid();
         }
 
@@ -238,6 +242,41 @@ namespace PresentationLayer.UserControls
         private void cmbSorting_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             SortTreatments();
+        }
+
+        private void btnShowTreatmentInfo_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnAddTreatment_Click(object sender, RoutedEventArgs e)
+        {
+            if (ccSidebar.Content == null)
+            {
+                _addNewTreatmentSidebar = new ucAddNewTreatmentSidebar();
+                _addNewTreatmentSidebar.ParentControl = this; 
+
+                ccSidebar.Content = _addNewTreatmentSidebar;
+                _addNewTreatmentSidebar.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ccSidebar.Content = null;
+            }
+        }
+
+
+
+        internal async void RefreshDataGrid()
+        {
+            loadingIndicator.Visibility = Visibility.Visible;
+            dgvTreatments.Visibility = Visibility.Collapsed;
+
+            var treatments = await _treatmentService.GetAllTreatmentsAsync();
+            dgvTreatments.ItemsSource = treatments;
+
+            loadingIndicator.Visibility = Visibility.Collapsed;
+            dgvTreatments.Visibility = Visibility.Visible;
         }
     }
 }
