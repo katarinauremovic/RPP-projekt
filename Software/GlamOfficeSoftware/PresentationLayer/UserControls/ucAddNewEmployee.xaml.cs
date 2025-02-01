@@ -20,6 +20,7 @@ namespace PresentationLayer.UserControls
     /// </summary>
     public partial class ucAddNewEmployee : UserControl
     {
+        public MainWindow Parent { get; set; }
         public ucAddNewEmployee()
         {
             InitializeComponent();

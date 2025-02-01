@@ -25,6 +25,7 @@ namespace PresentationLayer.UserControls
     public partial class ucEmployeeAdministration : UserControl
     {
         private EmployeeService _employeeService = new EmployeeService();
+        private ucAddNewEmployee _addNewEmployeeSidebar;
         public MainWindow Parent { get; set; }
         public ucEmployeeAdministration()
         {
@@ -205,9 +206,24 @@ namespace PresentationLayer.UserControls
         private void btnAddNewEmployee_Click(object sender, RoutedEventArgs e)
         {
             
+                if (ccSidebar.Content == null)
+                {
+                    _addNewEmployeeSidebar = new ucAddNewEmployee();
+                    _addNewEmployeeSidebar.Parent = this.Parent;
+
+                    ccSidebar.Content = _addNewEmployeeSidebar;
+                    _addNewEmployeeSidebar.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    ccSidebar.Content = null;
+                }
+
+            
         }
 
-       
+
+
 
         private void dgvEmployees_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
