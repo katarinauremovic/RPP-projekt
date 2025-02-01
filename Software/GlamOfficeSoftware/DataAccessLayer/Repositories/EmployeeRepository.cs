@@ -11,30 +11,14 @@ namespace DataAccessLayer.Repositories
 {
     public class EmployeeRepository : Repository<Employee>
     {
-        public async Task<Employee> GetEmployeeByUsernameAndPasswordAsync(string username, string password)
+        public async Task<Employee> GetEmployeeByUsernameAsync(string username)
         {
-            var employee = await items.FirstOrDefaultAsync(e => e.Username == username);
-            if (employee == null)
-            {
-                return null;
-            }
-
-            string hashedPassword = HashPassword(employee.Salt, password);
-            if (hashedPassword == employee.Password)
-            {
-                return employee;
-            }
-            return null;
+            return await items.FirstOrDefaultAsync(e => e.Username == username);
         }
-
-        private string HashPassword(string salt, string password)
+        public async Task<Employee> GetEmployeeByUsernameAndPasswordAsync(string username, string hashedPass)
         {
-            using (SHA512 sha512 = SHA512.Create())
-            {
-                byte[] inputBytes = Encoding.UTF8.GetBytes(salt + password);
-                byte[] hashedBytes = sha512.ComputeHash(inputBytes);
-                return Convert.ToBase64String(hashedBytes); 
-            }
+            var employee = await items.FirstOrDefaultAsync(e => e.Username == username && e.Password == hashedPass);
+            return employee;
         }
 
     }

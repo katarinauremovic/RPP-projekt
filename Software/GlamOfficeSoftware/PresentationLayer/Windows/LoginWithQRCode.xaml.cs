@@ -1,6 +1,7 @@
 ﻿using AForge.Video;
 using AForge.Video.DirectShow;
 using System;
+using ZXing;
 using System.Drawing;
 using System.IO;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using BusinessLogicLayer.Services;
+using BusinessLogicLayer.Exceptions;
 
 namespace PresentationLayer.Windows
 {
@@ -28,6 +31,7 @@ namespace PresentationLayer.Windows
         private VideoCaptureDevice Finalframe;
         private DispatcherTimer Timer;
         private LoginOptions _loginOptions;
+        private EmployeeService EmployeeService= new EmployeeService();
         public LoginWithQRCode(LoginOptions loginOptions)
         {
             InitializeComponent();
@@ -37,11 +41,32 @@ namespace PresentationLayer.Windows
             _loginOptions = loginOptions;
         }
 
-        private void Timer_Tick(object sender, EventArgs e)
+        private async void Timer_Tick(object sender, EventArgs e)
         {
             if(imgCamera.Source != null)
             {
                 Bitmap bitmap = ConvertImageSourceToBitmap(imgCamera.Source);
+                BarcodeReader barcodeReader = new BarcodeReader();
+                var result = barcodeReader.Decode(bitmap);
+                if(result != null)
+                {
+                    try
+                    {
+                        string decodedText = result.Text.Trim();
+                        var employee = await EmployeeService.LogInWithQRCodeAsync(decodedText);
+                        if (employee != null)
+                        {
+                            var mainWindow = new MainWindow();
+                            mainWindow.ShowDialog();
+                            this.Hide();
+                        }
+                    }
+                    catch (InvalidQRCodeFormatException ex)
+                    {
+
+                        MessageBox.Show(ex.Message);
+                    }
+                }
             }
         }
         private Bitmap ConvertImageSourceToBitmap(ImageSource source)
