@@ -13,11 +13,15 @@ namespace DataAccessLayer.Interfaces
         Task UpdateEmployeeAsync(Employee employee);
 
         Task <IEnumerable<EmployeeDTO>> GetAllEmployeesAsync();
-        Task<IEnumerable<Employee>> GetEmployeesByName(string name);
-        Task<IEnumerable<Employee>> GetEmployeesByLastName(string surname);
-        Task<IEnumerable<Employee>> GetEmployeesByKeyPhrase(string word);
-        Task<IEnumerable<Employee>> GetEmployeeesByWorkingPosition(int workingPosition);
+        Task<IEnumerable<EmployeeDTO>> GetEmployeesByName(string name);
 
-        Task<IEnumerable<Employee>> GetEmployeesByRole(int role);
+        Task<IEnumerable<EmployeeDTO>> GetEmployeesByLastName(string surname);
+
+        Task<IEnumerable<EmployeeDTO>> GetEmployeesByKeyPhrase(string word);
+
+        Task<IEnumerable<EmployeeDTO>> GetEmployeesByWorkPosition(string workPositionName);
+
+        Task<IEnumerable<EmployeeDTO>> GetEmployeesByRole(string roleName);
+        
     }
 }

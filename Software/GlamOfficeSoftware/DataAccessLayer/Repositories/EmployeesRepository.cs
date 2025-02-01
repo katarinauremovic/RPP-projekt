@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace DataAccessLayer.Repositories
@@ -65,29 +66,138 @@ namespace DataAccessLayer.Repositories
                 await SaveChangesAsync();
             }
         }
-        public async Task<IEnumerable<Employee>> GetEmployeesByName(string name)
+        public async Task<IEnumerable<EmployeeDTO>> GetEmployeesByName(string name)
         {
-            return await items.Where(e => e.Firstname == name).ToListAsync();
+            var employees = await (from emp in context.Employees
+                                   join role in context.Roles on emp.Role_idRole equals role.idRole into roleGroup
+                                   from role in roleGroup.DefaultIfEmpty()
+                                   join position in context.WorkPositions on emp.WorkPosition_idWorkPosition equals position.idWorkPosition into positionGroup
+                                   from position in positionGroup.DefaultIfEmpty()
+                                   where emp.Firstname.Contains(name) 
+                                   select new EmployeeDTO
+                                   {
+                                       Id = emp.idEmployee,
+                                       PIN = emp.PIN,
+                                       Firstname = emp.Firstname,
+                                       Lastname = emp.Lastname,
+                                       Email = emp.Email,
+                                       Username = emp.Username,
+                                       Password = emp.Password,
+                                       Salt = emp.Salt,
+                                       PhoneNumber = emp.PhoneNumber,
+                                       RoleName = role != null ? role.Name : "N/A",
+                                       WorkPositionName = position != null ? position.Name : "N/A"
+                                   }).ToListAsync();
+
+            return employees;
         }
 
-        public async Task<IEnumerable<Employee>> GetEmployeesByLastName(string surname)
+        public async Task<IEnumerable<EmployeeDTO>> GetEmployeesByLastName(string surname)
         {
-            return await items.Where(e => e.Lastname == surname).ToListAsync();
+            var employees = await (from emp in context.Employees
+                                   join role in context.Roles on emp.Role_idRole equals role.idRole into roleGroup
+                                   from role in roleGroup.DefaultIfEmpty()
+                                   join position in context.WorkPositions on emp.WorkPosition_idWorkPosition equals position.idWorkPosition into positionGroup
+                                   from position in positionGroup.DefaultIfEmpty()
+                                   where emp.Lastname.Contains(surname)
+                                   select new EmployeeDTO
+                                   {
+                                       Id = emp.idEmployee,
+                                       PIN = emp.PIN,
+                                       Firstname = emp.Firstname,
+                                       Lastname = emp.Lastname,
+                                       Email = emp.Email,
+                                       Username = emp.Username,
+                                       Password = emp.Password,
+                                       Salt = emp.Salt,
+                                       PhoneNumber = emp.PhoneNumber,
+                                       RoleName = role != null ? role.Name : "N/A",
+                                       WorkPositionName = position != null ? position.Name : "N/A"
+                                   }).ToListAsync();
+
+            return employees;
         }
 
-        public async Task<IEnumerable<Employee>> GetEmployeesByKeyPhrase(string word)
+        public async Task<IEnumerable<EmployeeDTO>> GetEmployeesByKeyPhrase(string word)
         {
-            return await items.Where(e => e.Firstname == word || e.Lastname == word || e.Email == word || e.PhoneNumber == word || e.Username == word).ToListAsync();
+            var employees = await (from emp in context.Employees
+                                   join role in context.Roles on emp.Role_idRole equals role.idRole into roleGroup
+                                   from role in roleGroup.DefaultIfEmpty()
+                                   join position in context.WorkPositions on emp.WorkPosition_idWorkPosition equals position.idWorkPosition into positionGroup
+                                   from position in positionGroup.DefaultIfEmpty()
+                                   where emp.Firstname.Contains(word) ||
+                                         emp.Lastname.Contains(word) ||
+                                         emp.Email.Contains(word) ||
+                                         emp.PhoneNumber.Contains(word) ||
+                                         emp.Username.Contains(word)
+                                   select new EmployeeDTO
+                                   {
+                                       Id = emp.idEmployee,
+                                       PIN = emp.PIN,
+                                       Firstname = emp.Firstname,
+                                       Lastname = emp.Lastname,
+                                       Email = emp.Email,
+                                       Username = emp.Username,
+                                       Password = emp.Password,
+                                       Salt = emp.Salt,
+                                       PhoneNumber = emp.PhoneNumber,
+                                       RoleName = role != null ? role.Name : "N/A",
+                                       WorkPositionName = position != null ? position.Name : "N/A"
+                                   }).ToListAsync();
+
+            return employees;
         }
 
-        public async Task<IEnumerable<Employee>> GetEmployeeesByWorkingPosition(int workingPosition)
+        public async Task<IEnumerable<EmployeeDTO>> GetEmployeesByWorkPosition(string workPositionName)
         {
-            return await items.Where(e => e.WorkPosition_idWorkPosition == workingPosition).ToListAsync();
+            var employees = await (from emp in context.Employees
+                                   join role in context.Roles on emp.Role_idRole equals role.idRole into roleGroup
+                                   from role in roleGroup.DefaultIfEmpty()
+                                   join position in context.WorkPositions on emp.WorkPosition_idWorkPosition equals position.idWorkPosition into positionGroup
+                                   from position in positionGroup.DefaultIfEmpty()
+                                   where position.Name == workPositionName
+                                   select new EmployeeDTO
+                                   {
+                                       Id = emp.idEmployee,
+                                       PIN = emp.PIN,
+                                       Firstname = emp.Firstname,
+                                       Lastname = emp.Lastname,
+                                       Email = emp.Email,
+                                       Username = emp.Username,
+                                       Password = emp.Password,
+                                       Salt = emp.Salt,
+                                       PhoneNumber = emp.PhoneNumber,
+                                       RoleName = role != null ? role.Name : "N/A",
+                                       WorkPositionName = position != null ? position.Name : "N/A"
+                                   }).ToListAsync();
+
+            return employees;
         }
 
-        public async Task<IEnumerable<Employee>> GetEmployeesByRole(int role)
+        public async Task<IEnumerable<EmployeeDTO>> GetEmployeesByRole(string roleName)
         {
-            return await items.Where(e => e.Role_idRole == role).ToListAsync();
+            var employees = await (from emp in context.Employees
+                                   join role in context.Roles on emp.Role_idRole equals role.idRole into roleGroup
+                                   from role in roleGroup.DefaultIfEmpty()
+                                   join position in context.WorkPositions on emp.WorkPosition_idWorkPosition equals position.idWorkPosition into positionGroup
+                                   from position in positionGroup.DefaultIfEmpty()
+                                   where role.Name == roleName
+                                   select new EmployeeDTO
+                                   {
+                                       Id = emp.idEmployee,
+                                       PIN = emp.PIN,
+                                       Firstname = emp.Firstname,
+                                       Lastname = emp.Lastname,
+                                       Email = emp.Email,
+                                       Username = emp.Username,
+                                       Password = emp.Password,
+                                       Salt = emp.Salt,
+                                       PhoneNumber = emp.PhoneNumber,
+                                       RoleName = role != null ? role.Name : "N/A",
+                                       WorkPositionName = position != null ? position.Name : "N/A"
+                                   }).ToListAsync();
+
+            return employees;
         }
     }
 }

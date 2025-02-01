@@ -24,29 +24,35 @@
 
     <Grid Background="#f5f5f5">
         <DockPanel Margin="30,0,30,15">
-            
+
             <TextBlock x:Name="txtTitle" Text="Employees" Style="{StaticResource titleText}" Margin="10" DockPanel.Dock="Top" />
 
-            
+
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Left">
-               
+
                 <StackPanel Orientation="Horizontal">
-                    
+
                     <StackPanel>
                         <TextBlock Text="Search employees:" Margin="0, 5" />
                         <Border BorderThickness="1" BorderBrush="#acb0af" CornerRadius="20" Background="#ffffff" HorizontalAlignment="Left" Width="175">
                             <Grid Margin="7 9">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="155.8" />
+                                    <ColumnDefinition Width="54.2"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock x:Name="textSearch" Width="190" MouseDown="textSearch_MouseDown" Style="{StaticResource placeholder}" Margin="7,0,0,0" />
-                                <TextBox x:Name="txtSearch" Width="200" TextChanged="txtSearch_TextChanged" Style="{StaticResource textBox}" />
+                                <TextBlock x:Name="textSearch" Width="190" MouseDown="textSearch_MouseDown" Style="{StaticResource placeholder}" Margin="14,0,6,0" Grid.ColumnSpan="3" />
+                                <ComboBox x:Name="cmbFilterOptions" 
+          Width="200" 
+          SelectionChanged="cmbFilterOptions_SelectionChanged"
+          Visibility="Collapsed"
+          Style="{StaticResource combobox}" Grid.ColumnSpan="3" Margin="0,0,10,0"/>
+                                <TextBox x:Name="txtSearch" Width="200" TextChanged="txtSearch_TextChanged" Style="{StaticResource textBox}" Grid.ColumnSpan="3" Margin="10,0,0,0" />
                             </Grid>
                         </Border>
                     </StackPanel>
 
-                    
+
                     <StackPanel>
                         <TextBlock Text="Filters:" Margin="7,5" />
                         <Border BorderThickness="1" Width="159" BorderBrush="#acb0af" CornerRadius="20" Height="40" Background="#b894ac" Margin="7,0" HorizontalAlignment="Left">
@@ -93,18 +99,18 @@
                 </StackPanel>
             </StackPanel>
 
-           
+
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="0,0,0,-66" HorizontalAlignment="Right" >
                 <Button x:Name="btnShowEmployeesDetails" Click="btnShowEmployeesDetails_Click" FontWeight="SemiBold" Content="Show" Width="100" Style="{StaticResource classicButton}" Height="40" Margin="0, 0, 7, 0"/>
                 <Button x:Name="btnAddNewEmployee" Click="btnAddNewEmployee_Click" FontWeight="SemiBold" Content="Add" Width="100" Style="{StaticResource classicButton}" Height="40"/>
             </StackPanel>
 
-            
+
             <ContentControl x:Name="ccSidebar" Width="240" DockPanel.Dock="Right" Margin="0,-54.55,-30,-81" Panel.ZIndex="2" />
 
-            
+
             <Grid Margin="0,0,-210,0">
-                
+
                 <DataGrid x:Name="dgvEmployees" Visibility="Collapsed" SelectionChanged="dgvEmployees_SelectionChanged" AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="PIN" Binding="{Binding PIN}" Width="auto" />
@@ -117,11 +123,11 @@
                         <DataGridTextColumn Header="PhoneNumber" Binding="{Binding PhoneNumber}" Width="auto" />
                         <DataGridTextColumn Header="Role" Binding="{Binding RoleName}" Width="auto" />
                         <DataGridTextColumn Header="Work Position" Binding="{Binding WorkPositionName}" Width="auto" />
-                       
+
                     </DataGrid.Columns>
                 </DataGrid>
 
-               
+
                 <TextBlock x:Name="loadingIndicator" Text="Loading clients, please wait..." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Foreground="Gray" Visibility="Visible" />
             </Grid>
         </DockPanel>

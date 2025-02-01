@@ -11,5 +11,15 @@ namespace BusinessLogicLayer.Interfaces
     public interface IEmployeeService
     {
         Task<IEnumerable<EmployeeDTO>> GetAllEmployeesAsync();
+
+        Task<IEnumerable<EmployeeDTO>> GetEmployeesByName(string name);
+
+        Task<IEnumerable<EmployeeDTO>> GetEmployeesByLastName(string surname);
+
+        Task<IEnumerable<EmployeeDTO>> GetEmployeesByKeyPhrase(string word);
+
+        Task<IEnumerable<EmployeeDTO>> GetEmployeesByWorkPosition(string workPositionName);
+
+        Task<IEnumerable<EmployeeDTO>> GetEmployeesByRole(string roleName);
     }
 }
