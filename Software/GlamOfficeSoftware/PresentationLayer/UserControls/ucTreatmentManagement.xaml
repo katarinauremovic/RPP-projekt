@@ -113,6 +113,8 @@
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="0,0,0,-66" HorizontalAlignment="Right" >
                 <Button x:Name="btnShowTreatmentInfo" Click="btnShowTreatmentInfo_Click" FontWeight="SemiBold" Content="Show" Width="100" Style="{StaticResource classicButton}" Height="40" Margin="0, 0, 7, 0"/>
                 <Button x:Name="btnAddTreatment" Click="btnAddTreatment_Click" FontWeight="SemiBold" Content="Add" Width="100" Style="{StaticResource classicButton}" Height="40"/>
+                <Button x:Name="btnShowTreatmentGroups" Click="btnShowTreatmentGroups_Click" FontWeight="SemiBold" Content="Groups" Width="100" Style="{StaticResource classicButton}" Height="40" Margin="7, 0, 0, 0"/>
+
             </StackPanel>
 
 

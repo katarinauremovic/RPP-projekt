@@ -395,5 +395,21 @@ namespace PresentationLayer.UserControls
                 dgvTreatments.Visibility = Visibility.Visible;
             }
         }
+
+        private void btnShowTreatmentGroups_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(ccSidebar.Content is ucTreatmentsGroupSidebar))
+            {
+                var groupsSidebar = new ucTreatmentsGroupSidebar();
+                groupsSidebar.ParentControl = this;
+
+                ccSidebar.Content = groupsSidebar;
+                ShowSidebar();
+            }
+            else
+            {
+                CloseSidebar();
+            }
+        }
     }
 }
