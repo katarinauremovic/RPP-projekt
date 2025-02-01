@@ -60,7 +60,7 @@ namespace PresentationLayer.UserControls
 
                 if (!IsValidPIN(txtPIN.Text))
                 {
-                    throw new InvalidPINException("PIN must contain exactly 11 digits.");
+                    throw new InvalidPINException("OIB must contain exactly 11 digits.");
                 }
 
                 if (!IsLettersOnly(txtFirstname.Text) || !IsLettersOnly(txtLastname.Text))
