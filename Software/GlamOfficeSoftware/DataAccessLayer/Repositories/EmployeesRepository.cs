@@ -66,7 +66,7 @@ namespace DataAccessLayer.Repositories
                 await SaveChangesAsync();
             }
         }
-        public async Task<IEnumerable<EmployeeDTO>> GetEmployeesByName(string name)
+        public async Task<IEnumerable<EmployeeDTO>> GetEmployeesByNameAsync(string name)
         {
             var employees = await (from emp in context.Employees
                                    join role in context.Roles on emp.Role_idRole equals role.idRole into roleGroup
@@ -92,7 +92,7 @@ namespace DataAccessLayer.Repositories
             return employees;
         }
 
-        public async Task<IEnumerable<EmployeeDTO>> GetEmployeesByLastName(string surname)
+        public async Task<IEnumerable<EmployeeDTO>> GetEmployeesByLastNameAsync(string surname)
         {
             var employees = await (from emp in context.Employees
                                    join role in context.Roles on emp.Role_idRole equals role.idRole into roleGroup
@@ -118,7 +118,7 @@ namespace DataAccessLayer.Repositories
             return employees;
         }
 
-        public async Task<IEnumerable<EmployeeDTO>> GetEmployeesByKeyPhrase(string word)
+        public async Task<IEnumerable<EmployeeDTO>> GetEmployeesByKeyPhraseAsync(string word)
         {
             var employees = await (from emp in context.Employees
                                    join role in context.Roles on emp.Role_idRole equals role.idRole into roleGroup
@@ -148,7 +148,7 @@ namespace DataAccessLayer.Repositories
             return employees;
         }
 
-        public async Task<IEnumerable<EmployeeDTO>> GetEmployeesByWorkPosition(string workPositionName)
+        public async Task<IEnumerable<EmployeeDTO>> GetEmployeesByWorkPositionAsync(string workPositionName)
         {
             var employees = await (from emp in context.Employees
                                    join role in context.Roles on emp.Role_idRole equals role.idRole into roleGroup
@@ -174,7 +174,7 @@ namespace DataAccessLayer.Repositories
             return employees;
         }
 
-        public async Task<IEnumerable<EmployeeDTO>> GetEmployeesByRole(string roleName)
+        public async Task<IEnumerable<EmployeeDTO>> GetEmployeesByRoleAsync(string roleName)
         {
             var employees = await (from emp in context.Employees
                                    join role in context.Roles on emp.Role_idRole equals role.idRole into roleGroup
@@ -199,5 +199,11 @@ namespace DataAccessLayer.Repositories
 
             return employees;
         }
+
+        public async Task<Employee> GetEmployeeByUsernameAsync(string username)
+        {
+            return await context.Employees.FirstOrDefaultAsync(e => e.Username == username);
+        }
+
     }
 }

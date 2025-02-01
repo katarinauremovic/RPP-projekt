@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PresentationLayer.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="240">
+             d:DesignHeight="800" d:DesignWidth="240" Loaded="UserControl_Loaded">
     <Grid>
         <Border Width="240" DockPanel.Dock="Right" Background="#b894ac">
             <Grid>
@@ -52,7 +52,7 @@
                         </Grid.RowDefinitions>
 
 
-                        <TextBlock Text="PIN:" Grid.Row="0" Margin="20,7,0,0"/>
+                        <TextBlock Text="OIB:" Grid.Row="0" Margin="20,7,0,0"/>
                         <Border Grid.Row="1" BorderThickness="1" BorderBrush="#acb0af" CornerRadius="20" Background="#ffffff" Margin="20,0,5,7">
                             <TextBox x:Name="txtPIN" Style="{StaticResource textBox}" Margin="10,5"/>
                         </Border>
@@ -83,9 +83,9 @@
 
                         <TextBlock Text="Password:" Grid.Row="10" Margin="20,7,0,0"/>
                         <Border Grid.Row="11" BorderThickness="1" BorderBrush="#acb0af" CornerRadius="20" Background="#ffffff" Margin="20,0,5,7">
-                            <PasswordBox x:Name="txtPassword" Style="{StaticResource textBox}" Margin="10,5"/>
+                            <TextBox x:Name="txtPassword" Style="{StaticResource textBox}" Margin="10,5"/>
                         </Border>
-
+                        
 
                         <TextBlock Text="Salt:" Grid.Row="12" Margin="20,7,0,0"/>
                         <Border Grid.Row="13" BorderThickness="1" BorderBrush="#acb0af" CornerRadius="20" Background="#ffffff" Margin="20,0,5,7">
@@ -101,27 +101,16 @@
 
                         <TextBlock Text="Role:" Grid.Row="16" Margin="20,7,0,0"/>
                         <Border Grid.Row="17" BorderThickness="1" BorderBrush="#acb0af" CornerRadius="20" Background="#ffffff" Margin="20,0,5,7">
-                            <ComboBox x:Name="cmbRole" Style="{StaticResource combobox}" Margin="10,5">
-                                <ComboBoxItem Content="Administrator"/>
-                                <ComboBoxItem Content="Regular User"/>
+                            <ComboBox x:Name="cmbRole" Style="{StaticResource combobox}" Foreground="#acb0af" Background="White" Margin="10,5" SelectionChanged="cmbRole_SelectionChanged">
+                                
                             </ComboBox>
                         </Border>
 
 
                         <TextBlock Text="Work Position:" Grid.Row="18" Margin="20,7,0,0"/>
                         <Border Grid.Row="19" BorderThickness="1" BorderBrush="#acb0af" CornerRadius="20" Background="#ffffff" Margin="20,0,5,7">
-                            <ComboBox x:Name="cmbWorkPosition" Style="{StaticResource combobox}" Margin="10,5">
-                                <ComboBoxItem Content="Cosmetologist"/>
-                                <ComboBoxItem Content="Hairdresser"/>
-                                <ComboBoxItem Content="Dermatologist"/>
-                                <ComboBoxItem Content="Permanent Makeup Technician"/>
-                                <ComboBoxItem Content="Maderotherapy Specialist"/>
-                                <ComboBoxItem Content="Trainer"/>
-                                <ComboBoxItem Content="Polish Specialist"/>
-                                <ComboBoxItem Content="Nail Specialist"/>
-                                <ComboBoxItem Content="Permanent Depilation Specialist"/>
-                                <ComboBoxItem Content="Paste Specialist"/>
-                                <ComboBoxItem Content="Wax Specialist"/>
+                            <ComboBox x:Name="cmbWorkPosition" Style="{StaticResource combobox}" Foreground="#acb0af" Background="White" Margin="10,5">
+                              
                             </ComboBox>
                         </Border>
                     </Grid>
@@ -129,6 +118,15 @@
 
                 <Grid Grid.Row="2">
                     <StackPanel Orientation="Vertical" Margin="0,15,0,15">
+                        <Button x:Name="btnGenerate"
+        Content="Generate Salt and Password"
+        Click="btnGenerate_Click"
+        FontWeight="SemiBold"
+        Height="40"
+        Style="{StaticResource classicButton}"
+        Background="#f5f5f5"
+        Foreground="Black"
+        Margin="15,0,15,7"/>
                         <Button x:Name="btnAddNewEmployee" Click="btnAddNewEmployee_Click" FontWeight="SemiBold" Height="40" Content="Save" Style="{StaticResource classicButton}" Background="#f5f5f5" Foreground="Black" Margin="15,0,15,7" />
                         <Button x:Name="btnCancel" Click="btnCancel_Click" FontWeight="SemiBold" Height="40" Content="Cancel" Style="{StaticResource deleteButton}" Background="#d02c2c" Margin="15,0,15,0" />
                     </StackPanel>

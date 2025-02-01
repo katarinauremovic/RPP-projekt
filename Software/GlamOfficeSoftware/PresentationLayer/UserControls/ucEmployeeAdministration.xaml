@@ -128,7 +128,7 @@
                 </DataGrid>
 
 
-                <TextBlock x:Name="loadingIndicator" Text="Loading clients, please wait..." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Foreground="Gray" Visibility="Visible" />
+                <TextBlock x:Name="loadingIndicator" Text="Loading employees, please wait..." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Foreground="Gray" Visibility="Visible" />
             </Grid>
         </DockPanel>
     </Grid>

@@ -12,14 +12,20 @@ namespace BusinessLogicLayer.Interfaces
     {
         Task<IEnumerable<EmployeeDTO>> GetAllEmployeesAsync();
 
-        Task<IEnumerable<EmployeeDTO>> GetEmployeesByName(string name);
+        Task<IEnumerable<EmployeeDTO>> GetEmployeesByNameAsync(string name);
 
-        Task<IEnumerable<EmployeeDTO>> GetEmployeesByLastName(string surname);
+        Task<IEnumerable<EmployeeDTO>> GetEmployeesByLastNameAsync(string surname);
 
-        Task<IEnumerable<EmployeeDTO>> GetEmployeesByKeyPhrase(string word);
+        Task<IEnumerable<EmployeeDTO>> GetEmployeesByKeyPhraseAsync(string word);
 
-        Task<IEnumerable<EmployeeDTO>> GetEmployeesByWorkPosition(string workPositionName);
+        Task<IEnumerable<EmployeeDTO>> GetEmployeesByWorkPositionAsync(string workPositionName);
 
-        Task<IEnumerable<EmployeeDTO>> GetEmployeesByRole(string roleName);
+        Task<IEnumerable<EmployeeDTO>> GetEmployeesByRoleAsync(string roleName);
+
+        Task AddNewEmployeeAsync(Employee employee);
+
+        Task<IEnumerable<WorkPosition>> GetWorkPositionsAsync();
+
+        Task<IEnumerable<Role>> GetRolesAsync();
     }
 }

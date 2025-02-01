@@ -218,6 +218,7 @@ namespace PresentationLayer.UserControls
                 {
                     ccSidebar.Content = null;
                 }
+            
 
             
         }
@@ -283,19 +284,19 @@ namespace PresentationLayer.UserControls
                 switch (selectedFilter)
                 {
                     case 0:
-                        employees = await _employeeService.GetEmployeesByName(searchText);
+                        employees = await _employeeService.GetEmployeesByNameAsync(searchText);
                         break;
                     case 1:
-                        employees = await _employeeService.GetEmployeesByLastName(searchText);
+                        employees = await _employeeService.GetEmployeesByLastNameAsync(searchText);
                         break;
                     case 2:
-                        employees = await _employeeService.GetEmployeesByKeyPhrase(searchText);
+                        employees = await _employeeService.GetEmployeesByKeyPhraseAsync(searchText);
                         break;
                     case 3:
-                        employees = await _employeeService.GetEmployeesByWorkPosition(searchText);
+                        employees = await _employeeService.GetEmployeesByWorkPositionAsync(searchText);
                         break;
                     case 4: 
-                        employees = await _employeeService.GetEmployeesByRole(searchText);
+                        employees = await _employeeService.GetEmployeesByRoleAsync(searchText);
                         break;
                     default:
                         MessageBox.Show("Invalid filter selection.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -339,11 +340,11 @@ namespace PresentationLayer.UserControls
 
                 if (cmbFilters.SelectedIndex == 3) 
                 {
-                    employees = await _employeeService.GetEmployeesByWorkPosition(selectedValue);
+                    employees = await _employeeService.GetEmployeesByWorkPositionAsync(selectedValue);
                 }
                 else if (cmbFilters.SelectedIndex == 4) 
                 {
-                    employees = await  _employeeService.GetEmployeesByRole(selectedValue);
+                    employees = await  _employeeService.GetEmployeesByRoleAsync(selectedValue);
                 }
 
                 dgvEmployees.ItemsSource = employees;
@@ -358,7 +359,7 @@ namespace PresentationLayer.UserControls
             }
         }
 
-        internal void CloseSideBarMenu()
+        public async void CloseSideBarMenu()
         {
             var slideOutAnimation = FindResource("SlideOutAnimation") as Storyboard;
             var sidebarMenu = (FrameworkElement)ccSidebar.Content;
@@ -374,8 +375,15 @@ namespace PresentationLayer.UserControls
                 };
             }
 
-            //await Task.Delay(500);
+            await Task.Delay(500);
             ccSidebar.Content = null;
+        }
+
+        public async void RefreshGui()
+        {
+            ShowLoadingIndicator(true);
+            await LoadEmployeesAsync();
+            ShowLoadingIndicator(false);
         }
     }
 }
