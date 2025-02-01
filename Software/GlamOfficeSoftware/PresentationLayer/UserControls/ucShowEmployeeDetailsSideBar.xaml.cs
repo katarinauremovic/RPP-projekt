@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BusinessLogicLayer.Services;
+using EntityLayer.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,10 +22,38 @@ namespace PresentationLayer.UserControls
     /// </summary>
     public partial class ucShowEmployeeDetailsSideBar : UserControl
     {
-        public ucShowEmployeeDetailsSideBar()
+        public EmployeeDTO SelectedEmployee { get; set; }
+
+        public ucEmployeeAdministration Parent { get; set; }
+
+        private EmployeeService _employeeService;
+        public ucShowEmployeeDetailsSideBar(EmployeeDTO employee)
         {
             InitializeComponent();
+            _employeeService = new EmployeeService();
+            SelectedEmployee = employee;
+            LoadEmployeeDetailsAsync();
         }
+
+        private async Task LoadEmployeeDetailsAsync()
+        {
+            if (SelectedEmployee != null)
+            {
+                txtPIN.Text = SelectedEmployee.PIN;
+                txtFirstname.Text = SelectedEmployee.Firstname;
+                txtLastname.Text = SelectedEmployee.Lastname;
+                txtEmail.Text = SelectedEmployee.Email;
+                txtUsername.Text = SelectedEmployee.Username;
+                txtPassword.Text = SelectedEmployee.Password;
+                txtSalt.Text = SelectedEmployee.Salt;
+                txtPhoneNumber.Text = SelectedEmployee.PhoneNumber;
+                txtRole.Text = SelectedEmployee.RoleName;
+                txtWorkPosition.Text = SelectedEmployee.WorkPositionName;
+
+
+            }
+        }
+        
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
@@ -33,6 +63,11 @@ namespace PresentationLayer.UserControls
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void btnCloseSidebar_Click(object sender, RoutedEventArgs e)
+        {
+            Parent.CloseSideBarMenu();
         }
     }
 }

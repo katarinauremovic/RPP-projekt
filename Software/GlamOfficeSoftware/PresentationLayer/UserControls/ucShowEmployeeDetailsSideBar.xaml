@@ -55,71 +55,71 @@
                         <StackPanel Grid.Row="0" Background="#f0dcdc">
                             <TextBlock Text="PIN:" HorizontalAlignment="Left" Margin="20,7,0,7"/>
                             <Border Grid.Row="1" BorderThickness="1" BorderBrush="#acb0af" CornerRadius="20" Background="#ffffff" Margin="20,0,5,7">
-                                <TextBox x:Name="txtPIN" Style="{StaticResource textBox}" Margin="10,5"/>
+                                <TextBlock x:Name="txtPIN"  Margin="10,5"/>
                             </Border>
                         </StackPanel>
 
 
                         <TextBlock Text="Firstname:" Grid.Row="2" Margin="20,7,0,0"/>
                         <Border Grid.Row="3" BorderThickness="1" BorderBrush="#acb0af" CornerRadius="20" Background="#ffffff" Margin="20,0,5,7">
-                            <TextBox x:Name="txtFirstname" Style="{StaticResource textBox}" Margin="10,5"/>
+                            <TextBlock x:Name="txtFirstname"  Margin="10,5"/>
                         </Border>
 
 
                         <StackPanel Grid.Row="4" Background="#f0dcdc">
                             <TextBlock Text="Lastname:" HorizontalAlignment="Left" Margin="20,7,0,7"/>
                             <Border Grid.Row="5" BorderThickness="1" BorderBrush="#acb0af" CornerRadius="20" Background="#ffffff" Margin="20,0,5,7">
-                                <TextBox x:Name="txtLastname" Style="{StaticResource textBox}" Margin="10,5"/>
+                                <TextBlock x:Name="txtLastname"  Margin="10,5"/>
                             </Border>
                         </StackPanel>
 
                         <TextBlock Text="E-mail:" Grid.Row="6" Margin="20,7,0,0"/>
                         <Border Grid.Row="7" BorderThickness="1" BorderBrush="#acb0af" CornerRadius="20" Background="#ffffff" Margin="20,0,5,7">
-                            <TextBox x:Name="txtEmail" Style="{StaticResource textBox}" Margin="10,5"/>
+                            <TextBlock x:Name="txtEmail" Margin="10,5"/>
                         </Border>
 
 
                         <StackPanel Grid.Row="8" Background="#f0dcdc">
                             <TextBlock Text="Username:" HorizontalAlignment="Left" Margin="20,7,0,7"/>
                             <Border Grid.Row="9" BorderThickness="1" BorderBrush="#acb0af" CornerRadius="20" Background="#ffffff" Margin="20,0,5,7">
-                                <TextBox x:Name="txtUsername" Style="{StaticResource textBox}" Margin="10,5"/>
+                                <TextBlock x:Name="txtUsername"  Margin="10,5"/>
                             </Border>
                         </StackPanel>
 
 
                         <TextBlock Text="Password:" Grid.Row="10" Margin="20,7,0,0"/>
                         <Border Grid.Row="11" BorderThickness="1" BorderBrush="#acb0af" CornerRadius="20" Background="#ffffff" Margin="20,0,5,7">
-                            <TextBox x:Name="txtPassword" Style="{StaticResource textBox}" Margin="10,5"/>
+                            <TextBlock x:Name="txtPassword"  Margin="10,5"/>
                         </Border>
 
 
                         <StackPanel Grid.Row="12" Background="#f0dcdc">
                             <TextBlock Text="Salt:" HorizontalAlignment="Left" Margin="20,7,0,7"/>
                             <Border Grid.Row="13" BorderThickness="1" BorderBrush="#acb0af" CornerRadius="20" Background="#ffffff" Margin="20,0,5,7">
-                                <TextBox x:Name="txtSalt" Style="{StaticResource textBox}" Margin="10,5"/>
+                                <TextBlock x:Name="txtSalt"  Margin="10,5"/>
                             </Border>
                         </StackPanel>
 
 
                         <TextBlock Text="Phone number:" Grid.Row="14" Margin="20,7,0,0"/>
                         <Border Grid.Row="15" BorderThickness="1" BorderBrush="#acb0af" CornerRadius="20" Background="#ffffff" Margin="20,0,5,7">
-                            <TextBox x:Name="txtPhoneNumber" Style="{StaticResource textBox}" Margin="10,5"/>
+                            <TextBlock x:Name="txtPhoneNumber"  Margin="10,5"/>
                         </Border>
 
 
                         <StackPanel Grid.Row="16" Background="#f0dcdc">
                             <TextBlock Text="Role:" HorizontalAlignment="Left" Margin="20,7,0,7"/>
                             <Border Grid.Row="17" BorderThickness="1" BorderBrush="#acb0af" CornerRadius="20" Background="#ffffff" Margin="20,0,5,7">
-                                <ComboBox x:Name="cmbRole" Style="{StaticResource combobox}"  Background="White" Foreground="#acb0af" Margin="10,5"/>
+                                <TextBlock x:Name="txtRole"   Background="White" Foreground="#acb0af" Margin="10,5"/>
                             </Border>
                         </StackPanel>
 
 
                         <TextBlock Text="Work Position:" Grid.Row="18" Margin="20,7,0,0"/>
                         <Border Grid.Row="19" BorderThickness="1" BorderBrush="#acb0af" CornerRadius="20" Background="#ffffff" Margin="20,0,5,7">
-                            <ComboBox x:Name="cmbWorkPosition" Style="{StaticResource combobox}" Foreground="#acb0af" Background="White" Margin="10,5">
+                            <TextBlock x:Name="txtWorkPosition"  Foreground="#acb0af" Background="White" Margin="10,5">
 
-                            </ComboBox>
+                            </TextBlock>
                         </Border>
                     </Grid>
                 </ScrollViewer>

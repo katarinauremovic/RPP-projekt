@@ -1,6 +1,7 @@
 ﻿using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.Services;
 using EntityLayer.DTOs;
+using EntityLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,7 @@ namespace PresentationLayer.UserControls
     {
         private EmployeeService _employeeService = new EmployeeService();
         private ucAddNewEmployee _addNewEmployeeSidebar;
+        public EmployeeDTO _selectedEmployee;
         public MainWindow Parent { get; set; }
         public ucEmployeeAdministration()
         {
@@ -200,7 +202,18 @@ namespace PresentationLayer.UserControls
 
         private void btnShowEmployeesDetails_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (_selectedEmployee != null)
+            {
+                var detailsSidebar = new ucShowEmployeeDetailsSideBar(_selectedEmployee);
+                detailsSidebar.Parent = this;
+                ccSidebar.Content = detailsSidebar;
+                ShowSidebar();
+            }
+            else
+            {
+                MessageBox.Show("Please select an employee first.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
         }
 
         private void btnAddNewEmployee_Click(object sender, RoutedEventArgs e)
@@ -239,8 +252,15 @@ namespace PresentationLayer.UserControls
 
         private void dgvEmployees_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            if (dgvEmployees.SelectedItem is EmployeeDTO selectedEmployee)
+            {
+                _selectedEmployee = selectedEmployee;
+            }
         }
+
+       
+
+       
 
         private void textSearch_MouseDown(object sender, MouseButtonEventArgs e)
         {
