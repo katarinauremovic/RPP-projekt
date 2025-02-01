@@ -12,6 +12,7 @@ using System.Windows.Threading;
 using BusinessLogicLayer.Services;
 using BusinessLogicLayer.Exceptions;
 using System.Threading;
+using BusinessLogicLayer;
 
 namespace PresentationLayer.Windows
 {
@@ -27,53 +28,71 @@ namespace PresentationLayer.Windows
         {
             InitializeComponent();
             Timer = new DispatcherTimer();
-            Timer.Interval = TimeSpan.FromMilliseconds(250);
+            Timer.Interval = TimeSpan.FromMilliseconds(150);
             Timer.Tick += Timer_Tick;
             _loginOptions = loginOptions;
         }
 
         private bool isProcessingQRCode = false;
+        private DateTime lastScanTime = DateTime.MinValue;
 
         private async void Timer_Tick(object sender, EventArgs e)
         {
             if (isProcessingQRCode || Finalframe == null || !Finalframe.IsRunning || imgCamera.Source == null)
                 return;
 
+            if ((DateTime.Now - lastScanTime).TotalMilliseconds < 500)
+                return;
+
             Bitmap bitmap = ConvertImageSourceToBitmap(imgCamera.Source);
             if (bitmap == null)
                 return;
 
+            lastScanTime = DateTime.Now;
+            isProcessingQRCode = true;
+
             string decodedText = await DecodeQRCodeAsync(bitmap);
             if (decodedText == null)
+            {
+                isProcessingQRCode = false;
                 return;
+            }
 
             await HandleLoginAsync(decodedText);
+            isProcessingQRCode = false;
         }
 
         private async Task<string> DecodeQRCodeAsync(Bitmap bitmap)
         {
+            if (bitmap == null)
+                return null;
+
             return await Task.Run(() =>
             {
-                BarcodeReader barcodeReader = new BarcodeReader();
-                var result = barcodeReader.Decode(bitmap);
-                if (result == null || string.IsNullOrWhiteSpace(result.Text))
+                try
+                {
+                    BarcodeReader barcodeReader = new BarcodeReader();
+                    var result = barcodeReader.Decode(new Bitmap(bitmap));
+                    return result?.Text.Trim();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Greška pri dekodiranju QR koda: {ex.Message}");
                     return null;
-                return result.Text.Trim();
+                }
             });
         }
 
         private async Task HandleLoginAsync(string decodedText)
         {
-            if (isProcessingQRCode)
+            if (string.IsNullOrWhiteSpace(decodedText))
                 return;
-
-            isProcessingQRCode = true;
 
             try
             {
                 var employee = await Task.Run(async () =>
                 {
-                    using (var timeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(5))) // Timeout od 5 sekundi
+                    using (var timeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(5)))
                     {
                         return await EmployeeService.LogInWithQRCodeAsync(decodedText);
                     }
@@ -81,6 +100,7 @@ namespace PresentationLayer.Windows
 
                 if (employee != null)
                 {
+                    LoggedInEmployee.SetLoggedInEmployee(employee);
                     await StopCameraAsync();
                     Dispatcher.Invoke(() =>
                     {
@@ -96,15 +116,11 @@ namespace PresentationLayer.Windows
             }
             catch (TaskCanceledException)
             {
-                ShowErrorMessage("Prijava putem QR koda je predugo trajala. Pokušajte ponovno.");
+                ShowErrorMessage("Prijava je predugo trajala. Pokušajte ponovno.");
             }
             catch (Exception ex)
             {
-                ShowErrorMessage($"Došlo je do greške: {ex.Message}");
-            }
-            finally
-            {
-                isProcessingQRCode = false;
+                ShowErrorMessage($"Greška: {ex.Message}");
             }
         }
 

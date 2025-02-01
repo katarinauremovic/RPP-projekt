@@ -91,6 +91,7 @@
     <Compile Include="Interfaces\IReceiptService.cs" />
     <Compile Include="Interfaces\IReservationService.cs" />
     <Compile Include="Interfaces\IRewardService.cs" />
+    <Compile Include="LoggedInEmployee.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ClientGmailService.cs" />
     <Compile Include="Services\ClientHasRewardService.cs" />

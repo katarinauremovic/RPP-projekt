@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.Services;
+﻿using BusinessLogicLayer;
+using BusinessLogicLayer.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +46,7 @@ namespace PresentationLayer.Windows
             }
             var employee = await _employeeService.LogInWithCredentialsAsync(username, password);
             if (employee != null) {
+                LoggedInEmployee.SetLoggedInEmployee(employee);
                 var mainWindow = new MainWindow();
                 mainWindow.Show();
                 this.Hide();
