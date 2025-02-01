@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using BusinessLogicLayer.Services;
 using BusinessLogicLayer.Exceptions;
+using System.Threading;
 
 namespace PresentationLayer.Windows
 {
@@ -31,59 +32,88 @@ namespace PresentationLayer.Windows
             _loginOptions = loginOptions;
         }
 
+        private bool isProcessingQRCode = false;
+
         private async void Timer_Tick(object sender, EventArgs e)
         {
-            if (Finalframe == null || !Finalframe.IsRunning)
-                return;
-
-            if (imgCamera.Source == null)
+            if (isProcessingQRCode || Finalframe == null || !Finalframe.IsRunning || imgCamera.Source == null)
                 return;
 
             Bitmap bitmap = ConvertImageSourceToBitmap(imgCamera.Source);
             if (bitmap == null)
                 return;
 
-            BarcodeReader barcodeReader = new BarcodeReader();
-            var result = await Task.Run(() => barcodeReader.Decode(bitmap));
-
-            if (result == null || string.IsNullOrWhiteSpace(result.Text) || result.Text.Trim().Length < 5)
+            string decodedText = await DecodeQRCodeAsync(bitmap);
+            if (decodedText == null)
                 return;
 
-            string decodedText = result.Text.Trim();
+            await HandleLoginAsync(decodedText);
+        }
 
-            _ = Task.Run(async () =>
+        private async Task<string> DecodeQRCodeAsync(Bitmap bitmap)
+        {
+            return await Task.Run(() =>
             {
-                try
-                {
-                    var employee = await EmployeeService.LogInWithQRCodeAsync(decodedText);
+                BarcodeReader barcodeReader = new BarcodeReader();
+                var result = barcodeReader.Decode(bitmap);
+                if (result == null || string.IsNullOrWhiteSpace(result.Text))
+                    return null;
+                return result.Text.Trim();
+            });
+        }
 
-                    if (employee != null)
-                    {
-                        await StopCameraAsync();
-                        Dispatcher.Invoke(() =>
-                        {
-                            var mainWindow = new MainWindow();
-                            mainWindow.Show();
-                            this.Hide();
-                        });
-                    }
-                    else
-                    {
-                        Dispatcher.Invoke(() =>
-                        {
-                            lblErrorMessage.Content = "QR kod nije valjan ili ne sadrži ispravne podatke.";
-                            lblErrorMessage.Visibility = Visibility.Visible;
-                        });
-                    }
-                }
-                catch (Exception ex)
+        private async Task HandleLoginAsync(string decodedText)
+        {
+            if (isProcessingQRCode)
+                return;
+
+            isProcessingQRCode = true;
+
+            try
+            {
+                var employee = await Task.Run(async () =>
                 {
+                    using (var timeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(5))) // Timeout od 5 sekundi
+                    {
+                        return await EmployeeService.LogInWithQRCodeAsync(decodedText);
+                    }
+                });
+
+                if (employee != null)
+                {
+                    await StopCameraAsync();
                     Dispatcher.Invoke(() =>
                     {
-                        lblErrorMessage.Content = $"Došlo je do greške: {ex.Message}";
-                        lblErrorMessage.Visibility = Visibility.Visible;
+                        var mainWindow = new MainWindow();
+                        mainWindow.Show();
+                        this.Hide();
                     });
                 }
+                else
+                {
+                    ShowErrorMessage("QR kod nije valjan ili ne sadrži ispravne podatke.");
+                }
+            }
+            catch (TaskCanceledException)
+            {
+                ShowErrorMessage("Prijava putem QR koda je predugo trajala. Pokušajte ponovno.");
+            }
+            catch (Exception ex)
+            {
+                ShowErrorMessage($"Došlo je do greške: {ex.Message}");
+            }
+            finally
+            {
+                isProcessingQRCode = false;
+            }
+        }
+
+        private void ShowErrorMessage(string message)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                lblErrorMessage.Content = message;
+                lblErrorMessage.Visibility = Visibility.Visible;
             });
         }
 
