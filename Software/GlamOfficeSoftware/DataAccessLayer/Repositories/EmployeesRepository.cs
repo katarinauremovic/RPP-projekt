@@ -61,6 +61,7 @@ namespace DataAccessLayer.Repositories
                 employeeDb.PhoneNumber = employee.PhoneNumber;
                 employeeDb.Username = employee.Username;
                 employeeDb.Password = employee.Password;
+                employeeDb.Salt = employee.Salt;
                 employeeDb.Role_idRole = employee.Role_idRole;
                 employeeDb.WorkPosition_idWorkPosition=employee.WorkPosition_idWorkPosition;
                 await SaveChangesAsync();

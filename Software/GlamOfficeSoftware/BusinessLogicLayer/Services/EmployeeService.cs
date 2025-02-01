@@ -102,5 +102,13 @@ namespace BusinessLogicLayer.Services
                 await repo.DeleteEmployeeAsync(employeeId);
             }
         }
+
+        public async Task UpdateEmployeeAsync(Employee employee)
+        {
+            using (var repo = new EmployeesRepository())
+            {
+                await repo.UpdateEmployeeAsync(employee);
+            }
+        }
     }
 }

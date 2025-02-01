@@ -57,7 +57,16 @@ namespace PresentationLayer.UserControls
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
+            if (SelectedEmployee == null)
+            {
+                MessageBox.Show("No employee selected!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
+            var editSidebar = new ucEditEmployeeDetails(SelectedEmployee);
+            editSidebar.Parent = Parent;
+
+            Parent.ccSidebar.Content = editSidebar;
         }
 
         private async void btnDelete_Click(object sender, RoutedEventArgs e)
