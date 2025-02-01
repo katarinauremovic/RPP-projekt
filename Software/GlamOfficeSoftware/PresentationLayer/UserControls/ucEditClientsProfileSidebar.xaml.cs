@@ -214,12 +214,9 @@ namespace PresentationLayer.UserControls
                 }
             });
 
-            //osigurač
             ucClientAdministration.SwitchClient(clientDTO);
         }
 
-
-        //Provjere
         private bool IsLettersOnly(string value)
         {
             return !string.IsNullOrEmpty(value) && value.All(c => char.IsLetter(c) || char.IsWhiteSpace(c) || c == '-');

@@ -12,40 +12,7 @@ namespace BusinessLogicLayer.Services
 {
     public class ReservationService : IReservationService
     {
-        public async Task<IEnumerable<Reservation>> GetAllReservationsAsync()
-        {
-            using (var repo = new ReservationRepository())
-            {
-                return await repo.GetAllAsync();
-            }
-        }
-
-        public async Task<Reservation> GetReservationByIdAsync(int reservationId)
-        {
-            using (var repo = new ReservationRepository())
-            {
-                return await repo.GetByIdAsync(reservationId);
-            }
-        }
-
-        public async Task AddNewReservationAsync(Reservation reservation)
-        {
-            using (var repo = new ReservationRepository())
-            {
-                await repo.AddAsync(reservation);
-            }
-        }
-
-        public async Task<Reservation> UpdateReservationAsync(Reservation reservation)
-        {
-            using (var repo = new ReservationRepository())
-            {
-                await repo.UpdateReservationAsync(reservation);
-                return reservation;
-            }
-        }
-
-        public async Task ChangeReservationStatusAsync(int reservationId, ReservationStatuses status)
+        public async Task ChangeReservationStatusAndPaymentAsync(int reservationId, ReservationStatuses status, bool isPaid)
         {
             using (var repo = new ReservationRepository())
             {
@@ -53,6 +20,7 @@ namespace BusinessLogicLayer.Services
                 if (reservation != null)
                 {
                     reservation.Status = status.ToString();
+                    reservation.isPaid = isPaid;
                     await repo.UpdateReservationAsync(reservation);                
                 }
             }

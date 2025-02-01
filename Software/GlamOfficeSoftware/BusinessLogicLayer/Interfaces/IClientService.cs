@@ -21,18 +21,8 @@ namespace BusinessLogicLayer.Interfaces
         Task<IEnumerable<ClientDTO>> GetClientsByPhoneNumberPattern(string phoneNumberPattern);
         Task<bool> IsClientInTheRewardSystemAsync(int clientId);
         Task AddClientToRewardSystemAsync(int clientId);
+        Task UpdateClientsLoyaltyLevelAsync(int clientId, int loyaltyLevelId);
         Task AddPointsToClientAsync(int clientId, int points);
         Task SubtractPointsFromClientAsync(int clientId, int pointsToSubtract);
-
-
-        Task<Client> GetByEmailAsync(string email);
-        Task<IEnumerable<Client>> GetWithActiveGiftCardsAsync();
-        Task<IEnumerable<Client>> GetWithDetailsAsync();
-        Task<bool> ExistsByPhoneNumberAsync(string phoneNumber);
-        Task<IEnumerable<Client>> GetClientsBySpendingAsync(decimal topN);
-        Task<IEnumerable<Client>> GetClientsWithReservationsInDateRangeAsync(DateTime startDate, DateTime endDate);
-        Task<IEnumerable<Client>> GetClientsWithoutReservationsAsync();
-        Task<IEnumerable<Client>> GetClientsWithExpiredGiftCardsAsync();
-        Task<IEnumerable<Client>> GetClientsByRewardTypeAsync(string rewardType);
     }
 }

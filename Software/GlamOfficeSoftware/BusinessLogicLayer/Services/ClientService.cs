@@ -4,6 +4,7 @@ using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
 using EntityLayer.DTOs;
 using EntityLayer.Entities;
+using EntityLayer.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,7 +70,7 @@ namespace BusinessLogicLayer.Services
                 Email = client.Email,
                 PhoneNumber = client.PhoneNumber,
                 Points = client.Points.Value,
-                LoyaltyLevel = client.LoyaltyLevel?.Name ?? "Not in reward system",
+                LoyaltyLevel = client.LoyaltyLevel.Name,
                 GiftCardDescription = client.GiftCard?.Description ?? "No GiftCard",
                 ReservationsDates = client.Reservations.Any()
                     ? string.Join(", ", client.Reservations.Select(r => r.Date.ToString().Split(' ')[0]))
@@ -150,6 +151,16 @@ namespace BusinessLogicLayer.Services
             }
         }
 
+        public async Task UpdateClientsLoyaltyLevelAsync(int clientId, int loyaltyLevelId)
+        {
+            using (var repo = new ClientRepository())
+            {
+                var client = await repo.GetByIdAsync(clientId);
+                client.LoyaltyLevel_id = loyaltyLevelId;
+                await repo.UpdateClientAsync(client);
+            }
+        }
+
         public async Task AddPointsToClientAsync(int clientId, int pointsToAdd)
         {
             using (var repo = new ClientRepository())
@@ -158,7 +169,7 @@ namespace BusinessLogicLayer.Services
                 client.Points = client.Points + pointsToAdd;
 
                 var rewardSystem = new RewardSystem();
-                await rewardSystem.UpdateClientsLoyaltyLevelAsync(client);
+                client.LoyaltyLevel_id = await rewardSystem.UpdateClientsLoyaltyLevelAsync(client);
 
                 await repo.UpdateClientAsync(client);
             }
@@ -182,7 +193,6 @@ namespace BusinessLogicLayer.Services
                 await repo.UpdateClientAsync(client);
             }
         }
-
 
         private async Task<Client> ConvertClientDtoToClient(ClientDTO clientDTO)
         {
@@ -209,78 +219,6 @@ namespace BusinessLogicLayer.Services
             client.PhoneNumber = clientDTO.PhoneNumber;
 
             return client;
-        }
-
-        public async Task<Client> GetByEmailAsync(string email)
-        {
-            using (var repo = new ClientRepository())
-            {
-                return await repo.GetByEmailAsync(email);
-            }
-        }
-
-        public async Task<IEnumerable<Client>> GetWithActiveGiftCardsAsync()
-        {
-            using (var repo = new ClientRepository())
-            {
-                return await repo.GetWithActiveGiftCardsAsync();
-            }
-        }
-
-        public async Task<IEnumerable<Client>> GetWithDetailsAsync()
-        {
-            using (var repo = new ClientRepository())
-            {
-                return await repo.GetWithDetailsAsync();
-            }
-        }
-
-        public async Task<bool> ExistsByPhoneNumberAsync(string phoneNumber)
-        {
-            using (var repo = new ClientRepository())
-            {
-                return await repo.ExistsByPhoneNumberAsync(phoneNumber);
-            }
-        }
-
-        public async Task<IEnumerable<Client>> GetClientsBySpendingAsync(decimal topN)
-        {
-            using (var repo = new ClientRepository())
-            {
-                return await repo.GetClientsBySpendingAsync(topN);
-            }
-        }
-
-        public async Task<IEnumerable<Client>> GetClientsWithReservationsInDateRangeAsync(DateTime startDate, DateTime endDate)
-        {
-            using (var repo = new ClientRepository())
-            {
-                return await repo.GetClientsWithReservationsInDateRangeAsync(startDate, endDate);
-            }
-        }
-
-        public async Task<IEnumerable<Client>> GetClientsWithoutReservationsAsync()
-        {
-            using (var repo = new ClientRepository())
-            {
-                return await repo.GetClientsWithoutReservationsAsync();
-            }
-        }
-
-        public async Task<IEnumerable<Client>> GetClientsWithExpiredGiftCardsAsync()
-        {
-            using (var repo = new ClientRepository())
-            {
-                return await repo.GetClientsWithExpiredGiftCardsAsync();
-            }
-        }
-
-        public async Task<IEnumerable<Client>> GetClientsByRewardTypeAsync(string rewardType)
-        {
-            using (var repo = new ClientRepository())
-            {
-                return await repo.GetClientsByRewardTypeAsync(rewardType);
-            }
         }
     }
 }

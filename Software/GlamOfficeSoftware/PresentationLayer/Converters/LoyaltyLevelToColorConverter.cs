@@ -17,45 +17,44 @@ namespace PresentationLayer.Converters
                         return new LinearGradientBrush(
                             new GradientStopCollection
                             {
-                                new GradientStop(Color.FromArgb(255, 205, 127, 50), 0.0),  // Tamnija brončana
-                                new GradientStop(Color.FromArgb(255, 218, 165, 105), 1.0)  // Svjetlija brončana
+                                new GradientStop(Color.FromArgb(255, 205, 127, 50), 0.0),
+                                new GradientStop(Color.FromArgb(255, 218, 165, 105), 1.0)
                             }, 45);
 
                     case "silver":
                         return new LinearGradientBrush(
                             new GradientStopCollection
                             {
-                                new GradientStop(Color.FromArgb(255, 192, 192, 192), 0.0),  // Srebrna
-                                new GradientStop(Color.FromArgb(255, 224, 224, 224), 1.0)  // Svjetlija srebrna
+                                new GradientStop(Color.FromArgb(255, 192, 192, 192), 0.0),
+                                new GradientStop(Color.FromArgb(255, 224, 224, 224), 1.0)
                             }, 45);
 
                     case "gold":
                         return new LinearGradientBrush(
                             new GradientStopCollection
                             {
-                                new GradientStop(Color.FromArgb(255, 255, 215, 0), 0.0),  // Zlatna
-                                new GradientStop(Color.FromArgb(255, 255, 223, 85), 1.0) // Svjetlija zlatna
+                                new GradientStop(Color.FromArgb(255, 255, 215, 0), 0.0),
+                                new GradientStop(Color.FromArgb(255, 255, 223, 85), 1.0)
                             }, 45);
 
                     case "platinum":
                         return new LinearGradientBrush(
                             new GradientStopCollection
                             {
-                                new GradientStop(Color.FromArgb(255, 229, 228, 226), 0.0),  // Tamnija platinasta
-                                new GradientStop(Color.FromArgb(255, 250, 250, 250), 1.0)  // Svjetlija platinasta
+                                new GradientStop(Color.FromArgb(255, 229, 228, 226), 0.0),
+                                new GradientStop(Color.FromArgb(255, 250, 250, 250), 1.0)
                             }, 45);
 
                     case "vip":
                         return new LinearGradientBrush(
                             new GradientStopCollection
                             {
-                                new GradientStop(Color.FromArgb(255, 0, 0, 0), 0.0),       // Crna
-                                new GradientStop(Color.FromArgb(255, 55, 55, 55), 1.0)    // Tamno siva
+                                new GradientStop(Color.FromArgb(255, 0, 0, 0), 0.0),
+                                new GradientStop(Color.FromArgb(255, 55, 55, 55), 1.0)
                             }, 45);
 
                     default:
-                        // Zadana boja
-                        return new SolidColorBrush(Color.FromArgb(255, 184, 148, 172)); // Ljubičasta
+                        return new SolidColorBrush(Color.FromArgb(255, 184, 148, 172));
                 }
             }
             return Binding.DoNothing;

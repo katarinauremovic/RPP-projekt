@@ -8,6 +8,7 @@ namespace EntityLayer.Enums
 {
     public enum LoyaltyLevels
     {
+        NotInRewardSystem,
         None,
         Bronze,
         Silver,

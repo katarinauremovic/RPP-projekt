@@ -13,6 +13,14 @@ namespace BusinessLogicLayer.Services
 {
     public class RewardService : IRewardService
     {
+        public async Task AddRewardAsync(Reward reward)
+        {
+            using (var repo = new RewardRepository())
+            {
+                await repo.AddAsync(reward);
+            }
+        }
+
         public async Task<IEnumerable<Reward>> GetRewardsAsync()
         {
             using (var repo = new RewardRepository())
@@ -36,7 +44,7 @@ namespace BusinessLogicLayer.Services
                 var strLoyaltyLevelName = loyaltyLevelName.ToString();
                 var rewards = await repo.GetRewardsByLoyaltyLevelNameAsync(strLoyaltyLevelName);
                 var rewardsDto = rewards.Select(ConvertRewardToRewardDto);
-                return rewardsDto;
+                return rewardsDto.OrderBy(r => r.CostPoints);
             }
         }
 
@@ -46,7 +54,7 @@ namespace BusinessLogicLayer.Services
             {
                 var rewards = await repo.GetAllAsync();
                 var rewardsDto = rewards.Select(ConvertRewardToRewardDto);
-                return rewardsDto;
+                return rewardsDto.OrderBy(r => r.CostPoints);
             }
         }
 
@@ -56,7 +64,7 @@ namespace BusinessLogicLayer.Services
             {
                 var rewards = await repo.GetRewardsWithinClientsPointsAsync(points);
                 var rewardsDto = rewards.Select(ConvertRewardToRewardDto);
-                return rewardsDto;
+                return rewardsDto.OrderBy(r => r.CostPoints);
             }
         }
 
@@ -69,7 +77,7 @@ namespace BusinessLogicLayer.Services
 
                 var rewards = await repo.GetRewardsWithinClientsPointsAsync(loyaltyLevel.RequiredPoints);
 
-                return rewards;
+                return rewards.OrderBy(r => r.CostPoints);
             }
         }
 
@@ -83,7 +91,7 @@ namespace BusinessLogicLayer.Services
                 var rewards = await repo.GetRewardsWithinClientsPointsAsync(loyaltyLevel.RequiredPoints);
                 
                 var rewardsDto = rewards.Select(ConvertRewardToRewardDto);
-                return rewardsDto;
+                return rewardsDto.OrderBy(r => r.CostPoints);
             }
         }
 
