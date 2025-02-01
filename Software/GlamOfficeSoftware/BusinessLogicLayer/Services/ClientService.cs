@@ -47,16 +47,19 @@ namespace BusinessLogicLayer.Services
         {
             using (var repo = new ClientRepository())
             {
-                try
-                {
-                    var client = await UpdateClientFromClientDTO(clientDTO);
+                var client = await repo.GetByIdAsync(clientDTO.Id);
 
-                    await repo.UpdateClientAsync(client);
-                } catch (ClientNotFoundException ex)
+                if (client == null)
                 {
-                    Console.WriteLine(ex.Message);
-                    throw;
+                    throw new ClientNotFoundException($"Client with ID {clientDTO.Id} does not exist.");
                 }
+
+                client.Firstname = clientDTO.Firstname;
+                client.Lastname = clientDTO.Lastname;
+                client.Email = clientDTO.Email;
+                client.PhoneNumber = clientDTO.PhoneNumber;
+
+                await repo.UpdateClientAsync(client);         
             }
         }
 
@@ -93,7 +96,7 @@ namespace BusinessLogicLayer.Services
         {
             using (var repo = new ClientRepository())
             {
-                var client = await ConvertClientDtoToClient(clientDTO);
+                var client = await repo.GetByIdAsync(clientDTO.Id);
 
                 await repo.RemoveAsync(client);
             }
@@ -192,33 +195,6 @@ namespace BusinessLogicLayer.Services
 
                 await repo.UpdateClientAsync(client);
             }
-        }
-
-        private async Task<Client> ConvertClientDtoToClient(ClientDTO clientDTO)
-        {
-            using (var repo = new ClientRepository())
-            {
-                var client = await repo.GetByIdAsync(clientDTO.Id);
-
-                if(client == null)
-                {
-                    throw new ClientNotFoundException($"Client with ID {clientDTO.Id} does not exist.");
-                }
-
-                return client;
-            }
-        }
-
-        private async Task<Client> UpdateClientFromClientDTO(ClientDTO clientDTO)
-        {
-            var client = await ConvertClientDtoToClient(clientDTO);
-
-            client.Firstname = clientDTO.Firstname;
-            client.Lastname = clientDTO.Lastname;
-            client.Email = clientDTO.Email;
-            client.PhoneNumber = clientDTO.PhoneNumber;
-
-            return client;
         }
     }
 }
