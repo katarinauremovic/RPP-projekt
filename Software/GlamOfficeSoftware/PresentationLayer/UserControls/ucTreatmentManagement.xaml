@@ -31,21 +31,39 @@
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Left">
 
                 <StackPanel Orientation="Horizontal">
-
                     <StackPanel>
-                        <TextBlock Text="Search treatments:" Margin="0, 5" />
-                        <Border BorderThickness="1" BorderBrush="#acb0af" CornerRadius="20" Background="#ffffff" HorizontalAlignment="Left">
-                            <Grid Margin="7 9">
+                        <TextBlock Text="Search treatments:" Margin="7,5" />
+                        <Border BorderThickness="1" Width="190" BorderBrush="#acb0af" CornerRadius="20" Height="40" Background="#b894ac" Margin="7,0" HorizontalAlignment="Left">
+                            <Grid Margin="7,9">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="auto" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock x:Name="textSearch" Width="150" Style="{StaticResource placeholder}" Margin="7,0,0,0" Visibility="Collapsed"/>
-                                <TextBox x:Name="txtSearch" Width="160" Style="{StaticResource textBox}" Visibility="Collapsed" />
-                                <ComboBox x:Name="cmbFilterValues" Width="200" Visibility="Collapsed" />
+
+                                <TextBox x:Name="txtSearch" Grid.Column="0" Width="140" Height="30" 
+                     Style="{StaticResource textBox}" VerticalAlignment="Center" 
+                     Visibility="Collapsed" TextChanged="txtSearch_TextChanged" 
+                     Margin="7,0,0,0"/>
+
+                                <ComboBox x:Name="cmbFilterValues" Grid.Column="0" Width="140" Height="30"
+                      Style="{StaticResource combobox}" VerticalAlignment="Center" 
+                      Visibility="Collapsed" SelectionChanged="cmbFilterValues_SelectionChanged"
+                      Margin="7,0,0,0"/>
+
+                                <Button x:Name="btnDropdownSearch" Grid.Column="1" Click="btnDropdownSearch_Click">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Grid>
+                                                <Image Source="/Images/dropdown-arrow.png" Width="20" />
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
                             </Grid>
                         </Border>
                     </StackPanel>
+
+
 
 
                     <StackPanel>

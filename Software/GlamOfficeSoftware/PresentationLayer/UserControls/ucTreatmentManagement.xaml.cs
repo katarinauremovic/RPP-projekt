@@ -69,8 +69,12 @@ namespace PresentationLayer.UserControls
         }
         private async void LoadDataGrid()
         {
+            loadingIndicator.Visibility = Visibility.Visible;  
+            dgvTreatments.Visibility = Visibility.Collapsed;
             var treatments = await _treatmentService.GetAllTreatmentsAsync();
             dgvTreatments.ItemsSource = treatments;
+            loadingIndicator.Visibility = Visibility.Collapsed;
+            dgvTreatments.Visibility = Visibility.Visible;
         }
 
         private async void cmbFilters_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -90,9 +94,11 @@ namespace PresentationLayer.UserControls
             {
                 txtSearch.Visibility = Visibility.Visible;
                 cmbFilterValues.Visibility = Visibility.Collapsed;
+                btnDropdownSearch.Visibility = Visibility.Collapsed;
             }
             else
             {
+                btnDropdownSearch.Visibility = Visibility.Visible;
                 txtSearch.Visibility = Visibility.Collapsed;
                 cmbFilterValues.Visibility = Visibility.Visible;
                 await LoadFilterValues(selectedFilter);
@@ -123,5 +129,48 @@ namespace PresentationLayer.UserControls
             cmbFilterValues.SelectedIndex = 0;
         }
 
+        private async void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtSearch.Text))
+            {
+                LoadDataGrid();
+                return;
+            }
+            loadingIndicator.Visibility = Visibility.Visible;
+            dgvTreatments.Visibility = Visibility.Collapsed;
+
+            var filteredTreatments = await _treatmentService.GetTreatmentByNameAsync(txtSearch.Text);
+
+            dgvTreatments.ItemsSource = filteredTreatments;
+            loadingIndicator.Visibility = Visibility.Collapsed;
+            dgvTreatments.Visibility = Visibility.Visible;
+        }
+
+        private async void cmbFilterValues_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbFilterValues.SelectedItem == null)
+                return;
+            loadingIndicator.Visibility = Visibility.Visible;
+            dgvTreatments.Visibility = Visibility.Collapsed;
+
+            string selectedFilter = cmbFilters.SelectedItem.ToString(); 
+            int selectedId = (int)((ComboBoxItem)cmbFilterValues.SelectedItem).Tag; 
+
+            if (selectedFilter == "Treatment group")
+            {
+                dgvTreatments.ItemsSource = await _treatmentService.GetTreatmentsByGroupAsync(selectedId);
+            }
+            else if (selectedFilter == "Work position")
+            {
+                dgvTreatments.ItemsSource = await _treatmentService.GetTreatmentsByWorkPositionAsync(selectedId);
+            }
+            loadingIndicator.Visibility = Visibility.Collapsed;
+            dgvTreatments.Visibility = Visibility.Visible;
+        }
+
+        private void btnDropdownSearch_Click(object sender, RoutedEventArgs e)
+        {
+            cmbFilterValues.IsDropDownOpen = true;
+        }
     }
 }

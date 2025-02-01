@@ -14,5 +14,7 @@ namespace BusinessLogicLayer.Interfaces
         Task<IEnumerable<Treatment>> GetTreatmentByNameAsync(string namePattern);
         Task<IEnumerable<TreatmentGroup>> GetAllTreatmentGroupsAsync();
         Task<IEnumerable<WorkPosition>> GetAllWorkPositionsAsync();
+        Task<IEnumerable<TreatmentDTO>> GetTreatmentsByGroupAsync(int groupId);
+        Task<IEnumerable<TreatmentDTO>> GetTreatmentsByWorkPositionAsync(int workPositionId);
     }
 }
