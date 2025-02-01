@@ -85,7 +85,7 @@ namespace PresentationLayer.UserControls
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
+        { 
             LoadComboBoxes();
         }
 

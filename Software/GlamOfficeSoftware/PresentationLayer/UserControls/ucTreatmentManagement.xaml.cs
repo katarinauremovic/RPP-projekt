@@ -34,7 +34,6 @@ namespace PresentationLayer.UserControls
 
             InitializeComponent();
             _addNewTreatmentSidebar = new ucAddNewTreatmentSidebar();
-            LoadDataGrid();
         }
 
         private void LoadFilters()
@@ -47,11 +46,14 @@ namespace PresentationLayer.UserControls
             cmbFilters.IsDropDownOpen = false;
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+           
             LoadFilters();
             LoadSortingCriteria();
-            LoadDataGrid();
+            ShowLoadingIndicator(true);
+            await LoadDataGrid();
+            ShowLoadingIndicator(false);
         }
 
         private void btnDropdown_Click(object sender, RoutedEventArgs e)
@@ -73,14 +75,12 @@ namespace PresentationLayer.UserControls
         {
             cmbSorting.IsDropDownOpen = true;
         }
-        private async void LoadDataGrid()
+        private async Task LoadDataGrid()
         {
-            loadingIndicator.Visibility = Visibility.Visible;  
-            dgvTreatments.Visibility = Visibility.Collapsed;
-            var treatments = await _treatmentService.GetAllTreatmentsAsync();
+           
+            var treatments = await Task.Run(() => _treatmentService.GetAllTreatmentsAsync());
             dgvTreatments.ItemsSource = treatments;
-            loadingIndicator.Visibility = Visibility.Collapsed;
-            dgvTreatments.Visibility = Visibility.Visible;
+           
         }
 
         private async void cmbFilters_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -350,6 +350,19 @@ namespace PresentationLayer.UserControls
                 };
 
                 sidebarMenu.BeginAnimation(MarginProperty, marginAnimation);
+            }
+        }
+        private void ShowLoadingIndicator(bool isLoading)
+        {
+            if (isLoading)
+            {
+                loadingIndicator.Visibility = Visibility.Visible;
+                dgvTreatments.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                loadingIndicator.Visibility = Visibility.Collapsed;
+                dgvTreatments.Visibility = Visibility.Visible;
             }
         }
     }
