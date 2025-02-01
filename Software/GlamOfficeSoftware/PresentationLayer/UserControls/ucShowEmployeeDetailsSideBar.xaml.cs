@@ -32,10 +32,10 @@ namespace PresentationLayer.UserControls
             InitializeComponent();
             _employeeService = new EmployeeService();
             SelectedEmployee = employee;
-            LoadEmployeeDetailsAsync();
+            LoadEmployeeDetails();
         }
 
-        private async Task LoadEmployeeDetailsAsync()
+        private void  LoadEmployeeDetails()
         {
             if (SelectedEmployee != null)
             {
