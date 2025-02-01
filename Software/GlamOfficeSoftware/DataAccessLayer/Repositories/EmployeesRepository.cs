@@ -14,7 +14,7 @@ using System.Xml.Serialization;
 
 namespace DataAccessLayer.Repositories
 {
-    public class EmployeesRepository : Repository<Employee>, IEmployeesRepository
+    public class EmployeesRepository : Repository<Employee>
     {
         public async override Task<Employee> GetByIdAsync(int id)
         {
