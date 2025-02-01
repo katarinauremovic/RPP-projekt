@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer.Services;
+using EntityLayer.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -171,6 +172,72 @@ namespace PresentationLayer.UserControls
         private void btnDropdownSearch_Click(object sender, RoutedEventArgs e)
         {
             cmbFilterValues.IsDropDownOpen = true;
+        }
+
+        private void cmbSorting_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+           
+            if (cmbSorting.SelectedItem != null)
+            {
+                SortTreatments();
+            }
+        
+
+        }
+        private bool isAscending = true;
+        private string lastSortCriterion = "";
+
+        private void SortTreatments()
+        {
+            if (dgvTreatments.ItemsSource == null || !dgvTreatments.ItemsSource.Cast<TreatmentDTO>().Any())
+                return;
+
+            string selectedSort = cmbSorting.SelectedItem as string;
+            if (string.IsNullOrEmpty(selectedSort)) return;
+
+          
+
+            if (selectedSort != lastSortCriterion)
+            {
+                isAscending = true;
+            }
+            else
+            {
+                isAscending = !isAscending; 
+            }
+
+            lastSortCriterion = selectedSort;
+
+            List<TreatmentDTO> sortedList = dgvTreatments.ItemsSource.Cast<TreatmentDTO>().ToList();
+
+            switch (selectedSort)
+            {
+                case "Name":
+                    sortedList = isAscending ? sortedList.OrderBy(t => t.Name).ToList()
+                                             : sortedList.OrderByDescending(t => t.Name).ToList();
+                    break;
+                case "Price":
+                    sortedList = isAscending ? sortedList.OrderBy(t => t.Price ?? 0).ToList()
+                                             : sortedList.OrderByDescending(t => t.Price ?? 0).ToList();
+                    break;
+                case "Duration":
+                    sortedList = isAscending ? sortedList.OrderBy(t => t.DurationMinutes ?? 0).ToList()
+                                             : sortedList.OrderByDescending(t => t.DurationMinutes ?? 0).ToList();
+                    break;
+                default:
+                    return;
+            }
+
+            Console.WriteLine($"Sorting applied: {selectedSort}, Order: {(isAscending ? "Ascending" : "Descending")}");
+
+            dgvTreatments.ItemsSource = null;
+            dgvTreatments.ItemsSource = sortedList;
+        }
+
+
+        private void cmbSorting_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            SortTreatments();
         }
     }
 }

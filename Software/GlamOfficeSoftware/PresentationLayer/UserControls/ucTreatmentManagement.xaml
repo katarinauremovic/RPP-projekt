@@ -95,7 +95,7 @@
                                     <ColumnDefinition Width="auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <ComboBox x:Name="cmbSorting" Grid.Column="0" Width="140" HorizontalAlignment="Left" Height="30" Style="{StaticResource combobox}" VerticalAlignment="Center" Margin="7,0,0,0" />
+                                <ComboBox x:Name="cmbSorting" Grid.Column="0" Width="140" HorizontalAlignment="Left" Height="30" Style="{StaticResource combobox}" VerticalAlignment="Center" Margin="7,0,0,0" SelectionChanged="cmbSorting_SelectionChanged" PreviewMouseDown="cmbSorting_PreviewMouseDown"/>
                                 <Button x:Name="btnDropdownSorting" Grid.Column="1" Click="btnDropdownSorting_Click">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
