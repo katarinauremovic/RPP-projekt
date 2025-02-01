@@ -11,6 +11,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -27,7 +28,7 @@ namespace PresentationLayer.UserControls
         private TreatmentService _treatmentService = new TreatmentService();
         public MainWindow Parent { get; set; }
         private  ucAddNewTreatmentSidebar _addNewTreatmentSidebar;
-
+        private TreatmentDTO _selectedTreatment;
         public ucTreatmentManagement()
         {
 
@@ -246,22 +247,31 @@ namespace PresentationLayer.UserControls
 
         private void btnShowTreatmentInfo_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void btnAddTreatment_Click(object sender, RoutedEventArgs e)
-        {
-            if (ccSidebar.Content == null)
+            if (_selectedTreatment != null)
             {
-                _addNewTreatmentSidebar = new ucAddNewTreatmentSidebar();
-                _addNewTreatmentSidebar.ParentControl = this; 
-
-                ccSidebar.Content = _addNewTreatmentSidebar;
-                _addNewTreatmentSidebar.Visibility = Visibility.Visible;
+                ccSidebar.Content = null;
+                ShowTreatmentDetailsSidebar(_selectedTreatment);
             }
             else
             {
-                ccSidebar.Content = null;
+                MessageBox.Show("Please select a treatment first.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+
+        private void btnAddTreatment_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(ccSidebar.Content is ucAddNewTreatmentSidebar))
+            {
+                _addNewTreatmentSidebar = new ucAddNewTreatmentSidebar();
+                _addNewTreatmentSidebar.ParentControl = this;
+
+                ccSidebar.Content = _addNewTreatmentSidebar;
+                ShowSidebar();
+            }
+            else
+            {
+                CloseSidebar();
             }
         }
 
@@ -277,6 +287,70 @@ namespace PresentationLayer.UserControls
 
             loadingIndicator.Visibility = Visibility.Collapsed;
             dgvTreatments.Visibility = Visibility.Visible;
+        }
+
+        private void dgvTreatments_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dgvTreatments.SelectedItem is TreatmentDTO selectedTreatment)
+            {
+                _selectedTreatment = selectedTreatment; 
+            }
+        }
+        private void ShowTreatmentDetailsSidebar(TreatmentDTO treatment)
+        {
+            if (treatment == null) return; 
+
+            if (!(ccSidebar.Content is ucShowTreatmentSidebar))
+            {
+                var detailsSidebar = new ucShowTreatmentSidebar();
+                detailsSidebar.SetTreatmentDetails(treatment);
+                detailsSidebar.Parent = this;
+
+                ccSidebar.Content = detailsSidebar;
+                ShowSidebar();
+            }
+        }
+
+        internal async void CloseSidebar()
+        {
+            var slideOutAnimation = FindResource("SlideOutAnimation") as Storyboard;
+            var sidebarMenu = (FrameworkElement)ccSidebar.Content;
+
+            if (sidebarMenu != null)
+            {
+                slideOutAnimation?.Begin(sidebarMenu);
+
+                slideOutAnimation.Completed += (s, e) =>
+                {
+                    ccSidebar.Content = null;
+                    sidebarMenu.Visibility = Visibility.Collapsed;
+                };
+            }
+
+            await Task.Delay(500);
+            ccSidebar.Content = null;
+        }
+        internal void ShowSidebar()
+        {
+            var slideInAnimation = FindResource("SlideInAnimation") as Storyboard;
+            var sidebarMenu = (FrameworkElement)ccSidebar.Content;
+
+            if (sidebarMenu != null)
+            {
+                sidebarMenu.Visibility = Visibility.Visible;
+
+                sidebarMenu.Margin = new Thickness(240, 0, 0, 0);
+
+                var marginAnimation = new ThicknessAnimation
+                {
+                    From = new Thickness(240, 0, 0, 0),
+                    To = new Thickness(0, 0, 0, 0),
+                    Duration = new Duration(TimeSpan.FromSeconds(0.5)),
+                    EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut }
+                };
+
+                sidebarMenu.BeginAnimation(MarginProperty, marginAnimation);
+            }
         }
     }
 }

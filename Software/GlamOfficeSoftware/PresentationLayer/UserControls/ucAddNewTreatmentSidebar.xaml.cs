@@ -63,12 +63,12 @@ namespace PresentationLayer.UserControls
 
         private void CloseSidebar()
         {
-            this.Visibility = Visibility.Collapsed;
+            ParentControl.CloseSidebar();
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            this.Visibility = Visibility.Collapsed;
+            ParentControl.CloseSidebar();
 
         }
         private async void LoadComboBoxes()

@@ -120,7 +120,7 @@
 
 
             <Grid Margin="0,0,-210,0">
-                <DataGrid x:Name="dgvTreatments" AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,10,0,10" DockPanel.Dock="Top">
+                <DataGrid SelectionChanged="dgvTreatments_SelectionChanged" x:Name="dgvTreatments" AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,10,0,10" DockPanel.Dock="Top">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding idTreatment}" Width="50" IsReadOnly="True" />
                         <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
