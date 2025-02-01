@@ -115,8 +115,8 @@
                         <DataGridTextColumn Header="Password" Binding="{Binding Password}" Width="auto" />
                         <DataGridTextColumn Header="Salt" Binding="{Binding Salt}" Width="auto" />
                         <DataGridTextColumn Header="PhoneNumber" Binding="{Binding PhoneNumber}" Width="auto" />
-                        <DataGridTextColumn Header="Role" Binding="{Binding Role_idRole}" Width="auto" />
-                        <DataGridTextColumn Header="Work Position" Binding="{Binding WorkPosition_idWorkPosition}" Width="auto" />
+                        <DataGridTextColumn Header="Role" Binding="{Binding RoleName}" Width="auto" />
+                        <DataGridTextColumn Header="Work Position" Binding="{Binding WorkPositionName}" Width="auto" />
                        
                     </DataGrid.Columns>
                 </DataGrid>

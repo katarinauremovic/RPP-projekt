@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BusinessLogicLayer.Exceptions;
+using BusinessLogicLayer.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,18 +22,34 @@ namespace PresentationLayer.UserControls
     /// </summary>
     public partial class ucEmployeeAdministration : UserControl
     {
+        private EmployeeService _employeeService = new EmployeeService();
         public MainWindow Parent { get; set; }
         public ucEmployeeAdministration()
         {
             InitializeComponent();
+            _employeeService = new EmployeeService();
         }
-        private void UserControl_Loaded_1(object sender, RoutedEventArgs e)
+        private async void UserControl_Loaded_1(object sender, RoutedEventArgs e)
         {
             LoadFilters();
             LoadSortingList();
+            ShowLoadingIndicator(true);
+            await LoadEmployeesAsync();
+            ShowLoadingIndicator(false);
         }
 
-       
+        private async Task LoadEmployeesAsync()
+        {
+            try
+            {
+                var employees = await Task.Run(() => _employeeService.GetAllEmployeesAsync());
+                dgvEmployees.ItemsSource = employees;
+            }
+            catch (FailedToLoadClientsException ex)
+            {
+                throw new FailedToLoadClientsException("Error while loading employees.");
+            }
+        }
 
         private void LoadSortingList()
         {
