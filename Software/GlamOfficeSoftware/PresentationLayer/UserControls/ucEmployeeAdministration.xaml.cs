@@ -205,22 +205,33 @@ namespace PresentationLayer.UserControls
 
         private void btnAddNewEmployee_Click(object sender, RoutedEventArgs e)
         {
-            
-                if (ccSidebar.Content == null)
-                {
-                    _addNewEmployeeSidebar = new ucAddNewEmployee();
-                    _addNewEmployeeSidebar.Parent = this;
+            var ucAddNewEmployee = new ucAddNewEmployee();
+            ucAddNewEmployee.Parent = this;
+            ccSidebar.Content = ucAddNewEmployee;
+            ShowSidebar();
 
-                    ccSidebar.Content = _addNewEmployeeSidebar;
-                    _addNewEmployeeSidebar.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    ccSidebar.Content = null;
-                }
-            
+        }
+        private void ShowSidebar()
+        {
+            var slideInAnimation = FindResource("SlideInAnimation") as Storyboard;
+            var sidebarMenu = (FrameworkElement)ccSidebar.Content;
 
-            
+            if (sidebarMenu != null)
+            {
+                sidebarMenu.Visibility = Visibility.Visible;
+
+                sidebarMenu.Margin = new Thickness(240, 0, 0, 0);
+
+                var marginAnimation = new ThicknessAnimation
+                {
+                    From = new Thickness(240, 0, 0, 0),
+                    To = new Thickness(0, 0, 0, 0),
+                    Duration = new Duration(TimeSpan.FromSeconds(0.5)),
+                    EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut }
+                };
+
+                sidebarMenu.BeginAnimation(MarginProperty, marginAnimation);
+            }
         }
 
 

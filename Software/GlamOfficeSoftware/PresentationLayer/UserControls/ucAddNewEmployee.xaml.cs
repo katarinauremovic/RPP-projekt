@@ -19,6 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BusinessLogicLayer.Exceptions;
+using System.Windows.Media.Animation;
 
 namespace PresentationLayer.UserControls
 {
@@ -125,9 +126,6 @@ namespace PresentationLayer.UserControls
                 MessageBox.Show(ex.Message, "Username is already taken. Please choose another one.", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
-
-
-
 
         private void ClearInputs()
         {
