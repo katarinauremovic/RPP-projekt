@@ -64,6 +64,9 @@
     <Compile Include="Repositories\RewardRepository.cs" />
     <Compile Include="Repositories\RolesRepository.cs" />
     <Compile Include="Repositories\WorkPositionRepository.cs" />
+    <Compile Include="Repositories\TreatmentGroupRepository.cs" />
+    <Compile Include="Repositories\TreatmentRepository.cs" />
+    <Compile Include="Repositories\WorkPositionRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EntityLayer\EntityLayer.csproj">
