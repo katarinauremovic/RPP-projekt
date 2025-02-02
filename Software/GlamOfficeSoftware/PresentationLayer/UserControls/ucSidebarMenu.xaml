@@ -97,17 +97,17 @@
                                 </DataTemplate>
                             </Button.ContentTemplate>
                         </Button>
-                        <Button x:Name="btnLogout" Style="{StaticResource SidebarButtonStyle}">
                         <Button x:Name="btnLogout" Style="{StaticResource SidebarButtonStyle}" Click="btnLogout_Click">
-                            <Button.ContentTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Media/Images/log-out.png" Width="16" Height="16" Margin="5"/>
-                                        <TextBlock Text="Logout" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </Button.ContentTemplate>
-                        </Button>
+                                <Button.ContentTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/Media/Images/log-out.png" Width="16" Height="16" Margin="5"/>
+                                            <TextBlock Text="Logout" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </Button.ContentTemplate>
+                            </Button>
+                       
                     </StackPanel>
                 </DockPanel>
             </Grid>
