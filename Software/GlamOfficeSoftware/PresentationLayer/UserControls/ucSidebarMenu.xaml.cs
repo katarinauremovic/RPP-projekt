@@ -138,5 +138,12 @@ namespace PresentationLayer.UserControls
                 Parent.Close();
             }
         }
+
+        private void btnPromotionCreating_Click(object sender, RoutedEventArgs e)
+        {
+            var ucPromotions = new ucPromotionCreating();
+            ucPromotions.Parent = Parent;
+            Parent.ccContent.Content = ucPromotions;
+        }
     }
 }

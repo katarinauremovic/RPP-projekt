@@ -97,6 +97,17 @@
                                 </DataTemplate>
                             </Button.ContentTemplate>
                         </Button>
+
+                        <Button x:Name="btnPromotionCreating" Style="{StaticResource SidebarButtonStyle}" Click="btnPromotionCreating_Click">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Media/Images/employee-administration.png" Width="16" Height="16" Margin="5"/>
+                                        <TextBlock Text="Promotion" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
                         <Button x:Name="btnLogout" Style="{StaticResource SidebarButtonStyle}" Click="btnLogout_Click">
                                 <Button.ContentTemplate>
                                     <DataTemplate>
