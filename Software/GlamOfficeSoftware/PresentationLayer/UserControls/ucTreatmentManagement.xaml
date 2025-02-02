@@ -24,8 +24,19 @@
 
     <Grid Background="#f5f5f5">
         <DockPanel Margin="30,0,30,15">
-          
-            <TextBlock x:Name="txtTitle" Text="Treatments" Style="{StaticResource titleText}" Margin="10" DockPanel.Dock="Top" />
+            <DockPanel DockPanel.Dock="Top" Margin="0,0,0,10">
+                <Button x:Name="btnRefreshDataGrid" Click="btnRefreshDataGrid_Click"
+         Width="40" Height="40" HorizontalAlignment="Right"
+         Style="{StaticResource classicButton}" Background="Transparent" 
+         ToolTip="Refresh Data" Margin="10,0,0,0">
+                    <Image Source="/Images/refresh-icon.png" Width="30" Height="30">
+                        
+                    </Image>
+                </Button>
+                <TextBlock x:Name="txtTitle" Text="Treatments" Style="{StaticResource titleText}" Margin="10" VerticalAlignment="Center"/>
+
+               
+            </DockPanel>
 
 
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Left">

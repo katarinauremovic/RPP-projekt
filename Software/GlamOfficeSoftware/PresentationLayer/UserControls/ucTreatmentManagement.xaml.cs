@@ -143,22 +143,19 @@ namespace PresentationLayer.UserControls
                 await LoadDataGrid();
                 return;
             }
-            loadingIndicator.Visibility = Visibility.Visible;
-            dgvTreatments.Visibility = Visibility.Collapsed;
+            ShowLoadingIndicator(true);
 
             var filteredTreatments = await _treatmentService.GetTreatmentByNameAsync(txtSearch.Text);
 
             dgvTreatments.ItemsSource = filteredTreatments;
-            loadingIndicator.Visibility = Visibility.Collapsed;
-            dgvTreatments.Visibility = Visibility.Visible;
+            ShowLoadingIndicator(false);
         }
 
         private async void cmbFilterValues_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (cmbFilterValues.SelectedItem == null)
                 return;
-            loadingIndicator.Visibility = Visibility.Visible;
-            dgvTreatments.Visibility = Visibility.Collapsed;
+            ShowLoadingIndicator(true);
 
             string selectedFilter = cmbFilters.SelectedItem.ToString(); 
             int selectedId = (int)((ComboBoxItem)cmbFilterValues.SelectedItem).Tag; 
@@ -171,8 +168,7 @@ namespace PresentationLayer.UserControls
             {
                 dgvTreatments.ItemsSource = await _treatmentService.GetTreatmentsByWorkPositionAsync(selectedId);
             }
-            loadingIndicator.Visibility = Visibility.Collapsed;
-            dgvTreatments.Visibility = Visibility.Visible;
+            ShowLoadingIndicator(false);
         }
 
         private void btnDropdownSearch_Click(object sender, RoutedEventArgs e)
@@ -286,16 +282,14 @@ namespace PresentationLayer.UserControls
 
 
 
-        internal async void RefreshDataGrid()
+        internal async Task RefreshDataGrid()
         {
-            loadingIndicator.Visibility = Visibility.Visible;
-            dgvTreatments.Visibility = Visibility.Collapsed;
+            ShowLoadingIndicator(true);
 
             var treatments = await _treatmentService.GetAllTreatmentsAsync();
             dgvTreatments.ItemsSource = treatments;
 
-            loadingIndicator.Visibility = Visibility.Collapsed;
-            dgvTreatments.Visibility = Visibility.Visible;
+            ShowLoadingIndicator(false);
         }
 
         private void dgvTreatments_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -429,6 +423,20 @@ namespace PresentationLayer.UserControls
             {
                 CloseSidebar();
             }
+        }
+
+        private async void btnRefreshDataGrid_Click(object sender, RoutedEventArgs e)
+        {
+            await RefreshDataGrid();
+            cmbFilters.SelectedIndex = 0;
+            cmbSorting.SelectedIndex = 0;
+            cmbFilterValues.SelectedIndex = -1;
+            txtSearch.Text = string.Empty;
+
+           
+            cmbFilterValues.Visibility = Visibility.Collapsed;
+            btnDropdownSearch.Visibility = Visibility.Collapsed;
+            
         }
     }
 }
