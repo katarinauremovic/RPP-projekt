@@ -111,5 +111,12 @@ namespace PresentationLayer.UserControls
             ucEmployees.Parent = Parent;
             Parent.ccContent.Content = ucEmployees;
         }
+
+        private void btnGiftCards_Click(object sender, RoutedEventArgs e)
+        {
+            var ucGiftCards = new ucGiftCardAdministration();
+            ucGiftCards.Parent = Parent;
+            Parent.ccContent.Content = ucGiftCards;
+        }
     }
 }
