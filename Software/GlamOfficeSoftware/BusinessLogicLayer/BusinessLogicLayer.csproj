@@ -108,6 +108,7 @@
     <Compile Include="Services\GmailService.cs" />
     <Compile Include="Services\GiftCardService.cs" />
     <Compile Include="Services\LoyaltyLevelService.cs" />
+    <Compile Include="Services\PromotionGmailService.cs" />
     <Compile Include="Services\ReceiptService.cs" />
     <Compile Include="Services\ReservationService.cs" />
     <Compile Include="Services\RewardService.cs" />
