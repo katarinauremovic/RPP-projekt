@@ -104,5 +104,12 @@ namespace PresentationLayer.UserControls
 
             */
         }
+
+        private void btnEmployees_Click(object sender, RoutedEventArgs e)
+        {
+            var ucEmployees = new ucEmployeeAdministration();
+            ucEmployees.Parent = Parent;
+            Parent.ccContent.Content = ucEmployees;
+        }
     }
 }

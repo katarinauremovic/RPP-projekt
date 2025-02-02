@@ -55,12 +55,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ClientHasRewardRepository.cs" />
     <Compile Include="Repositories\ClientRepository.cs" />
+    <Compile Include="Repositories\EmployeesRepository.cs" />
     <Compile Include="Repositories\GiftCardRepository.cs" />
     <Compile Include="Repositories\LoyaltyLevelRepository.cs" />
     <Compile Include="Repositories\ReceiptRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\ReservationRepository.cs" />
     <Compile Include="Repositories\RewardRepository.cs" />
+    <Compile Include="Repositories\RolesRepository.cs" />
+    <Compile Include="Repositories\WorkPositionRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EntityLayer\EntityLayer.csproj">

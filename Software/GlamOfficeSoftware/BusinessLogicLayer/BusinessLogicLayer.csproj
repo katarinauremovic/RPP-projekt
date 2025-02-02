@@ -79,11 +79,18 @@
     <Compile Include="Exceptions\ClientNotFoundException.cs" />
     <Compile Include="Exceptions\ClientOperationException.cs" />
     <Compile Include="Exceptions\DataGridNoSelectionException.cs" />
+    <Compile Include="Exceptions\FailedToLoadClientsException.cs" />
     <Compile Include="Exceptions\FailedToOpenPdfException.cs" />
+    <Compile Include="Exceptions\InvalidEmailException.cs" />
+    <Compile Include="Exceptions\InvalidEmployeeDataException.cs" />
+    <Compile Include="Exceptions\InvalidPhoneNumberException.cs" />
+    <Compile Include="Exceptions\InvalidPINException.cs" />
     <Compile Include="Exceptions\NotEnoughPointsException.cs" />
     <Compile Include="Exceptions\ReceiptNotVoidableException.cs" />
+    <Compile Include="Exceptions\UsernameTakenException.cs" />
     <Compile Include="Interfaces\IClientHasRewardService.cs" />
     <Compile Include="Interfaces\IClientService.cs" />
+    <Compile Include="Interfaces\IEmployeeService.cs" />
     <Compile Include="Interfaces\IGiftCardService.cs" />
     <Compile Include="Interfaces\ILoyaltyLevelService.cs" />
     <Compile Include="Interfaces\IReceiptService.cs" />
@@ -93,6 +100,7 @@
     <Compile Include="Services\ClientGmailService.cs" />
     <Compile Include="Services\ClientHasRewardService.cs" />
     <Compile Include="Services\ClientService.cs" />
+    <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\GmailService.cs" />
     <Compile Include="Services\GiftCardService.cs" />
     <Compile Include="Services\LoyaltyLevelService.cs" />
