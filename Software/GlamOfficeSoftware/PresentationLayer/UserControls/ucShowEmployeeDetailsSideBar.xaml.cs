@@ -1,8 +1,15 @@
 ﻿using BusinessLogicLayer.Services;
 using EntityLayer.DTOs;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
+using QRCoder;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -103,12 +110,116 @@ namespace PresentationLayer.UserControls
 
         private void btnDownloadQR_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                var pdfPath = GeneratePDFWithQRCode();
+                if (pdfPath != null)
+                {
+                    MessageBox.Show($"PDF je spremljen: {pdfPath}");
+                    lblErrorMessage.Visibility = Visibility.Collapsed; 
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowErrorMessage($"Greška kod preuzimanja QR koda: {ex.Message}");
+            }
         }
 
         private void btnGenerateQR_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                imgQRCode.Source = GenerateQRCode();
+                lblErrorMessage.Visibility = Visibility.Collapsed; 
+            }
+            catch (Exception ex)
+            {
+                ShowErrorMessage($"Greška kod generiranja QR koda: {ex.Message}");
+            }
         }
+
+        private ImageSource GenerateQRCode()
+        {
+            var username = txtUsername.Text;
+            var password = txtPassword.Text;
+
+            var data = $"{username}:{password}";
+
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q);
+            QRCoder.QRCode qrCode = new QRCoder.QRCode(qrCodeData);
+            var qrCodeImage = qrCode.GetGraphic(20);
+
+            return ConvertBitmapToImageSource(qrCodeImage);
+        }
+        private ImageSource ConvertBitmapToImageSource(Bitmap bitmap)
+        {
+            using (MemoryStream memory = new MemoryStream())
+            {
+                bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Bmp);
+                memory.Position = 0;
+                BitmapImage bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = memory;
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.EndInit();
+                return bitmapImage;
+            }
+        }
+       
+
+        private string GeneratePDFWithQRCode()
+        {
+            var salt = txtSalt.Text;
+            var username = txtUsername.Text;
+            var password = txtPassword.Text;
+            var data = $"{username}:{password}";
+
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q);
+            QRCoder.QRCode qrCode = new QRCoder.QRCode(qrCodeData);
+            Bitmap qrCodeImage = qrCode.GetGraphic(20);
+
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+            string pdfPath = System.IO.Path.Combine(desktopPath, $"QRCode_{timestamp}.pdf");
+
+            try
+            {
+                using (PdfDocument document = new PdfDocument())
+                {
+                    PdfPage page = document.AddPage();
+                    XGraphics gfx = XGraphics.FromPdfPage(page);
+                    XImage xImage;
+
+                    using (MemoryStream memory = new MemoryStream())
+                    {
+                        qrCodeImage.Save(memory, ImageFormat.Png);
+                        memory.Position = 0;
+                        xImage = XImage.FromStream(memory);
+                    }
+
+                    // Calculate position to center the QR code on the page
+                    double x = (page.Width.Point - (xImage.PixelWidth * 72 / xImage.HorizontalResolution)) / 2;
+                    double y = (page.Height.Point - (xImage.PixelHeight * 72 / xImage.VerticalResolution)) / 2;
+
+                    gfx.DrawImage(xImage, x, y, xImage.PixelWidth * 72 / xImage.HorizontalResolution, xImage.PixelHeight * 72 / xImage.VerticalResolution);
+                    document.Save(pdfPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while generating the PDF: {ex.Message}");
+                return null;
+            }
+
+            return pdfPath;
+        }
+        private void ShowErrorMessage(string message)
+        {
+            lblErrorMessage.Content = message;
+            lblErrorMessage.Visibility = Visibility.Visible;
+        }
+
     }
 }
