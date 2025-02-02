@@ -1,4 +1,5 @@
-﻿using EntityLayer.Entities;
+﻿using DataAccessLayer.Interfaces;
+using EntityLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -13,6 +14,14 @@ namespace DataAccessLayer.Repositories
         public async Task<IEnumerable<WorkPosition>> GetWorkPositionsAsync()
         {
             return await context.WorkPositions.ToListAsync();
+        }
+        public async Task<IEnumerable<WorkPosition>> GetAllWorkPositionsAsync()
+        {
+            return await context.WorkPositions.ToListAsync();
+        }
+        public async Task<WorkPosition> GetByNameAsync(string name)
+        {
+            return await context.WorkPositions.FirstOrDefaultAsync(wp => wp.Name == name);
         }
 
         

@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Exceptions
 {
-    public class InvalidEmailException : ApplicationException
+    public class EmptyFieldsForTreatmentsException : Exception
     {
-        public InvalidEmailException(string message) : base(message)
+        public EmptyFieldsForTreatmentsException(string message) : base(message)
         {
+            
         }
     }
 }

@@ -48,6 +48,8 @@
     <Compile Include="DTOs\EmployeeDTO.cs" />
     <Compile Include="DTOs\ReceiptDTO.cs" />
     <Compile Include="DTOs\RewardDTO.cs" />
+    <Compile Include="DTOs\TreatmentDTO.cs" />
+    <Compile Include="DTOs\TreatmentGroupDTO.cs" />
     <Compile Include="DTOs\TreatmentReceiptDTO.cs" />
     <Compile Include="Entities\Client.cs" />
     <Compile Include="Entities\Client_has_Reward.cs" />

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Exceptions
 {
-    public class InvalidEmailException : ApplicationException
+    public class FailedToLoadClientsException : ApplicationException
     {
-        public InvalidEmailException(string message) : base(message)
+        public FailedToLoadClientsException(string message) : base(message)
         {
         }
     }
