@@ -44,6 +44,8 @@
   <ItemGroup>
     <Compile Include="DTOs\ClientDTO.cs" />
     <Compile Include="DTOs\ClientReceiptDTO.cs" />
+    <Compile Include="DTOs\DailyScheduleDTO.cs" />
+    <Compile Include="DTOs\DayDTO.cs" />
     <Compile Include="DTOs\EmployeeLoginDTO.cs" />
     <Compile Include="DTOs\EmployeeDTO.cs" />
     <Compile Include="DTOs\ReceiptDTO.cs" />
@@ -51,6 +53,7 @@
     <Compile Include="DTOs\TreatmentDTO.cs" />
     <Compile Include="DTOs\TreatmentGroupDTO.cs" />
     <Compile Include="DTOs\TreatmentReceiptDTO.cs" />
+    <Compile Include="DTOs\WeeklyScheduleDTO.cs" />
     <Compile Include="Entities\Client.cs" />
     <Compile Include="Entities\Client_has_Reward.cs" />
     <Compile Include="Entities\DailySchedule.cs" />
