@@ -48,6 +48,11 @@ namespace PresentationLayer.UserControls
 
         private void btnShowGiftCardDetails_Click(object sender, RoutedEventArgs e)
         {
+            if (_selectedGiftCard == null)
+            {
+                MessageBox.Show("Please select a gift card to view its details.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             var ucShowGiftCard = new ucShowGiftCardSideBar(_selectedGiftCard);
             ucShowGiftCard.Parent = this;
             ccSidebar.Content = ucShowGiftCard;
@@ -234,6 +239,11 @@ namespace PresentationLayer.UserControls
 
         private void btnEditGiftCard_Click(object sender, RoutedEventArgs e)
         {
+            if (_selectedGiftCard == null)
+            {
+                MessageBox.Show("Please select a gift card to edit its details.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             var ucEditGiftCard = new ucEditGiftCardsSideBar(_selectedGiftCard);
             ucEditGiftCard.Parent = this;
             ccSidebar.Content = ucEditGiftCard;
