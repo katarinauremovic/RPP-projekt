@@ -294,21 +294,12 @@ namespace PresentationLayer.UserControls
 
         private void dgvTreatments_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            try
-            {
                 if (dgvTreatments.SelectedItem is TreatmentDTO selectedTreatment)
                 {
                     _selectedTreatment = selectedTreatment;
                 }
-                else
-                {
-                    throw new DataGridNoSelectionException("No treatment selected. Please select a treatment from the list.");
-                }
-            }
-            catch (DataGridNoSelectionException ex)
-            {
-                MessageBox.Show(ex.Message, "Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
+               
+           
 
         }
         private void ShowTreatmentDetailsSidebar(TreatmentDTO treatment)

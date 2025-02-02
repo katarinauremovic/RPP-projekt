@@ -112,12 +112,7 @@ namespace PresentationLayer.UserControls
             Parent.ccContent.Content = ucTreatments;
         }
 
-        private void btnTreatmentManagement_Click(object sender, RoutedEventArgs e)
-        {
-            var ucTreatments = new ucTreatmentManagement();
-            ucTreatments.Parent = Parent;
-            Parent.ccContent.Content = ucTreatments;
-        }
+       
 
         private void btnEmployees_Click(object sender, RoutedEventArgs e)
         {

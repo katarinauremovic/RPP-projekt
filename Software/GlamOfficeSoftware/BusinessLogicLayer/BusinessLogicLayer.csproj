@@ -81,6 +81,7 @@
     <Compile Include="Exceptions\DataGridNoSelectionException.cs" />
     <Compile Include="Exceptions\EmptyFieldsForTreatmentsException.cs" />
     <Compile Include="Exceptions\FailedToOpenPdfException.cs" />
+    <Compile Include="Exceptions\FaliedToLoadClientsException.cs" />
     <Compile Include="Exceptions\InvalidEmailException.cs" />
     <Compile Include="Exceptions\InvalidEmployeeDataException.cs" />
     <Compile Include="Exceptions\InvalidPhoneNumberException.cs" />
