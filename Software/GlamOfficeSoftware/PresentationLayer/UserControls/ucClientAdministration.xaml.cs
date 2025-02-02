@@ -59,7 +59,7 @@ namespace PresentationLayer.UserControls
         private void btnDropdown_Click(object sender, RoutedEventArgs e)
         {
             cmbFilters.IsDropDownOpen = true;
-            CloseSidebarMenu();
+            Parent.CloseSidebarMenu();
         }
 
         private void cmbFilters_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -80,7 +80,7 @@ namespace PresentationLayer.UserControls
         private void textSearch_MouseDown(object sender, MouseButtonEventArgs e)
         {
             txtSearch.Focus();
-            CloseSidebarMenu();
+            Parent.CloseSidebarMenu();
         }
 
         private async void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
@@ -192,7 +192,7 @@ namespace PresentationLayer.UserControls
             }
         }
 
-        public void dgvClients_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void dgvClients_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var sidebarMenu = (FrameworkElement)ccSidebar.Content;
 
@@ -268,11 +268,6 @@ namespace PresentationLayer.UserControls
 
                 sidebarMenu.BeginAnimation(MarginProperty, marginAnimation);
             }
-        }
-
-        private void CloseSidebarMenu()
-        {
-            Parent.CloseSidebarMenu();
         }
 
         public ClientDTO GetClientFromDataGrid()

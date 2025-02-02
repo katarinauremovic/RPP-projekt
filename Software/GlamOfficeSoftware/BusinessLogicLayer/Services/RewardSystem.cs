@@ -26,6 +26,41 @@ namespace BusinessLogicLayer.Services
             _clientHasRewardService = new ClientHasRewardService();
         }
 
+        public async Task AddClientToRewardSystemAsync(int clientId)
+        {
+            var client = await _clientService.GetClientByIdAsync(clientId);
+            client.Points = 200;
+
+            await UpdateClientsLoyaltyLevelAsync(client);
+
+            await _clientService.UpdateClientAsync(client);     
+        }
+
+        public async Task AddPointsToClientAsync(int clientId, int pointsToAdd)
+        {
+            var client = await _clientService.GetClientByIdAsync(clientId);
+            client.Points = client.Points + pointsToAdd;
+
+            client.LoyaltyLevel_id = await UpdateClientsLoyaltyLevelAsync(client);
+
+            await _clientService.UpdateClientAsync(client);       
+        }
+
+        public async Task SubtractPointsFromClientAsync(int clientId, int pointsToSubtract)
+        {
+            if (pointsToSubtract <= 0)
+            {
+                throw new ArgumentException("Substract number must be more then 0.");
+            } 
+
+            var client = await _clientService.GetClientByIdAsync(clientId);
+            client.Points = client.Points - pointsToSubtract;
+
+            client.LoyaltyLevel_id = await UpdateClientsLoyaltyLevelAsync(client);
+
+            await _clientService.UpdateClientAsync(client); 
+        }
+
         public async Task PurchaseReward(int clientId, int rewardId)
         {
             var client = await _clientService.GetClientByIdAsync(clientId);
@@ -45,7 +80,7 @@ namespace BusinessLogicLayer.Services
             };
 
             await _clientHasRewardService.AddClientHasRewardAsync(clientHasReward);
-            await _clientService.SubtractPointsFromClientAsync(clientId, reward.CostPoints.Value);
+            await SubtractPointsFromClientAsync(clientId, reward.CostPoints.Value);
         }
 
         public async Task ProcessReceiptAsync(Receipt receiptDb)
@@ -66,7 +101,7 @@ namespace BusinessLogicLayer.Services
             }   
         }
 
-        public async Task<int> UpdateClientsLoyaltyLevelAsync(Client client)
+        private async Task<int> UpdateClientsLoyaltyLevelAsync(Client client)
         {
             var loyaltyLevelName = _loyaltyLevelService.CheckLoyaltyLevel(client.Points.Value);
             var loyaltyLevel = await _loyaltyLevelService.GetLoyaltyLevelByNameAsync(loyaltyLevelName);
@@ -168,17 +203,12 @@ namespace BusinessLogicLayer.Services
         private async Task AddPointsToClientAsync(int clientId, decimal totalAmount)
         {
             var points = CalculatePoints(totalAmount);
-            await _clientService.AddPointsToClientAsync(clientId, points);
+            await AddPointsToClientAsync(clientId, points);
         }
 
         private async Task<bool> IsClientInTheRewardSystemAsync(int clientId)
         {
             return await _clientService.IsClientInTheRewardSystemAsync(clientId);
-        }
-
-        private async Task AddClientToRewardSystemAsync(int clientId)
-        {
-            await _clientService.AddClientToRewardSystemAsync(clientId);
         }
 
         private int CalculatePoints(decimal totalAmount)

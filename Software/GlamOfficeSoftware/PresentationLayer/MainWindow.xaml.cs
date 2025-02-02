@@ -29,11 +29,6 @@ namespace PresentationLayer
             InitializeComponent();
         }
 
-        private void btnDashboard_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void btnSidebarMenu_Click(object sender, RoutedEventArgs e)
         {
             var ucSidebarMenu = new ucSidebarMenu();
