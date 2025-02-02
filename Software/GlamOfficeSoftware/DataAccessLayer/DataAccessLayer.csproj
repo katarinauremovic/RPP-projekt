@@ -62,6 +62,7 @@
     <Compile Include="Repositories\ReceiptRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\ReservationRepository.cs" />
+    <Compile Include="Repositories\ReviewRepository.cs" />
     <Compile Include="Repositories\RewardRepository.cs" />
     <Compile Include="Repositories\TreatmentGroupRepository.cs" />
     <Compile Include="Repositories\TreatmentRepository.cs" />

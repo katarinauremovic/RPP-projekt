@@ -56,6 +56,12 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="NStringGenerator, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Desktop\NStringGenerator.dll</HintPath>
@@ -123,11 +129,17 @@
     <Compile Include="UserControls\ucEmployeeAdministration.xaml.cs">
       <DependentUpon>ucEmployeeAdministration.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ucEmployeeReviewsSidebar.xaml.cs">
+      <DependentUpon>ucEmployeeReviewsSidebar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ucPromotionCreating.xaml.cs">
       <DependentUpon>ucPromotionCreating.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ucReceipts.xaml.cs">
       <DependentUpon>ucReceipts.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ucReviewManagement.xaml.cs">
+      <DependentUpon>ucReviewManagement.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ucRewardCards.xaml.cs">
       <DependentUpon>ucRewardCards.xaml</DependentUpon>
@@ -223,11 +235,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\ucEmployeeReviewsSidebar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\ucPromotionCreating.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ucReceipts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ucReviewManagement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
