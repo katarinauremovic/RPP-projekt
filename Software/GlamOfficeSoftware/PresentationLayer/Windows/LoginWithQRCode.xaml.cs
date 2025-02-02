@@ -221,7 +221,7 @@ namespace PresentationLayer.Windows
             await StopCameraAsync();
             _loginOptions.Show();
             this.Hide();
-            
+
         }
     }
 }
