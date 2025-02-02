@@ -48,7 +48,10 @@ namespace PresentationLayer.UserControls
 
         private void btnShowGiftCardDetails_Click(object sender, RoutedEventArgs e)
         {
-
+            var ucShowGiftCard = new ucShowGiftCardSideBar(_selectedGiftCard);
+            ucShowGiftCard.Parent = this;
+            ccSidebar.Content = ucShowGiftCard;
+            ShowSidebar();
         }
 
         private void btnAddNewGiftCard_Click(object sender, RoutedEventArgs e)
