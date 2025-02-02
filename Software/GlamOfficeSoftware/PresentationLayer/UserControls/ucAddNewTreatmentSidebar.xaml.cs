@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.Services;
+﻿using BusinessLogicLayer.Exceptions;
+using BusinessLogicLayer.Services;
 using EntityLayer.DTOs;
 using EntityLayer.Entities;
 using System;
@@ -33,32 +34,41 @@ namespace PresentationLayer.UserControls
 
         private async void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtName.Text))
+            try
             {
-                MessageBox.Show("Name is required!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                if (string.IsNullOrWhiteSpace(txtName.Text) ||
+                    string.IsNullOrWhiteSpace(txtPrice.Text) ||
+                    string.IsNullOrWhiteSpace(txtDuration.Text))
+                {
+                    throw new EmptyFieldsForTreatmentsException("Name, Price, and Duration fields are required.");
+                }
+
+                var selectedGroup = cmbTreatmentGroup.SelectedItem as TreatmentGroup;
+                var selectedPosition = cmbWorkPosition.SelectedItem as WorkPosition;
+
+                var treatmentDTO = new TreatmentDTO
+                {
+                    Name = txtName.Text,
+                    Price = double.TryParse(txtPrice.Text, out double price) ? (double?)price : null,
+                    Description = txtDescription.Text,
+                    DurationMinutes = decimal.TryParse(txtDuration.Text, out decimal duration) ? (decimal?)duration : null,
+                    TreatmentGroupName = selectedGroup?.Name,
+                    WorkPositionName = selectedPosition?.Name
+                };
+
+                await _treatmentService.AddTreatmentAsync(treatmentDTO);
+
+                ParentControl?.RefreshDataGrid();
+                CloseSidebar();
             }
-
-            var selectedGroup = cmbTreatmentGroup.SelectedItem as TreatmentGroup;
-            var selectedPosition = cmbWorkPosition.SelectedItem as WorkPosition;
-
-
-            var treatmentDTO = new TreatmentDTO
+            catch (EmptyFieldsForTreatmentsException ex)
             {
-                Name = txtName.Text,
-                Price = double.TryParse(txtPrice.Text, out double price) ? (double?)price : null,
-                Description = txtDescription.Text,
-                DurationMinutes = decimal.TryParse(txtDuration.Text, out decimal duration) ? (decimal?)duration : null,
-                TreatmentGroupName = selectedGroup?.Name,
-                WorkPositionName = selectedPosition?.Name
-            };
-
-            await _treatmentService.AddTreatmentAsync(treatmentDTO);
-
-           
-
-            ParentControl?.RefreshDataGrid(); 
-            CloseSidebar();
+                MessageBox.Show(ex.Message, "Input Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void CloseSidebar()

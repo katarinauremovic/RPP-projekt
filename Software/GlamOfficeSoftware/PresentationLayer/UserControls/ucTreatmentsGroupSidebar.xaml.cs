@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.Services;
+﻿using BusinessLogicLayer.Exceptions;
+using BusinessLogicLayer.Services;
 using EntityLayer.Entities;
 using PresentationLayer.Windows;
 using System;
@@ -57,23 +58,28 @@ namespace PresentationLayer.UserControls
 
         private async void btnDeleteGroup_Click(object sender, RoutedEventArgs e)
         {
-            if (listGroups.SelectedItem == null)
+            try
             {
-                MessageBox.Show("Please select a group to delete.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                if (listGroups.SelectedItem == null)
+                {
+                    throw new DataGridNoSelectionException("No group selected. Please select a group to delete.");
+                }
+
+                var selectedGroup = (TreatmentGroup)listGroups.SelectedItem;
+                var confirmationBox = new winMessageBox();
+                bool result = await confirmationBox.ShowAsync("Confirm Deletion", $"Are you sure you want to delete '{selectedGroup.Name}'?");
+
+                if (result)
+                {
+                    await _treatmentService.DeleteTreatmentGroupAsync(selectedGroup.idTreatmentGroup);
+                    RefreshGroupList();
+                }
+            }
+            catch (DataGridNoSelectionException ex)
+            {
+                MessageBox.Show(ex.Message, "Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
 
-            var selectedGroup = (TreatmentGroup)listGroups.SelectedItem;
-            var confirmationBox = new winMessageBox();
-            bool result = await confirmationBox.ShowAsync("Confirm Deletion", $"Are you sure you want to delete '{selectedGroup.Name}'?");
-
-            if (result)
-            {
-                await _treatmentService.DeleteTreatmentGroupAsync(selectedGroup.idTreatmentGroup);
-               
-
-                RefreshGroupList();
-            }
         }
         public async void RefreshGroupList()
         {

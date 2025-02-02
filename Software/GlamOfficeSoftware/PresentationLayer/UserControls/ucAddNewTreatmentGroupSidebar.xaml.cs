@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.Services;
+﻿using BusinessLogicLayer.Exceptions;
+using BusinessLogicLayer.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,15 +32,25 @@ namespace PresentationLayer.UserControls
 
         private async void btnSaveGroup_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtGroupName.Text))
+            try
             {
-                MessageBox.Show("Group name cannot be empty!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                if (string.IsNullOrWhiteSpace(txtGroupName.Text))
+                {
+                    throw new EmptyFieldsForTreatmentsException("Group name cannot be empty.");
+                }
+
+                await _treatmentService.AddTreatmentGroupAsync(txtGroupName.Text);
+
+                ParentControl?.CloseSidebar();
             }
-
-            await _treatmentService.AddTreatmentGroupAsync(txtGroupName.Text);
-
-            ParentControl?.CloseSidebar(); 
+            catch (EmptyFieldsForTreatmentsException ex)
+            {
+                MessageBox.Show(ex.Message, "Input Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)

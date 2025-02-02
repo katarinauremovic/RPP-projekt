@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.Services;
+﻿using BusinessLogicLayer.Exceptions;
+using BusinessLogicLayer.Services;
 using EntityLayer.DTOs;
 using System;
 using System.Collections.Generic;
@@ -247,17 +248,23 @@ namespace PresentationLayer.UserControls
 
         private void btnShowTreatmentInfo_Click(object sender, RoutedEventArgs e)
         {
-            if (_selectedTreatment != null)
+            try
             {
+                if (_selectedTreatment == null)
+                {
+                    throw new DataGridNoSelectionException("No treatment selected. Please select a treatment from the list.");
+                }
+
                 var detailsSidebar = new ucShowTreatmentSidebar();
                 detailsSidebar.ParentControl = this;
                 ccSidebar.Content = null;
                 ShowTreatmentDetailsSidebar(_selectedTreatment);
             }
-            else
+            catch (DataGridNoSelectionException ex)
             {
-                MessageBox.Show("Please select a treatment first.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(ex.Message, "Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+
         }
 
 
@@ -293,10 +300,22 @@ namespace PresentationLayer.UserControls
 
         private void dgvTreatments_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (dgvTreatments.SelectedItem is TreatmentDTO selectedTreatment)
+            try
             {
-                _selectedTreatment = selectedTreatment; 
+                if (dgvTreatments.SelectedItem is TreatmentDTO selectedTreatment)
+                {
+                    _selectedTreatment = selectedTreatment;
+                }
+                else
+                {
+                    throw new DataGridNoSelectionException("No treatment selected. Please select a treatment from the list.");
+                }
             }
+            catch (DataGridNoSelectionException ex)
+            {
+                MessageBox.Show(ex.Message, "Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
         }
         private void ShowTreatmentDetailsSidebar(TreatmentDTO treatment)
         {
