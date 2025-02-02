@@ -79,15 +79,11 @@
     <Compile Include="Exceptions\ClientNotFoundException.cs" />
     <Compile Include="Exceptions\ClientOperationException.cs" />
     <Compile Include="Exceptions\DataGridNoSelectionException.cs" />
+    <Compile Include="Exceptions\EmptyFieldsForTreatmentsException.cs" />
     <Compile Include="Exceptions\FailedToLoadClientsException.cs" />
     <Compile Include="Exceptions\FailedToOpenPdfException.cs" />
-    <Compile Include="Exceptions\InvalidEmailException.cs" />
-    <Compile Include="Exceptions\InvalidEmployeeDataException.cs" />
-    <Compile Include="Exceptions\InvalidPhoneNumberException.cs" />
-    <Compile Include="Exceptions\InvalidPINException.cs" />
     <Compile Include="Exceptions\NotEnoughPointsException.cs" />
     <Compile Include="Exceptions\ReceiptNotVoidableException.cs" />
-    <Compile Include="Exceptions\UsernameTakenException.cs" />
     <Compile Include="Interfaces\IClientHasRewardService.cs" />
     <Compile Include="Interfaces\IClientService.cs" />
     <Compile Include="Interfaces\IEmployeeService.cs" />
@@ -96,6 +92,7 @@
     <Compile Include="Interfaces\IReceiptService.cs" />
     <Compile Include="Interfaces\IReservationService.cs" />
     <Compile Include="Interfaces\IRewardService.cs" />
+    <Compile Include="Interfaces\ITreatmentService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ClientGmailService.cs" />
     <Compile Include="Services\ClientHasRewardService.cs" />
@@ -108,6 +105,7 @@
     <Compile Include="Services\ReservationService.cs" />
     <Compile Include="Services\RewardService.cs" />
     <Compile Include="Services\RewardSystem.cs" />
+    <Compile Include="Services\TreatmentService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">
