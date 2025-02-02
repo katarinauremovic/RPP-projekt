@@ -110,18 +110,24 @@ namespace PresentationLayer.UserControls
 
         private void btnDownloadQR_Click(object sender, RoutedEventArgs e)
         {
+            if (imgQRCode.Source == null)
+            {
+                ShowErrorMessage("QR kod nije generiran. Generiraj QR kod prije preuzimanja.");
+                return;
+            }
+
             try
             {
                 var pdfPath = GeneratePDFWithQRCode();
                 if (pdfPath != null)
                 {
                     MessageBox.Show($"PDF je spremljen: {pdfPath}");
-                    lblErrorMessage.Visibility = Visibility.Collapsed; 
+                    lblErrorMessage.Visibility = Visibility.Collapsed;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ShowErrorMessage($"Greška kod preuzimanja QR koda: {ex.Message}");
+                ShowErrorMessage($"Greška kod preuzimanja QR koda");
             }
         }
 
@@ -217,7 +223,7 @@ namespace PresentationLayer.UserControls
         }
         private void ShowErrorMessage(string message)
         {
-            lblErrorMessage.Content = message;
+            lblErrorMessage.Text = message;
             lblErrorMessage.Visibility = Visibility.Visible;
         }
 
