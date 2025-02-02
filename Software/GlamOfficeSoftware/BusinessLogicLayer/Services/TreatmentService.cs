@@ -43,7 +43,7 @@ namespace BusinessLogicLayer.Services
 
         public async Task<IEnumerable<TreatmentGroup>> GetAllTreatmentGroupsAsync()
         {
-            using (var repo = new TreatmentRepository())
+            using (var repo = new TreatmentGroupRepository())
             {
                 return await repo.GetAllTreatmentGroupsAsync();
             }
@@ -51,7 +51,7 @@ namespace BusinessLogicLayer.Services
 
         public async Task<IEnumerable<WorkPosition>> GetAllWorkPositionsAsync()
         {
-            using (var repo = new TreatmentRepository())
+            using (var repo = new WorkPositionRepository())
             {
                 return await repo.GetAllWorkPositionsAsync();
             }
@@ -134,7 +134,26 @@ namespace BusinessLogicLayer.Services
             }
         }
 
+        public async Task AddTreatmentGroupAsync(string groupName)
+        {
+            using (var repo = new TreatmentGroupRepository())
+            {
+                var newGroup = new TreatmentGroup { Name = groupName };
+                await repo.AddAsync(newGroup);
+            }
+        }
 
+        public async Task DeleteTreatmentGroupAsync(int groupId)
+        {
+            using (var repo = new TreatmentGroupRepository())
+            {
+                var group = await repo.GetByIdAsync(groupId);
+                if (group != null)
+                {
+                    await repo.RemoveAsync(group);
+                }
+            }
+        }
     }
 }
 

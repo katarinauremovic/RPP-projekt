@@ -11,6 +11,10 @@ namespace DataAccessLayer.Repositories
 {
     public class TreatmentGroupRepository:Repository<TreatmentGroup>
     {
+        public async Task<IEnumerable<TreatmentGroup>> GetAllTreatmentGroupsAsync()
+        {
+            return await context.TreatmentGroups.ToListAsync();
+        }
         public async Task<TreatmentGroup> GetByNameAsync(string name)
         {
             return await context.TreatmentGroups.FirstOrDefaultAsync(g => g.Name == name);

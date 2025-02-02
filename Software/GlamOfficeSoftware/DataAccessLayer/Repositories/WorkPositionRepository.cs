@@ -11,6 +11,11 @@ namespace DataAccessLayer.Repositories
 {
     public class WorkPositionRepository: Repository<WorkPosition>
     {
+
+        public async Task<IEnumerable<WorkPosition>> GetAllWorkPositionsAsync()
+        {
+            return await context.WorkPositions.ToListAsync();
+        }
         public async Task<WorkPosition> GetByNameAsync(string name)
         {
             return await context.WorkPositions.FirstOrDefaultAsync(wp => wp.Name == name);

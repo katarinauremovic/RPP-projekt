@@ -14,8 +14,14 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
-                <Button x:Name="btnCloseSidebar" Click="btnCloseSidebar_Click" HorizontalAlignment="Right">
-                    <Image Source="/Images/close-circle.png" Width="50" Height="30"/>
+                <Button x:Name="btnCloseSidebar" DockPanel.Dock="Top" Style="{StaticResource btnMRC}" Click="btnCloseSidebar_Click" HorizontalAlignment="Right">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Grid>
+                                <Image Source="/Images/close-circle.png" Width="50" Height="30"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Button.Template>
                 </Button>
 
                 <ListBox x:Name="listGroups" Grid.Row="1" Margin="10" Background="White" Foreground="Black"/>
@@ -36,6 +42,8 @@
                 </Grid>
 
             </Grid>
+            
         </Border>
     </Grid>
+    
 </UserControl>

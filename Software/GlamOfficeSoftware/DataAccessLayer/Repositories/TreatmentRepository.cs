@@ -42,15 +42,9 @@ namespace DataAccessLayer.Repositories
                 .Where(t => t.Name.Contains(namePattern)) 
                 .ToListAsync();
         }
-        public async Task<IEnumerable<TreatmentGroup>> GetAllTreatmentGroupsAsync()
-        {
-            return await context.TreatmentGroups.ToListAsync();
-        }
+       
 
-        public async Task<IEnumerable<WorkPosition>> GetAllWorkPositionsAsync()
-        {
-            return await context.WorkPositions.ToListAsync();
-        }
+       
         public async Task<IEnumerable<TreatmentDTO>> GetTreatmentsByGroupAsync(int groupId)
         {
             var result = await (from t in items
