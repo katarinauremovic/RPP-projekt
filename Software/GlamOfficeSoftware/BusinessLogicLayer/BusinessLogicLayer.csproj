@@ -82,8 +82,10 @@
     <Compile Include="Exceptions\FailedToLoadClientsException.cs" />
     <Compile Include="Exceptions\FailedToLoadGiftCardsException.cs" />
     <Compile Include="Exceptions\FailedToOpenPdfException.cs" />
+    <Compile Include="Exceptions\InvalidDateFormatException.cs" />
     <Compile Include="Exceptions\InvalidEmailException.cs" />
     <Compile Include="Exceptions\InvalidEmployeeDataException.cs" />
+    <Compile Include="Exceptions\InvalidInputException.cs" />
     <Compile Include="Exceptions\InvalidPhoneNumberException.cs" />
     <Compile Include="Exceptions\InvalidPINException.cs" />
     <Compile Include="Exceptions\NotEnoughPointsException.cs" />

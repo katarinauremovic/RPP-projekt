@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.Services;
+﻿using BusinessLogicLayer.Exceptions;
+using BusinessLogicLayer.Services;
 using EntityLayer.Entities;
 using System;
 using System.Collections.Generic;
@@ -42,58 +43,58 @@ namespace PresentationLayer.UserControls
 
         private async void btnAddNewGiftCard_Click(object sender, RoutedEventArgs e)
         {
-            if (!decimal.TryParse(txtValue.Text, out decimal value) || value <= 0)
-            {
-                MessageBox.Show("Value must be a number greater than 0.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            if (dpActivationDate.SelectedDate == null)
-            {
-                MessageBox.Show("Please select an activation date.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            if (dpExpirationDate.SelectedDate == null)
-            {
-                MessageBox.Show("Please select an expiration date.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            if (dpActivationDate.SelectedDate >= dpExpirationDate.SelectedDate)
-            {
-                MessageBox.Show("Expiration date must be after activation date.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            
-            
-
-            var newGiftCard = new GiftCard
-            {
-                Value = value,
-                ToSpend = value,
-                ActivationDate = dpActivationDate.SelectedDate,
-                ExpirationDate = dpExpirationDate.SelectedDate,
-                RedemptionDate = dpRedemptionDate.SelectedDate,
-                Description = txtDescription.Text,
-                PromoCode = txtPromoCode.Text,
-                Status = "Waiting" 
-            };
-
             try
             {
-                await _giftCardService.AddNewGiftCardAsync(newGiftCard);
-               
+                if (!decimal.TryParse(txtValue.Text, out decimal value) || value <= 0)
+                {
+                    throw new InvalidInputException("Value must be a number greater than 0.");
+                }
 
-                
+                if (dpActivationDate.SelectedDate == null)
+                {
+                    throw new InvalidDateFormatException("Please select an activation date.");
+                }
+
+                if (dpExpirationDate.SelectedDate == null)
+                {
+                    throw new InvalidDateFormatException("Please select an expiration date.");
+                }
+
+                if (dpActivationDate.SelectedDate >= dpExpirationDate.SelectedDate)
+                {
+                    throw new InvalidDateFormatException("Expiration date must be after activation date.");
+                }
+
+                var newGiftCard = new GiftCard
+                {
+                    Value = value,
+                    ToSpend = value,
+                    ActivationDate = dpActivationDate.SelectedDate,
+                    ExpirationDate = dpExpirationDate.SelectedDate,
+                    RedemptionDate = dpRedemptionDate.SelectedDate,
+                    Description = txtDescription.Text,
+                    PromoCode = txtPromoCode.Text,
+                    Status = "Waiting"
+                };
+
+                await _giftCardService.AddNewGiftCardAsync(newGiftCard);
+
                 Parent.RefreshGui();
                 Parent.CloseSideBarMenu();
             }
+            catch (InvalidInputException ex)
+            {
+                MessageBox.Show($"Input Error: {ex.Message}", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (InvalidDateFormatException ex)
+            {
+                MessageBox.Show($"Date Error: {ex.Message}", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error while adding gift card: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Unexpected error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        
         }
 
         private void btnGeneratePromoCode_Click(object sender, RoutedEventArgs e)
