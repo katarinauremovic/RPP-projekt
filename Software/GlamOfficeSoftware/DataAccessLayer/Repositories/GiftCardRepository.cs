@@ -31,12 +31,13 @@ namespace DataAccessLayer.Repositories
 
         public async Task<IEnumerable<GiftCard>> GetGiftCardsByPromoCodeAsync(string promocode)
         {
-            promocode = promocode.Trim().ToUpper(); 
+            promocode = promocode.Trim().ToLower();
 
-            var giftCards = await context.GiftCards
-                                         .Where(g => g.PromoCode == promocode)
-                                         .ToListAsync();
-            return giftCards;
+            var filtered = await context.GiftCards
+                                        .Where(g => g.PromoCode != null && g.PromoCode.ToLower().Contains(promocode))
+                                        .ToListAsync();
+
+            return filtered;
         }
 
         public async Task UpdateGiftCardAsync(GiftCard giftCard)

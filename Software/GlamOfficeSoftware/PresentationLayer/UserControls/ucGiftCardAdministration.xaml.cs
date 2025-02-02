@@ -159,7 +159,7 @@ namespace PresentationLayer.UserControls
 
         private async Task SearchGiftCardsAsync()
         {
-            string searchText = txtSearch.Text.Trim().ToUpper();
+            string searchText = txtSearch.Text.Trim().ToLower();
 
             if (string.IsNullOrEmpty(searchText))
             {
