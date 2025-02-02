@@ -43,6 +43,17 @@
                             </Button.ContentTemplate>
                         </Button>
 
+                        <Button x:Name="btnEmployees" Style="{StaticResource SidebarButtonStyle}" Click="btnEmployees_Click">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Media/Images/employee-administration.png" Width="16" Height="16" Margin="5"/>
+                                        <TextBlock Text="Employees" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+
                         <Button x:Name="btnReceipts" Style="{StaticResource SidebarButtonStyle}" Click="btnReceipts_Click">
                             <Button.ContentTemplate>
                                 <DataTemplate>
@@ -76,16 +87,27 @@
                             </Button.ContentTemplate>
                         </Button>
 
-                        <Button x:Name="btnLogout" Style="{StaticResource SidebarButtonStyle}">
+                        <Button x:Name="btnTreatmentManagement" Style="{StaticResource SidebarButtonStyle}" Click="btnTreatmentManagement_Click">
                             <Button.ContentTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Media/Images/log-out.png" Width="16" Height="16" Margin="5"/>
-                                        <TextBlock Text="Logout" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                        <Image Source="/Media/Images/employee-administration.png" Width="16" Height="16" Margin="5"/>
+                                        <TextBlock Text="Treatments" VerticalAlignment="Center" Margin="5,0,0,0"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </Button.ContentTemplate>
                         </Button>
+                        <Button x:Name="btnLogout" Style="{StaticResource SidebarButtonStyle}" Click="btnLogout_Click">
+                                <Button.ContentTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/Media/Images/log-out.png" Width="16" Height="16" Margin="5"/>
+                                            <TextBlock Text="Logout" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </Button.ContentTemplate>
+                            </Button>
+                       
                     </StackPanel>
                 </DockPanel>
             </Grid>

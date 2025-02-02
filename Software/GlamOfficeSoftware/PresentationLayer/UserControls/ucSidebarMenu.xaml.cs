@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.Interfaces;
+﻿using BusinessLogicLayer;
+using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
 using EntityLayer.Entities;
 using PresentationLayer.Windows;
@@ -103,6 +104,39 @@ namespace PresentationLayer.UserControls
             win.ShowDialog();
 
             */
+        }
+
+        private void btnTreatmentManagement_Click(object sender, RoutedEventArgs e)
+        {
+            var ucTreatments = new ucTreatmentManagement();
+            ucTreatments.Parent = Parent;
+            Parent.ccContent.Content = ucTreatments;
+        }
+
+       
+
+        private void btnEmployees_Click(object sender, RoutedEventArgs e)
+        {
+            var ucEmployees = new ucEmployeeAdministration();
+            ucEmployees.Parent = Parent;
+            Parent.ccContent.Content = ucEmployees;
+        }
+
+        private void btnLogout_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show(
+        "Jeste li sigurni da se želite odjaviti?",
+        "Potvrda odjave",
+        MessageBoxButton.YesNo,
+        MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                LoggedInEmployee.Logout();
+                var loginOptionsWindow = new LoginOptions();
+                loginOptionsWindow.Show();
+                Parent.Close();
+            }
         }
     }
 }
