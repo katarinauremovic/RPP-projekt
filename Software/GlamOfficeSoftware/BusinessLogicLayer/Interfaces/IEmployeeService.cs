@@ -31,5 +31,7 @@ namespace BusinessLogicLayer.Interfaces
         Task<bool> IsUsernameTakenAsync(string username);
         Task DeleteEmployeeAsync(int employeeId);
         Task UpdateEmployeeAsync(Employee employee);
+        Task<EmployeeLoginDTO> LogInWithCredentialsAsync(string username, string password);
+        Task<EmployeeLoginDTO> LogInWithQRCodeAsync(string qrCode);
     }
 }

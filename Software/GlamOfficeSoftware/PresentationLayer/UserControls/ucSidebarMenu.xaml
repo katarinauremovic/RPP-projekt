@@ -98,6 +98,7 @@
                             </Button.ContentTemplate>
                         </Button>
                         <Button x:Name="btnLogout" Style="{StaticResource SidebarButtonStyle}">
+                        <Button x:Name="btnLogout" Style="{StaticResource SidebarButtonStyle}" Click="btnLogout_Click">
                             <Button.ContentTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
