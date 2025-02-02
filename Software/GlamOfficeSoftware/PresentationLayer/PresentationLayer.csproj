@@ -56,6 +56,10 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="NStringGenerator, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Desktop\NStringGenerator.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -92,6 +96,9 @@
     <Compile Include="UserControls\ucAddNewClientSidebar.xaml.cs">
       <DependentUpon>ucAddNewClientSidebar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ucAddNewEmployee.xaml.cs">
+      <DependentUpon>ucAddNewEmployee.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ucClientAdministration.xaml.cs">
       <DependentUpon>ucClientAdministration.xaml</DependentUpon>
     </Compile>
@@ -100,6 +107,12 @@
     </Compile>
     <Compile Include="UserControls\ucEditClientsProfileSidebar.xaml.cs">
       <DependentUpon>ucEditClientsProfileSidebar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ucEditEmployeeDetails.xaml.cs">
+      <DependentUpon>ucEditEmployeeDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ucEmployeeAdministration.xaml.cs">
+      <DependentUpon>ucEmployeeAdministration.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ucReceipts.xaml.cs">
       <DependentUpon>ucReceipts.xaml</DependentUpon>
@@ -112,6 +125,9 @@
     </Compile>
     <Compile Include="UserControls\ucShowClientsProfileSidebar.xaml.cs">
       <DependentUpon>ucShowClientsProfileSidebar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ucShowEmployeeDetailsSideBar.xaml.cs">
+      <DependentUpon>ucShowEmployeeDetailsSideBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ucShowReceiptSidebar.xaml.cs">
       <DependentUpon>ucShowReceiptSidebar.xaml</DependentUpon>
@@ -150,6 +166,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\ucAddNewEmployee.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\ucClientAdministration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -159,6 +179,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ucEditClientsProfileSidebar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ucEditEmployeeDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ucEmployeeAdministration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -175,6 +203,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ucShowClientsProfileSidebar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ucShowEmployeeDetailsSideBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -239,9 +271,17 @@
       <Project>{8873d131-0754-4239-99c2-b31088395c31}</Project>
       <Name>BusinessLogicLayer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">
+      <Project>{acfb0606-00cc-4c04-b7f0-fb9ebd204c04}</Project>
+      <Name>DataAccessLayer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EntityLayer\EntityLayer.csproj">
       <Project>{5802cf89-8439-4169-a24c-b10f49229e6a}</Project>
       <Name>EntityLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PdfFactory\PdfFactory.csproj">
+      <Project>{89cb27e9-ec4c-4c7b-8108-de0acf13f61f}</Project>
+      <Name>PdfFactory</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -266,6 +306,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Resource Include="Images\QRCode.png" />
+    <Resource Include="Images\refresh_button.jpg" />
     <Resource Include="Images\plus-circle.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

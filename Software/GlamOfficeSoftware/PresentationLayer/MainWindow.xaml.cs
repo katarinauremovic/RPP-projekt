@@ -82,5 +82,7 @@ namespace PresentationLayer
                 sidebarMenu.BeginAnimation(MarginProperty, marginAnimation);
             }
         }
+
+        
     }
 }

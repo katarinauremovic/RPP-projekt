@@ -106,6 +106,13 @@ namespace PresentationLayer.UserControls
             */
         }
 
+        private void btnEmployees_Click(object sender, RoutedEventArgs e)
+        {
+            var ucEmployees = new ucEmployeeAdministration();
+            ucEmployees.Parent = Parent;
+            Parent.ccContent.Content = ucEmployees;
+        }
+
         private void btnLogout_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show(
