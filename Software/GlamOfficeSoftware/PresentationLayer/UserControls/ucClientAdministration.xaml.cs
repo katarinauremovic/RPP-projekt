@@ -194,8 +194,6 @@ namespace PresentationLayer.UserControls
 
         private void dgvClients_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var sidebarMenu = (FrameworkElement)ccSidebar.Content;
-
             try
             {
                 var client = GetClientFromDataGrid();
@@ -214,8 +212,7 @@ namespace PresentationLayer.UserControls
             } catch (Exception ex)
             {
                 MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            
+            } 
         }
 
         private void btnAddClient_Click(object sender, RoutedEventArgs e)

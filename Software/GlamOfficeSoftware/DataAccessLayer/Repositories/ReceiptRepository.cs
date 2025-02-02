@@ -24,10 +24,10 @@ namespace DataAccessLayer.Repositories
             return await items.Include(r => r.Reservation).OrderByDescending(r => r.idReceipt).FirstOrDefaultAsync();
         }
 
-        public async Task<int?> GetGiftCardIdByReceiptAsync(Receipt receipt)
+        public async Task<int> GetGiftCardIdByReceiptAsync(Receipt receipt)
         {
             return await items.Where(r => r.idReceipt == receipt.idReceipt)
-                .Select(r => r.Reservation.Client.GiftCard_idGiftCard)
+                .Select(r => r.Reservation.Client.GiftCard_idGiftCard.Value)
                 .FirstOrDefaultAsync();
         }
 
