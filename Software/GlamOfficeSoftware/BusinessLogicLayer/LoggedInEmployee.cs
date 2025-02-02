@@ -9,11 +9,11 @@ namespace BusinessLogicLayer
 {
     public static class LoggedInEmployee
     {
-        public static EmployeeDTO LoggedEmployee { get; private set; }
+        public static EmployeeLoginDTO LoggedEmployee { get; private set; }
 
         public static bool IsLoggedIn => LoggedEmployee != null;
 
-        public static void SetLoggedInEmployee(EmployeeDTO employee)
+        public static void SetLoggedInEmployee(EmployeeLoginDTO employee)
         {
             if (employee != null)
             {

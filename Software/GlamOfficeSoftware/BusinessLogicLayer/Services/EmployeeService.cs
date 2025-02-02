@@ -14,7 +14,7 @@ namespace BusinessLogicLayer.Services
 {
     public class EmployeeService : IEmployeeService
     {
-        public async Task<EmployeeDTO> LogInWithCredentialsAsync(string username, string password)
+        public async Task<EmployeeLoginDTO> LogInWithCredentialsAsync(string username, string password)
         {
            using(var repo = new EmployeeRepository())
            {
@@ -34,7 +34,7 @@ namespace BusinessLogicLayer.Services
             }
         }
 
-        public async Task<EmployeeDTO> LogInWithQRCodeAsync(string qrCode)
+        public async Task<EmployeeLoginDTO> LogInWithQRCodeAsync(string qrCode)
         {
             var decoded = DecodeQRCode(qrCode);
             string username = decoded.username;
@@ -68,14 +68,14 @@ namespace BusinessLogicLayer.Services
                 return Convert.ToBase64String(hashedBytes);
             }
         }
-        public EmployeeDTO ConvertEmployeeToDTO(Employee employee)
+        public EmployeeLoginDTO ConvertEmployeeToDTO(Employee employee)
         {
             if (employee == null)
             {
                 return null;
             }
 
-            return new EmployeeDTO
+            return new EmployeeLoginDTO
             {
                 idEmployee = employee.idEmployee,
                 Username = employee.Username,

@@ -44,7 +44,7 @@
   <ItemGroup>
     <Compile Include="DTOs\ClientDTO.cs" />
     <Compile Include="DTOs\ClientReceiptDTO.cs" />
-    <Compile Include="DTOs\EmployeeDTO.cs" />
+    <Compile Include="DTOs\EmployeeLoginDTO.cs" />
     <Compile Include="DTOs\ReceiptDTO.cs" />
     <Compile Include="DTOs\RewardDTO.cs" />
     <Compile Include="DTOs\TreatmentReceiptDTO.cs" />

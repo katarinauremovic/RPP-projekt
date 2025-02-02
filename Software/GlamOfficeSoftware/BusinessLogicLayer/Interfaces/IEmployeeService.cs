@@ -9,7 +9,7 @@ namespace BusinessLogicLayer.Interfaces
 {
     public interface IEmployeeService
     {
-        Task<EmployeeDTO> LogInWithCredentialsAsync(string username, string password);
-        Task<EmployeeDTO> LogInWithQRCodeAsync(string qrCode);
+        Task<EmployeeLoginDTO> LogInWithCredentialsAsync(string username, string password);
+        Task<EmployeeLoginDTO> LogInWithQRCodeAsync(string qrCode);
     }
 }
