@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Repositories;
+﻿using BusinessLogicLayer.Interfaces;
+using DataAccessLayer.Repositories;
 using EntityLayer.Entities;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Services
 {
-    public class ReviewService
+    public class ReviewService : IReviewService
     {
         private readonly ReviewRepository _reviewRepository;
 

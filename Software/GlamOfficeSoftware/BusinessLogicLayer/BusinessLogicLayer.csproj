@@ -97,6 +97,7 @@
     <Compile Include="Interfaces\ILoyaltyLevelService.cs" />
     <Compile Include="Interfaces\IReceiptService.cs" />
     <Compile Include="Interfaces\IReservationService.cs" />
+    <Compile Include="Interfaces\IReviewService.cs" />
     <Compile Include="Interfaces\IRewardService.cs" />
     <Compile Include="LoggedInEmployee.cs" />
     <Compile Include="Interfaces\ITreatmentService.cs" />

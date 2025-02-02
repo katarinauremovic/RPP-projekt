@@ -20,24 +20,33 @@ namespace DataAccessLayer.Repositories
 
         public async Task<Dictionary<int, double>> GetAverageRatingByEmployeeAsync()
         {
-            return await context.Reviews
+            var reviews = await context.Reviews
                 .Where(r => r.Employee_idEmployee != null)
-                .GroupBy(r => r.Employee_idEmployee.GetValueOrDefault(0))
-                .Select(g => new
-                {
-                    EmployeeId = g.Key,
-                    AvgRating = g.Average(r => r.Rating) ?? 0.0
-                })
-                .ToDictionaryAsync(g => g.EmployeeId, g => g.AvgRating);
+                .ToListAsync();  
+
+            return reviews
+                .GroupBy(r => r.Employee_idEmployee ?? 0) 
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Average(r => r.Rating ?? 0.0) 
+                );
         }
+
 
         public async Task<Dictionary<string, int>> GetReviewTrendsOverTimeAsync()
         {
-            return await context.Reviews
-                .GroupBy(r => (r.Date ?? DateTime.MinValue).Date)
-                .Select(g => new { Date = g.Key.ToString("yyyy-MM-dd"), Count = g.Count() })
-                .ToDictionaryAsync(g => g.Date, g => g.Count);
+            var reviews = await context.Reviews
+                .Where(r => r.Date != null) 
+                .ToListAsync(); 
+
+            return reviews
+                .GroupBy(r => r.Date.Value.ToString("yyyy-MM-dd")) 
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Count()
+                );
         }
+
 
         public async Task<IEnumerable<Review>> GetReviewsByEmployeeIdAsync(int employeeId)
         {
