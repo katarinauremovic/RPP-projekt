@@ -48,7 +48,12 @@
                             <TextBlock Text="To:" VerticalAlignment="Center" Margin="5"/>
                             <TextBox x:Name="txtEndTime" Text="{Binding WorkEndTime}" Width="50"/>
                         </StackPanel>
+                        <TextBlock x:Name="txtErrorMessage" Foreground="#d02c2c" TextWrapping="Wrap"
+                                 Visibility="Collapsed" 
+                                  Text="Error message" HorizontalAlignment="Center" Margin="5,5,5,10"/>
                     </StackPanel>
+                    
+
                 </ScrollViewer>
 
                 <!-- Gumbi za spremanje i otkazivanje -->

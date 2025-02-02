@@ -70,7 +70,7 @@ namespace BusinessLogicLayer.Services
             var formattedDays = days.Select((d, index) => new DayDTO
             {
                 Id = d.idDay,
-                Name = dayNames[index], // Pridruži ispravno ime dana
+                Name = dayNames[index], 
                 Date = d.Date
             }).ToList();
 
