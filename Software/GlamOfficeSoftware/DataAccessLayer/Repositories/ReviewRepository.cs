@@ -18,19 +18,21 @@ namespace DataAccessLayer.Repositories
                 .ToDictionaryAsync(g => g.Rating, g => g.Count);
         }
 
-        public async Task<Dictionary<int, double>> GetAverageRatingByEmployeeAsync()
+        public async Task<Dictionary<string, double>> GetAverageRatingByEmployeeAsync()
         {
-            var reviews = await context.Reviews
+            var employeeRatings = await context.Reviews
                 .Where(r => r.Employee_idEmployee != null)
-                .ToListAsync();  
+                .GroupBy(r => new { r.Employee.Firstname, r.Employee.Lastname })
+                .Select(g => new
+                {
+                    EmployeeName = g.Key.Firstname + " " + g.Key.Lastname,
+                    AvgRating = g.Average(r => r.Rating) ?? 0.0 
+                })
+                .ToListAsync();
 
-            return reviews
-                .GroupBy(r => r.Employee_idEmployee ?? 0) 
-                .ToDictionary(
-                    g => g.Key,
-                    g => g.Average(r => r.Rating ?? 0.0) 
-                );
+            return employeeRatings.ToDictionary(g => g.EmployeeName, g => g.AvgRating);
         }
+
 
 
         public async Task<Dictionary<string, int>> GetReviewTrendsOverTimeAsync()
@@ -54,5 +56,21 @@ namespace DataAccessLayer.Repositories
                 .Where(r => r.Employee_idEmployee == employeeId)
                 .ToListAsync();
         }
+        public async Task<Dictionary<string, double>> GetAverageRatingByTreatmentAsync()
+        {
+            return await context.Reviews
+                .Where(r => r.Treatment_idTreatment != null) 
+                .GroupBy(r => r.Treatment_idTreatment)
+                .Select(g => new
+                {
+                    TreatmentName = context.Treatments
+                                          .Where(t => t.idTreatment == g.Key)
+                                          .Select(t => t.Name)
+                                          .FirstOrDefault(),
+                    AvgRating = g.Average(r => r.Rating) ?? 0.0
+                })
+                .ToDictionaryAsync(g => g.TreatmentName, g => g.AvgRating);
+        }
+
     }
 }

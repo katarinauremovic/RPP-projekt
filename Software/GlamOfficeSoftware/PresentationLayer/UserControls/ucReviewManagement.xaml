@@ -29,7 +29,7 @@
                 <Button x:Name="btnRefreshData"
                         Width="40" Height="40" HorizontalAlignment="Right"
                         Style="{StaticResource classicButton}" Background="Transparent" 
-                        ToolTip="Refresh Data" Margin="10,0,0,0">
+                        ToolTip="Refresh Data" Margin="10,0,0,0" Click="btnRefreshData_Click">
                     <Image Source="/Images/refresh-icon.png" Width="30" Height="30"/>
                 </Button>
                 <TextBlock x:Name="txtTitle" Text="Review Statistics" 
@@ -67,36 +67,80 @@
                 </StackPanel>
             </StackPanel>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
-                <StackPanel Grid.Column="0" Margin="10">
-                    <TextBlock Text="Average Rating:" FontSize="16" FontWeight="Bold"/>
-                    <TextBlock x:Name="txtAverageRating" FontSize="32" FontWeight="Bold" Foreground="DarkBlue"/>
-                </StackPanel>
+                    <StackPanel Grid.Column="0" Margin="10">
+                        <TextBlock Text="Average Rating:" FontSize="16" FontWeight="Bold"/>
+                        <TextBlock x:Name="txtAverageRating" FontSize="32" FontWeight="Bold" Foreground="DarkBlue"/>
+                    </StackPanel>
 
-                <StackPanel Grid.Column="1" Margin="10">
-                    <TextBlock Text="Ratings Distribution:" FontSize="16" FontWeight="Bold"/>
-                    <lvc:CartesianChart x:Name="chartRatingDistribution" Height="200"/>
-                </StackPanel>
+                    <StackPanel Grid.Column="1" Margin="10">
+                        <TextBlock Text="Ratings Distribution:" FontSize="16" FontWeight="Bold"/>
+                        <lvc:CartesianChart x:Name="chartRatingDistribution" Height="200"/>
+                    </StackPanel>
 
-                <StackPanel Grid.Column="0" Grid.Row="1" Margin="10">
-                    <TextBlock Text="Average Rating by Employee:" FontSize="16" FontWeight="Bold"/>
-                    <lvc:CartesianChart x:Name="chartEmployeeRatings" Height="200"/>
-                </StackPanel>
+                    <StackPanel Grid.Column="2" Margin="10">
+                        <TextBlock Text="Average Rating by Employee:" FontSize="16" FontWeight="Bold"/>
+                        <lvc:CartesianChart x:Name="chartEmployeeRatings" Height="200"/>
+                    </StackPanel>
 
-                <StackPanel Grid.Column="1" Grid.Row="1" Margin="10">
-                    <TextBlock Text="Review Trends Over Time:" FontSize="16" FontWeight="Bold"/>
-                    <lvc:CartesianChart x:Name="chartReviewTrends" Height="200"/>
-                </StackPanel>
-            </Grid>
+                    <StackPanel Grid.Column="0" Grid.Row="1" Margin="10">
+                        <TextBlock Text="Average Rating by Treatment:" FontSize="16" FontWeight="Bold"/>
+                        <lvc:CartesianChart x:Name="chartTreatmentRatings" Height="200"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Grid.Row="1" Margin="10">
+                        <TextBlock Text="Review Trends Over Time:" FontSize="16" FontWeight="Bold"/>
+                        <lvc:CartesianChart x:Name="chartReviewTrends" Height="200"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="0" Grid.Row="2" Margin="10">
+                        <TextBlock Text="Top 3 Employees:" FontSize="16" FontWeight="Bold"/>
+                        <ItemsControl x:Name="topEmployeesList">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="1" BorderBrush="Gray" CornerRadius="5" Background="White" Margin="5">
+                                        <StackPanel Margin="5">
+                                            <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                            <TextBlock Text="Avg Rating:" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding AvgRating}" />
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Grid.Row="2" Margin="10">
+                        <TextBlock Text="Top 3 Treatments:" FontSize="16" FontWeight="Bold"/>
+                        <ItemsControl x:Name="topTreatmentsList">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="1" BorderBrush="Gray" CornerRadius="5" Background="White" Margin="5">
+                                        <StackPanel Margin="5">
+                                            <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                            <TextBlock Text="Avg Rating:" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding AvgRating}" />
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+
+                </Grid>
+            </ScrollViewer>
         </DockPanel>
     </Grid>
 </UserControl>

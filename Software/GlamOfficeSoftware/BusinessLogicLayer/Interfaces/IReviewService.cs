@@ -10,8 +10,9 @@ namespace BusinessLogicLayer.Interfaces
     public interface IReviewService
     {
         Task<Dictionary<int, int>> GetReviewDistributionAsync();
-        Task<Dictionary<int, double>> GetAverageRatingByEmployeeAsync();
+        Task<Dictionary<string, double>> GetAverageRatingByEmployeeAsync();
         Task<Dictionary<string, int>> GetReviewTrendsOverTimeAsync();
         Task<IEnumerable<Review>> GetReviewsByEmployeeIdAsync(int employeeId);
+        Task<Dictionary<string, double>> GetAverageRatingByTreatmentAsync();
     }
 }
