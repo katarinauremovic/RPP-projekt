@@ -136,7 +136,7 @@ namespace PresentationLayer.UserControls
                 
                 Parent.CloseSideBarMenu();
             }
-            catch (Exception ex)
+            catch (UnsuccessfulOperationException ex)
             {
                 MessageBox.Show($"Error saving changes: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -184,7 +184,7 @@ namespace PresentationLayer.UserControls
             {
                 MessageBox.Show(ex.Message, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            catch (Exception ex)
+            catch (UnsuccessfulOperationException ex)
             {
                 MessageBox.Show($"Error assigning gift card: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
