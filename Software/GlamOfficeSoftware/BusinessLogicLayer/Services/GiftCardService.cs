@@ -129,5 +129,13 @@ namespace BusinessLogicLayer.Services
                 throw new Exception("Failed to open the PDF file.", ex);
             }
         }
+
+        public async Task DeleteGiftCardAsync(int giftCardId)
+        {
+            using (var repo = new GiftCardRepository())
+            {
+                await repo.DeleteGiftCardAsync(giftCardId);
+            }
+        }
     }
 }

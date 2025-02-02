@@ -189,5 +189,39 @@ namespace PresentationLayer.UserControls
                 MessageBox.Show($"Error assigning gift card: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private async void btnDeleteGiftCard_Click(object sender, RoutedEventArgs e)
+        {
+            if (_giftCard == null)
+            {
+                MessageBox.Show("Error: No gift card selected!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            var confirmBox = new PresentationLayer.Windows.winMessageBox();
+            bool result = await confirmBox.ShowAsync("Confirm Deletion",
+                $"Are you sure you want to delete gift card with Promo Code: {_giftCard.PromoCode}?");
+
+            if (result)
+            {
+                try
+                {
+                    await _giftCardService.DeleteGiftCardAsync(_giftCard.idGiftCard);
+                    
+
+                    
+                    Parent.RefreshGui();
+                    Parent.CloseSideBarMenu();
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (UnsuccessfulOperationException ex)
+                {
+                    MessageBox.Show($"Error deleting gift card: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
     }
 }

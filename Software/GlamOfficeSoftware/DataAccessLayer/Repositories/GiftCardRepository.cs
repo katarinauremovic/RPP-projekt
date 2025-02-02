@@ -57,5 +57,20 @@ namespace DataAccessLayer.Repositories
                 await SaveChangesAsync();
             }
         }
+
+        public async Task DeleteGiftCardAsync(int giftCardId)
+        {
+            var giftCard = await items.FirstOrDefaultAsync(g => g.idGiftCard == giftCardId);
+
+            if (giftCard != null)
+            {
+                items.Remove(giftCard);
+                await SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Gift card with ID {giftCardId} does not exist.");
+            }
+        }
     }
 }

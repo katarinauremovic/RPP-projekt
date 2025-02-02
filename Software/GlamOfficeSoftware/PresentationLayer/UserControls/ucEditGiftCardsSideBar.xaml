@@ -144,6 +144,17 @@
             Foreground="Black" 
             Margin="15,0,15,7" />
 
+                        
+                        <Button x:Name="btnDeleteGiftCard" 
+            Click="btnDeleteGiftCard_Click"
+            FontWeight="SemiBold" 
+            Height="40" 
+            Content="Delete Gift Card" 
+            Style="{StaticResource deleteButton}" 
+            Background="#d02c2c" 
+            Foreground="White"
+            Margin="15,0,15,7" />
+
                         <Button x:Name="btnCancelAdding" 
             Click="btnCancelAdding_Click" 
             FontWeight="SemiBold" 
@@ -151,6 +162,7 @@
             Content="Cancel" 
             Style="{StaticResource deleteButton}" 
             Background="#d02c2c" 
+            Foreground="White"
             Margin="15,0,15,0" />
                     </StackPanel>
                 </Grid>
