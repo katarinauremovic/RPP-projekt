@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EntityLayer.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,5 +10,9 @@ namespace BusinessLogicLayer.Interfaces
     public interface IGiftCardService
     {
         Task RecoverGiftCardAsync(int giftCardId, decimal giftCardDiscount);
+
+        Task<IEnumerable<GiftCard>> GetAllGiftCardsAsync(); 
+
+        Task<IEnumerable<GiftCard>> GetGiftCardsByPromoCodeAsync(string promocode);
     }
 }

@@ -49,5 +49,29 @@ namespace BusinessLogicLayer.Services
                 giftCard.ToSpend = giftCardDiscount;
             }
         }
+
+        public async Task<IEnumerable<GiftCard>> GetAllGiftCardsAsync()
+        {
+            using (var repo = new GiftCardRepository())
+            {
+                return await repo.GetAllGiftCardsAsync();
+            }
+        }
+
+        public async Task<IEnumerable<GiftCard>> GetGiftCardsByPromoCodeAsync(string promocode)
+        {
+            using (var repo = new GiftCardRepository())
+            {
+                return await repo.GetGiftCardsByPromoCodeAsync(promocode);
+            }
+        }
+
+        public async Task AddNewGiftCardAsync(GiftCard giftCard)
+        {
+            using (var repo = new GiftCardRepository())
+            {
+                await repo.AddAsync(giftCard);
+            }
+        }
     }
 }
