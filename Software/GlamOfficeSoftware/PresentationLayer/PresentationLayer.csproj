@@ -261,6 +261,7 @@
     <Content Include="Images\GlamOfficeIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Images\refresh_button.jpg" />
     <Resource Include="Images\plus-circle.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

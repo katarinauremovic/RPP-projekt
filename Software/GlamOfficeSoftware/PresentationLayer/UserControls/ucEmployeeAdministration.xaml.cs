@@ -416,5 +416,15 @@ namespace PresentationLayer.UserControls
             await LoadEmployeesAsync();
             ShowLoadingIndicator(false);
         }
+
+        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshGui();
+            textSearch.Text = "";
+            txtSearch.Text = "";
+            cmbFilterOptions.SelectedIndex = 0;
+            cmbFilters.SelectedIndex = 0;
+            cmbSortingList.SelectedIndex = 0;
+        }
     }
 }

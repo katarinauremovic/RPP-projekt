@@ -25,8 +25,37 @@
     <Grid Background="#f5f5f5">
         <DockPanel Margin="30,0,30,15">
 
-            <TextBlock x:Name="txtTitle" Text="Employees" Style="{StaticResource titleText}" Margin="10" DockPanel.Dock="Top" />
 
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                   
+                    <ColumnDefinition Width="*"/>
+                    
+                </Grid.ColumnDefinitions>
+
+
+                <Button x:Name="btnRefresh" 
+                
+                Click="btnRefresh_Click" 
+                Style="{StaticResource classicButton}" 
+                Width="40" 
+                Height="40"
+                HorizontalAlignment="Left"
+                Background="Transparent"
+        ToolTip="Refresh Employees"
+        Margin="0,0,10,0"
+        Grid.Column="0">
+                    <Image Source="/Images/refresh_button.jpg" Width="30" Height="30"/>
+                </Button>
+
+                <TextBlock x:Name="txtTitle" 
+                   Text="Employees" 
+                   Style="{StaticResource titleText}" 
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Grid.Column="1"/>
+            </Grid>
 
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Left">
 

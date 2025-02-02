@@ -54,7 +54,11 @@ namespace PresentationLayer.UserControls
                     string.IsNullOrWhiteSpace(txtLastname.Text) ||
                     string.IsNullOrWhiteSpace(txtEmail.Text) ||
                     string.IsNullOrWhiteSpace(txtUsername.Text) ||
-                    string.IsNullOrWhiteSpace(txtPhoneNumber.Text))
+                    string.IsNullOrWhiteSpace(txtPhoneNumber.Text) ||
+                    string.IsNullOrWhiteSpace(txtSalt.Text) ||
+                    string.IsNullOrWhiteSpace(txtPassword.Text) ||
+                    cmbRole.SelectedItem == null ||
+                    cmbWorkPosition.SelectedItem == null)
                 {
                     throw new InvalidEmployeeDataException("All fields must be filled.");
                 }
@@ -104,6 +108,7 @@ namespace PresentationLayer.UserControls
                 await _employeeService.AddNewEmployeeAsync(employee);
                 Parent.RefreshGui();
                 ClearInputs();
+                Parent.CloseSideBarMenu();
             }
             catch (InvalidEmployeeDataException ex)
             {
