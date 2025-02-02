@@ -111,6 +111,7 @@
     <Compile Include="Services\PromotionGmailService.cs" />
     <Compile Include="Services\ReceiptService.cs" />
     <Compile Include="Services\ReservationService.cs" />
+    <Compile Include="Services\ReviewService.cs" />
     <Compile Include="Services\RewardService.cs" />
     <Compile Include="Services\RewardSystem.cs" />
     <Compile Include="Services\TreatmentService.cs" />
