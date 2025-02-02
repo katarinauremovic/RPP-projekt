@@ -27,5 +27,9 @@ namespace BusinessLogicLayer.Interfaces
         Task<IEnumerable<WorkPosition>> GetWorkPositionsAsync();
 
         Task<IEnumerable<Role>> GetRolesAsync();
+
+        Task<bool> IsUsernameTakenAsync(string username);
+        Task DeleteEmployeeAsync(int employeeId);
+        Task UpdateEmployeeAsync(Employee employee);
     }
 }
