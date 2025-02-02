@@ -71,6 +71,11 @@ namespace DataAccessLayer.Repositories
                 })
                 .ToDictionaryAsync(g => g.TreatmentName, g => g.AvgRating);
         }
-
+        public async Task AddReviewsAsync(IEnumerable<Review> reviews)
+        {
+            items.AddRange(reviews);
+            int savedRecords = await context.SaveChangesAsync();
+           
+        }
     }
 }

@@ -6,16 +6,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static BusinessLogicLayer.Services.ReviewFormGmailService;
 
 namespace BusinessLogicLayer.Services
 {
     public class ReviewService : IReviewService
     {
         private readonly ReviewRepository _reviewRepository;
+        private readonly ReviewFormEmailService _emailService;
 
         public ReviewService()
         {
             _reviewRepository = new ReviewRepository();
+            _emailService = new ReviewFormEmailService();
         }
 
         public async Task<Dictionary<int, int>> GetReviewDistributionAsync()
@@ -60,5 +63,24 @@ namespace BusinessLogicLayer.Services
                 .ToList();
         }
 
+        public async Task SyncReviewsFromEmailAsync()
+        {
+            var reviews = await _emailService.FetchReviewsFromEmailAsync();
+            if (reviews.Any())
+            {
+                try
+                {
+                    await _reviewRepository.AddReviewsAsync(reviews);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error syncing reviews: {ex.Message}");
+                    if (ex.InnerException != null)
+                    {
+                        Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+                    }
+                }
+            }
+        }
     }
 }

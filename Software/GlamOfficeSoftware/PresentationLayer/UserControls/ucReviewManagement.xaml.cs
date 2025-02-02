@@ -165,5 +165,31 @@ namespace PresentationLayer.UserControls
             await LoadAverageRatingByTreatmentChart();
             await LoadTopEmployeesAndTreatments();
         }
+
+        private async void btnSyncReviews_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                btnSyncReviews.IsEnabled = false;
+                btnSyncReviews.Content = "Syncing...";
+
+                await _reviewService.SyncReviewsFromEmailAsync();
+
+                MessageBox.Show("Reviews successfully synced from email!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                await LoadReviewStatistics(); 
+                await LoadAverageRatingByTreatmentChart();
+                await LoadTopEmployeesAndTreatments();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error syncing reviews: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                btnSyncReviews.IsEnabled = true;
+                btnSyncReviews.Content = "Sync Reviews from Email";
+            }
+        }
     }
 }

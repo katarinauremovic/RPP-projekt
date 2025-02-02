@@ -38,33 +38,13 @@
             </DockPanel>
 
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Left">
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel>
-                        <TextBlock Text="Search Reviews:" Margin="7,5" />
-                        <Border BorderThickness="1" Width="190" BorderBrush="#acb0af" CornerRadius="20" Height="40" Background="#b894ac" Margin="7,0" HorizontalAlignment="Left">
-                            <Grid Margin="7,9">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="auto" />
-                                </Grid.ColumnDefinitions>
-
-                                <TextBox x:Name="txtSearch" Grid.Column="0" Width="140" Height="30" 
-                                         Style="{StaticResource textBox}" VerticalAlignment="Center" 
-                                         TextChanged="txtSearch_TextChanged" Margin="7,0,0,0"/>
-
-                                <Button x:Name="btnDropdownSearch" Grid.Column="1" Click="btnDropdownSearch_Click">
-                                    <Button.Template>
-                                        <ControlTemplate TargetType="Button">
-                                            <Grid>
-                                                <Image Source="/Images/dropdown-arrow.png" Width="20" />
-                                            </Grid>
-                                        </ControlTemplate>
-                                    </Button.Template>
-                                </Button>
-                            </Grid>
-                        </Border>
-                    </StackPanel>
-                </StackPanel>
+                <Button x:Name="btnSyncReviews" 
+                        Content="Sync Reviews from Email" 
+                        Width="200" Height="40" 
+                        Style="{StaticResource classicButton}" 
+                        Background="#b894ac" Foreground="White"
+                        Click="btnSyncReviews_Click"
+                        Margin="10,0,0,0"/>
             </StackPanel>
 
             <ScrollViewer VerticalScrollBarVisibility="Auto">
