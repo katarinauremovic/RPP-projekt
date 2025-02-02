@@ -100,5 +100,15 @@ namespace PresentationLayer.UserControls
         {
             Parent.CloseSideBarMenu();
         }
+
+        private void btnDownloadQR_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnGenerateQR_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
