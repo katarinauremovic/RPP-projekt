@@ -62,15 +62,21 @@ namespace BusinessLogicLayer.Services
         public async Task<IEnumerable<DayDTO>> GetOrCreateDaysForNextWeekAsync()
         {
             DateTime nextMonday = GetNextMonday(DateTime.Today);
+
             var days = await _scheduleRepository.GetOrCreateDaysForWeekAsync(nextMonday);
 
-            return days.Select(d => new DayDTO
+            string[] dayNames = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+
+            var formattedDays = days.Select((d, index) => new DayDTO
             {
                 Id = d.idDay,
-                Name = d.Name,
+                Name = dayNames[index], // Pridruži ispravno ime dana
                 Date = d.Date
             }).ToList();
+
+            return formattedDays;
         }
+
 
         public async Task UpdateDailyScheduleAsync(int dayId, int employeeId, TimeSpan newStartTime, TimeSpan newEndTime)
         {

@@ -138,5 +138,12 @@ namespace PresentationLayer.UserControls
                 Parent.Close();
             }
         }
+
+        private void btnSchedule_Click(object sender, RoutedEventArgs e)
+        {
+            var ucSchedulee = new ucSchedule();
+            ucSchedulee.Parent = Parent;
+            Parent.ccContent.Content = ucSchedulee;
+        }
     }
 }
