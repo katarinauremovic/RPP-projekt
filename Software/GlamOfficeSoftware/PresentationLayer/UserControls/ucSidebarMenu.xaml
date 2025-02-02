@@ -87,6 +87,16 @@
                             </Button.ContentTemplate>
                         </Button>
 
+                        <Button x:Name="btnTreatmentManagement" Style="{StaticResource SidebarButtonStyle}" Click="btnTreatmentManagement_Click">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Media/Images/employee-administration.png" Width="16" Height="16" Margin="5"/>
+                                        <TextBlock Text="Treatments" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
                         <Button x:Name="btnLogout" Style="{StaticResource SidebarButtonStyle}">
                             <Button.ContentTemplate>
                                 <DataTemplate>

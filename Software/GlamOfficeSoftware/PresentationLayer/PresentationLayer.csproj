@@ -74,6 +74,12 @@
     <Compile Include="UserControls\ucAddNewClientSidebar.xaml.cs">
       <DependentUpon>ucAddNewClientSidebar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ucAddNewTreatmentGroupSidebar.xaml.cs">
+      <DependentUpon>ucAddNewTreatmentGroupSidebar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ucAddNewTreatmentSidebar.xaml.cs">
+      <DependentUpon>ucAddNewTreatmentSidebar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ucAddNewEmployee.xaml.cs">
       <DependentUpon>ucAddNewEmployee.xaml</DependentUpon>
     </Compile>
@@ -85,6 +91,9 @@
     </Compile>
     <Compile Include="UserControls\ucEditClientsProfileSidebar.xaml.cs">
       <DependentUpon>ucEditClientsProfileSidebar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ucEditTreatmentSidebar.xaml.cs">
+      <DependentUpon>ucEditTreatmentSidebar.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ucEditEmployeeDetails.xaml.cs">
       <DependentUpon>ucEditEmployeeDetails.xaml</DependentUpon>
@@ -110,8 +119,17 @@
     <Compile Include="UserControls\ucShowReceiptSidebar.xaml.cs">
       <DependentUpon>ucShowReceiptSidebar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ucShowTreatmentSidebar.xaml.cs">
+      <DependentUpon>ucShowTreatmentSidebar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ucSidebarMenu.xaml.cs">
       <DependentUpon>ucSidebarMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ucTreatmentManagement.xaml.cs">
+      <DependentUpon>ucTreatmentManagement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ucTreatmentsGroupSidebar.xaml.cs">
+      <DependentUpon>ucTreatmentsGroupSidebar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\winAddNewRewardCard.xaml.cs">
       <DependentUpon>winAddNewRewardCard.xaml</DependentUpon>
@@ -135,6 +153,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\ucAddNewTreatmentGroupSidebar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ucAddNewTreatmentSidebar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\ucAddNewEmployee.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -148,6 +174,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ucEditClientsProfileSidebar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ucEditTreatmentSidebar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -183,11 +213,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\ucShowTreatmentSidebar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\ucSidebarMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\ucTreatmentsGroupSidebar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\winAddNewRewardCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ucTreatmentManagement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -261,6 +303,7 @@
     <Content Include="Images\GlamOfficeIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Images\refresh-icon.png" />
     <Resource Include="Images\refresh_button.jpg" />
     <Resource Include="Images\plus-circle.png" />
   </ItemGroup>
