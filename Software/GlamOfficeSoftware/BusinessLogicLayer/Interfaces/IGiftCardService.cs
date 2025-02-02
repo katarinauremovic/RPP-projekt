@@ -14,5 +14,15 @@ namespace BusinessLogicLayer.Interfaces
         Task<IEnumerable<GiftCard>> GetAllGiftCardsAsync(); 
 
         Task<IEnumerable<GiftCard>> GetGiftCardsByPromoCodeAsync(string promocode);
+
+        Task AddNewGiftCardAsync(GiftCard giftCard);
+
+        Task UpdateGiftCardAsync(GiftCard giftCard);
+
+        Task<string> GenerateGiftCardInStringFormat(GiftCard giftCard);
+
+        Task GenerateGiftCardInPdf(GiftCard giftCard);
+
+        Task DeleteGiftCardAsync(int giftCardId);
     }
 }
