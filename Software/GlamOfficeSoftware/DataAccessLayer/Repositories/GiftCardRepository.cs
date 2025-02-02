@@ -38,5 +38,24 @@ namespace DataAccessLayer.Repositories
                                          .ToListAsync();
             return giftCards;
         }
+
+        public async Task UpdateGiftCardAsync(GiftCard giftCard)
+        {
+            var existingGiftCard = await items.FirstOrDefaultAsync(g => g.idGiftCard == giftCard.idGiftCard);
+
+            if (existingGiftCard != null)
+            {
+                existingGiftCard.Value = giftCard.Value;
+                existingGiftCard.ToSpend = giftCard.ToSpend;
+                existingGiftCard.Description = giftCard.Description;
+                existingGiftCard.PromoCode = giftCard.PromoCode;
+                existingGiftCard.ActivationDate = giftCard.ActivationDate;
+                existingGiftCard.ExpirationDate = giftCard.ExpirationDate;
+                existingGiftCard.RedemptionDate = giftCard.RedemptionDate;
+                existingGiftCard.Status = giftCard.Status;
+
+                await SaveChangesAsync();
+            }
+        }
     }
 }

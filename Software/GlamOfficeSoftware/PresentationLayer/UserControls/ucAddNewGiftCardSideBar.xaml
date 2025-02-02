@@ -65,19 +65,16 @@
                             </Border>
                         </StackPanel>
 
-                        <TextBlock Text="Redemption date:" Grid.Row="6" Margin="20,7,0,0"/>
-                        <Border Grid.Row="7" BorderThickness="1" BorderBrush="#acb0af" CornerRadius="20" Background="#ffffff" Margin="20,0,5,7">
-                            <DatePicker x:Name="dpRedemptionDate" Margin="5,5"/>
-                        </Border>
+                      
 
-                        <StackPanel Grid.Row="9" Background="#f0dcdc">
-                        <TextBlock Text="Description:" Grid.Row="8" Margin="20,7,0,0"/>
-                        <Border Grid.Row="9" BorderThickness="1" BorderBrush="#acb0af" CornerRadius="20" Background="#ffffff" Margin="20,0,5,7">
+                        <StackPanel Grid.Row="9">
+                        <TextBlock Text="Description:" Grid.Row="6" Margin="20,7,0,0"/>
+                        <Border Grid.Row="7" BorderThickness="1" BorderBrush="#acb0af" CornerRadius="20" Background="#ffffff" Margin="20,0,5,7">
                             <TextBox x:Name="txtDescription" Style="{StaticResource textBox}" Margin="10,5"/>
                         </Border>
                         </StackPanel>
 
-                        <StackPanel Grid.Row="10" >
+                        <StackPanel Grid.Row="10" Background="#f0dcdc" >
                             <TextBlock Text="Promo code:" HorizontalAlignment="Left" Margin="20,7,0,7"/>
                             <Border Grid.Row="11" BorderThickness="1" BorderBrush="#acb0af" CornerRadius="20" Background="#ffffff" Margin="20,0,5,7">
                                 <TextBox x:Name="txtPromoCode" Style="{StaticResource textBox}" Margin="10,5"/>

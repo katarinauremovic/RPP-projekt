@@ -103,8 +103,9 @@
 
 
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="0,0,0,-66" HorizontalAlignment="Right" >
-                <Button x:Name="btnShowGiftCardDetails" Click="btnShowGiftCardDetails_Click" FontWeight="SemiBold" Content="Show" Width="100" Style="{StaticResource classicButton}" Height="40" Margin="0, 0, 7, 0"/>
-                <Button x:Name="btnAddNewGiftCard" Click="btnAddNewGiftCard_Click" FontWeight="SemiBold" Content="Add" Width="100" Style="{StaticResource classicButton}" Height="40"/>
+                <Button x:Name="btnShowGiftCardDetails" Click="btnShowGiftCardDetails_Click" FontWeight="SemiBold" Content="Show" Width="100" Style="{StaticResource classicButton}" Height="40" Margin="7, 0, 7, 0"/>
+                <Button x:Name="btnAddNewGiftCard" Click="btnAddNewGiftCard_Click" FontWeight="SemiBold" Content="Add" Width="100" Style="{StaticResource classicButton}" Height="40" Margin="7, 0, 7, 0"/>
+                <Button x:Name="btnEditGiftCard" Click="btnEditGiftCard_Click" FontWeight="SemiBold" Content="Edit" Width="100" Style="{StaticResource classicButton}" Height="40" Margin="7, 0, 7, 0"/>
             </StackPanel>
 
 

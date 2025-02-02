@@ -71,10 +71,10 @@ namespace PresentationLayer.UserControls
                     ToSpend = value,
                     ActivationDate = dpActivationDate.SelectedDate,
                     ExpirationDate = dpExpirationDate.SelectedDate,
-                    RedemptionDate = dpRedemptionDate.SelectedDate,
+                    
                     Description = txtDescription.Text,
                     PromoCode = txtPromoCode.Text,
-                    Status = "Waiting"
+                    Status = "Active"
                 };
 
                 await _giftCardService.AddNewGiftCardAsync(newGiftCard);

@@ -73,5 +73,13 @@ namespace BusinessLogicLayer.Services
                 await repo.AddAsync(giftCard);
             }
         }
+
+        public async Task UpdateGiftCardAsync(GiftCard giftCard)
+        {
+            using (var repo = new GiftCardRepository())
+            {
+                await repo.UpdateGiftCardAsync(giftCard);
+            }
+        }
     }
 }

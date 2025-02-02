@@ -196,5 +196,25 @@ namespace BusinessLogicLayer.Services
                 await repo.UpdateClientAsync(client);
             }
         }
+
+        public async Task AssignGiftCardToClientAsync(int clientId, int giftCardId)
+        {
+            using (var repo = new ClientRepository())
+            {
+                var client = await repo.GetByIdAsync(clientId);
+
+                if (client == null)
+                {
+                    throw new ClientNotFoundException($"Client does not exist.");
+                }
+
+                if (client.GiftCard_idGiftCard.HasValue)
+                {
+                    throw new ClientNotFoundException($"Choosen client already has a gift card assigned.");
+                }
+
+                await repo.AssignGiftCardToClientAsync(clientId, giftCardId);
+            }
+        }
     }
 }

@@ -26,7 +26,9 @@ namespace PresentationLayer.UserControls
     public partial class ucGiftCardAdministration : UserControl
     {
         public MainWindow Parent { get; set; }
+
         private GiftCardService _giftCardService = new GiftCardService();
+        public GiftCard _selectedGiftCard { get; set; }
         public ucGiftCardAdministration()
         {
             InitializeComponent();
@@ -136,7 +138,10 @@ namespace PresentationLayer.UserControls
 
         private void dgvGiftCards_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            if (dgvGiftCards.SelectedItem is GiftCard selected)
+            {
+                _selectedGiftCard = selected;
+            }
         }
 
         private void textSearch_MouseDown(object sender, MouseButtonEventArgs e)
@@ -222,6 +227,14 @@ namespace PresentationLayer.UserControls
 
             await Task.Delay(500);
             ccSidebar.Content = null;
+        }
+
+        private void btnEditGiftCard_Click(object sender, RoutedEventArgs e)
+        {
+            var ucEditGiftCard = new ucEditGiftCardsSideBar(_selectedGiftCard);
+            ucEditGiftCard.Parent = this;
+            ccSidebar.Content = ucEditGiftCard;
+            ShowSidebar();
         }
     }
 }
