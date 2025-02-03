@@ -63,49 +63,6 @@ namespace PresentationLayer.UserControls
             Parent.ccContent.Content = ucRewards;
         }
 
-        private async void btnPay_Click(object sender, RoutedEventArgs e)
-        {
-            // ovo služi samo kao test ne brišite.
-
-            /*
-
-            IReceiptService receiptService = new ReceiptService();
-            
-            var receipt = new Receipt()
-            {
-                TotalPrice = 75,
-                GiftCardDiscount = -20,
-                RewardDiscount = -5,
-                TotalTreatmentAmount = 100,
-                IssueDateTime = DateTime.Now,
-                Reservation_idReservation = 12,
-            };
-
-            await Task.Run(() => receiptService.AddNewReceiptAsync(receipt));
-
-            */
-
-            /*
-
-            string recipient = "thesnackalchemist2023@gmail.com";
-            string subject = "Ponuda za suradnju";
-            string body = "<h1>Pozdrav!</h1><p>Ovo je vaša ponuda za suradnju...</p>";
-
-            var gmailService = new GmailService();
-            await gmailService.SendEmailAsync(recipient, subject, body);
-
-            Console.WriteLine("E-mail je uspješno poslan!");
-
-            */
-
-            /*
-              
-            var win = new winAddNewRewardCard();
-            win.ShowDialog();
-
-            */
-        }
-
         private void btnTreatmentManagement_Click(object sender, RoutedEventArgs e)
         {
             var ucTreatments = new ucTreatmentManagement();
