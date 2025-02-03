@@ -23,30 +23,23 @@ namespace PresentationLayer.UserControls
     public partial class ucAddScheduleSidebar : UserControl
     {
         private ucSchedule _parent;
-        private DailyScheduleDTO _existingSchedule;
         private ScheduleService _scheduleService = new ScheduleService();
 
-        public ucAddScheduleSidebar(ucSchedule parent, List<DayDTO> availableDays, List<EmployeeDTO> employees, DailyScheduleDTO existingSchedule = null)
+        public ucAddScheduleSidebar(ucSchedule parent, List<DayDTO> availableDays, List<EmployeeDTO> employees)
         {
             InitializeComponent();
             _parent = parent;
+
             cmbDays.ItemsSource = availableDays;
             cmbDays.DisplayMemberPath = "Name";
+            cmbDays.SelectedIndex = -1; // Očisti selekciju
 
             cmbEmployees.ItemsSource = employees;
             cmbEmployees.DisplayMemberPath = "FullName";
+            cmbEmployees.SelectedIndex = -1; // Očisti selekciju
 
-            _existingSchedule = existingSchedule;
-
-            if (_existingSchedule != null)
-            {
-                cmbDays.SelectedItem = availableDays.FirstOrDefault(d => d.Id == _existingSchedule.DayId);
-                cmbEmployees.SelectedItem = employees.FirstOrDefault(e => e.Id == _existingSchedule.EmployeeId);
-                txtStartTime.Text = _existingSchedule.WorkStartTime?.ToString(@"hh\:mm");
-                txtEndTime.Text = _existingSchedule.WorkEndTime?.ToString(@"hh\:mm");
-
-                btnSave.Content = "Update Schedule"; // Promijeni tekst gumba
-            }
+            txtStartTime.Clear();
+            txtEndTime.Clear();
         }
         private async void btnSave_Click(object sender, RoutedEventArgs e)
         {

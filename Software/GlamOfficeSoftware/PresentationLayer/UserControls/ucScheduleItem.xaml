@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PresentationLayer.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="70" d:DesignWidth="160">
+             d:DesignHeight="70" d:DesignWidth="160" Background="White">
     <Border CornerRadius="5" 
-            BorderBrush="Black" BorderThickness="0.4" Background="White">
+            BorderBrush="Black" BorderThickness="0.4" >
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock x:Name="txtEmployeeName" FontWeight="Bold" FontSize="12" Foreground="Black" HorizontalAlignment="Center"/>
             <TextBlock x:Name="txtTimeRange" FontSize="10" Foreground="Black" HorizontalAlignment="Center"/>

@@ -101,18 +101,18 @@ namespace PresentationLayer.UserControls
 
         private void AddScheduleItemToDay(string dayName, string firstName, string lastName, TimeSpan startTime, TimeSpan endTime, DailyScheduleDTO scheduleData)
         {
-            var scheduleItem = new ucScheduleItem(firstName, lastName, startTime, endTime, scheduleData);
+            var scheduleItem = new ucScheduleItem(firstName, lastName, startTime, endTime, scheduleData, this);
 
             var dayMapping = new Dictionary<string, WrapPanel>
-            {
-                { "monday", wpMonday },
-                { "tuesday", wpTuesday },
-                { "wednesday", wpWednesday },
-                { "thursday", wpThursday },
-                { "friday", wpFriday },
-                { "saturday", wpSaturday },
-                { "sunday", wpSunday }
-             };
+    {
+        { "monday", wpMonday },
+        { "tuesday", wpTuesday },
+        { "wednesday", wpWednesday },
+        { "thursday", wpThursday },
+        { "friday", wpFriday },
+        { "saturday", wpSaturday },
+        { "sunday", wpSunday }
+    };
 
             if (dayMapping.TryGetValue(dayName.ToLower(), out var panel))
             {
@@ -137,7 +137,7 @@ namespace PresentationLayer.UserControls
                 return;
             }
 
-            var sidebar = new ucAddScheduleSidebar(this, _weekDays, _employees, _selectedScheduleData);
+            var sidebar = new ucEditScheduleSidebar(this, _selectedScheduleData);
             ccSidebar.Content = sidebar;
             ccSidebar.Visibility = Visibility.Visible;
         }
@@ -236,25 +236,26 @@ namespace PresentationLayer.UserControls
         private ucScheduleItem _selectedScheduleItem;
         private DailyScheduleDTO _selectedScheduleData;
 
-        public void SelectScheduleItem(ucScheduleItem selectedItem)
+        public void SelectScheduleItem(ucScheduleItem selectedItem, DailyScheduleDTO scheduleData)
         {
+            if (selectedItem == null || scheduleData == null) return;
+
             _selectedScheduleItem = selectedItem;
-            _selectedScheduleData = selectedItem.Tag as DailyScheduleDTO;
+            _selectedScheduleData = scheduleData;
 
             foreach (var panel in new[] { wpMonday, wpTuesday, wpWednesday, wpThursday, wpFriday, wpSaturday, wpSunday })
             {
-                foreach (ucScheduleItem item in panel.Children)
+                foreach (var child in panel.Children)
                 {
-                    item.Background = Brushes.White;
+                    if (child is ucScheduleItem item)
+                    {
+                        item.Background = Brushes.White; 
+                    }
                 }
             }
 
-            if (_selectedScheduleItem != null)
-            {
-                _selectedScheduleItem.Background = Brushes.LightGray;
-            }
+            _selectedScheduleItem.Background = Brushes.LightGray;
         }
-
 
     }
 }

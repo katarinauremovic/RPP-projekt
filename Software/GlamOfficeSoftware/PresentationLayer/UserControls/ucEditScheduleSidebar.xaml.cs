@@ -56,7 +56,7 @@ namespace PresentationLayer.UserControls
                 MessageBox.Show("Raspored je uspješno ažuriran!", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 _parent.CloseSidebar();
-                await _parent.LoadData(); // Ponovno učitaj podatke
+                await _parent.LoadData();
             }
             catch (Exception ex)
             {
