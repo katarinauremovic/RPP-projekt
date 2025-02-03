@@ -9,9 +9,10 @@ namespace BusinessLogicLayer.Interfaces
 {
     public interface IScheduleService
     {
-        Task<IEnumerable<DayDTO>> GetOrCreateDaysForNextWeekAsync();
+        Task<IEnumerable<DayDTO>> GetOrCreateDaysForWeekAsync(DateTime startDate);
+
         Task AddDailyScheduleAsync(DailyScheduleDTO dailyScheduleDTO);
-        Task UpdateDailyScheduleAsync(int dayId, int employeeId, TimeSpan newStartTime, TimeSpan newEndTime);
+        Task UpdateDailyScheduleAsync(DailyScheduleDTO updatedSchedule);
         Task DeleteDailyScheduleAsync(int dayId, int employeeId);
         Task<IEnumerable<DailyScheduleDTO>> GetSchedulesForDayAsync(int dayId);
 

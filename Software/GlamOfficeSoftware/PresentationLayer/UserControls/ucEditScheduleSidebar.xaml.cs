@@ -2,7 +2,9 @@
 using EntityLayer.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -20,23 +22,50 @@ namespace PresentationLayer.UserControls
             _parent = parent;
             _scheduleData = scheduleData;
 
+            cmbDays.ItemsSource = null;
             cmbDays.ItemsSource = availableDays;
             cmbDays.DisplayMemberPath = "Name";
+            cmbDays.SelectedValuePath = "Id";
 
-            cmbEmployees.ItemsSource = employees;
+            cmbEmployees.ItemsSource = null;
+            cmbEmployees.ItemsSource = employees
+                .Where(e => e.RoleName == "Regular user")
+                .ToList();
             cmbEmployees.DisplayMemberPath = "FullName";
+            cmbEmployees.SelectedValuePath = "Id";
 
-            cmbDays.SelectedValue = _scheduleData.DayId;
-            cmbEmployees.SelectedValue = _scheduleData.EmployeeId;
+            var selectedEmployee = employees.FirstOrDefault(e => e.Id == _scheduleData.EmployeeId);
+            var selectedDay = availableDays.FirstOrDefault(d => d.Id == _scheduleData.DayId);
 
-            txtStartTime.Text = _scheduleData.WorkStartTime?.ToString(@"hh\:mm");
-            txtEndTime.Text = _scheduleData.WorkEndTime?.ToString(@"hh\:mm");
+            if (selectedEmployee == null)
+                MessageBox.Show($"Greška: EmployeeId {_scheduleData.EmployeeId} nije pronađen u listi zaposlenika!");
+            if (selectedDay == null)
+                MessageBox.Show($"Greška: DayId {_scheduleData.DayId} nije pronađen u listi dana!");
+
+            Task.Delay(100).ContinueWith(_ =>
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    cmbEmployees.SelectedValue = _scheduleData.EmployeeId;
+                    cmbDays.SelectedValue = _scheduleData.DayId;
+                });
+            });
+
+            Task.Delay(100).ContinueWith(_ =>
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    txtStartTime.Text = _scheduleData.WorkStartTime?.ToString(@"hh\:mm") ?? "";
+                    txtEndTime.Text = _scheduleData.WorkEndTime?.ToString(@"hh\:mm") ?? "";
+                });
+            });
+
         }
 
         private async void btnSave_Click(object sender, RoutedEventArgs e)
         {
             if (!TimeSpan.TryParse(txtStartTime.Text, out TimeSpan newStartTime) ||
-                !TimeSpan.TryParse(txtEndTime.Text, out TimeSpan newEndTime))
+        !TimeSpan.TryParse(txtEndTime.Text, out TimeSpan newEndTime))
             {
                 MessageBox.Show("Neispravan format vremena! Koristite HH:mm", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -48,9 +77,24 @@ namespace PresentationLayer.UserControls
                 return;
             }
 
+            if (cmbDays.SelectedItem == null || cmbEmployees.SelectedItem == null)
+            {
+                MessageBox.Show("Morate odabrati zaposlenika i dan!", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            var updatedSchedule = new DailyScheduleDTO
+            {
+                DayId = (int)cmbDays.SelectedValue,
+                EmployeeId = (int)cmbEmployees.SelectedValue,
+                WorkStartTime = newStartTime,
+                WorkEndTime = newEndTime
+            };
+
             try
             {
-                await _scheduleService.UpdateDailyScheduleAsync(_scheduleData.DayId, _scheduleData.EmployeeId, newStartTime, newEndTime);
+                await _scheduleService.UpdateDailyScheduleAsync(updatedSchedule);
+
                 MessageBox.Show("Raspored je uspješno ažuriran!", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 _parent.CloseSidebar();

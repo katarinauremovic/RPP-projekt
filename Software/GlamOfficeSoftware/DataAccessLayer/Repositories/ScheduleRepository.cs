@@ -93,6 +93,13 @@ namespace DataAccessLayer.Repositories
                 .Where(ds => ds.Day_idDay == dayId)  // Dohvati SVE rasporede za taj dan
                 .ToListAsync();
         }
+        public async Task<DailySchedule> GetScheduleByIdAsync(int scheduleId)
+        {
+            return await context.DailySchedules
+                .Include(ds => ds.Day)
+                .FirstOrDefaultAsync(ds => ds.Day_idDay == scheduleId);
+        }
+
 
     }
 }

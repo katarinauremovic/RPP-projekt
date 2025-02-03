@@ -21,5 +21,6 @@ namespace EntityLayer.DTOs
         public string PhoneNumber { get; set; }
         public string RoleName { get; set; }
         public string WorkPositionName { get; set; }
+        public string FullName => $"{Firstname} {Lastname}";
     }
 }

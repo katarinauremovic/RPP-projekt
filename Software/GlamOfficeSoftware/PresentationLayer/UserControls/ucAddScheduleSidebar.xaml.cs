@@ -35,9 +35,8 @@ namespace PresentationLayer.UserControls
             cmbDays.SelectedIndex = -1;
 
             cmbEmployees.ItemsSource = employees
-            .Where(e => e.RoleName == "Regular user") 
-            .Select(e => new { FullName = $"{e.Firstname} {e.Lastname}", Id = e.Id })
-            .ToList();
+             .Where(e => e.RoleName == "Regular user")
+             .ToList();
 
             cmbEmployees.DisplayMemberPath = "FullName";
             cmbEmployees.SelectedIndex = -1; 
