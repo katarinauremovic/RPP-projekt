@@ -137,5 +137,20 @@ namespace BusinessLogicLayer.Services
                 await repo.DeleteGiftCardAsync(giftCardId);
             }
         }
+        public async Task<GiftCard> GetOneGiftCardByPromoCodeAsync(string promoCode)
+        {
+            using (var repo = new GiftCardRepository())
+            {
+                return await repo.GetOneGiftCardByPromoCodeAsync(promoCode);
+            }
+        }
+
+        public async Task<bool> RedeemGiftCardAsync(string promoCode)
+        {
+            using (var repo = new GiftCardRepository())
+            {
+                return await repo.RedeemGiftCardAsync(promoCode);
+            }
+        }
     }
 }

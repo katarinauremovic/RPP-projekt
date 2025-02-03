@@ -73,5 +73,42 @@ namespace DataAccessLayer.Repositories
                 throw new KeyNotFoundException($"Gift card with ID {giftCardId} does not exist.");
             }
         }
+
+        public async Task<GiftCard> GetOneGiftCardByPromoCodeAsync(string promoCode)
+        {
+            promoCode = promoCode.Trim().ToLower();
+
+            var giftCard = await context.GiftCards
+                                        .FirstOrDefaultAsync(g => g.PromoCode.ToLower() == promoCode);
+
+            return giftCard;
+        }
+
+        public async Task<bool> RedeemGiftCardAsync(string promoCode)
+        {
+            promoCode = promoCode.Trim().ToLower();
+
+            var giftCard = await context.GiftCards
+                                        .FirstOrDefaultAsync(g => g.PromoCode.ToLower() == promoCode);
+
+            if (giftCard == null)
+            {
+                return false; 
+            }
+
+            if (giftCard.Status == "Redeemed")
+            {
+                throw new InvalidOperationException("Gift card has already been redeemed.");
+            }
+
+            giftCard.Status = "Redeemed";
+            giftCard.RedemptionDate = DateTime.UtcNow; 
+
+            await SaveChangesAsync();
+
+            return true;
+        }
+
+
     }
 }
