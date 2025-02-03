@@ -75,13 +75,7 @@ namespace PresentationLayer.UserControls
             MessageBox.Show("Emails sent successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private async Task<List<string>> GetClientEmailsAsync()
-        {
-            var clients = await _clientService.GetAllClientsAsync();
-            return clients.Select(c => c.Email).Where(email => !string.IsNullOrEmpty(email)).ToList();
-        }
-    
-
+  
         private async void btnGenerateEmail_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtPromotionName.Text) ||
