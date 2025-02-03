@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Exceptions
 {
-    public class FailedToLoadClientsException : ApplicationException
+    public class FailedToLoadGiftCardsException : ApplicationException
     {
-        public FailedToLoadClientsException(string message) : base(message)
+        public FailedToLoadGiftCardsException(string message) : base(message)
         {
         }
     }

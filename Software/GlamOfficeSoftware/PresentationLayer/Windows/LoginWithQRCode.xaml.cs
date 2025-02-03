@@ -75,9 +75,8 @@ namespace PresentationLayer.Windows
                     var result = barcodeReader.Decode(new Bitmap(bitmap));
                     return result?.Text.Trim();
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Greška pri dekodiranju QR koda: {ex.Message}");
+                catch (Exception)
+                { 
                     return null;
                 }
             });
@@ -111,16 +110,16 @@ namespace PresentationLayer.Windows
                 }
                 else
                 {
-                    ShowErrorMessage("QR kod nije valjan ili ne sadrži ispravne podatke.");
+                    ShowErrorMessage("The QR code is invalid or does not contain correct data.");
                 }
             }
             catch (TaskCanceledException)
             {
-                ShowErrorMessage("Prijava je predugo trajala. Pokušajte ponovno.");
+                ShowErrorMessage("Signing in took too long. Please try again.");
             }
             catch (Exception ex)
             {
-                ShowErrorMessage($"Greška: {ex.Message}");
+                ShowErrorMessage($"Error: {ex.Message}");
             }
         }
 

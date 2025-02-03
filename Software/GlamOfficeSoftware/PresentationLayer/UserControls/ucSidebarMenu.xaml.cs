@@ -145,5 +145,26 @@ namespace PresentationLayer.UserControls
             ucPromotions.Parent = Parent;
             Parent.ccContent.Content = ucPromotions;
         }
+
+        private void btnSchedule_Click(object sender, RoutedEventArgs e)
+        {
+            var ucSchedulee = new ucSchedule();
+            ucSchedulee.Parent = Parent;
+            Parent.ccContent.Content = ucSchedulee;
+        }
+
+        private void btnGiftCards_Click(object sender, RoutedEventArgs e)
+        {
+            var ucGiftCards = new ucGiftCardAdministration();
+            ucGiftCards.Parent = Parent;
+            Parent.ccContent.Content = ucGiftCards;
+        }
+
+        private void btnReservations_Click(object sender, RoutedEventArgs e)
+        {
+            var ucReservations = new ucReservationAdministration();
+            ucReservations.Parent = Parent;
+            Parent.ccContent.Content = ucReservations;
+        }
     }
 }

@@ -17,14 +17,6 @@ namespace BusinessLogicLayer.Services
 {
     public class ClientService : IClientService
     {
-        public async Task<IEnumerable<Client>> GetAllClientsAsync()
-        {
-            using (var repo = new ClientRepository())
-            {
-                return await repo.GetAllAsync();
-            }
-        }
-
         public async Task<Client> GetClientByIdAsync(int clientId)
         {
             using (var repo = new ClientRepository())
@@ -43,7 +35,7 @@ namespace BusinessLogicLayer.Services
             }
         }
 
-        public async Task UpdateClientAsync(ClientDTO clientDTO)
+        public async Task EditClientAsync(ClientDTO clientDTO)
         {
             using (var repo = new ClientRepository())
             {
@@ -60,6 +52,14 @@ namespace BusinessLogicLayer.Services
                 client.PhoneNumber = clientDTO.PhoneNumber;
 
                 await repo.UpdateClientAsync(client);         
+            }
+        }
+
+        public async Task UpdateClientAsync(Client client)
+        {
+            using (var repo = new ClientRepository())
+            {
+                await repo.UpdateClientAsync(client);
             }
         }
 
@@ -140,20 +140,6 @@ namespace BusinessLogicLayer.Services
             }
         }
 
-        public async Task AddClientToRewardSystemAsync(int clientId)
-        {
-            using (var repo = new ClientRepository())
-            {
-                var client = await repo.GetByIdAsync(clientId);
-                client.Points = 200;
-
-                var rewardSystem = new RewardSystem();
-                await rewardSystem.UpdateClientsLoyaltyLevelAsync(client);
-
-                await repo.UpdateClientAsync(client);
-            }
-        }
-
         public async Task UpdateClientsLoyaltyLevelAsync(int clientId, int loyaltyLevelId)
         {
             using (var repo = new ClientRepository())
@@ -194,6 +180,26 @@ namespace BusinessLogicLayer.Services
                 client.LoyaltyLevel_id = await rewardSystem.UpdateClientsLoyaltyLevelAsync(client);
 
                 await repo.UpdateClientAsync(client);
+            }
+        }
+
+        public async Task AssignGiftCardToClientAsync(int clientId, int giftCardId)
+        {
+            using (var repo = new ClientRepository())
+            {
+                var client = await repo.GetByIdAsync(clientId);
+
+                if (client == null)
+                {
+                    throw new ClientNotFoundException($"Client does not exist.");
+                }
+
+                if (client.GiftCard_idGiftCard.HasValue)
+                {
+                    throw new ClientNotFoundException($"Choosen client already has a gift card assigned.");
+                }
+
+                await repo.AssignGiftCardToClientAsync(clientId, giftCardId);
             }
         }
     }

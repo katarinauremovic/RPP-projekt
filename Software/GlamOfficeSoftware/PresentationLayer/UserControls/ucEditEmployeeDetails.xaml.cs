@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.Services;
+﻿using BusinessLogicLayer.Interfaces;
+using BusinessLogicLayer.Services;
 using EntityLayer.DTOs;
 using EntityLayer.Entities;
 using System;
@@ -25,7 +26,7 @@ namespace PresentationLayer.UserControls
     {
         public ucEmployeeAdministration Parent { get; set; }
 
-        private EmployeeService _employeeService;
+        private IEmployeeService _employeeService;
         private EmployeeDTO _employee;
         public ucEditEmployeeDetails(EmployeeDTO employee)
         {

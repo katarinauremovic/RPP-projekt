@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer.Exceptions;
+using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
 using EntityLayer.DTOs;
 using EntityLayer.Entities;
@@ -25,7 +26,7 @@ namespace PresentationLayer.UserControls
     /// </summary>
     public partial class ucEmployeeAdministration : UserControl
     {
-        private EmployeeService _employeeService = new EmployeeService();
+        private IEmployeeService _employeeService = new EmployeeService();
         private ucAddNewEmployee _addNewEmployeeSidebar;
         public EmployeeDTO _selectedEmployee;
         public MainWindow Parent { get; set; }
@@ -222,7 +223,6 @@ namespace PresentationLayer.UserControls
             ucAddNewEmployee.Parent = this;
             ccSidebar.Content = ucAddNewEmployee;
             ShowSidebar();
-
         }
         private void ShowSidebar()
         {

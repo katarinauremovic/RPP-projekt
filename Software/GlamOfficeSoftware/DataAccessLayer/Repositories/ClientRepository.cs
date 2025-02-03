@@ -73,5 +73,16 @@ namespace DataAccessLayer.Repositories
         {
             return await items.Where(i => i.PhoneNumber.Contains(phoneNumberPattern)).ToArrayAsync();
         }
+
+        public async Task AssignGiftCardToClientAsync(int clientId, int giftCardId)
+        {
+            var client = await items.FirstOrDefaultAsync(c => c.idClient == clientId);
+
+            if (client != null)
+            {
+                client.GiftCard_idGiftCard = giftCardId; 
+                await SaveChangesAsync();
+            }
+        }
     }
 }

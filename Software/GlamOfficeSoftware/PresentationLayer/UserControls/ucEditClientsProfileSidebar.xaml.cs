@@ -185,7 +185,7 @@ namespace PresentationLayer.UserControls
                     ReviewsComments = _selectedClient.ReviewsComments
                 };
 
-                await _clientService.UpdateClientAsync(clientDTO);
+                await _clientService.EditClientAsync(clientDTO);
                 LoadNewClientsProfile(clientDTO);
             } catch (ClientNotFoundException ex)
             {
