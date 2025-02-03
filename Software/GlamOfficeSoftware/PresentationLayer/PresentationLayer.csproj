@@ -241,6 +241,9 @@
     <Compile Include="UserControls\ucTreatmentsGroupSidebar.xaml.cs">
       <DependentUpon>ucTreatmentsGroupSidebar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ucTreatmentStatistics.xaml.cs">
+      <DependentUpon>ucTreatmentStatistics.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ucWelcome.xaml.cs">
       <DependentUpon>ucWelcome.xaml</DependentUpon>
     </Compile>
@@ -376,6 +379,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ucTreatmentsGroupSidebar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ucTreatmentStatistics.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
