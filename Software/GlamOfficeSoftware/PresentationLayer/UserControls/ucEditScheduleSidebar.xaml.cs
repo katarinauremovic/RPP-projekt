@@ -64,28 +64,32 @@ namespace PresentationLayer.UserControls
 
         private async void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (!TimeSpan.TryParse(txtStartTime.Text, out TimeSpan newStartTime) ||
-        !TimeSpan.TryParse(txtEndTime.Text, out TimeSpan newEndTime))
+            if (cmbDays.SelectedItem == null || cmbEmployees.SelectedItem == null)
             {
-                MessageBox.Show("Neispravan format vremena! Koristite HH:mm", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                ShowError("Morate odabrati zaposlenika i dan!");
+                return;
+            }
+
+            var selectedDay = (DayDTO)cmbDays.SelectedItem;
+
+            DateTime? newStartTime = ConvertToDateTime(selectedDay, txtStartTime.Text);
+            DateTime? newEndTime = ConvertToDateTime(selectedDay, txtEndTime.Text);
+
+            if (newStartTime == null || newEndTime == null)
+            {
+                ShowError("Vrijeme nije ispravno. Koristite format HH:mm.");
                 return;
             }
 
             if (newStartTime >= newEndTime)
             {
-                MessageBox.Show("Vrijeme početka mora biti prije vremena završetka.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            if (cmbDays.SelectedItem == null || cmbEmployees.SelectedItem == null)
-            {
-                MessageBox.Show("Morate odabrati zaposlenika i dan!", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                ShowError("Vrijeme početka mora biti prije vremena završetka.");
                 return;
             }
 
             var updatedSchedule = new DailyScheduleDTO
             {
-                DayId = (int)cmbDays.SelectedValue,
+                DayId = selectedDay.Id,
                 EmployeeId = (int)cmbEmployees.SelectedValue,
                 WorkStartTime = newStartTime,
                 WorkEndTime = newEndTime
@@ -102,9 +106,10 @@ namespace PresentationLayer.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Greška pri ažuriranju rasporeda: {ex.Message}", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                ShowError($"Greška pri ažuriranju rasporeda: {ex.Message}");
             }
         }
+
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
@@ -115,5 +120,20 @@ namespace PresentationLayer.UserControls
         {
             _parent.CloseSidebar();
         }
+        private DateTime? ConvertToDateTime(DayDTO selectedDay, string timeText)
+        {
+            if (selectedDay?.Date == null || string.IsNullOrWhiteSpace(timeText))
+                return null;
+
+            if (TimeSpan.TryParse(timeText, out TimeSpan time))
+                return selectedDay.Date.Value.Date.Add(time);
+
+            return null;
+        }
+        private void ShowError(string message)
+        {
+            MessageBox.Show(message, "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
     }
 }

@@ -34,8 +34,8 @@ namespace BusinessLogicLayer.Services
                 if (!schedule.Day.Date.HasValue)
                     throw new Exception("Schedule day does not have a valid date!");
 
-                schedule.WorkStartTime = schedule.Day.Date.Value.Date.Add(updatedSchedule.WorkStartTime.Value);
-                schedule.WorkEndTime = schedule.Day.Date.Value.Date.Add(updatedSchedule.WorkEndTime.Value);
+                schedule.WorkStartTime = updatedSchedule.WorkStartTime;
+                schedule.WorkEndTime =updatedSchedule.WorkEndTime.Value;
 
                 await repo.UpdateDailyScheduleAsync(schedule);
             }
@@ -72,10 +72,11 @@ namespace BusinessLogicLayer.Services
             {
                 DayId = schedule.Day_idDay,
                 EmployeeId = schedule.Employee_idEmployee,
-                WorkStartTime = schedule.WorkStartTime?.TimeOfDay,
-                WorkEndTime = schedule.WorkEndTime?.TimeOfDay
+                WorkStartTime = schedule.WorkStartTime,
+                WorkEndTime = schedule.WorkEndTime
             };
         }
+
         public async Task<IEnumerable<DayDTO>> GetOrCreateDaysForWeekAsync(DateTime startDate)
         {
             using (var repo = new ScheduleRepository())

@@ -35,44 +35,39 @@ namespace PresentationLayer.UserControls
             cmbDays.SelectedIndex = -1;
 
             cmbEmployees.ItemsSource = employees
-             .Where(e => e.RoleName == "Regular user")
-             .ToList();
-
+                .Where(e => e.RoleName == "Regular user")
+                .ToList();
             cmbEmployees.DisplayMemberPath = "FullName";
-            cmbEmployees.SelectedIndex = -1; 
-
+            cmbEmployees.SelectedIndex = -1;
         }
+
         private async void btnSave_Click(object sender, RoutedEventArgs e)
         {
             txtErrorMessage.Visibility = Visibility.Collapsed;
 
             if (cmbEmployees.SelectedItem == null || cmbDays.SelectedItem == null)
             {
-                txtErrorMessage.Text = "Odaberite zaposlenika i dan.";
-                txtErrorMessage.Visibility = Visibility.Visible;
+                ShowError("Odaberite zaposlenika i dan.");
                 return;
             }
 
-            var selectedEmployee = (dynamic)cmbEmployees.SelectedItem;
+            var selectedEmployee = (EmployeeDTO)cmbEmployees.SelectedItem;
             var selectedDay = (DayDTO)cmbDays.SelectedItem;
-            string startTimeText = txtStartTime.Text;
-            string endTimeText = txtEndTime.Text;
 
-            if (!TimeSpan.TryParse(startTimeText, out TimeSpan startTime) ||
-                !TimeSpan.TryParse(endTimeText, out TimeSpan endTime))
+            DateTime? startTime = ConvertToDateTime(selectedDay, txtStartTime.Text);
+            DateTime? endTime = ConvertToDateTime(selectedDay, txtEndTime.Text);
+
+            if (startTime == null || endTime == null)
             {
-                txtErrorMessage.Text = "Neispravan format vremena. Koristite HH:mm.";
-                txtErrorMessage.Visibility = Visibility.Visible;
+                ShowError("Vrijeme nije ispravno. Koristite format HH:mm.");
                 return;
             }
 
             if (startTime >= endTime)
             {
-                txtErrorMessage.Text = "Vrijeme početka mora biti prije vremena završetka.";
-                txtErrorMessage.Visibility = Visibility.Visible;
+                ShowError("Vrijeme početka mora biti prije vremena završetka.");
                 return;
             }
-
 
             try
             {
@@ -87,12 +82,11 @@ namespace PresentationLayer.UserControls
                 await _scheduleService.AddDailyScheduleAsync(dailySchedule);
                 await _parent.LoadData();
 
-                Visibility = Visibility.Collapsed;
+                _parent.CloseSidebar();
             }
             catch (Exception ex)
             {
-                txtErrorMessage.Text = $"Greška: {ex.Message}";
-                txtErrorMessage.Visibility = Visibility.Visible;
+                ShowError($"Greška: {ex.Message}");
             }
         }
 
@@ -104,6 +98,23 @@ namespace PresentationLayer.UserControls
         private void btnCloseSidebar_Click(object sender, RoutedEventArgs e)
         {
             _parent.CloseSidebar();
+        }
+
+        private DateTime? ConvertToDateTime(DayDTO selectedDay, string timeText)
+        {
+            if (selectedDay?.Date == null || string.IsNullOrWhiteSpace(timeText))
+                return null;
+
+            if (TimeSpan.TryParse(timeText, out TimeSpan time))
+                return selectedDay.Date.Value.Date.Add(time);
+
+            return null;
+        }
+
+        private void ShowError(string message)
+        {
+            txtErrorMessage.Text = message;
+            txtErrorMessage.Visibility = Visibility.Visible;
         }
     }
 }

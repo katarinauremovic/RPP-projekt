@@ -76,9 +76,10 @@ namespace PresentationLayer.UserControls
                     if (employee != null)
                     {
                         AddScheduleItemToDay(day.Name, employee.Firstname, employee.Lastname,
-                                              schedule.WorkStartTime ?? TimeSpan.Zero,
-                                              schedule.WorkEndTime ?? TimeSpan.Zero,
-                                              schedule);
+                      schedule.WorkStartTime.HasValue ? schedule.WorkStartTime.Value.TimeOfDay : TimeSpan.Zero,
+                      schedule.WorkEndTime.HasValue ? schedule.WorkEndTime.Value.TimeOfDay : TimeSpan.Zero,
+                      schedule);
+
                     }
                 }
             }
