@@ -36,6 +36,7 @@ namespace PresentationLayer.UserControls
         {
             InitializeComponent();
             _ = LoadData();
+            _ = LoadEmployees();
         }
         private bool isNextWeekActive = false;
 
@@ -253,6 +254,67 @@ namespace PresentationLayer.UserControls
             }
 
             _selectedScheduleItem.Background = Brushes.LightGray;
+        }
+
+        public async Task LoadEmployees()
+        {
+            _employees = (await employeeService.GetAllEmployeesAsync())
+                .Where(e => e.RoleName == "Regular user")
+                .ToList();
+
+            cmbEmployees.ItemsSource = _employees;
+            cmbEmployees.DisplayMemberPath = "FullName";
+            cmbEmployees.SelectedValuePath = "Id";
+            cmbEmployees.SelectedIndex = 0;
+        }
+
+        private async void btnApply_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (cmbEmployees.SelectedItem == null)
+            {
+                MessageBox.Show("Please select an employee.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var selectedEmployeeId = (int)cmbEmployees.SelectedValue;
+            await LoadFilteredSchedule(selectedEmployeeId);
+        }
+
+        public async Task LoadFilteredSchedule(int employeeId)
+        {
+            var scheduleService = new ScheduleService();
+            DateTime startDate = isNextWeekActive ? GetNextMonday(DateTime.Today) : GetCurrentWeekMonday(DateTime.Today);
+
+            _weekDays = (await scheduleService.GetOrCreateDaysForWeekAsync(startDate)).ToList();
+
+            wpMonday.Children.Clear();
+            wpTuesday.Children.Clear();
+            wpWednesday.Children.Clear();
+            wpThursday.Children.Clear();
+            wpFriday.Children.Clear();
+            wpSaturday.Children.Clear();
+            wpSunday.Children.Clear();
+
+            foreach (var day in _weekDays)
+            {
+                var schedules = (await scheduleService.GetSchedulesForDayAsync(day.Id))
+                    .Where(s => s.EmployeeId == employeeId)
+                    .OrderBy(s => s.WorkStartTime)
+                    .ToList();
+
+                foreach (var schedule in schedules)
+                {
+                    var employee = _employees.FirstOrDefault(e => e.Id == schedule.EmployeeId);
+                    if (employee != null)
+                    {
+                        AddScheduleItemToDay(day.Name, employee.Firstname, employee.Lastname,
+                            schedule.WorkStartTime.HasValue ? schedule.WorkStartTime.Value.TimeOfDay : TimeSpan.Zero,
+                            schedule.WorkEndTime.HasValue ? schedule.WorkEndTime.Value.TimeOfDay : TimeSpan.Zero,
+                            schedule);
+
+                    }
+                }
+            }
         }
 
     }
