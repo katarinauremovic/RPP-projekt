@@ -31,6 +31,9 @@ namespace PresentationLayer.UserControls
         public MainWindow Parent { get; set; }
         private  ucAddNewTreatmentSidebar _addNewTreatmentSidebar;
         private TreatmentDTO _selectedTreatment;
+        private bool isAscending = true;
+        private string lastSortCriterion = "";
+
         public ucTreatmentManagement()
         {
 
@@ -54,7 +57,7 @@ namespace PresentationLayer.UserControls
             LoadFilters();
             LoadSortingCriteria();
             ShowLoadingIndicator(true);
-            await LoadDataGrid();
+            await LoadDataGridAsync();
             ShowLoadingIndicator(false);
         }
 
@@ -77,7 +80,7 @@ namespace PresentationLayer.UserControls
         {
             cmbSorting.IsDropDownOpen = true;
         }
-        private async Task LoadDataGrid()
+        internal async Task LoadDataGridAsync()
         {
            
             var treatments = await Task.Run(() => _treatmentService.GetAllTreatmentsAsync());
@@ -109,11 +112,11 @@ namespace PresentationLayer.UserControls
                 btnDropdownSearch.Visibility = Visibility.Visible;
                 txtSearch.Visibility = Visibility.Collapsed;
                 cmbFilterValues.Visibility = Visibility.Visible;
-                await LoadFilterValues(selectedFilter);
+                await LoadFilterValuesAsync(selectedFilter);
             }
         }
 
-        private async Task LoadFilterValues(string filterType)
+        private async Task LoadFilterValuesAsync(string filterType)
         {
             cmbFilterValues.Items.Clear();
 
@@ -141,7 +144,7 @@ namespace PresentationLayer.UserControls
         {
             if (string.IsNullOrWhiteSpace(txtSearch.Text))
             {
-                await LoadDataGrid();
+                await LoadDataGridAsync();
                 return;
             }
             ShowLoadingIndicator(true);
@@ -187,9 +190,7 @@ namespace PresentationLayer.UserControls
         
 
         }
-        private bool isAscending = true;
-        private string lastSortCriterion = "";
-
+        
         private void SortTreatments()
         {
             if (dgvTreatments.ItemsSource == null || !dgvTreatments.ItemsSource.Cast<TreatmentDTO>().Any())
@@ -279,18 +280,6 @@ namespace PresentationLayer.UserControls
             {
                 CloseSidebar();
             }
-        }
-
-
-
-        internal async Task RefreshDataGrid()
-        {
-            ShowLoadingIndicator(true);
-
-            var treatments = await _treatmentService.GetAllTreatmentsAsync();
-            dgvTreatments.ItemsSource = treatments;
-
-            ShowLoadingIndicator(false);
         }
 
         private void dgvTreatments_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -419,7 +408,7 @@ namespace PresentationLayer.UserControls
 
         private async void btnRefreshDataGrid_Click(object sender, RoutedEventArgs e)
         {
-            await RefreshDataGrid();
+            await LoadDataGridAsync();
             cmbFilters.SelectedIndex = 0;
             cmbSorting.SelectedIndex = 0;
             cmbFilterValues.SelectedIndex = -1;

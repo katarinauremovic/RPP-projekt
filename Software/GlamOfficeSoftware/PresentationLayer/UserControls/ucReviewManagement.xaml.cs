@@ -29,6 +29,7 @@ namespace PresentationLayer.UserControls
     {
         private readonly IReviewService _reviewService;
         public MainWindow Parent { get; set; }
+        private ReviewFormGmailService emailService = new ReviewFormGmailService();
 
         public ucReviewManagement()
         {
@@ -38,12 +39,12 @@ namespace PresentationLayer.UserControls
 
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            await LoadReviewStatistics();
-            await LoadAverageRatingByTreatmentChart();
-            await LoadTopEmployeesAndTreatments();
+            await LoadReviewStatisticsAsync();
+            await LoadAverageRatingByTreatmentChartAsync();
+            await LoadTopEmployeesAndTreatmentsAsync();
 
         }
-        private async Task LoadReviewStatistics()
+        private async Task LoadReviewStatisticsAsync()
         {
             var reviewDistribution = await _reviewService.GetReviewDistributionAsync();
             var avgRatingByEmployee = await _reviewService.GetAverageRatingByEmployeeAsync();
@@ -58,7 +59,7 @@ namespace PresentationLayer.UserControls
                 txtAverageRating.Text = $"{averageRating:F2}";
             }
 
-            var customColor = new SolidColorBrush(Color.FromRgb(184, 148, 172)); 
+            var customColor = new SolidColorBrush(Color.FromRgb(184, 148, 172));
 
             chartRatingDistribution.Series = new SeriesCollection
             {
@@ -99,7 +100,7 @@ namespace PresentationLayer.UserControls
                     Title = "Reviews Over Time",
                     Values = new ChartValues<int>(reviewTrends.Values),
                     Stroke = customColor,
-                    Fill = new SolidColorBrush(Color.FromArgb(50, 184, 148, 172)) 
+                    Fill = new SolidColorBrush(Color.FromArgb(50, 184, 148, 172))
                 }
             };
             chartReviewTrends.AxisX.Clear();
@@ -110,7 +111,7 @@ namespace PresentationLayer.UserControls
             });
         }
 
-        private async Task LoadAverageRatingByTreatmentChart()
+        private async Task LoadAverageRatingByTreatmentChartAsync()
         {
             var treatmentRatings = await _reviewService.GetAverageRatingByTreatmentAsync();
             var customColor = new SolidColorBrush(Color.FromRgb(184, 148, 172));
@@ -133,7 +134,7 @@ namespace PresentationLayer.UserControls
                 });
             }
         }
-        private async Task LoadTopEmployeesAndTreatments()
+        private async Task LoadTopEmployeesAndTreatmentsAsync()
         {
             var topEmployees = await _reviewService.GetTopEmployeesAsync();
             var topTreatments = await _reviewService.GetTopTreatmentsAsync();
@@ -165,9 +166,9 @@ namespace PresentationLayer.UserControls
 
         private async void btnRefreshData_Click(object sender, RoutedEventArgs e)
         {
-            await LoadReviewStatistics();
-            await LoadAverageRatingByTreatmentChart();
-            await LoadTopEmployeesAndTreatments();
+            await LoadReviewStatisticsAsync();
+            await LoadAverageRatingByTreatmentChartAsync();
+            await LoadTopEmployeesAndTreatmentsAsync();
         }
 
         private async void btnSyncReviews_Click(object sender, RoutedEventArgs e)
@@ -181,9 +182,9 @@ namespace PresentationLayer.UserControls
 
                 MessageBox.Show("Reviews successfully synced from email!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                await LoadReviewStatistics(); 
-                await LoadAverageRatingByTreatmentChart();
-                await LoadTopEmployeesAndTreatments();
+                await LoadReviewStatisticsAsync();
+                await LoadAverageRatingByTreatmentChartAsync();
+                await LoadTopEmployeesAndTreatmentsAsync();
             }
             catch (Exception ex)
             {
@@ -198,13 +199,13 @@ namespace PresentationLayer.UserControls
 
         private void btnShowMyReviews_Click(object sender, RoutedEventArgs e)
         {
-           
-                var detailsSidebar = new ucEmployeeReviewsSidebar();
-                detailsSidebar.ParentControl = this;
 
-                ccSidebar.Content = detailsSidebar;
-                ShowSidebar();
-            
+            var detailsSidebar = new ucEmployeeReviewsSidebar();
+            detailsSidebar.ParentControl = this;
+
+            ccSidebar.Content = detailsSidebar;
+            ShowSidebar();
+
         }
         internal async void CloseSidebar()
         {
@@ -245,6 +246,41 @@ namespace PresentationLayer.UserControls
                 };
 
                 sidebarMenu.BeginAnimation(MarginProperty, marginAnimation);
+            }
+        }
+
+        private async void btnSend_Click(object sender, RoutedEventArgs e)
+        {
+            // Testni podaci
+            string testEmail = "kuremovic309@gmail.com";  // Promijeni na stvarni email za testiranje
+            string testClientName = "John Doe";
+            int testReservationId = 1;
+            int testClientId = 1;
+
+            // Testni tretmani (simulirani podaci)
+            var testTreatments = new List<(int treatmentId, string treatmentName, int employeeId)>
+    {
+        (1, "Massage", 101),
+        (2, "Facial", 102),
+        (3, "Manicure", 103)
+    };
+
+            try
+            {
+                // Poziv metode za slanje e-maila
+                await emailService.SendReviewRequestEmailAsync(
+                    testEmail,
+                    testClientName,
+                    testReservationId,
+                    testTreatments,
+                    testClientId
+                );
+
+                MessageBox.Show("Testni e-mail uspješno poslan!", "Uspjeh");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Greška pri slanju e-maila: {ex.Message}", "Greška");
             }
         }
     }

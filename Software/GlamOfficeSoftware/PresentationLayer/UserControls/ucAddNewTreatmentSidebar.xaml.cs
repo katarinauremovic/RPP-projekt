@@ -59,7 +59,7 @@ namespace PresentationLayer.UserControls
 
                 await _treatmentService.AddTreatmentAsync(treatmentDTO);
 
-                ParentControl?.RefreshDataGrid();
+                ParentControl?.LoadDataGridAsync();
                 CloseSidebar();
             }
             catch (EmptyFieldsForTreatmentsException ex)
@@ -102,7 +102,7 @@ namespace PresentationLayer.UserControls
 
         private void btnCloseSidebar_Click(object sender, RoutedEventArgs e)
         {
-            this.Visibility = Visibility.Collapsed;
+            ParentControl.CloseSidebar();
 
         }
     }

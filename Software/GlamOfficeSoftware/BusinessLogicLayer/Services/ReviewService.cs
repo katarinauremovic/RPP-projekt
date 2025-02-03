@@ -13,12 +13,12 @@ namespace BusinessLogicLayer.Services
     public class ReviewService : IReviewService
     {
         private readonly ReviewRepository _reviewRepository;
-        private readonly ReviewFormEmailService _emailService;
+        private readonly ReviewFormGmailService _emailService;
 
         public ReviewService()
         {
             _reviewRepository = new ReviewRepository();
-            _emailService = new ReviewFormEmailService();
+            _emailService = new ReviewFormGmailService();
         }
 
         public async Task<Dictionary<int, int>> GetReviewDistributionAsync()

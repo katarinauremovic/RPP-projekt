@@ -23,7 +23,7 @@ namespace PresentationLayer.UserControls
     /// </summary>
     public partial class ucShowTreatmentSidebar : UserControl
     {
-        public ucTreatmentManagement Parent { get; set; }
+       
         public ucTreatmentManagement ParentControl { get; internal set; }
 
         private TreatmentDTO _currentTreatment;
@@ -63,7 +63,7 @@ namespace PresentationLayer.UserControls
 
                
 
-                ParentControl?.RefreshDataGrid();
+                ParentControl?.LoadDataGridAsync();
                 ParentControl?.CloseSidebar();
             }
         }

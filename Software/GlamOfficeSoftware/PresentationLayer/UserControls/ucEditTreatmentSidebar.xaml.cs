@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.Services;
+﻿using BusinessLogicLayer.Interfaces;
+using BusinessLogicLayer.Services;
 using EntityLayer.DTOs;
 using EntityLayer.Entities;
 using System;
@@ -23,7 +24,7 @@ namespace PresentationLayer.UserControls
     /// </summary>
     public partial class ucEditTreatmentSidebar : UserControl
     {
-        private readonly TreatmentService _treatmentService = new TreatmentService();
+        private readonly ITreatmentService _treatmentService = new TreatmentService();
         private TreatmentDTO _currentTreatment;
         public ucTreatmentManagement ParentControl { get; set; }
 
@@ -37,9 +38,9 @@ namespace PresentationLayer.UserControls
 
         }
 
-        private void btnSave_Click(object sender, RoutedEventArgs e)
+        private async void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            SaveChanges();
+            await SaveChangesAsync();
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -55,7 +56,7 @@ namespace PresentationLayer.UserControls
             txtDuration.Text = treatment.DurationMinutes.HasValue ? treatment.DurationMinutes.Value.ToString() : "";
             txtDescription.Text = treatment.Description;
 
-            await LoadComboBoxes();
+            await LoadComboBoxesAsync();
 
             cmbTreatmentGroup.SelectedItem = cmbTreatmentGroup.Items.Cast<TreatmentGroup>()
                 .FirstOrDefault(g => g.Name == treatment.TreatmentGroupName);
@@ -63,7 +64,7 @@ namespace PresentationLayer.UserControls
                 .FirstOrDefault(wp => wp.Name == treatment.WorkPositionName);
         }
 
-        private async Task LoadComboBoxes()
+        private async Task LoadComboBoxesAsync()
         {
             var groups = await _treatmentService.GetAllTreatmentGroupsAsync();
             cmbTreatmentGroup.ItemsSource = groups;
@@ -75,7 +76,7 @@ namespace PresentationLayer.UserControls
             cmbWorkPosition.DisplayMemberPath = "Name";
             cmbWorkPosition.SelectedValuePath = "idWorkPosition";
         }
-        private async void SaveChanges()
+        private async Task SaveChangesAsync()
         {
             if (_currentTreatment == null) return;
 
@@ -91,17 +92,17 @@ namespace PresentationLayer.UserControls
 
             
 
-            ParentControl?.RefreshDataGrid();  
+            ParentControl?.LoadDataGridAsync();  
             CloseSidebar();
         }
         private void CloseSidebar()
         {
-            this.Visibility = Visibility.Collapsed;
+           ParentControl?.CloseSidebar();
         }
 
         private void btnCloseSidebar_Click(object sender, RoutedEventArgs e)
         {
-
+            CloseSidebar();
         }
     }
 }

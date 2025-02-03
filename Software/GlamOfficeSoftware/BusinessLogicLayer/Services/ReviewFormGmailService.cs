@@ -14,13 +14,12 @@ namespace BusinessLogicLayer.Services
 {
     public class ReviewFormGmailService : GmailService
     {
-        public class ReviewFormEmailService : GmailService
-        {
+     
             private readonly string _googleFormBaseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfVN6cm9w7R7m6yNYQJikDMPNYENOiN3cYBldJvbQ3CGTWbQw/viewform?usp=pp_url";
 
             public string GenerateReviewFormLink(int reservationId, int treatmentId, int employeeId, int clientId)
             {
-                return $"{_googleFormBaseUrl}&entry.229577371={reservationId}&entry.1655282895={treatmentId}&entry.728183292={employeeId}entry.704643125={clientId}";
+                return $"{_googleFormBaseUrl}&entry.229577371={reservationId}&entry.1655282895={treatmentId}&entry.728183292={employeeId}&entry.704643125={clientId}";
             }
 
             public async Task SendReviewRequestEmailAsync(string clientEmail, string clientName, int reservationId, List<(int treatmentId, string treatmentName, int employeeId)> treatments, int clientId)
@@ -139,5 +138,5 @@ namespace BusinessLogicLayer.Services
 
         }
     }
-    }
+    
 

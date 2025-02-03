@@ -47,6 +47,13 @@ ToolTip="Refresh Data" Margin="10,0,0,0">
              Background="#b894ac" Foreground="White"
              Click="btnShowMyReviews_Click"
              Margin="10,0,0,0"/>
+                    <Button x:Name="btnSend"
+Content="SendMAil"
+Width="150" Height="40"
+Style="{StaticResource classicButton}" 
+Background="#b894ac" Foreground="White"
+Click="btnSend_Click"
+Margin="10,0,0,0"/>
                 </StackPanel>
             </Border>
             <ContentControl x:Name="ccSidebar" Width="240" DockPanel.Dock="Right" Margin="0,-55,-30,-81" Panel.ZIndex="2" />
