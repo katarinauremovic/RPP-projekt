@@ -251,13 +251,11 @@ namespace PresentationLayer.UserControls
 
         private async void btnSend_Click(object sender, RoutedEventArgs e)
         {
-            // Testni podaci
-            string testEmail = "kuremovic309@gmail.com";  // Promijeni na stvarni email za testiranje
-            string testClientName = "John Doe";
+            string testEmail = "kuremovic309@gmail.com"; 
+            string testClientName = "Katarina";
             int testReservationId = 1;
-            int testClientId = 1;
+            int testClientId = 16;
 
-            // Testni tretmani (simulirani podaci)
             var testTreatments = new List<(int treatmentId, string treatmentName, int employeeId)>
     {
         (1, "Massage", 101),
@@ -267,7 +265,6 @@ namespace PresentationLayer.UserControls
 
             try
             {
-                // Poziv metode za slanje e-maila
                 await emailService.SendReviewRequestEmailAsync(
                     testEmail,
                     testClientName,
