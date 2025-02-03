@@ -28,7 +28,7 @@ namespace PresentationLayer.UserControls
     {
         public MainWindow Parent { get; set; }
 
-        private GiftCardService _giftCardService = new GiftCardService();
+        private IGiftCardService _giftCardService = new GiftCardService();
         public GiftCard _selectedGiftCard { get; set; }
         public ucGiftCardAdministration()
         {

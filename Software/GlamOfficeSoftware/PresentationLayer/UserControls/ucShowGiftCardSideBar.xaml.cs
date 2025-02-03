@@ -28,7 +28,7 @@ namespace PresentationLayer.UserControls
 
         private GiftCard _selectedGiftCard;
 
-        private GiftCardService _giftCardService;
+        private IGiftCardService _giftCardService;
         public ucShowGiftCardSideBar(GiftCard selected)
         {
             InitializeComponent();

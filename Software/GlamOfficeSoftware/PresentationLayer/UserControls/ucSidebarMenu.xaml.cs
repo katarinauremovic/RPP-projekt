@@ -153,6 +153,13 @@ namespace PresentationLayer.UserControls
             Parent.ccContent.Content = ucGiftCards;
         }
 
+        private void btnReservations_Click(object sender, RoutedEventArgs e)
+        {
+            var ucReservations = new ucReservationAdministration();
+            ucReservations.Parent = Parent;
+            Parent.ccContent.Content = ucReservations;
+        }
+
        
 
         private void btnStatistics_Click_1(object sender, RoutedEventArgs e)

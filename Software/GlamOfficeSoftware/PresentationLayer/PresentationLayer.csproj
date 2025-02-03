@@ -166,6 +166,9 @@
     <Compile Include="UserControls\ucAddNewClientSidebar.xaml.cs">
       <DependentUpon>ucAddNewClientSidebar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ucAddNewReservation.xaml.cs">
+      <DependentUpon>ucAddNewReservation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ucAddNewTreatmentGroupSidebar.xaml.cs">
       <DependentUpon>ucAddNewTreatmentGroupSidebar.xaml</DependentUpon>
     </Compile>
@@ -190,6 +193,9 @@
     <Compile Include="UserControls\ucEditScheduleSidebar.xaml.cs">
       <DependentUpon>ucEditScheduleSidebar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ucEditReservationSideBar.xaml.cs">
+      <DependentUpon>ucEditReservationSideBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ucEditTreatmentSidebar.xaml.cs">
       <DependentUpon>ucEditTreatmentSidebar.xaml</DependentUpon>
     </Compile>
@@ -210,6 +216,9 @@
     </Compile>
     <Compile Include="UserControls\ucReceipts.xaml.cs">
       <DependentUpon>ucReceipts.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ucReservationAdministration.xaml.cs">
+      <DependentUpon>ucReservationAdministration.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ucRewardCards.xaml.cs">
       <DependentUpon>ucRewardCards.xaml</DependentUpon>
@@ -284,6 +293,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\ucAddNewReservation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\ucAddNewTreatmentGroupSidebar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -316,6 +329,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\ucEditReservationSideBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\ucEditTreatmentSidebar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -341,6 +358,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ucReceipts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ucReservationAdministration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

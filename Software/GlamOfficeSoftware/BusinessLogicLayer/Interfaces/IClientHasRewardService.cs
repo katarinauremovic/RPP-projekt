@@ -11,5 +11,8 @@ namespace BusinessLogicLayer.Interfaces
     {
         Task<IEnumerable<Client_has_Reward>> GetClientHasRewardsForClientAsync(int clientId);
         Task AddClientHasRewardAsync(Client_has_Reward clientHasReward);
+
+        Task<Client_has_Reward> GetRewardByRedeemCode(string code);
+        Task UpdateClientHasReward(Client_has_Reward chr);
     }
 }

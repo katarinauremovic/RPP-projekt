@@ -1,4 +1,5 @@
 ﻿using EntityLayer.Entities;
+using EntityLayer.Enums;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -14,5 +15,26 @@ namespace DataAccessLayer.Repositories
         {
             return await items.Where(chr => chr.Client_idClient == clientId).ToListAsync();
         }
+
+        public async Task<Client_has_Reward> GetRewardByRedeemCode(string code)
+        {
+            return await items
+                .FirstOrDefaultAsync(chr => chr.ReedemCode == code &&
+                chr.Status == ClientHasRewardStatuses.Active.ToString());
+        }
+
+        public async Task UpdateClientHasReward(Client_has_Reward chr)
+        {
+            var chrDb = await items.
+                Where(chrr => chr.Client_idClient == chr.Client_idClient &&
+                chrr.Reward_idReward == chr.Reward_idReward)
+                .FirstOrDefaultAsync();
+
+            chrDb = chr;
+
+            await SaveChangesAsync();
+        }
     }
+
+
 }

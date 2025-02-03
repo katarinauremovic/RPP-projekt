@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.Services;
+﻿using BusinessLogicLayer.Interfaces;
+using BusinessLogicLayer.Services;
 using EntityLayer.DTOs;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
@@ -33,7 +34,7 @@ namespace PresentationLayer.UserControls
 
         public ucEmployeeAdministration Parent { get; set; }
 
-        private EmployeeService _employeeService;
+        private IEmployeeService _employeeService;
         public ucShowEmployeeDetailsSideBar(EmployeeDTO employee)
         {
             InitializeComponent();
