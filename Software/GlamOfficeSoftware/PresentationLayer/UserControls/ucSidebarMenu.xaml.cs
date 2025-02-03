@@ -173,5 +173,14 @@ namespace PresentationLayer.UserControls
             ucReservations.Parent = Parent;
             Parent.ccContent.Content = ucReservations;
         }
+
+       
+
+        private void btnStatistics_Click_1(object sender, RoutedEventArgs e)
+        {
+            var ucTreatmentStatistics = new ucTreatmentStatistics();
+            ucTreatmentStatistics.Parent = Parent;
+            Parent.ccContent.Content = ucTreatmentStatistics;
+        }
     }
 }

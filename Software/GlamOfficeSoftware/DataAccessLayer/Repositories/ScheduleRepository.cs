@@ -90,7 +90,7 @@ namespace DataAccessLayer.Repositories
         public async Task<IEnumerable<DailySchedule>> GetSchedulesForDayAsync(int dayId)
         {
             return await context.DailySchedules
-                .Where(ds => ds.Day_idDay == dayId)  // Dohvati SVE rasporede za taj dan
+                .Where(ds => ds.Day_idDay == dayId) 
                 .ToListAsync();
         }
         public async Task<DailySchedule> GetScheduleByIdAsync(int scheduleId)
