@@ -87,5 +87,12 @@ namespace DataAccessLayer.Repositories
                 .FirstOrDefaultAsync(ds => ds.Day_idDay == dayId && ds.Employee_idEmployee == employeeId);
         }
 
+        public async Task<IEnumerable<DailySchedule>> GetSchedulesForDayAsync(int dayId)
+        {
+            return await context.DailySchedules
+                .Where(ds => ds.Day_idDay == dayId)  // Dohvati SVE rasporede za taj dan
+                .ToListAsync();
+        }
+
     }
 }

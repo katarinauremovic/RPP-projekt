@@ -202,6 +202,9 @@
     <Compile Include="UserControls\ucSchedule.xaml.cs">
       <DependentUpon>ucSchedule.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ucScheduleItem.xaml.cs">
+      <DependentUpon>ucScheduleItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ucShowClientsProfileSidebar.xaml.cs">
       <DependentUpon>ucShowClientsProfileSidebar.xaml</DependentUpon>
     </Compile>
@@ -307,6 +310,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ucSchedule.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ucScheduleItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

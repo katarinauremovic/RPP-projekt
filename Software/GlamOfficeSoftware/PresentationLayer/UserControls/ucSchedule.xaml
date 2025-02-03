@@ -38,53 +38,54 @@
             <TextBlock x:Name="txtDateRange" Text="(January 29 - February 4, 2024)" FontSize="14" Foreground="#6D4C77" TextAlignment="Center" Margin="0,3,0,8"/>
         </StackPanel>
         <ContentControl x:Name="ccSidebar" Width="240" DockPanel.Dock="Right" Margin="756,0,-196,0" Panel.ZIndex="2" Grid.RowSpan="3" />
-        <!-- Okvir rasporeda koji ide do dna -->
+        <!-- Okvir rasporeda -->
         <Border Grid.Row="1" BorderThickness="2" BorderBrush="#6D4C77" CornerRadius="10" Padding="5" Background="White" Margin="20">
             <Grid>
                 <UniformGrid Rows="1" Columns="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Border Background="#f0dcdc" BorderThickness="1" BorderBrush="#ffffff" Padding="5">
                         <StackPanel>
-                            <TextBlock Text="Monday" Foreground="Black"  FontSize="14"/>
-                            <ItemsControl x:Name="lstMonday" />
+                            <TextBlock Text="Monday" Foreground="Black" FontSize="14"/>
+                            <WrapPanel ItemHeight="40" ItemWidth="140" x:Name="wpMonday" Orientation="Vertical" HorizontalAlignment="Center"/>
                         </StackPanel>
                     </Border>
                     <Border Background="#f0dcdc" BorderThickness="1" BorderBrush="#ffffff" Padding="5">
                         <StackPanel>
-                            <TextBlock Text="Tuesday" Foreground="Black"  FontSize="14"/>
-                            <ItemsControl x:Name="lstTuesday" />
+                            <TextBlock Text="Tuesday" Foreground="Black" FontSize="14"/>
+                            <WrapPanel ItemHeight="40" ItemWidth="140" x:Name="wpTuesday" Orientation="Vertical" HorizontalAlignment="Center"/>
                         </StackPanel>
                     </Border>
                     <Border Background="#f0dcdc" BorderThickness="1" BorderBrush="#ffffff" Padding="5">
                         <StackPanel>
-                            <TextBlock Text="Wednesday" Foreground="Black"  FontSize="14"/>
-                            <ItemsControl x:Name="lstWednesday" />
+                            <TextBlock Text="Wednesday" Foreground="Black" FontSize="14"/>
+                            <WrapPanel ItemHeight="40" ItemWidth="140" x:Name="wpWednesday" Orientation="Vertical" HorizontalAlignment="Center"/>
                         </StackPanel>
                     </Border>
                     <Border Background="#f0dcdc" BorderThickness="1" BorderBrush="#ffffff" Padding="5">
                         <StackPanel>
-                            <TextBlock Text="Thursday" Foreground="Black"  FontSize="14"/>
-                            <ItemsControl x:Name="lstThursday" />
+                            <TextBlock Text="Thursday" Foreground="Black" FontSize="14"/>
+                            <WrapPanel ItemHeight="40" ItemWidth="140" x:Name="wpThursday" Orientation="Vertical" HorizontalAlignment="Center"/>
                         </StackPanel>
                     </Border>
                     <Border Background="#f0dcdc" BorderThickness="1" BorderBrush="#ffffff" Padding="5">
                         <StackPanel>
                             <TextBlock Text="Friday" Foreground="Black" FontSize="14"/>
-                            <ItemsControl x:Name="lstFriday" />
+                            <WrapPanel ItemHeight="40" ItemWidth="140" x:Name="wpFriday" Orientation="Vertical" HorizontalAlignment="Center"/>
                         </StackPanel>
                     </Border>
                     <Border Background="#f0dcdc" BorderThickness="1" BorderBrush="#ffffff" Padding="5">
                         <StackPanel>
                             <TextBlock Text="Saturday" Foreground="Black" FontSize="14"/>
-                            <ItemsControl x:Name="lstSaturday" />
+                            <WrapPanel ItemHeight="40" ItemWidth="140" x:Name="wpSaturday" Orientation="Vertical" HorizontalAlignment="Center"/>
                         </StackPanel>
                     </Border>
                     <Border Background="#f0dcdc" BorderThickness="1" BorderBrush="#ffffff" Padding="5">
                         <StackPanel>
                             <TextBlock Text="Sunday" Foreground="Black" FontSize="14"/>
-                            <ItemsControl x:Name="lstSunday" />
+                            <WrapPanel ItemHeight="40" ItemWidth="140" x:Name="wpSunday" Orientation="Vertical" HorizontalAlignment="Center"/>
                         </StackPanel>
                     </Border>
                 </UniformGrid>
+
             </Grid>
         </Border>
 
@@ -97,6 +98,13 @@
                 <Button x:Name="btnApply" Click="btnApply_Click" Content="Apply" 
                         Width="90" Height="35" 
                         Style="{StaticResource classicButton}" Margin="10,0,0,0"/>
+                <Button x:Name="btnNextWeek" Click="btnNextWeek_Click" Content="Show next week"
+         Background="Transparent" BorderBrush="Transparent" Width="199"/>
+                <Button x:Name="btnPrevWeek"  Content="Show previous week"
+                        Click="btnPrevWeek_Click"
+                        Visibility="Collapsed"
+Background="Transparent" BorderBrush="Transparent" Width="199"/>
+
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right">

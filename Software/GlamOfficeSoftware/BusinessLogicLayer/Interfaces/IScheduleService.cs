@@ -13,5 +13,7 @@ namespace BusinessLogicLayer.Interfaces
         Task AddDailyScheduleAsync(DailyScheduleDTO dailyScheduleDTO);
         Task UpdateDailyScheduleAsync(int dayId, int employeeId, TimeSpan newStartTime, TimeSpan newEndTime);
         Task DeleteDailyScheduleAsync(int dayId, int employeeId);
+        Task<IEnumerable<DailyScheduleDTO>> GetSchedulesForDayAsync(int dayId);
+
     }
 }

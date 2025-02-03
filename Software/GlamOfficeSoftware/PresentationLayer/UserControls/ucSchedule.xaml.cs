@@ -34,27 +34,96 @@ namespace PresentationLayer.UserControls
             InitializeComponent();
             _ = LoadData();
         }
+        private bool isNextWeekActive = false;
 
         public async Task LoadData()
         {
             var scheduleService = new ScheduleService();
-            _weekDays = (await scheduleService.GetOrCreateDaysForNextWeekAsync()).ToList();
+
+            // Provjeri je li prikazan sljedeći tjedan ili trenutni
+            DateTime startDate = isNextWeekActive ? GetNextMonday(DateTime.Today) : GetCurrentWeekMonday(DateTime.Today);
+
+            _weekDays = (await scheduleService.GetOrCreateDaysForWeekAsync(startDate)).ToList();
             _employees = (await employeeService.GetAllEmployeesAsync()).ToList();
 
             if (_weekDays.Count > 0)
             {
-                DateTime startDate = _weekDays.First().Date.Value;
-                DateTime endDate = _weekDays.Last().Date.Value; 
-
+                DateTime endDate = startDate.AddDays(6);
                 txtDateRange.Text = $"{startDate:MMMM dd} - {endDate:MMMM dd, yyyy}";
+
+                // Onemogući uređivanje ako je trenutni tjedan
+                SetEditMode(isNextWeekActive);
             }
+
+            // Očisti panele
+            wpMonday.Children.Clear();
+            wpTuesday.Children.Clear();
+            wpWednesday.Children.Clear();
+            wpThursday.Children.Clear();
+            wpFriday.Children.Clear();
+            wpSaturday.Children.Clear();
+            wpSunday.Children.Clear();
+
+            foreach (var day in _weekDays)
+            {
+                var schedules = (await scheduleService.GetSchedulesForDayAsync(day.Id))
+                                .OrderBy(s => s.WorkStartTime)
+                                .ToList();
+
+                foreach (var schedule in schedules)
+                {
+                    var employee = _employees.FirstOrDefault(e => e.Id == schedule.EmployeeId);
+                    if (employee != null)
+                    {
+                        AddScheduleItemToDay(day.Name, employee.Firstname, employee.Lastname,
+                                             schedule.WorkStartTime ?? TimeSpan.Zero,
+                                             schedule.WorkEndTime ?? TimeSpan.Zero);
+                    }
+                }
+            }
+
+            // Postavi prikaz gumba
+            btnNextWeek.Visibility = isNextWeekActive ? Visibility.Collapsed : Visibility.Visible;
+            btnPrevWeek.Visibility = isNextWeekActive ? Visibility.Visible : Visibility.Collapsed;
         }
 
+        private void SetEditMode(bool enableEditing)
+        {
+            btnAdd.IsEnabled = enableEditing;
+            btnEdit.IsEnabled = enableEditing;
+            btnDelete.IsEnabled = enableEditing;
+
+            btnAdd.Opacity = enableEditing ? 1.0 : 0.5;
+            btnEdit.Opacity = enableEditing ? 1.0 : 0.5;
+            btnDelete.Opacity = enableEditing ? 1.0 : 0.5;
+        }
+
+        private void AddScheduleItemToDay(string dayName, string firstName, string lastName, TimeSpan startTime, TimeSpan endTime)
+        {
+            var scheduleItem = new ucScheduleItem(firstName, lastName, startTime, endTime);
+
+            var dayMapping = new Dictionary<string, WrapPanel>
+            {
+                { "monday", wpMonday },
+                { "tuesday", wpTuesday },
+                { "wednesday", wpWednesday },
+                { "thursday", wpThursday },
+                { "friday", wpFriday },
+                { "saturday", wpSaturday },
+                { "sunday", wpSunday }
+             };
+
+            if (dayMapping.TryGetValue(dayName.ToLower(), out var panel))
+            {
+                scheduleItem.Margin = new Thickness(0, 5, 0, 0);
+                panel.Children.Add(scheduleItem);
+            }
+        }
 
         private async void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             await LoadData();
-            var sidebar = new ucAddScheduleSidebar(_weekDays, _employees);
+            var sidebar = new ucAddScheduleSidebar(this,_weekDays, _employees);
             ccSidebar.Content = sidebar;
             ccSidebar.Visibility = Visibility.Visible;
         }
@@ -73,7 +142,7 @@ namespace PresentationLayer.UserControls
         {
 
         }
-        private void ShowSidebar()
+        internal void ShowSidebar()
         {
             var slideInAnimation = FindResource("SlideInAnimation") as Storyboard;
             var sidebarMenu = (FrameworkElement)ccSidebar.Content;
@@ -93,6 +162,47 @@ namespace PresentationLayer.UserControls
 
                 sidebarMenu.BeginAnimation(MarginProperty, marginAnimation);
             }
+        }
+
+        internal void CloseSidebar()
+        {
+            var slideOutAnimation = FindResource("SlideOutAnimation") as Storyboard;
+            var sidebarMenu = (FrameworkElement)ccSidebar.Content;
+
+            if (sidebarMenu != null)
+            {
+                slideOutAnimation?.Begin(sidebarMenu);
+
+                slideOutAnimation.Completed += (s, e) =>
+                {
+                    ccSidebar.Content = null;
+                    sidebarMenu.Visibility = Visibility.Collapsed;
+                };
+            }
+        }
+
+        private async void btnNextWeek_Click(object sender, RoutedEventArgs e)
+        {
+            isNextWeekActive = true;
+            await LoadData();
+        }
+
+        private DateTime GetCurrentWeekMonday(DateTime date)
+        {
+            int daysSinceMonday = (int)date.DayOfWeek - (int)DayOfWeek.Monday;
+            if (daysSinceMonday < 0) daysSinceMonday += 7;
+            return date.AddDays(-daysSinceMonday);
+        }
+
+        private DateTime GetNextMonday(DateTime date)
+        {
+            return GetCurrentWeekMonday(date).AddDays(7);
+        }
+
+        private async void btnPrevWeek_Click(object sender, RoutedEventArgs e)
+        {
+            isNextWeekActive = false;
+            await LoadData();
         }
     }
 }

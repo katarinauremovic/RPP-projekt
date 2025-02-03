@@ -22,27 +22,27 @@ namespace PresentationLayer.UserControls
     /// </summary>
     public partial class ucAddScheduleSidebar : UserControl
     {
-      
-        public ucAddScheduleSidebar(List<DayDTO> weekDays, List<EmployeeDTO> employees)
+        public ucSchedule _parentControl { get; set; }
+        public ucAddScheduleSidebar(ucSchedule parentControl, List<DayDTO> weekDays, List<EmployeeDTO> employees)
         {
             InitializeComponent();
+            _parentControl = parentControl;
+
             cmbDays.ItemsSource = weekDays;
             cmbDays.DisplayMemberPath = "Name";
             cmbDays.SelectedIndex = 0;
 
             cmbEmployees.ItemsSource = employees
-    .Where(e => e.RoleName == "Regular user") 
-    .Select(e => new { FullName = $"{e.Firstname} {e.Lastname}", Id = e.Id })
-    .ToList();
+                .Where(e => e.RoleName == "Regular user")
+                .Select(e => new { FullName = $"{e.Firstname} {e.Lastname}", Id = e.Id })
+                .ToList();
 
             cmbEmployees.DisplayMemberPath = "FullName";
-            cmbEmployees.SelectedIndex = cmbEmployees.Items.Count > 0 ? 0 : -1; // Postavi prvi item ako ih ima
-
+            cmbEmployees.SelectedIndex = cmbEmployees.Items.Count > 0 ? 0 : -1; 
         }
-
         private async void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            txtErrorMessage.Visibility = Visibility.Collapsed; // Reset prije provjere
+            txtErrorMessage.Visibility = Visibility.Collapsed;
 
             if (cmbEmployees.SelectedItem == null || cmbDays.SelectedItem == null)
             {
@@ -84,7 +84,7 @@ namespace PresentationLayer.UserControls
                 };
 
                 await scheduleService.AddDailyScheduleAsync(dailySchedule);
-                MessageBox.Show("Raspored uspješno dodan u bazu.", "Informacija", MessageBoxButton.OK, MessageBoxImage.Information);
+                await _parentControl.LoadData();
 
                 Visibility = Visibility.Collapsed;
             }
@@ -97,7 +97,7 @@ namespace PresentationLayer.UserControls
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            
+            _parentControl.CloseSidebar();
         }
 
         private void btnCloseSidebar_Click(object sender, RoutedEventArgs e)

@@ -36,7 +36,7 @@ namespace BusinessLogicLayer.Services
                   ds.WorkEndTime > day.Date.Value.Add(dailyScheduleDTO.WorkStartTime.Value))));
 
             if (hasConflict)
-                throw new InvalidScheduleTimeException("There is a conflict with an existing work schedule!");
+                throw new InvalidScheduleTimeException("The time overlaps with the selected employee's existing time");
 
             var newDailySchedule = new DailySchedule
             {
@@ -48,6 +48,7 @@ namespace BusinessLogicLayer.Services
 
             await _scheduleRepository.AddDailyScheduleAsync(dailyScheduleDTO.DayId, newDailySchedule);
         }
+
 
         public async Task DeleteDailyScheduleAsync(int dayId, int employeeId)
         {
@@ -113,5 +114,41 @@ namespace BusinessLogicLayer.Services
             int daysUntilMonday = ((int)DayOfWeek.Monday - (int)date.DayOfWeek + 7) % 7;
             return date.AddDays(daysUntilMonday);
         }
+        public async Task<IEnumerable<DailyScheduleDTO>> GetSchedulesForDayAsync(int dayId)
+        {
+            var schedules = await _scheduleRepository.GetSchedulesForDayAsync(dayId);
+
+            return schedules.Select(s => new DailyScheduleDTO
+            {
+                DayId = s.Day_idDay,
+                EmployeeId = s.Employee_idEmployee,
+                WorkStartTime = s.WorkStartTime.HasValue ? s.WorkStartTime.Value.TimeOfDay : (TimeSpan?)null,
+                WorkEndTime = s.WorkEndTime.HasValue ? s.WorkEndTime.Value.TimeOfDay : (TimeSpan?)null
+            }).ToList();
+        }
+
+        private DateTime GetCurrentWeekMonday(DateTime date)
+        {
+            int daysSinceMonday = (int)date.DayOfWeek - (int)DayOfWeek.Monday;
+            if (daysSinceMonday < 0) daysSinceMonday += 7;
+            return date.AddDays(-daysSinceMonday);
+        }
+
+        public async Task<IEnumerable<DayDTO>> GetOrCreateDaysForWeekAsync(DateTime startDate)
+        {
+            var days = await _scheduleRepository.GetOrCreateDaysForWeekAsync(startDate);
+
+            string[] dayNames = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+
+            var formattedDays = days.Select((d, index) => new DayDTO
+            {
+                Id = d.idDay,
+                Name = dayNames[index],
+                Date = d.Date
+            }).ToList();
+
+            return formattedDays;
+        }
+
     }
 }
