@@ -223,7 +223,6 @@ namespace PresentationLayer.UserControls
             ucAddNewEmployee.Parent = this;
             ccSidebar.Content = ucAddNewEmployee;
             ShowSidebar();
-
         }
         private void ShowSidebar()
         {

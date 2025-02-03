@@ -90,6 +90,7 @@
     <Compile Include="Exceptions\InvalidPhoneNumberException.cs" />
     <Compile Include="Exceptions\InvalidPINException.cs" />
     <Compile Include="Exceptions\InvalidQRCodeFormatException.cs" />
+    <Compile Include="Exceptions\InvalidScheduleTimeException.cs" />
     <Compile Include="Exceptions\NotEnoughPointsException.cs" />
     <Compile Include="Exceptions\ReceiptNotVoidableException.cs" />
     <Compile Include="Exceptions\UnsuccessfulOperationException.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Interfaces\IReceiptService.cs" />
     <Compile Include="Interfaces\IReservationService.cs" />
     <Compile Include="Interfaces\IRewardService.cs" />
+    <Compile Include="Interfaces\IScheduleService.cs" />
     <Compile Include="LoggedInEmployee.cs" />
     <Compile Include="Interfaces\ITreatmentService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -116,6 +118,7 @@
     <Compile Include="Services\ReservationService.cs" />
     <Compile Include="Services\RewardService.cs" />
     <Compile Include="Services\RewardSystem.cs" />
+    <Compile Include="Services\ScheduleService.cs" />
     <Compile Include="Services\TreatmentService.cs" />
   </ItemGroup>
   <ItemGroup>
