@@ -67,46 +67,46 @@ namespace PresentationLayer.UserControls
         private async void LoadEmployees()
         {
             var employees = await _employeeService.GetAllEmployeesAsync();
-
             
-            var formattedEmployees = employees.Select(e => new
+            var formattedEmployees = employees.Select(e => new EmployeeDTO
             {
-                FullName = $"{e.Id} - {e.Firstname} {e.Lastname}"
-                
+                FullName = $"{e.Firstname} {e.Lastname}",
+                Id = e.Id
             }).ToList();
-
             
             cmbEmployee.ItemsSource = formattedEmployees;
-            cmbEmployee.DisplayMemberPath = "FullName";  
+            cmbEmployee.DisplayMemberPath = "FullName";
+            cmbEmployee.SelectedValuePath = "Id";
         }
 
         private async void LoadAvailableDays()
         {
             var days = await _weeklyScheduleForReservationService.GetDaysForWeeklyScheduleAsync(3);
 
-            var formattedDays = days.Select(d => new
+            var formattedDays = days.Select(d => new DayDTO
             {
-                FullNameD = $"{d.Name}",
-                d.idDay 
+                Name = d.Name,
+                Id = d.idDay 
             }).ToList();
 
             cmbDay.ItemsSource = formattedDays;
-            cmbDay.DisplayMemberPath = "FullNameD";
-            cmbDay.SelectedValuePath = "idDay";
+            cmbDay.DisplayMemberPath = "Name";
+            cmbDay.SelectedValuePath = "Id";
         }
 
         private async void LoadTreatments()
         {
             var treatments = await _treatmentService.GetAllTreatmentsAsync();
 
-            var formattedTreatments = treatments.Select(t => new
+            var formattedTreatments = treatments.Select(t => new TreatmentDTO
             {
-                FullNameT = $"{t.Name}",
-                t.idTreatment
+                Name = $"{t.Name}",
+                idTreatment = t.idTreatment,
+                Price = t.Price
             }).ToList();
 
             listTreatments.ItemsSource = formattedTreatments;
-            listTreatments.DisplayMemberPath = "FullNameT";
+            listTreatments.DisplayMemberPath = "Name";
         }
 
         private void btnCloseSidebar_Click(object sender, RoutedEventArgs e)
@@ -116,11 +116,6 @@ namespace PresentationLayer.UserControls
 
         private async void btnSaveReservation_Click(object sender, RoutedEventArgs e)
         {
-            var clientId = int.Parse(cmbClient.SelectedItem.ToString().Split(' ')[0]);
-            var dayId = int.Parse(cmbDay.SelectedItem.ToString().Split(' ')[0]);
-            Console.WriteLine("c:" + clientId);
-            Console.WriteLine("d:" + dayId);
-
             var reservation = new Reservation
             {
                 Date = dpDate.SelectedDate.Value,
@@ -133,12 +128,12 @@ namespace PresentationLayer.UserControls
                 TotalPrice = decimal.Parse(txtTotalPrice.Text),
                 isPaid = false,
                 Status = ReservationStatuses.Confirmed.ToString(),
-                Client_idClient = (int)cmbClient.SelectedItem,
-                Day_idDay = (int)cmbDay.SelectedItem,
-                Employee_idEmployee = (int)cmbEmployee.SelectedItem
+                Client_idClient = (int)cmbClient.SelectedValue,
+                Day_idDay = (int)cmbDay.SelectedValue,
+                Employee_idEmployee = (int)cmbEmployee.SelectedValue
             };
 
-            //await _reservationService.AddReservationAsync(reservation);
+            await _reservationService.AddReservationAsync(reservation);
             await SaveInRht();
         }
 
@@ -155,9 +150,7 @@ namespace PresentationLayer.UserControls
                     Amount = 1
                 };
 
-                Console.WriteLine("t" + treatment.idTreatment);
-
-                // await _reservationHasTreatmentService.AddReservationHasTreatmentAsync(reservationHasTreatment);
+                await _reservationHasTreatmentService.AddReservationHasTreatmentAsync(reservationHasTreatment);
             }
         }
 
@@ -168,22 +161,24 @@ namespace PresentationLayer.UserControls
 
         private async void LoadAllClients()
         {
-            cmbClient.Items.Clear();
             var clients = await _clientService.GetAllClientsDTOAsync();
-            foreach (var client in clients)
+
+            var formattedClients = clients.Select(c => new ClientDTO
             {
-                string fullName = $"{client.Id} - {client.Firstname} {client.Lastname}";
-                cmbClient.Items.Add(fullName);
-            }
+                Firstname = $"{c.Firstname} {c.Lastname}",
+                Id = c.Id
+            }).ToList();
+
+            cmbClient.ItemsSource = formattedClients;
+            cmbClient.DisplayMemberPath = "Firstname";
+            cmbClient.SelectedValuePath = "Id";
         }
 
         private void listTreatments_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            double? totalPrice = listTreatments.SelectedItems
-        .Cast<TreatmentDTO>()  
-        .Sum(t => t.Price);
-
             _selectedTreatments = listTreatments.SelectedItems.Cast<TreatmentDTO>().ToList();
+
+            double? totalPrice = _selectedTreatments.Sum(t => t.Price);
 
             txtTotalPrice.Text = totalPrice.ToString();
             txtTotalTreatmentAmount.Text = totalPrice.ToString();

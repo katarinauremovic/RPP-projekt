@@ -25,16 +25,14 @@ namespace DataAccessLayer.Repositories
 
         public async Task UpdateClientHasReward(Client_has_Reward chr)
         {
-            var chrDb = await items.
-                Where(chrr => chr.Client_idClient == chr.Client_idClient &&
-                chrr.Reward_idReward == chr.Reward_idReward)
+            var chrDb = await items
+                .Where(chrr => chr.Client_idClient == chr.Client_idClient &&
+                               chrr.Reward_idReward == chr.Reward_idReward)
                 .FirstOrDefaultAsync();
 
-            chrDb = chr;
-
-            await SaveChangesAsync();
+                chrDb.Status = chr.Status;
+                chrDb.RedeemDate = chr.RedeemDate;
+                await SaveChangesAsync();
         }
     }
-
-
 }
