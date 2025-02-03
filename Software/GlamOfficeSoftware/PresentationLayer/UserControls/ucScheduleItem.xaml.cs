@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EntityLayer.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,11 +21,22 @@ namespace PresentationLayer.UserControls
     /// </summary>
     public partial class ucScheduleItem : UserControl
     {
-        public ucScheduleItem(string firstName, string lastName, TimeSpan startTime, TimeSpan endTime)
+        public ucScheduleItem(string firstName, string lastName, TimeSpan startTime, TimeSpan endTime, DailyScheduleDTO scheduleData)
         {
             InitializeComponent();
             txtEmployeeName.Text = $"{firstName} {lastName}";
             txtTimeRange.Text = $"{startTime:hh\\:mm} - {endTime:hh\\:mm}";
+
+            this.Tag = scheduleData;
+
+            this.MouseLeftButtonDown += ScheduleItem_Click;
+        }
+        private void ScheduleItem_Click(object sender, MouseButtonEventArgs e)
+        {
+            if (Parent is ucSchedule parentControl)
+            {
+                parentControl.SelectScheduleItem(this);
+            }
         }
     }
 }

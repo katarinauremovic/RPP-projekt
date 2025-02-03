@@ -76,8 +76,9 @@ namespace PresentationLayer.UserControls
                     if (employee != null)
                     {
                         AddScheduleItemToDay(day.Name, employee.Firstname, employee.Lastname,
-                                             schedule.WorkStartTime ?? TimeSpan.Zero,
-                                             schedule.WorkEndTime ?? TimeSpan.Zero);
+                                              schedule.WorkStartTime ?? TimeSpan.Zero,
+                                              schedule.WorkEndTime ?? TimeSpan.Zero,
+                                              schedule);
                     }
                 }
             }
@@ -98,9 +99,9 @@ namespace PresentationLayer.UserControls
             btnDelete.Opacity = enableEditing ? 1.0 : 0.5;
         }
 
-        private void AddScheduleItemToDay(string dayName, string firstName, string lastName, TimeSpan startTime, TimeSpan endTime)
+        private void AddScheduleItemToDay(string dayName, string firstName, string lastName, TimeSpan startTime, TimeSpan endTime, DailyScheduleDTO scheduleData)
         {
-            var scheduleItem = new ucScheduleItem(firstName, lastName, startTime, endTime);
+            var scheduleItem = new ucScheduleItem(firstName, lastName, startTime, endTime, scheduleData);
 
             var dayMapping = new Dictionary<string, WrapPanel>
             {
@@ -130,12 +131,39 @@ namespace PresentationLayer.UserControls
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
+            if (_selectedScheduleData == null)
+            {
+                MessageBox.Show("Please select a schedule entry to edit.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
+            var sidebar = new ucAddScheduleSidebar(this, _weekDays, _employees, _selectedScheduleData);
+            ccSidebar.Content = sidebar;
+            ccSidebar.Visibility = Visibility.Visible;
         }
 
-        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        private async void btnDelete_Click(object sender, RoutedEventArgs e)
         {
+            if (_selectedScheduleData == null)
+            {
+                MessageBox.Show("Choose schedule item to delete", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
+            var result = MessageBox.Show("Are you sure you want to delete?", "Accept", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    await _scheduleService.DeleteDailyScheduleAsync(_selectedScheduleData.DayId, _selectedScheduleData.EmployeeId);
+
+                    await LoadData();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error when deleting", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
 
         private void btnApply_Click(object sender, RoutedEventArgs e)
@@ -204,5 +232,29 @@ namespace PresentationLayer.UserControls
             isNextWeekActive = false;
             await LoadData();
         }
+
+        private ucScheduleItem _selectedScheduleItem;
+        private DailyScheduleDTO _selectedScheduleData;
+
+        public void SelectScheduleItem(ucScheduleItem selectedItem)
+        {
+            _selectedScheduleItem = selectedItem;
+            _selectedScheduleData = selectedItem.Tag as DailyScheduleDTO;
+
+            foreach (var panel in new[] { wpMonday, wpTuesday, wpWednesday, wpThursday, wpFriday, wpSaturday, wpSunday })
+            {
+                foreach (ucScheduleItem item in panel.Children)
+                {
+                    item.Background = Brushes.White;
+                }
+            }
+
+            if (_selectedScheduleItem != null)
+            {
+                _selectedScheduleItem.Background = Brushes.LightGray;
+            }
+        }
+
+
     }
 }

@@ -22,23 +22,31 @@ namespace PresentationLayer.UserControls
     /// </summary>
     public partial class ucAddScheduleSidebar : UserControl
     {
-        public ucSchedule _parentControl { get; set; }
-        public ucAddScheduleSidebar(ucSchedule parentControl, List<DayDTO> weekDays, List<EmployeeDTO> employees)
+        private ucSchedule _parent;
+        private DailyScheduleDTO _existingSchedule;
+        private ScheduleService _scheduleService = new ScheduleService();
+
+        public ucAddScheduleSidebar(ucSchedule parent, List<DayDTO> availableDays, List<EmployeeDTO> employees, DailyScheduleDTO existingSchedule = null)
         {
             InitializeComponent();
-            _parentControl = parentControl;
-
-            cmbDays.ItemsSource = weekDays;
+            _parent = parent;
+            cmbDays.ItemsSource = availableDays;
             cmbDays.DisplayMemberPath = "Name";
-            cmbDays.SelectedIndex = 0;
 
-            cmbEmployees.ItemsSource = employees
-                .Where(e => e.RoleName == "Regular user")
-                .Select(e => new { FullName = $"{e.Firstname} {e.Lastname}", Id = e.Id })
-                .ToList();
-
+            cmbEmployees.ItemsSource = employees;
             cmbEmployees.DisplayMemberPath = "FullName";
-            cmbEmployees.SelectedIndex = cmbEmployees.Items.Count > 0 ? 0 : -1; 
+
+            _existingSchedule = existingSchedule;
+
+            if (_existingSchedule != null)
+            {
+                cmbDays.SelectedItem = availableDays.FirstOrDefault(d => d.Id == _existingSchedule.DayId);
+                cmbEmployees.SelectedItem = employees.FirstOrDefault(e => e.Id == _existingSchedule.EmployeeId);
+                txtStartTime.Text = _existingSchedule.WorkStartTime?.ToString(@"hh\:mm");
+                txtEndTime.Text = _existingSchedule.WorkEndTime?.ToString(@"hh\:mm");
+
+                btnSave.Content = "Update Schedule"; // Promijeni tekst gumba
+            }
         }
         private async void btnSave_Click(object sender, RoutedEventArgs e)
         {
@@ -84,7 +92,7 @@ namespace PresentationLayer.UserControls
                 };
 
                 await scheduleService.AddDailyScheduleAsync(dailySchedule);
-                await _parentControl.LoadData();
+                await _parent.LoadData();
 
                 Visibility = Visibility.Collapsed;
             }
@@ -97,7 +105,7 @@ namespace PresentationLayer.UserControls
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            _parentControl.CloseSidebar();
+            _parent.CloseSidebar();
         }
 
         private void btnCloseSidebar_Click(object sender, RoutedEventArgs e)
