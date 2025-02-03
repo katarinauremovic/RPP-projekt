@@ -47,7 +47,7 @@ namespace PresentationLayer.UserControls
 
             if (cmbEmployees.SelectedItem == null || cmbDays.SelectedItem == null)
             {
-                ShowError("Odaberite zaposlenika i dan.");
+                ShowError("Select an employee and a day.");
                 return;
             }
 
@@ -59,13 +59,13 @@ namespace PresentationLayer.UserControls
 
             if (startTime == null || endTime == null)
             {
-                ShowError("Vrijeme nije ispravno. Koristite format HH:mm.");
+                ShowError("The time is invalid. Use the HH:mm format");
                 return;
             }
 
             if (startTime >= endTime)
             {
-                ShowError("Vrijeme početka mora biti prije vremena završetka.");
+                ShowError("Start time must be before the end time.");
                 return;
             }
 

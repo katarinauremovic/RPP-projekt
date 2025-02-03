@@ -137,7 +137,7 @@ namespace PresentationLayer.UserControls
                 return;
             }
 
-            var sidebar = new ucEditScheduleSidebar(this, _weekDays, _employees, _selectedScheduleData);
+            var sidebar = new ucEditScheduleSidebar(this,_weekDays, _employees, _selectedScheduleData);
             ccSidebar.Content = sidebar;
             ccSidebar.Visibility = Visibility.Visible;
         }

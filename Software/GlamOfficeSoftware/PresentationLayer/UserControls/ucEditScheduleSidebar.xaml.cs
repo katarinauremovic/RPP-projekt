@@ -2,7 +2,6 @@
 using EntityLayer.DTOs;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,118 +21,95 @@ namespace PresentationLayer.UserControls
             _parent = parent;
             _scheduleData = scheduleData;
 
-            cmbDays.ItemsSource = null;
-            cmbDays.ItemsSource = availableDays;
-            cmbDays.DisplayMemberPath = "Name";
-            cmbDays.SelectedValuePath = "Id";
+            cmbDays.IsEnabled = false;
+            cmbEmployees.IsEnabled = false;
 
-            cmbEmployees.ItemsSource = null;
-            cmbEmployees.ItemsSource = employees
-                .Where(e => e.RoleName == "Regular user")
-                .ToList();
-            cmbEmployees.DisplayMemberPath = "FullName";
-            cmbEmployees.SelectedValuePath = "Id";
+            SetSelectedValues(availableDays, employees);
+        }
 
-            var selectedEmployee = employees.FirstOrDefault(e => e.Id == _scheduleData.EmployeeId);
+        private void SetSelectedValues(List<DayDTO> availableDays, List<EmployeeDTO> employees)
+        {
+            // Find the matching day
             var selectedDay = availableDays.FirstOrDefault(d => d.Id == _scheduleData.DayId);
+            var selectedEmployee = employees.FirstOrDefault(e => e.Id == _scheduleData.EmployeeId);
 
-            if (selectedEmployee == null)
-                MessageBox.Show($"Greška: EmployeeId {_scheduleData.EmployeeId} nije pronađen u listi zaposlenika!");
-            if (selectedDay == null)
-                MessageBox.Show($"Greška: DayId {_scheduleData.DayId} nije pronađen u listi dana!");
+            cmbDays.Items.Clear();
+            cmbEmployees.Items.Clear();
+
+            if (selectedDay != null)
+            {
+                cmbDays.Items.Add(selectedDay);
+                cmbDays.DisplayMemberPath = "Name";
+                cmbDays.SelectedValuePath = "Id";
+            }
+
+            if (selectedEmployee != null)
+            {
+                cmbEmployees.Items.Add(selectedEmployee);
+                cmbEmployees.DisplayMemberPath = "FullName";
+                cmbEmployees.SelectedValuePath = "Id";
+            }
 
             Task.Delay(100).ContinueWith(_ =>
             {
                 Dispatcher.Invoke(() =>
                 {
-                    cmbEmployees.SelectedValue = _scheduleData.EmployeeId;
-                    cmbDays.SelectedValue = _scheduleData.DayId;
-                });
-            });
+                    cmbDays.SelectedIndex = 0;
+                    cmbEmployees.SelectedIndex = 0;
 
-            Task.Delay(100).ContinueWith(_ =>
-            {
-                Dispatcher.Invoke(() =>
-                {
                     txtStartTime.Text = _scheduleData.WorkStartTime?.ToString(@"hh\:mm") ?? "";
                     txtEndTime.Text = _scheduleData.WorkEndTime?.ToString(@"hh\:mm") ?? "";
                 });
             });
-
         }
+
 
         private async void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (cmbDays.SelectedItem == null || cmbEmployees.SelectedItem == null)
+            if (string.IsNullOrWhiteSpace(txtStartTime.Text) || string.IsNullOrWhiteSpace(txtEndTime.Text))
             {
-                ShowError("Morate odabrati zaposlenika i dan!");
+                ShowError("You must enter both start and end time.");
                 return;
             }
 
-            var selectedDay = (DayDTO)cmbDays.SelectedItem;
-
-            DateTime? newStartTime = ConvertToDateTime(selectedDay, txtStartTime.Text);
-            DateTime? newEndTime = ConvertToDateTime(selectedDay, txtEndTime.Text);
-
-            if (newStartTime == null || newEndTime == null)
+            if (!TimeSpan.TryParse(txtStartTime.Text, out TimeSpan newStartTime) ||
+                !TimeSpan.TryParse(txtEndTime.Text, out TimeSpan newEndTime))
             {
-                ShowError("Vrijeme nije ispravno. Koristite format HH:mm.");
+                ShowError("Invalid time format. Use HH:mm.");
                 return;
             }
 
             if (newStartTime >= newEndTime)
             {
-                ShowError("Vrijeme početka mora biti prije vremena završetka.");
+                ShowError("Start time must be earlier than end time.");
                 return;
             }
 
             var updatedSchedule = new DailyScheduleDTO
             {
-                DayId = selectedDay.Id,
-                EmployeeId = (int)cmbEmployees.SelectedValue,
-                WorkStartTime = newStartTime,
-                WorkEndTime = newEndTime
+                DayId = _scheduleData.DayId,
+                EmployeeId = _scheduleData.EmployeeId,
+                WorkStartTime = _scheduleData.WorkStartTime?.Date.Add(newStartTime),
+                WorkEndTime = _scheduleData.WorkEndTime?.Date.Add(newEndTime)
             };
 
             try
             {
                 await _scheduleService.UpdateDailyScheduleAsync(updatedSchedule);
-
-                MessageBox.Show("Raspored je uspješno ažuriran!", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Schedule successfully updated!", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 _parent.CloseSidebar();
                 await _parent.LoadData();
             }
             catch (Exception ex)
             {
-                ShowError($"Greška pri ažuriranju rasporeda: {ex.Message}");
+                ShowError($"Error updating schedule: {ex.Message}");
             }
         }
 
+        private void btnCancel_Click(object sender, RoutedEventArgs e) => _parent.CloseSidebar();
+        private void btnCloseSidebar_Click(object sender, RoutedEventArgs e) => _parent.CloseSidebar();
 
-        private void btnCancel_Click(object sender, RoutedEventArgs e)
-        {
-            _parent.CloseSidebar();
-        }
-
-        private void btnCloseSidebar_Click(object sender, RoutedEventArgs e)
-        {
-            _parent.CloseSidebar();
-        }
-        private DateTime? ConvertToDateTime(DayDTO selectedDay, string timeText)
-        {
-            if (selectedDay?.Date == null || string.IsNullOrWhiteSpace(timeText))
-                return null;
-
-            if (TimeSpan.TryParse(timeText, out TimeSpan time))
-                return selectedDay.Date.Value.Date.Add(time);
-
-            return null;
-        }
-        private void ShowError(string message)
-        {
-            MessageBox.Show(message, "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-
+        private void ShowError(string message) => MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
     }
 }
