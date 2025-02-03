@@ -1,7 +1,4 @@
 ﻿using EntityLayer.Entities;
-using MailKit.Net.Imap;
-using MailKit.Search;
-using MailKit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +6,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Globalization;
+using MailKit.Net.Imap;
+using MailKit;
+using MailKit.Search;
 
 namespace BusinessLogicLayer.Services
 {
