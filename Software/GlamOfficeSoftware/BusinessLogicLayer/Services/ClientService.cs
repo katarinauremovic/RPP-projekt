@@ -149,5 +149,58 @@ namespace BusinessLogicLayer.Services
                 await repo.UpdateClientAsync(client);
             }
         }
+
+        public async Task AddPointsToClientAsync(int clientId, int pointsToAdd)
+        {
+            using (var repo = new ClientRepository())
+            {
+                var client = await repo.GetByIdAsync(clientId);
+                client.Points = client.Points + pointsToAdd;
+
+                var rewardSystem = new RewardSystem();
+                client.LoyaltyLevel_id = await rewardSystem.UpdateClientsLoyaltyLevelAsync(client);
+
+                await repo.UpdateClientAsync(client);
+            }
+        }
+
+        public async Task SubtractPointsFromClientAsync(int clientId, int pointsToSubtract)
+        {
+            if (pointsToSubtract <= 0)
+            {
+                throw new ArgumentException("Substract number must be more then 0.");
+            }
+
+            using (var repo = new ClientRepository())
+            {
+                var client = await repo.GetByIdAsync(clientId);
+                client.Points = client.Points - pointsToSubtract;
+
+                var rewardSystem = new RewardSystem();
+                client.LoyaltyLevel_id = await rewardSystem.UpdateClientsLoyaltyLevelAsync(client);
+
+                await repo.UpdateClientAsync(client);
+            }
+        }
+
+        public async Task AssignGiftCardToClientAsync(int clientId, int giftCardId)
+        {
+            using (var repo = new ClientRepository())
+            {
+                var client = await repo.GetByIdAsync(clientId);
+
+                if (client == null)
+                {
+                    throw new ClientNotFoundException($"Client does not exist.");
+                }
+
+                if (client.GiftCard_idGiftCard.HasValue)
+                {
+                    throw new ClientNotFoundException($"Choosen client already has a gift card assigned.");
+                }
+
+                await repo.AssignGiftCardToClientAsync(clientId, giftCardId);
+            }
+        }
     }
 }

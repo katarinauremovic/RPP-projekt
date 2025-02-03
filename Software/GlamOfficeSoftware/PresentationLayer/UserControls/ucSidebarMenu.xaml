@@ -76,6 +76,17 @@
                             </Button.ContentTemplate>
                         </Button>
 
+                        <Button x:Name="btnGiftCards" Style="{StaticResource SidebarButtonStyle}" Click="btnGiftCards_Click">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Media/Images/employee-administration.png" Width="16" Height="16" Margin="5"/>
+                                        <TextBlock Text="Gift cards" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+
                         <Button x:Name="btnPay" Style="{StaticResource SidebarButtonStyle}" Click="btnPay_Click">
                             <Button.ContentTemplate>
                                 <DataTemplate>

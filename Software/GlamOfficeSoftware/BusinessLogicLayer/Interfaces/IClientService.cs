@@ -21,5 +21,11 @@ namespace BusinessLogicLayer.Interfaces
         Task<IEnumerable<ClientDTO>> GetClientsByPhoneNumberPattern(string phoneNumberPattern);
         Task<bool> IsClientInTheRewardSystemAsync(int clientId);
         Task UpdateClientsLoyaltyLevelAsync(int clientId, int loyaltyLevelId);
+        Task AddPointsToClientAsync(int clientId, int points);
+        Task SubtractPointsFromClientAsync(int clientId, int pointsToSubtract);
+
+        Task AssignGiftCardToClientAsync(int clientId, int giftCardId);
+
+
     }
 }

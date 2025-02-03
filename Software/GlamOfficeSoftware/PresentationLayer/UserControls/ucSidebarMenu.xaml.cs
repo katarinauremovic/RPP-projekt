@@ -138,5 +138,12 @@ namespace PresentationLayer.UserControls
                 Parent.Close();
             }
         }
+
+        private void btnGiftCards_Click(object sender, RoutedEventArgs e)
+        {
+            var ucGiftCards = new ucGiftCardAdministration();
+            ucGiftCards.Parent = Parent;
+            Parent.ccContent.Content = ucGiftCards;
+        }
     }
 }
