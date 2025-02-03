@@ -37,10 +37,11 @@ namespace BusinessLogicLayer.Services
             return await _reviewRepository.GetReviewTrendsOverTimeAsync();
         }
 
-        public async Task<IEnumerable<Review>> GetReviewsByEmployeeIdAsync(int employeeId)
+        public async Task<List<Review>> GetReviewsByEmployeeIdAsync(int employeeId)
         {
-            return await _reviewRepository.GetReviewsByEmployeeIdAsync(employeeId);
+            return (await _reviewRepository.GetReviewsByEmployeeIdAsync(employeeId)).ToList();
         }
+
 
         public async Task<Dictionary<string, double>> GetAverageRatingByTreatmentAsync()
         {
