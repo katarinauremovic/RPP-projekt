@@ -29,6 +29,9 @@ namespace PresentationLayer.UserControls
         private EmployeeService employeeService = new EmployeeService();
         private List<DayDTO> _weekDays;
         private List<EmployeeDTO> _employees;
+
+        private ucScheduleItem _selectedScheduleItem;
+        private DailyScheduleDTO _selectedScheduleData;
         public ucSchedule()
         {
             InitializeComponent();
@@ -40,7 +43,6 @@ namespace PresentationLayer.UserControls
         {
             var scheduleService = new ScheduleService();
 
-            // Provjeri je li prikazan sljedeći tjedan ili trenutni
             DateTime startDate = isNextWeekActive ? GetNextMonday(DateTime.Today) : GetCurrentWeekMonday(DateTime.Today);
 
             _weekDays = (await scheduleService.GetOrCreateDaysForWeekAsync(startDate)).ToList();
@@ -51,11 +53,9 @@ namespace PresentationLayer.UserControls
                 DateTime endDate = startDate.AddDays(6);
                 txtDateRange.Text = $"{startDate:MMMM dd} - {endDate:MMMM dd, yyyy}";
 
-                // Onemogući uređivanje ako je trenutni tjedan
                 SetEditMode(isNextWeekActive);
             }
 
-            // Očisti panele
             wpMonday.Children.Clear();
             wpTuesday.Children.Clear();
             wpWednesday.Children.Clear();
@@ -83,7 +83,6 @@ namespace PresentationLayer.UserControls
                 }
             }
 
-            // Postavi prikaz gumba
             btnNextWeek.Visibility = isNextWeekActive ? Visibility.Collapsed : Visibility.Visible;
             btnPrevWeek.Visibility = isNextWeekActive ? Visibility.Visible : Visibility.Collapsed;
         }
@@ -137,7 +136,7 @@ namespace PresentationLayer.UserControls
                 return;
             }
 
-            var sidebar = new ucEditScheduleSidebar(this, _selectedScheduleData);
+            var sidebar = new ucEditScheduleSidebar(this, _weekDays, _employees, _selectedScheduleData);
             ccSidebar.Content = sidebar;
             ccSidebar.Visibility = Visibility.Visible;
         }
@@ -233,8 +232,6 @@ namespace PresentationLayer.UserControls
             await LoadData();
         }
 
-        private ucScheduleItem _selectedScheduleItem;
-        private DailyScheduleDTO _selectedScheduleData;
 
         public void SelectScheduleItem(ucScheduleItem selectedItem, DailyScheduleDTO scheduleData)
         {

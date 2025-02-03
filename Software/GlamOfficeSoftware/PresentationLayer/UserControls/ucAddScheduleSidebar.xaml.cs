@@ -32,14 +32,16 @@ namespace PresentationLayer.UserControls
 
             cmbDays.ItemsSource = availableDays;
             cmbDays.DisplayMemberPath = "Name";
-            cmbDays.SelectedIndex = -1; // Očisti selekciju
+            cmbDays.SelectedIndex = -1;
 
-            cmbEmployees.ItemsSource = employees;
+            cmbEmployees.ItemsSource = employees
+            .Where(e => e.RoleName == "Regular user") 
+            .Select(e => new { FullName = $"{e.Firstname} {e.Lastname}", Id = e.Id })
+            .ToList();
+
             cmbEmployees.DisplayMemberPath = "FullName";
-            cmbEmployees.SelectedIndex = -1; // Očisti selekciju
+            cmbEmployees.SelectedIndex = -1; 
 
-            txtStartTime.Clear();
-            txtEndTime.Clear();
         }
         private async void btnSave_Click(object sender, RoutedEventArgs e)
         {
@@ -72,7 +74,6 @@ namespace PresentationLayer.UserControls
                 return;
             }
 
-            var scheduleService = new ScheduleService();
 
             try
             {
@@ -84,7 +85,7 @@ namespace PresentationLayer.UserControls
                     WorkEndTime = endTime
                 };
 
-                await scheduleService.AddDailyScheduleAsync(dailySchedule);
+                await _scheduleService.AddDailyScheduleAsync(dailySchedule);
                 await _parent.LoadData();
 
                 Visibility = Visibility.Collapsed;
@@ -103,7 +104,7 @@ namespace PresentationLayer.UserControls
 
         private void btnCloseSidebar_Click(object sender, RoutedEventArgs e)
         {
-            Visibility = Visibility.Collapsed;
+            _parent.CloseSidebar();
         }
     }
 }

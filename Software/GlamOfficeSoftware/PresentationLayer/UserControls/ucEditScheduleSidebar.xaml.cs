@@ -3,33 +3,31 @@ using EntityLayer.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace PresentationLayer.UserControls
 {
-    /// <summary>
-    /// Interaction logic for ucEditScheduleSidebar.xaml
-    /// </summary>
     public partial class ucEditScheduleSidebar : UserControl
     {
         private ucSchedule _parent;
         private DailyScheduleDTO _scheduleData;
         private ScheduleService _scheduleService = new ScheduleService();
-        public ucEditScheduleSidebar(ucSchedule parent, DailyScheduleDTO scheduleData)
+
+        public ucEditScheduleSidebar(ucSchedule parent, List<DayDTO> availableDays, List<EmployeeDTO> employees, DailyScheduleDTO scheduleData)
         {
             InitializeComponent();
             _parent = parent;
             _scheduleData = scheduleData;
+
+            cmbDays.ItemsSource = availableDays;
+            cmbDays.DisplayMemberPath = "Name";
+
+            cmbEmployees.ItemsSource = employees;
+            cmbEmployees.DisplayMemberPath = "FullName";
+
+            cmbDays.SelectedValue = _scheduleData.DayId;
+            cmbEmployees.SelectedValue = _scheduleData.EmployeeId;
 
             txtStartTime.Text = _scheduleData.WorkStartTime?.ToString(@"hh\:mm");
             txtEndTime.Text = _scheduleData.WorkEndTime?.ToString(@"hh\:mm");
@@ -38,7 +36,7 @@ namespace PresentationLayer.UserControls
         private async void btnSave_Click(object sender, RoutedEventArgs e)
         {
             if (!TimeSpan.TryParse(txtStartTime.Text, out TimeSpan newStartTime) ||
-            !TimeSpan.TryParse(txtEndTime.Text, out TimeSpan newEndTime))
+                !TimeSpan.TryParse(txtEndTime.Text, out TimeSpan newEndTime))
             {
                 MessageBox.Show("Neispravan format vremena! Koristite HH:mm", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
