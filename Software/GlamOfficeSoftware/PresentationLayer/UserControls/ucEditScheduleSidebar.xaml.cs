@@ -29,7 +29,7 @@ namespace PresentationLayer.UserControls
 
         private void SetSelectedValues(List<DayDTO> availableDays, List<EmployeeDTO> employees)
         {
-            // Find the matching day
+            
             var selectedDay = availableDays.FirstOrDefault(d => d.Id == _scheduleData.DayId);
             var selectedEmployee = employees.FirstOrDefault(e => e.Id == _scheduleData.EmployeeId);
 
@@ -84,6 +84,16 @@ namespace PresentationLayer.UserControls
                 ShowError("Start time must be earlier than end time.");
                 return;
             }
+
+            TimeSpan workStart = TimeSpan.FromHours(7);
+            TimeSpan workEnd = TimeSpan.FromHours(20);
+
+            if (newStartTime < workStart || newEndTime > workEnd)
+            {
+                ShowError("Work hours must be between 07:00 and 20:00.");
+                return;
+            }
+
 
             var updatedSchedule = new DailyScheduleDTO
             {

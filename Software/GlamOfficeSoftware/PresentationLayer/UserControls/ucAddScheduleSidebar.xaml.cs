@@ -69,6 +69,15 @@ namespace PresentationLayer.UserControls
                 return;
             }
 
+            TimeSpan workStart = TimeSpan.FromHours(7);
+            TimeSpan workEnd = TimeSpan.FromHours(20);
+
+            if (startTime.Value.TimeOfDay < workStart || endTime.Value.TimeOfDay > workEnd)
+            {
+                ShowError("Work hours must be between 07:00 and 20:00.");
+                return;
+            }
+
             try
             {
                 var dailySchedule = new DailyScheduleDTO
