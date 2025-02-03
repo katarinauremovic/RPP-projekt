@@ -154,6 +154,14 @@ namespace BusinessLogicLayer.Services
                 }
             }
         }
+
+        public async Task<IEnumerable<TreatmentGroupStatisticsDTO>> GetTreatmentStatisticsByGroupAsync()
+        {
+            using (var repo = new TreatmentRepository())
+            {
+                return await repo.GetTreatmentStatisticsByGroupAsync();
+            }
+        }
     }
 }
 

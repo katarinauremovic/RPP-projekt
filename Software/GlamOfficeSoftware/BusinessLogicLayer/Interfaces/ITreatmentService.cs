@@ -21,6 +21,6 @@ namespace BusinessLogicLayer.Interfaces
         Task DeleteTreatmentAsync(int treatmentId);
         Task DeleteTreatmentGroupAsync(int groupId);
         Task AddTreatmentGroupAsync(string groupName);
-
+        Task<IEnumerable<TreatmentGroupStatisticsDTO>> GetTreatmentStatisticsByGroupAsync();
     }
 }

@@ -119,5 +119,24 @@ namespace DataAccessLayer.Repositories
                 await SaveChangesAsync();
             }
         }
+
+        public async Task<IEnumerable<TreatmentGroupStatisticsDTO>> GetTreatmentStatisticsByGroupAsync()
+        {
+            var statistics = await (from rht in context.Reservation_has_Treatment
+                                    join t in context.Treatments on rht.Treatment_idTreatment equals t.idTreatment
+                                    join tg in context.TreatmentGroups on t.TreatmentGroup_idTreatmentGroup equals tg.idTreatmentGroup
+                                    group rht by new { TreatmentGroupName = tg.Name, TreatmentName = t.Name } into grouped
+                                    select new TreatmentGroupStatisticsDTO
+                                    {
+                                        GroupName = grouped.Key.TreatmentGroupName,
+                                        TreatmentName = grouped.Key.TreatmentName,
+                                        TotalTimesPerformed = grouped.Sum(rht => rht.Amount ?? 0)
+                                    })
+                                     .OrderByDescending(t => t.TotalTimesPerformed)
+                                     .ToListAsync();
+
+            return statistics;
+        }
+
     }
 }
