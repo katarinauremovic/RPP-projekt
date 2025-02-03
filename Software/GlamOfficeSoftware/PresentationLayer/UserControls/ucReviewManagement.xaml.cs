@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using BusinessLogicLayer;
 using System.Windows.Media.Animation;
 using EntityLayer.Entities;
+using BusinessLogicLayer.Interfaces;
 
 namespace PresentationLayer.UserControls
 {
@@ -26,7 +27,7 @@ namespace PresentationLayer.UserControls
     /// </summary>
     public partial class ucReviewManagement : UserControl
     {
-        private readonly ReviewService _reviewService;
+        private readonly IReviewService _reviewService;
         public MainWindow Parent { get; set; }
 
         public ucReviewManagement()

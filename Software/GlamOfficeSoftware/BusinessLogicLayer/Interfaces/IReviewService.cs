@@ -14,5 +14,8 @@ namespace BusinessLogicLayer.Interfaces
         Task<Dictionary<string, int>> GetReviewTrendsOverTimeAsync();
         Task<List<Review>> GetReviewsByEmployeeIdAsync(int employeeId);
         Task<Dictionary<string, double>> GetAverageRatingByTreatmentAsync();
+        Task SyncReviewsFromEmailAsync();
+        Task<List<KeyValuePair<string, double>>> GetTopTreatmentsAsync(int topCount = 3);
+        Task<List<KeyValuePair<string, double>>> GetTopEmployeesAsync(int topCount = 3);
     }
 }

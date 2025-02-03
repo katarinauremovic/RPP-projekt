@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer.Exceptions;
+using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
 using EntityLayer.DTOs;
 using System;
@@ -26,7 +27,7 @@ namespace PresentationLayer.UserControls
 
     public partial class ucTreatmentManagement : UserControl
     {
-        private TreatmentService _treatmentService = new TreatmentService();
+        private ITreatmentService _treatmentService = new TreatmentService();
         public MainWindow Parent { get; set; }
         private  ucAddNewTreatmentSidebar _addNewTreatmentSidebar;
         private TreatmentDTO _selectedTreatment;

@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer;
+using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace PresentationLayer.UserControls
     /// </summary>
     public partial class ucEmployeeReviewsSidebar : UserControl
     {
-        private readonly ReviewService _reviewService = new ReviewService();
+        private readonly IReviewService _reviewService = new ReviewService();
 
         public ucReviewManagement ParentControl { get; internal set; }
 
