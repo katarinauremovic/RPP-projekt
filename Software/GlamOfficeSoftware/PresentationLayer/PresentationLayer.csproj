@@ -241,6 +241,9 @@
     <Compile Include="UserControls\ucTreatmentsGroupSidebar.xaml.cs">
       <DependentUpon>ucTreatmentsGroupSidebar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ucWelcome.xaml.cs">
+      <DependentUpon>ucWelcome.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\winAddNewRewardCard.xaml.cs">
       <DependentUpon>winAddNewRewardCard.xaml</DependentUpon>
     </Compile>
@@ -373,6 +376,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ucTreatmentsGroupSidebar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ucWelcome.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

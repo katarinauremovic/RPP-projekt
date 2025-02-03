@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.Interfaces;
+﻿using BusinessLogicLayer;
+using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
 using EntityLayer.DTOs;
 using System;
@@ -32,13 +33,28 @@ namespace PresentationLayer.UserControls
 
         private ucScheduleItem _selectedScheduleItem;
         private DailyScheduleDTO _selectedScheduleData;
+        private bool isNextWeekActive = false;
         public ucSchedule()
         {
             InitializeComponent();
             _ = LoadData();
             _ = LoadEmployees();
+            SetUserPermissions();
         }
-        private bool isNextWeekActive = false;
+
+        private void SetUserPermissions()
+        {
+            bool isAdmin = LoggedInEmployee.IsLoggedIn && LoggedInEmployee.LoggedEmployee.Role_idRole == 1;
+            bool isNextWeek = isNextWeekActive;
+
+            btnAdd.Visibility = (isAdmin && isNextWeek) ? Visibility.Visible : Visibility.Collapsed;
+            btnEdit.Visibility = (isAdmin && isNextWeek) ? Visibility.Visible : Visibility.Collapsed;
+            btnDelete.Visibility = (isAdmin && isNextWeek) ? Visibility.Visible : Visibility.Collapsed;
+
+            cmbEmployees.Visibility = isAdmin ? Visibility.Visible : Visibility.Collapsed;
+            btnApply.Visibility = isAdmin ? Visibility.Visible : Visibility.Collapsed;
+        }
+
 
         public async Task LoadData()
         {
@@ -49,25 +65,12 @@ namespace PresentationLayer.UserControls
             _weekDays = (await scheduleService.GetOrCreateDaysForWeekAsync(startDate)).ToList();
             _employees = (await employeeService.GetAllEmployeesAsync()).ToList();
 
-            if (_weekDays.Count > 0)
-            {
-                DateTime endDate = startDate.AddDays(6);
-                txtDateRange.Text = $"{startDate:MMMM dd} - {endDate:MMMM dd, yyyy}";
-
-                SetEditMode(isNextWeekActive);
-            }
-
-            wpMonday.Children.Clear();
-            wpTuesday.Children.Clear();
-            wpWednesday.Children.Clear();
-            wpThursday.Children.Clear();
-            wpFriday.Children.Clear();
-            wpSaturday.Children.Clear();
-            wpSunday.Children.Clear();
-
+            int? filterEmployeeId = LoggedInEmployee.LoggedEmployee?.Role_idRole == 1 ? null : LoggedInEmployee.LoggedEmployee?.idEmployee;
+            ClearScheduleDisplay();
             foreach (var day in _weekDays)
             {
                 var schedules = (await scheduleService.GetSchedulesForDayAsync(day.Id))
+                                .Where(s => filterEmployeeId == null || s.EmployeeId == filterEmployeeId)
                                 .OrderBy(s => s.WorkStartTime)
                                 .ToList();
 
@@ -77,10 +80,9 @@ namespace PresentationLayer.UserControls
                     if (employee != null)
                     {
                         AddScheduleItemToDay(day.Name, employee.Firstname, employee.Lastname,
-                      schedule.WorkStartTime.HasValue ? schedule.WorkStartTime.Value.TimeOfDay : TimeSpan.Zero,
-                      schedule.WorkEndTime.HasValue ? schedule.WorkEndTime.Value.TimeOfDay : TimeSpan.Zero,
-                      schedule);
-
+                            schedule.WorkStartTime.HasValue ? schedule.WorkStartTime.Value.TimeOfDay : TimeSpan.Zero,
+                            schedule.WorkEndTime.HasValue ? schedule.WorkEndTime.Value.TimeOfDay : TimeSpan.Zero,
+                            schedule);
                     }
                 }
             }
@@ -89,15 +91,15 @@ namespace PresentationLayer.UserControls
             btnPrevWeek.Visibility = isNextWeekActive ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private void SetEditMode(bool enableEditing)
+        private void ClearScheduleDisplay()
         {
-            btnAdd.IsEnabled = enableEditing;
-            btnEdit.IsEnabled = enableEditing;
-            btnDelete.IsEnabled = enableEditing;
-
-            btnAdd.Opacity = enableEditing ? 1.0 : 0.5;
-            btnEdit.Opacity = enableEditing ? 1.0 : 0.5;
-            btnDelete.Opacity = enableEditing ? 1.0 : 0.5;
+            wpMonday.Children.Clear();
+            wpTuesday.Children.Clear();
+            wpWednesday.Children.Clear();
+            wpThursday.Children.Clear();
+            wpFriday.Children.Clear();
+            wpSaturday.Children.Clear();
+            wpSunday.Children.Clear();
         }
 
         private void AddScheduleItemToDay(string dayName, string firstName, string lastName, TimeSpan startTime, TimeSpan endTime, DailyScheduleDTO scheduleData)
@@ -127,7 +129,7 @@ namespace PresentationLayer.UserControls
             await LoadData();
             var sidebar = new ucAddScheduleSidebar(this,_weekDays, _employees);
             ccSidebar.Content = sidebar;
-            ccSidebar.Visibility = Visibility.Visible;
+            ShowSidebar();
         }
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
@@ -140,7 +142,7 @@ namespace PresentationLayer.UserControls
 
             var sidebar = new ucEditScheduleSidebar(this,_weekDays, _employees, _selectedScheduleData);
             ccSidebar.Content = sidebar;
-            ccSidebar.Visibility = Visibility.Visible;
+            ShowSidebar();
         }
 
         private async void btnDelete_Click(object sender, RoutedEventArgs e)
@@ -211,6 +213,7 @@ namespace PresentationLayer.UserControls
         {
             isNextWeekActive = true;
             await LoadData();
+            SetUserPermissions();
         }
 
         private DateTime GetCurrentWeekMonday(DateTime date)
@@ -229,6 +232,7 @@ namespace PresentationLayer.UserControls
         {
             isNextWeekActive = false;
             await LoadData();
+            SetUserPermissions();
         }
 
 

@@ -27,8 +27,13 @@ namespace PresentationLayer
         public MainWindow()
         {
             InitializeComponent();
+            LoadWelcomeScreen();
         }
-
+        private void LoadWelcomeScreen()
+        {
+            var welcomeScreen = new ucWelcome();
+            ccContent.Content = welcomeScreen;
+        }
         private void btnSidebarMenu_Click(object sender, RoutedEventArgs e)
         {
             var ucSidebarMenu = new ucSidebarMenu();
