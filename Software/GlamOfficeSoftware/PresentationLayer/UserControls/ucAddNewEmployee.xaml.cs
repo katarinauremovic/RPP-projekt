@@ -29,7 +29,7 @@ namespace PresentationLayer.UserControls
     public partial class ucAddNewEmployee : UserControl
     {
         public ucEmployeeAdministration Parent { get; set; }
-        private EmployeeService _employeeService;
+        private IEmployeeService _employeeService;
         
         
         public ucAddNewEmployee()

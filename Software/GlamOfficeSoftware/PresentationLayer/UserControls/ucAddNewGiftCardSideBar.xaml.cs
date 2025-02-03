@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer.Exceptions;
+using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
 using EntityLayer.Entities;
 using System;
@@ -24,7 +25,7 @@ namespace PresentationLayer.UserControls
     public partial class ucAddNewGiftCardSideBar : UserControl
     {
         public ucGiftCardAdministration Parent { get; set; }
-        private GiftCardService _giftCardService;
+        private IGiftCardService _giftCardService;
         public ucAddNewGiftCardSideBar()
         {
             InitializeComponent();

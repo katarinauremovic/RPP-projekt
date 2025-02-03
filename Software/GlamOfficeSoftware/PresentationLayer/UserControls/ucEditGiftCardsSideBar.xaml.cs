@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer.Exceptions;
+using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
 using EntityLayer.Entities;
 using System;
@@ -25,9 +26,9 @@ namespace PresentationLayer.UserControls
     {
         public ucGiftCardAdministration Parent { get; set; }
 
-        private GiftCardService _giftCardService;
+        private IGiftCardService _giftCardService;
 
-        private ClientService _clientService;
+        private IClientService _clientService;
 
         private GiftCard _giftCard;
         public ucEditGiftCardsSideBar(GiftCard giftCard)
