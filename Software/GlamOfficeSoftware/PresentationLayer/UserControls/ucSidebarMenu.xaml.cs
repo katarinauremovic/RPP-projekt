@@ -152,5 +152,14 @@ namespace PresentationLayer.UserControls
             ucGiftCards.Parent = Parent;
             Parent.ccContent.Content = ucGiftCards;
         }
+
+       
+
+        private void btnStatistics_Click_1(object sender, RoutedEventArgs e)
+        {
+            var ucTreatmentStatistics = new ucTreatmentStatistics();
+            ucTreatmentStatistics.Parent = Parent;
+            Parent.ccContent.Content = ucTreatmentStatistics;
+        }
     }
 }
