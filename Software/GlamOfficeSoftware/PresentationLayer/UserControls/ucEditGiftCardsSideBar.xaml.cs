@@ -46,7 +46,7 @@ namespace PresentationLayer.UserControls
         private async void LoadAllClients()
         {
             cboClients.Items.Clear();
-            var clients = await _clientService.GetAllClientsAsync(); 
+            var clients = await _clientService.GetAllClientsDTOAsync(); 
             foreach (var client in clients)
             {
                 string fullName = $"{client.Firstname} {client.Lastname}";
@@ -166,7 +166,7 @@ namespace PresentationLayer.UserControls
             string selectedClientName = cboClients.SelectedItem.ToString();
 
             
-            var clients = await _clientService.GetAllClientsAsync();
+            var clients = await _clientService.GetAllClientsDTOAsync();
             var selectedClient = clients.FirstOrDefault(c => $"{c.Firstname} {c.Lastname}" == selectedClientName);
 
             if (selectedClient == null)
@@ -177,7 +177,7 @@ namespace PresentationLayer.UserControls
 
             try
             {
-                await _clientService.AssignGiftCardToClientAsync(selectedClient.idClient, _giftCard.idGiftCard);
+                await _clientService.AssignGiftCardToClientAsync(selectedClient.Id, _giftCard.idGiftCard);
                 MessageBox.Show("Gift card assigned successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (ClientNotFoundException ex) 

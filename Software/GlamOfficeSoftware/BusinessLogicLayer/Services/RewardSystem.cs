@@ -101,7 +101,7 @@ namespace BusinessLogicLayer.Services
             }   
         }
 
-        private async Task<int> UpdateClientsLoyaltyLevelAsync(Client client)
+        public async Task<int> UpdateClientsLoyaltyLevelAsync(Client client)
         {
             var loyaltyLevelName = _loyaltyLevelService.CheckLoyaltyLevel(client.Points.Value);
             var loyaltyLevel = await _loyaltyLevelService.GetLoyaltyLevelByNameAsync(loyaltyLevelName);

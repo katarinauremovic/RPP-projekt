@@ -83,7 +83,6 @@
     <Compile Include="Exceptions\FailedToLoadGiftCardsException.cs" />
     <Compile Include="Exceptions\EmptyFieldsForTreatmentsException.cs" />
     <Compile Include="Exceptions\FailedToOpenPdfException.cs" />
-    <Compile Include="Exceptions\FaliedToLoadClientsException.cs" />
     <Compile Include="Exceptions\InvalidDateFormatException.cs" />
     <Compile Include="Exceptions\InvalidEmailException.cs" />
     <Compile Include="Exceptions\InvalidEmployeeDataException.cs" />
