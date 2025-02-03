@@ -145,5 +145,12 @@ namespace PresentationLayer.UserControls
             ucGiftCards.Parent = Parent;
             Parent.ccContent.Content = ucGiftCards;
         }
+
+        private void btnReservations_Click(object sender, RoutedEventArgs e)
+        {
+            var ucReservations = new ucReservationAdministration();
+            ucReservations.Parent = Parent;
+            Parent.ccContent.Content = ucReservations;
+        }
     }
 }

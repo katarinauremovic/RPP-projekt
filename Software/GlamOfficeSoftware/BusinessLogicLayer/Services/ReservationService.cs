@@ -25,5 +25,13 @@ namespace BusinessLogicLayer.Services
                 }
             }
         }
+
+        public async Task<IEnumerable<Reservation>> GetAllReservationsAsync()
+        {
+            using (var repo = new ReservationRepository())
+            {
+                return await repo.GetAllReservationsAsync();
+            }
+        }
     }
 }

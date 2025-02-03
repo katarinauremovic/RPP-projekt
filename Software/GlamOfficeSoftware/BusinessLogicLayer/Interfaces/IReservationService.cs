@@ -11,5 +11,7 @@ namespace BusinessLogicLayer.Interfaces
     public interface IReservationService
     {
         Task ChangeReservationStatusAndPaymentAsync(int reservationId, ReservationStatuses status, bool isPaid);
+
+        Task<IEnumerable<Reservation>> GetAllReservationsAsync();
     }
 }

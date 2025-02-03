@@ -18,5 +18,10 @@ namespace DataAccessLayer.Repositories
 
             await SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<Reservation>> GetAllReservationsAsync()
+        {
+            return await context.Reservations.ToListAsync();
+        }
     }
 }
