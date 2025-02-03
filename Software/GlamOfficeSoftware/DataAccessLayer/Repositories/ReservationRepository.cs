@@ -23,5 +23,10 @@ namespace DataAccessLayer.Repositories
         {
             return await context.Reservations.ToListAsync();
         }
+
+        public async Task<Reservation> GetLastReservationAsync()
+        {
+            return await context.Reservations.OrderByDescending(r => r.idReservation).FirstOrDefaultAsync();
+        }
     }
 }

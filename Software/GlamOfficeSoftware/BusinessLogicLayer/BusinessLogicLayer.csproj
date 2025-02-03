@@ -100,8 +100,10 @@
     <Compile Include="Interfaces\IGiftCardService.cs" />
     <Compile Include="Interfaces\ILoyaltyLevelService.cs" />
     <Compile Include="Interfaces\IReceiptService.cs" />
+    <Compile Include="Interfaces\IReservationHasTreatmentService.cs" />
     <Compile Include="Interfaces\IReservationService.cs" />
     <Compile Include="Interfaces\IRewardService.cs" />
+    <Compile Include="Interfaces\IWeeklyScheduleForReservation.cs" />
     <Compile Include="LoggedInEmployee.cs" />
     <Compile Include="Interfaces\ITreatmentService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -113,10 +115,12 @@
     <Compile Include="Services\GiftCardService.cs" />
     <Compile Include="Services\LoyaltyLevelService.cs" />
     <Compile Include="Services\ReceiptService.cs" />
+    <Compile Include="Services\ReservationHasTreatmentService.cs" />
     <Compile Include="Services\ReservationService.cs" />
     <Compile Include="Services\RewardService.cs" />
     <Compile Include="Services\RewardSystem.cs" />
     <Compile Include="Services\TreatmentService.cs" />
+    <Compile Include="Services\WeeklyScheduleForReservationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">

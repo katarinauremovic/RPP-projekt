@@ -24,5 +24,8 @@ namespace BusinessLogicLayer.Interfaces
         Task GenerateGiftCardInPdf(GiftCard giftCard);
 
         Task DeleteGiftCardAsync(int giftCardId);
+
+        Task<GiftCard> GetOneGiftCardByPromoCodeAsync(string promoCode);
+        Task<bool> RedeemGiftCardAsync(string promoCode);
     }
 }

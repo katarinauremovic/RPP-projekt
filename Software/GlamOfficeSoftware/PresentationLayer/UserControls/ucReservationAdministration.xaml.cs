@@ -122,7 +122,31 @@ namespace PresentationLayer.UserControls
 
         private void btnAddNewReservation_Click(object sender, RoutedEventArgs e)
         {
+            var ucAddnew = new ucAddNewReservation();
+            ucAddnew.Parent = this;
+            ccSidebar.Content = ucAddnew;
             ShowSidebar();
+            
+        }
+
+        public async void CloseSideBarMenu()
+        {
+            var slideOutAnimation = FindResource("SlideOutAnimation") as Storyboard;
+            var sidebarMenu = (FrameworkElement)ccSidebar.Content;
+
+            if (sidebarMenu != null)
+            {
+                slideOutAnimation?.Begin(sidebarMenu);
+
+                slideOutAnimation.Completed += (s, e) =>
+                {
+                    ccSidebar.Content = null;
+                    sidebarMenu.Visibility = Visibility.Collapsed;
+                };
+            }
+
+            await Task.Delay(500);
+            ccSidebar.Content = null;
         }
 
         private void btnDropDownMenu_Click(object sender, RoutedEventArgs e)

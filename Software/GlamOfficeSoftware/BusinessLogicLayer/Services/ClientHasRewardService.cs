@@ -27,5 +27,25 @@ namespace BusinessLogicLayer.Services
                 await repo.AddAsync(clientHasReward);
             }
         }
+
+        public async Task<Client_has_Reward> GetRewardByRedeemCode(string code)
+        {
+            using (var repo = new ClientHasRewardRepository())
+            {
+                var reward = await repo.GetRewardByRedeemCode(code);
+                Console.WriteLine(reward.Reward_idReward);
+                return reward;
+            }
+        }
+
+        public async Task UpdateClientHasReward(Client_has_Reward chr)
+        {
+            using (var repo = new ClientHasRewardRepository())
+            {
+                chr.Status = ClientHasRewardStatuses.Redeemed.ToString();
+                chr.RedeemDate = DateTime.Now;
+                await repo.UpdateClientHasReward(chr);
+            }
+        }
     }
 }
