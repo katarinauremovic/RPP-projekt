@@ -45,7 +45,7 @@ namespace PresentationLayer.UserControls
             bool result = await confirmationBox.ShowAsync("Confirm Sending", "Are you sure you want to send this email to all clients?");
             if (!result) return;
 
-            var clients = await _clientService.GetAllClientsAsync();
+            var clients = await _clientService.GetAllClientsDTOAsync();
 
             if (clients == null || !clients.Any())
             {
@@ -87,7 +87,7 @@ namespace PresentationLayer.UserControls
                 return;
             }
 
-            var clients = await _clientService.GetAllClientsAsync();
+            var clients = await _clientService.GetAllClientsDTOAsync();
             string clientName = clients.Any() ? clients.First().Firstname : "Valued Customer";
 
             string emailBody = _promotionEmailService.GenerateEmailBody(
