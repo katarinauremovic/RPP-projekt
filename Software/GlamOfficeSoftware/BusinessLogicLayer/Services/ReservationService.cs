@@ -12,6 +12,14 @@ namespace BusinessLogicLayer.Services
 {
     public class ReservationService : IReservationService
     {
+        public async Task<Reservation> GetReservationByIdAsync(int id)
+        {
+            using (var repo = new ReservationRepository())
+            {
+                return await repo.GetByIdAsync(id);
+            }
+        }
+
         public async Task ChangeReservationStatusAndPaymentAsync(int reservationId, ReservationStatuses status, bool isPaid)
         {
             using (var repo = new ReservationRepository())

@@ -10,6 +10,17 @@ namespace DataAccessLayer.Repositories
 {
     public class ReservationRepository : Repository<Reservation>
     {
+        public override Task<Reservation> GetByIdAsync(int id)
+        {
+            return items
+                .Include(r => r.Client)
+                .Include(r => r.Day)
+                .Include(r => r.Employee)
+                .Include(r => r.Reservation_has_Treatment)
+                .Where(r => r.idReservation == id)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task UpdateReservationAsync(Reservation reservation)
         {
             var reservationDb = await items.FirstOrDefaultAsync(r => r.idReservation == reservation.idReservation);

@@ -27,12 +27,14 @@ namespace PresentationLayer.UserControls
     public partial class ucReservationAdministration : UserControl
     {
         private IReservationService _reservationService;
+        private IReceiptService _receiptService;
 
         public MainWindow Parent { get; set; }
         public ucReservationAdministration()
         {
             InitializeComponent();
             _reservationService = new ReservationService();
+            _receiptService = new ReceiptService();
         }
 
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -206,6 +208,42 @@ namespace PresentationLayer.UserControls
         private void dgvReservations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private async void btnPay_Click(object sender, RoutedEventArgs e)
+        {
+            var reservation = dgvReservations.SelectedItem as Reservation;
+            Console.WriteLine(reservation.idReservation);
+
+            if (reservation == null)
+            {
+                MessageBox.Show("Please select a reservation to pay.");
+                return;
+            }
+
+            if(reservation.isPaid)
+            {
+                MessageBox.Show("Reservation is already paid.");
+                return;
+            }
+
+            var reservationDb = await _reservationService.GetReservationByIdAsync(reservation.idReservation);
+
+            var receipt = new Receipt
+            {
+                TotalTreatmentAmount = reservationDb.TotalTreatmentAmount,
+                GiftCardDiscount = reservationDb.GiftCardDiscount,
+                RewardDiscount = reservationDb.RewardDiscount,
+                TotalPrice = reservationDb.TotalPrice,
+                IssueDateTime = DateTime.Now,
+                Reservation_idReservation = reservationDb.idReservation
+            };
+
+            await _receiptService.AddNewReceiptAsync(receipt);
+
+            //var treatmentsForThisReservation = "null";
+            //var reviewFormGmailService = new ReviewFormGmailService();
+            //reviewFormGmailService.SendReviewRequestEmailAsync(reservationDb.Client.Email, reservationDb.Client.Firstname, reservationDb.idReservation, );
         }
     }
 }

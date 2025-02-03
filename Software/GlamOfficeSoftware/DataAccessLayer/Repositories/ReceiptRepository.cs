@@ -21,7 +21,11 @@ namespace DataAccessLayer.Repositories
 
         public async Task<Receipt> GetLastReceiptAsync()
         {
-            return await items.Include(r => r.Reservation).OrderByDescending(r => r.idReceipt).FirstOrDefaultAsync();
+            return await items
+                .Include(r => r.Reservation)
+                .Include(r => r.Reservation.Client)
+                .OrderByDescending(r => r.idReceipt)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<int> GetGiftCardIdByReceiptAsync(Receipt receipt)

@@ -34,7 +34,7 @@ namespace DataAccessLayer.Repositories
 
         public async Task UpdateClientAsync(Client client)
         {
-            var clientDb = await items.FirstOrDefaultAsync(c => c.idClient == client.idClient);
+            var clientDb = items.Attach(client);
 
             if (clientDb != null)
             {

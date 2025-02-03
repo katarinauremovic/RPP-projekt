@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MimeKit.Text;
 using MimeKit;
+using MimeKit.Text;
 using MailKit.Net.Smtp;
 
 namespace BusinessLogicLayer.Services
