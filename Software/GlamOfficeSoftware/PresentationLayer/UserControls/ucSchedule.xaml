@@ -95,7 +95,7 @@
             <!-- ComboBox i Apply gumb na lijevoj strani -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
                 <ComboBox x:Name="cmbEmployees" Width="180" Height="30" />
-                <Button x:Name="btnApply" Click="btnApply_Click_1" Content="Apply" 
+                <Button x:Name="btnApply" Click="btnApply_Click" Content="Apply" 
                         Width="90" Height="35" 
                         Style="{StaticResource classicButton}" Margin="10,0,0,0"/>
                 <Button x:Name="btnNextWeek" Click="btnNextWeek_Click" Content="Show next week"

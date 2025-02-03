@@ -167,10 +167,7 @@ namespace PresentationLayer.UserControls
             }
         }
 
-        private void btnApply_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+       
         internal void ShowSidebar()
         {
             var slideInAnimation = FindResource("SlideInAnimation") as Storyboard;
@@ -315,6 +312,18 @@ namespace PresentationLayer.UserControls
                     }
                 }
             }
+        }
+
+        private async void btnApply_Click(object sender, RoutedEventArgs e)
+        {
+            if (cmbEmployees.SelectedItem == null)
+            {
+                MessageBox.Show("Please select an employee.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var selectedEmployeeId = (int)cmbEmployees.SelectedValue;
+            await LoadFilteredSchedule(selectedEmployeeId);
         }
 
     }
