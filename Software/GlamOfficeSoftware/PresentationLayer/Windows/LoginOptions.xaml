@@ -11,7 +11,7 @@
         <Image Margin="0, 20, 0, 0" Source="\Images\GlamOfficeIcon-bijela-transparent.png" Height="60" HorizontalAlignment="Center"/>
 
         <TextBlock Margin="0, 5, 0, 13" Text="GlamOffice" FontSize="28" Foreground="White" FontWeight="Light" TextAlignment="Center"/>
-        <TextBlock Text="Prijavi se" FontSize="20" Foreground="White" FontWeight="Light" TextAlignment="Center"/>
+        <TextBlock Text="Log In" FontSize="20" Foreground="White" FontWeight="Light" TextAlignment="Center"/>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <WrapPanel Margin="10" HorizontalAlignment="Center">
@@ -27,7 +27,7 @@
                                         <Border CornerRadius="5" Background="{TemplateBinding Background}" x:Name="border">
                                             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                                 <Image Source="\Images\QRCode.png" Width="50" Height="50"/>
-                                                <TextBlock Margin="3" Text="Skeniraj QR kod" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Margin="3" Text="Scan QR Code" TextWrapping="Wrap" TextAlignment="Center"/>
                                             </StackPanel>
                                         </Border>
                                         <ControlTemplate.Triggers>
@@ -56,7 +56,7 @@
                                         <Border CornerRadius="5" Background="{TemplateBinding Background}" x:Name="border">
                                             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                                 <Image Source="\Images\user-login.png" Width="50" Height="50"/>
-                                                <TextBlock Margin="4" Text="Unesi korisničko ime i lozinku" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Margin="4" Text="Enter username and password" TextWrapping="Wrap" TextAlignment="Center"/>
                                             </StackPanel>
                                         </Border>
                                         <ControlTemplate.Triggers>
@@ -77,6 +77,6 @@
             </WrapPanel>
         </StackPanel>
 
-        <TextBlock Margin="5" Text="Odaberi način prijave" FontSize="16" Foreground="White" FontWeight="Light" TextAlignment="Center"/>
+        <TextBlock Margin="5" Text="Choose a login option" FontSize="16" Foreground="White" FontWeight="Light" TextAlignment="Center"/>
     </StackPanel>
 </Window>

@@ -39,7 +39,7 @@ namespace PresentationLayer.Windows
             var password = txtPassword.Password;
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
-                lblErrorMessage.Content = "Unesite korisničko ime i lozinku";
+                lblErrorMessage.Content = "Enter username and password";
                 lblErrorMessage.Visibility = Visibility.Visible;
                 Cursor = Cursors.Arrow;
                 return;
@@ -53,7 +53,7 @@ namespace PresentationLayer.Windows
             }
             else
             {
-                lblErrorMessage.Content = "Neispravni podaci";
+                lblErrorMessage.Content = "Incorrect data";
                 lblErrorMessage.Visibility = Visibility.Visible;
             }
             Cursor = Cursors.Arrow;
