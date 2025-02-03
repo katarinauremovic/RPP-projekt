@@ -257,9 +257,9 @@ namespace BusinessLogicLayer.Services
             if (wantsGiftCardRecover)
             {
                 var giftCardId = await GetGiftCardIdByReceiptAsync(receipt);
-                if (giftCardId != null && receipt.GiftCardDiscount != 0)
+                if (receipt.GiftCardDiscount != 0)
                 {
-                    await RecoverGiftCardAsync(giftCardId.Value, (decimal)receipt.GiftCardDiscount);
+                    await RecoverGiftCardAsync(giftCardId, (decimal)receipt.GiftCardDiscount);
                     Console.WriteLine(voidReceipt);
                 }
 
@@ -271,7 +271,7 @@ namespace BusinessLogicLayer.Services
             }
         }
 
-        private async Task<int?> GetGiftCardIdByReceiptAsync(Receipt receipt)
+        private async Task<int> GetGiftCardIdByReceiptAsync(Receipt receipt)
         {
             using (var repo = new ReceiptRepository())
             {

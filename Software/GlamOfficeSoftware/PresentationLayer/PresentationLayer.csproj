@@ -169,6 +169,9 @@
     <Compile Include="UserControls\ucAddNewEmployee.xaml.cs">
       <DependentUpon>ucAddNewEmployee.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ucAddNewGiftCardSideBar.xaml.cs">
+      <DependentUpon>ucAddNewGiftCardSideBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ucClientAdministration.xaml.cs">
       <DependentUpon>ucClientAdministration.xaml</DependentUpon>
     </Compile>
@@ -187,8 +190,14 @@
     <Compile Include="UserControls\ucEditEmployeeDetails.xaml.cs">
       <DependentUpon>ucEditEmployeeDetails.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ucEditGiftCardsSideBar.xaml.cs">
+      <DependentUpon>ucEditGiftCardsSideBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ucEmployeeAdministration.xaml.cs">
       <DependentUpon>ucEmployeeAdministration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ucGiftCardAdministration.xaml.cs">
+      <DependentUpon>ucGiftCardAdministration.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ucAddScheduleSidebar.xaml.cs">
       <DependentUpon>ucAddScheduleSidebar.xaml</DependentUpon>
@@ -213,6 +222,9 @@
     </Compile>
     <Compile Include="UserControls\ucShowEmployeeDetailsSideBar.xaml.cs">
       <DependentUpon>ucShowEmployeeDetailsSideBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ucShowGiftCardSideBar.xaml.cs">
+      <DependentUpon>ucShowGiftCardSideBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ucShowReceiptSidebar.xaml.cs">
       <DependentUpon>ucShowReceiptSidebar.xaml</DependentUpon>
@@ -272,6 +284,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\ucAddNewGiftCardSideBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\ucClientAdministration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -296,7 +312,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\ucEditGiftCardsSideBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\ucEmployeeAdministration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ucGiftCardAdministration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -329,6 +353,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ucShowEmployeeDetailsSideBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ucShowGiftCardSideBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
