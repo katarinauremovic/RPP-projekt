@@ -103,6 +103,7 @@
     <Compile Include="Interfaces\IReceiptService.cs" />
     <Compile Include="Interfaces\IReservationHasTreatmentService.cs" />
     <Compile Include="Interfaces\IReservationService.cs" />
+    <Compile Include="Interfaces\IReviewService.cs" />
     <Compile Include="Interfaces\IRewardService.cs" />
     <Compile Include="Interfaces\IScheduleService.cs" />
     <Compile Include="Interfaces\IWeeklyScheduleForReservation.cs" />
@@ -120,6 +121,8 @@
     <Compile Include="Services\ReceiptService.cs" />
     <Compile Include="Services\ReservationHasTreatmentService.cs" />
     <Compile Include="Services\ReservationService.cs" />
+    <Compile Include="Services\ReviewFormGmailService.cs" />
+    <Compile Include="Services\ReviewService.cs" />
     <Compile Include="Services\RewardService.cs" />
     <Compile Include="Services\RewardSystem.cs" />
     <Compile Include="Services\ScheduleService.cs" />

@@ -146,6 +146,13 @@ namespace PresentationLayer.UserControls
             Parent.ccContent.Content = ucPromotions;
         }
 
+        private void btnReviewsManagement_Click(object sender, RoutedEventArgs e)
+        {
+            var ucReviews = new ucReviewManagement();
+            ucReviews.Parent = Parent;
+            Parent.ccContent.Content = ucReviews;
+        }
+
         private void btnSchedule_Click(object sender, RoutedEventArgs e)
         {
             var ucSchedulee = new ucSchedule();

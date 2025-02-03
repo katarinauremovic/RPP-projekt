@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="PresentationLayer.UserControls.ucEmployeeReviewsSidebar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="650" d:DesignWidth="240" Loaded="UserControl_Loaded">
+    <Grid>
+        <Border Width="240" DockPanel.Dock="Right" Background="#b894ac">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <Button x:Name="btnCloseSidebar" Style="{StaticResource btnMRC}" Click="btnCloseSidebar_Click" HorizontalAlignment="Right">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Grid>
+                                <Image Source="/Images/close-circle.png" Width="50" Height="30"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" VerticalAlignment="Top" Margin="5,5,5,0">
+                    <StackPanel>
+                        <TextBlock Text="Employee Reviews" FontSize="16" FontWeight="Bold" Foreground="White" Margin="10,5,10,5"/>
+
+                        <ItemsControl x:Name="reviewsList">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="1" BorderBrush="Gray" CornerRadius="5" Background="White" Margin="5,5,5,5" Padding="5">
+                                        <StackPanel>
+                                            <TextBlock Text="Rating:" FontWeight="Bold" Foreground="#333"/>
+                                            <TextBlock Text="{Binding Rating}" FontSize="14" Foreground="Black"/>
+
+                                            <TextBlock Text="Comment:" FontWeight="Bold" Foreground="#333" Margin="0,5,0,0"/>
+                                            <TextBlock Text="{Binding Comment}" FontSize="14" Foreground="Black" TextWrapping="Wrap"/>
+
+                                            <TextBlock Text="Date:" FontWeight="Bold" Foreground="#333" Margin="0,5,0,0"/>
+                                            <TextBlock Text="{Binding Date}" FontSize="14" Foreground="Black"/>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <Grid Grid.Row="2">
+                    <StackPanel Orientation="Vertical" Margin="15">
+                        <Button x:Name="btnClose" Click="btnClose_Click" FontWeight="SemiBold" Height="40" Content="Close" Style="{StaticResource classicButton}" Background="#f5f5f5" Foreground="Black"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

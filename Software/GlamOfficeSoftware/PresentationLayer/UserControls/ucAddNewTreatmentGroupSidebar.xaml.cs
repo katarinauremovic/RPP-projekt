@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer.Exceptions;
+using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace PresentationLayer.UserControls
     /// </summary>
     public partial class ucAddNewTreatmentGroupSidebar : UserControl
     {
-        private TreatmentService _treatmentService = new TreatmentService();
+        private ITreatmentService _treatmentService = new TreatmentService();
         public ucTreatmentManagement ParentControl { get; set; }
 
         public ucAddNewTreatmentGroupSidebar()
